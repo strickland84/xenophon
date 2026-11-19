@@ -691,7 +691,7 @@ cleared`, `clearedBands`). Brains: `pilots.ts` LURK, PATROL, RETURN; prey within
   in Node and in a browser (laptop and phone). No raiders live in a side's home system, and the first hour
   earns by mining (`HOME_PAY`: home pays 60%).
 - **The first sortie** (`src/lib/tutorial/tutorial.ts`, `TutorialPrompt.svelte`): a new pilot starts
-  docked at his capital station; launch, steer, descend, dive, three training drones (one targeted with T, then shot down), mine, land on an
+  docked at his capital station; launch, look, throttle (closed and opened again: Q and E, the wheel, the right stick), steer, descend, dive, three training drones (one targeted with T, then shot down), mine, land on an
   outpost's pad, out, beacon, board, bank; then the galaxy map on today's hotspots. One prompt, one
   control, in the bound keys of the device in use (`input/hints.ts namer`); Skip and End (and in the
   menu); the step that fits where he is takes over, and getting back on (shot down, killed, inside) has

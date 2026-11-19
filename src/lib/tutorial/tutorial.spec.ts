@@ -73,6 +73,12 @@ function stranger(scene: Scene, prompt: Prompt, n: number, said: { beacon: () =>
     if (a && n % 45 === 0) scene.act(a as 'view')
     return held
   }
+  // "Close the throttle: hold Q", "Now open it again: hold E": what that key is bound to, held (the throttle keys)
+  if (/close the throttle|open it again/i.test(t)) {
+    const a = key(/hold (\S+)$/i)
+    held.throttle = a === 'slower' ? -1 : a === 'faster' ? 1 : 0
+    return held
+  }
   if (/follow the arrow/i.test(t)) {
     // (the arrow points to the course's body)
     const body = scene.bodies().find((b) => b.index === scene.zone.course)

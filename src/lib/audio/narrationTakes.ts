@@ -81,6 +81,22 @@ export const TAKES: Record<string, { text: string; seconds: number }> = {
     text: 'Press your view key to change your view. Once to see the ship from behind, again for the cockpit, and once more to go back to the view from above.',
     seconds: 10.07,
   },
+  'sortie-throttle-keys': {
+    text: 'The throttle sets your speed. Hold Q to close it and slow right down, then hold E to open it up again. The mouse wheel moves it too, and the third bar at the bottom left shows how open it is.',
+    seconds: 13.2,
+  },
+  'sortie-throttle-ps': {
+    text: 'The throttle sets your speed. Pull the right stick back to close it and slow right down, then push it up to open it again. The third bar at the bottom left shows how open it is.',
+    seconds: 11.76,
+  },
+  'sortie-throttle-pad': {
+    text: 'The throttle sets your speed. Pull the right stick back to close it and slow right down, then push it up to open it again. The third bar at the bottom left shows how open it is.',
+    seconds: 10.96,
+  },
+  'sortie-throttle-any': {
+    text: 'The throttle sets your speed. Close it with your throttle keys to slow right down, then open it up again. The third bar at the bottom left shows how open it is.',
+    seconds: 10.32,
+  },
   'sortie-steer-keys': {
     text: "The arrow on screen points at your side's home world. Steer with the mouse, or A and D, and fly until you're over it. E opens the throttle and Q closes it.",
     seconds: 11.28,

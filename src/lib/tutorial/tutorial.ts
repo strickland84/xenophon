@@ -6,6 +6,8 @@
 //   launch   from his side's capital station (Use held)
 //   look     at his ship from behind, from the seat, and back overhead (the view key: the first thing that makes him
 //            say "wow", as James put it after his first flights, 2026-11-18)
+//   throttle closed and opened again (its keys, a mouse's wheel, a controller's right stick: James, 2026-11-19, "the
+//            intro sortie/tutorial needs to explain Q and E and throttle up and down controls")
 //   steer    to the capital world, the course's arrow showing the way (steering)
 //   descend  over it, down to its surface (Use held)
 //   dive     low, under the height the laser and the landing legs reach (diving)
@@ -51,6 +53,7 @@ export type StepId =
   | 'power'
   | 'launch'
   | 'look'
+  | 'throttle'
   | 'steer'
   | 'descend'
   | 'dive'
@@ -67,6 +70,7 @@ export const STEPS: StepId[] = [
   'power',
   'launch',
   'look',
+  'throttle',
   'steer',
   'descend',
   'dive',
@@ -125,6 +129,9 @@ export const FREE_LINE = 'Training flight done. The marked worlds on the map hav
 export const FREE_SUB = 'Credits buy parts and better ships'
 /** what the target's status calls a training drone (render/targetinfo.ts) */
 const DRONE_NAME = 'TRAINING DRONE'
+/** the throttle step: closed to this share or less, then opened again to this share or more */
+export const THROTTLE_LOW = 0.3
+export const THROTTLE_HIGH = 0.9
 /** units of ore in the hold that count as mined */
 export const MINED = 5
 
@@ -155,6 +162,8 @@ export class Tutorial {
   private banked = false
   /** the views seen in the look step (from behind, then the seat) */
   private looked = new Set<ViewMode>()
+  /** the throttle step: closed far enough down (it is to be opened again after) */
+  private slowed = false
   /** the step changed (the page saves it) */
   changed = false
 
@@ -200,6 +209,7 @@ export class Tutorial {
     this.cutting = false
     this.planted = false
     this.looked.clear()
+    this.slowed = false
     if (step !== 'bank') this.banked = false
     scene.setGuide(null)
   }
@@ -238,7 +248,14 @@ export class Tutorial {
     if (this.step === 'look') {
       // (from behind, then from the seat, then back overhead, the easiest view to learn the rest in: all seen, and on)
       this.looked.add(scene.view)
-      if (this.looked.has('chase') && this.looked.has('cockpit') && scene.view === 'top') return this.go(scene, 'steer')
+      if (this.looked.has('chase') && this.looked.has('cockpit') && scene.view === 'top') return this.go(scene, 'throttle')
+      if (space && L.stage === 'landed') return this.go(scene, docked)
+      return
+    }
+    if (this.step === 'throttle') {
+      // (closed down to a crawl, then opened up again)
+      if (scene.status.throttle <= THROTTLE_LOW) this.slowed = true
+      if (this.slowed && scene.status.throttle >= THROTTLE_HIGH) return this.go(scene, 'steer')
       if (space && L.stage === 'landed') return this.go(scene, docked)
       return
     }
@@ -349,6 +366,16 @@ export class Tutorial {
         return this.looked.has('chase')
           ? say(`${key} again: the cockpit`)
           : say(`Press ${key}: see your ship from behind`, 'Then again, for the cockpit')
+      }
+      case 'throttle': {
+        const close = pad ? 'pull the right stick back' : `hold ${n('slower')}`
+        const open = pad ? 'push the right stick up' : `hold ${n('faster')}`
+        return this.slowed
+          ? say(`Now open it again: ${open}`, 'All the way open for full speed')
+          : say(
+              `Close the throttle: ${close}`,
+              `The third bar at the bottom left shows how open it is${pad ? '' : '. The mouse wheel moves it too'}`,
+            )
       }
       case 'steer': {
         this.setCourse(scene)
