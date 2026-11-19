@@ -170,7 +170,8 @@ again now and then until he has. **Restore** on the first screen takes the file 
 |                                     | Mouse & keys                         | Touch                     | Game controller         |
 | ----------------------------------- | ------------------------------------ | ------------------------- | ----------------------- |
 | Steer (the mouse a stick, as Elite) | the mouse / A D / arrows             | touch and drag            | left stick              |
-| Thrust straight up / down           | Alt / Ctrl                           |                           |                         |
+| Thrust up / down (down lands)       | Alt / Ctrl                           |                           |                         |
+| Thrust sideways, left / right       | Q / E                                |                           |                         |
 | Throttle (X: all stop)              | W and S, or the wheel                | slide the lever           | right stick             |
 | Climb and dive (up climbs)          | the mouse, or the up and down arrows | hold **Dive** / **Climb** | left stick              |
 | Guns                                | left button, or K                    | hold **Fire**             | R2 / RT                 |

@@ -140,10 +140,14 @@ tools/voxel/brand.py`; tries in `art/brand/`); the favicon is `mark-32.png`, the
   narrator read the throttle, steer and dive lines again. Fourteen flights re-recorded on purpose ([J] CRUISE, the ring).
   The controller is as it was. **Alt and Ctrl thrust straight up and down** (`thrustUp`, `thrustDown`; `HeldControls.lift`,
   `ctl.keyLift`, `LIFT`, `flight.liftV`: the nose does not pitch for them), the keys under a bound Ctrl or Alt are the
-  game's, and Ctrl+W asks before closing the tab (`keyboard.ts guard`); `sim/lift.spec.ts`, flight `the vertical
-thrusters: straight up and down, from behind`. **The mouse ring can be hidden** (Settings, Mouse ring:
-  `settings.mouseRing`, `params.mouseRing`). The first sortie's steer step teaches the mouse as a stick, J and Tab; its
-  dive step the down arrow or Ctrl (the box and the narrator, both read again).
+  game's, and Ctrl+W asks before closing the tab (`keyboard.ts guard`); `sim/lift.spec.ts`, flight `the thrusters:
+up, down, left and right, from behind`. They move the ship and the height it holds together (they had moved the height
+  alone, and the nose wobbled chasing it: James, "a bit wobbly"); held down all the way to the ground Ctrl lands, as F
+  does (`landing.ts sinking`, `LAND.sunk`). **Q and E thrust sideways** (`strafeLeft`, `strafeRight`;
+  `HeldControls.strafe`, `ctl.keyStrafe`, `flight.sideV`), the nose not turning. **The mouse ring can be hidden**
+  (Settings, Mouse ring: `settings.mouseRing`, `params.mouseRing`). The first sortie's steer step teaches the mouse as a
+  stick, J and Tab; its dive step the down arrow or Ctrl; its land step Ctrl all the way down (the box and the narrator,
+  all read again).
 - **2026-11-19, the link's picture** (James: "make a nice opengraph image for xenophon.me"). `static/brand/og.png`,
   1200 × 630: its own sky with the suns at the edges (`uv run tools/gen/brand.py og-sky`, try 5 picked in
   `tools/voxel/brand.py PICKS`), the shield over the wordmark, and two lines in the game's pixel font (`words`, `og`);
