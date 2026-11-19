@@ -148,6 +148,16 @@ up, down, left and right, from behind`. They move the ship and the height it hol
   (Settings, Mouse ring: `settings.mouseRing`, `params.mouseRing`). The first sortie's steer step teaches the mouse as a
   stick, C and Tab; its dive step the down arrow or Ctrl; its land step Ctrl all the way down (the box and the narrator,
   all read again).
+- **2026-11-19, the base's row is its only menu** (James: "these menus are so confused … I click Cairn Point and I see
+  menu for market and supplies, but in the main screen I also have menu for market and supplies"). At a friendly base the
+  row at the top is Hold, Market, Supplies (the base screen's pages: `components/basePages.ts BASE_PAGES`), then Hangar,
+  Deck, Aboard (the one he is in lit, inside too, and Leave). The base screen has no tabs of its own: it shows the page
+  the row asks for, titled by it with the base's name under it; the row stays over it (`FighterJetScene topOver`, z 11)
+  with the open page lit, pressed again to close, and the screen opens under the row however it wraps (`onTopRow`,
+  `Panel under`). Q and E, or L1 and R1, step between the pages (`Panel onstep`, `padNav`'s `onStep`; the screen's foot
+  says so). Gone: the base's name as a button (it opened the hold) and the screen's Hangar button. Pictures
+  `docs/art/gen/base-menu-before.png`, `base-menu-after.png`. Left as it was: the bench, booth and shop are still only at
+  their stations inside, and Tab away from a base shows the hold alone.
 - **2026-11-19, a full screen button** (James: "a fullscreen button in the top menu after the sound effects button …
   simulate F11"): `FullscreenButton.svelte`, beside `SoundButton` in FighterJetScene's top row, puts the whole page full
   screen (`requestFullscreen`) and back (or Esc); hidden where the browser cannot. Its icon is the model's
@@ -162,7 +172,7 @@ up, down, left and right, from behind`. They move the ship and the height it hol
   to repair my ship"; "we should not be able to do a roll when landed"). **The shadow** (`render/walker.ts`) lies on the
   ground under him (`groundAt`), at his sprite's lowest drawn row (`lowestRow`), a pixel wider than him each side, two rows
   deep and darker; in a jump it stays down there, smaller and fainter as he rises (`SHADOW_HIGH`); inside, at his feet.
-  `npx jiti tools/foot-shadow.ts out.png [scale] [clock] [crop]` draws it close. **The base header** at a friendly base:
+  `npx jiti tools/foot-shadow.ts out.png [scale] [clock] [crop]` draws it close. **The base header** at a friendly base (as it was that day; the entry above has it now):
   its name (the hold), Market, Supplies, Hangar, Deck, Aboard, each with its icon (`hangar`, `deck`, `aboard` drawn in
   `tools/voxel/hud_icons.py`); Market and Supplies open the base's screen at that page (`BaseScreen start`,
   `Game.svelte openBase`), and away from a base Tab shows the hold and vault with no tabs. **Repairs:** a tooltip on

@@ -131,6 +131,8 @@
   import UpdateBanner from './UpdateBanner.svelte'
   import TooltipHost from './TooltipHost.svelte'
   import UiIcon from './UiIcon.svelte'
+  import { BASE_PAGES } from './basePages'
+  import type { BasePage } from './basePages'
   import { tip as tooltip } from './tooltip.svelte'
   import { priceWords } from './items'
   import { moving, ms, setReducedMotion } from './motion'
@@ -181,7 +183,9 @@
   /** the base's screen is open; how the loop and the ship stood when last looked at */
   let baseOpen = $state(false)
   /** the base's screen opens at this page (its Market and Supplies buttons over the sky) */
-  let baseStart = $state<'hold' | 'market' | 'supplies'>('hold')
+  let baseStart = $state<BasePage>('hold')
+  // where the scene's row at the top ends, CSS px from the top (the base's screen opens under it)
+  let topRowLow = $state(48)
   let loopNow = $state<LoopStatus | null>(null)
   let shipNow = $state({ hullLeft: 1, missiles: 0, missilesMax: 0 })
   /** inside (the hangar, the deck, a ship's rooms): where, as last looked at; and the screens opened from there */
@@ -1428,7 +1432,7 @@
   })
 
   /** the base's screen, open at one of its pages */
-  function openBase(page: 'hold' | 'market' | 'supplies') {
+  function openBase(page: BasePage) {
     baseStart = page
     baseOpen = true
   }
@@ -1467,6 +1471,19 @@
   })
 
   const topButton = 'ui-btn ui-btn-small pointer-events-auto border-ink/40 bg-night/70'
+  // (the base's page open, or the place he is in, in the row at the top)
+  const topLit = '!border-accent !bg-[#1d2547] text-accent'
+  /** the places inside a friendly base, in the row at the top */
+  const PLACES: { id: 'hangar' | 'deck' | 'ship'; label: string; icon: string; line: string }[] = [
+    {
+      id: 'hangar',
+      label: 'Hangar',
+      icon: 'hangar',
+      line: 'Your ship on its bay: the bench fits it, the booth paints it, the vault banks',
+    },
+    { id: 'deck', label: 'Deck', icon: 'deck', line: 'The station deck: the shop for ships, gear and furniture, and the board' },
+    { id: 'ship', label: 'Aboard', icon: 'aboard', line: "Your ship's own rooms: furnish them" },
+  ]
   const button = 'ui-btn'
 </script>
 
@@ -1509,6 +1526,8 @@
       onVolume={volume}
       onView={view}
       onMenu={() => (menu = !menu)}
+      topOver={baseOpen && atBase}
+      onTopRow={(h) => (topRowLow = h)}
       onInventory={() => {
         baseStart = 'hold'
         baseOpen = !baseOpen
@@ -1538,48 +1557,56 @@
     >
       {#snippet top()}
         <NetBadge sky={netState} onclick={() => (menu = !menu)} />
-        {#if atBase && !baseOpen}
-          <!-- landed at a friendly base: its screen is a press away, at its hold, its market or its supplies (James,
-          2026-11-19: they were tabs behind Tab, and of no use until he landed) -->
-          <button
-            type="button"
-            class="{topButton} !border-accent text-accent"
-            onclick={() => openBase('hold')}
-            onpointerdown={(e) => e.stopPropagation()}><UiIcon name="hold" size={32} />{loopNow?.base?.name}</button
-          >
-          <button
-            type="button"
-            class={topButton}
-            use:tooltip={{ title: 'Market', line: "Sell the ore in your vault at today's prices here" }}
-            onclick={() => openBase('market')}
-            onpointerdown={(e) => e.stopPropagation()}><UiIcon name="market" size={32} />Market</button
-          >
-          <button
-            type="button"
-            class={topButton}
-            use:tooltip={{
-              title: 'Supplies',
-              line: 'Repair your hull and buy missiles',
-              note: `Or hold ${namer(inputKind, save?.settings.bindings)('mine')} landed here to mend the hull where you stand, a credit a point`,
-            }}
-            onclick={() => openBase('supplies')}
-            onpointerdown={(e) => e.stopPropagation()}><UiIcon name="supplies" size={32} />Supplies</button
-          >
-          {#if !insideNow?.place}
-            <!-- … and the places inside: the hangar, the deck, his ship's rooms -->
-            {#each [['hangar', 'Hangar'], ['deck', 'Deck'], ['ship', 'Aboard']] as [place, label] (place)}
+        {#if atBase && loopNow?.base}
+          <!-- landed or docked at a friendly base, the row is its menu (James, 2026-11-19: "these menus are so confused"):
+          its pages, which are the base screen's only tabs, the open one lit, then the places inside, the one he is in lit.
+          (The base's name is the screen's, under its page: a name here, pressed, opened the hold, and the row ran over) -->
+          {#each BASE_PAGES as p (p.id)}
+            {@const lit = baseOpen && baseStart === p.id}
+            <button
+              type="button"
+              class="{topButton} {lit ? topLit : ''}"
+              aria-pressed={lit}
+              use:tooltip={{
+                title: p.label,
+                line: lit ? 'Press again to close it' : p.line,
+                note:
+                  p.id === 'supplies' && !lit
+                    ? `Or hold ${namer(inputKind, save?.settings.bindings)('mine')} landed here to mend the hull where you stand, a credit a point`
+                    : undefined,
+              }}
+              onclick={() => (lit ? (baseOpen = false) : openBase(p.id))}
+              onpointerdown={(e) => e.stopPropagation()}><UiIcon name={p.icon} size={32} />{p.label}</button
+            >
+          {/each}
+          {#if !insideNow?.flying}
+            <!-- (a gap between what the base does and where he can walk) -->
+            <span class="w-3" aria-hidden="true"></span>
+            {#each PLACES as pl (pl.id)}
+              {@const here = insideNow?.place === pl.id && !insideNow.owner}
               <button
                 type="button"
-                class={topButton}
-                onclick={() => flown?.goInside(place as 'hangar')}
-                onpointerdown={(e) => e.stopPropagation()}><UiIcon name={place === 'ship' ? 'aboard' : place} size={32} />{label}</button
+                class="{topButton} {here ? topLit : ''}"
+                aria-current={here ? 'location' : undefined}
+                use:tooltip={{ title: pl.label, line: here ? 'You are here' : pl.line }}
+                onclick={() => {
+                  baseOpen = false
+                  if (!here) flown?.goInside(pl.id)
+                }}
+                onpointerdown={(e) => e.stopPropagation()}><UiIcon name={pl.icon} size={32} />{pl.label}</button
               >
             {/each}
           {/if}
         {/if}
         {#if insideNow?.place}
-          <button type="button" class={topButton} onclick={() => flown?.goOutside()} onpointerdown={(e) => e.stopPropagation()}
-            >{insideNow.flying ? 'To the seat' : 'Leave'}</button
+          <button
+            type="button"
+            class={topButton}
+            onclick={() => {
+              baseOpen = false
+              flown?.goOutside()
+            }}
+            onpointerdown={(e) => e.stopPropagation()}>{insideNow.flying ? 'To the seat' : 'Leave'}</button
           >
           {#if insideNow.place === 'ship' && !insideNow.owner}
             <button type="button" class={topButton} onclick={() => (furnishOpen = true)} onpointerdown={(e) => e.stopPropagation()}
@@ -1749,12 +1776,9 @@
         onsell={sell}
         onrepair={repair}
         onmissiles={missiles}
-        onhangar={atBase && !insideNow?.place
-          ? () => {
-              baseOpen = false
-              flown?.goInside('hangar')
-            }
-          : undefined}
+        onpage={openBase}
+        under={topRowLow}
+        keys={inputKind === 'pointer' ? ['Q', 'E'] : inputKind === 'ps' ? ['L1', 'R1'] : ['LB', 'RB']}
       />
     {/if}
     {#if benchOpen && totals && save}

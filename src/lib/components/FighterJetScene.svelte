@@ -74,6 +74,10 @@
     onInput?: (kind: InputKind) => void
     /** more for the row at the top, beside the sound button */
     top?: Snippet
+    /** the row at the top over the page's screens (the base's: the row's Hold, Market and Supplies are its pages) */
+    topOver?: boolean
+    /** where the row at the top ends, CSS px from the top of the view (it wraps on a narrow window) */
+    onTopRow?: (low: number) => void
     /** where the HUD is, for what the page lays over the view (the chat): one art pixel in CSS px, the HUD kept to the top
      * (the cockpit), in the cockpit, and the view from overhead */
     onHud?: (hud: { pixel: number; top: boolean; cockpit: boolean; overhead: boolean }) => void
@@ -100,6 +104,8 @@
     toggle = { fire: false, boost: false },
     onInput,
     top,
+    topOver = false,
+    onTopRow,
     onHud,
     ...settings
   }: Props = $props()
@@ -210,6 +216,12 @@
 
   // so the keys still fly it after a click
   const focus = () => container.focus({ preventScroll: true })
+  // the row at the top, and how tall it is (the page lays its base screen under it)
+  let topRow = $state<HTMLElement>()
+  let topRowHigh = $state(0)
+  $effect(() => {
+    if (topRow && topRowHigh) onTopRow?.(topRow.offsetTop + topRowHigh)
+  })
 
   const fadeHintIn = (seconds: number) => {
     window.clearTimeout(hintTimer)
@@ -485,7 +497,13 @@
     <HintBar text={hint} {chips} visible={hintOn} />
   {/if}
   <!-- the row at the top: the volume, full screen, and whatever the page adds -->
-  <div class="pointer-events-none absolute inset-x-0 top-[max(6px,env(safe-area-inset-top))] flex justify-center gap-1.5">
+  <div
+    bind:this={topRow}
+    bind:clientHeight={topRowHigh}
+    class="pointer-events-none absolute inset-x-0 top-[max(6px,env(safe-area-inset-top))] flex flex-wrap justify-center gap-1.5 px-2 {topOver
+      ? 'z-[11]'
+      : ''}"
+  >
     <SoundButton
       volume={loudness}
       onchange={(v) => {
