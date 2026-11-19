@@ -122,6 +122,11 @@ tools/voxel/brand.py`; tries in `art/brand/`); the favicon is `mark-32.png`, the
   tests; templates; Dependabot; CODEOWNERS); Vercel (`vercel.json`, static `build/`) serves `main` at xenophon.me.
   James's private notes moved to `CLAUDE.local.md` (not in git).
 
+- **2026-11-19, the seat never all roof** (James, of the cockpit with the picture size at 2: "Not great"). The cockpits'
+  art is at most 256 rows and never scaled, so a taller frame repeated its roof (three fifths of the view on a tall
+  window). In the seat the scene's fit asks for a frame no taller than `COCKPIT_TALLEST` (300, `sim/interior.ts fitOf`'s
+  `tallest`), and the page makes the art pixel that much larger there (`display/screen.ts wanted`; the flights do the
+  same, `scenarios.ts`). `npx jiti tools/seat-frame.ts out.png [hull] [page w] [page h] [art pixel]` shows it.
 - **2026-11-19, the narrator's voice and the music made again, and the intro's own music** (James: "find a better
   elevenlabs voice"; the music "more in keeping with the game, more midi"; "The intro needs music too"). The narrator is
   **Theos** (`n0vzWypeCK1NlWPVwhOc`, `eleven_v3`, "[Greek accent]"; `voice_recipe.py NARRATOR`), chosen from ten voices

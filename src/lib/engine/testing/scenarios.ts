@@ -102,7 +102,7 @@ export interface GoldenScene {
     pull: number
   }
   readonly zoom: number
-  readonly fit?: { w: number; h: number; least?: number } | null
+  readonly fit?: { w: number; h: number; least?: number; tallest?: number } | null
   readonly pilot: { x: number; y: number; ship: number }
   readonly foot: {
     stage: string
@@ -229,11 +229,12 @@ class Flight {
       each?.(n)
       this.scene.step(DT)
       // (the camera pulled in on foot: the page shows larger art pixels, so the frame is smaller; no larger than lets the
-      // hangar or the deck be seen whole)
+      // hangar or the deck be seen whole; in the seat, no smaller than keeps the frame within its cockpit's art)
       const fit = this.scene.fit
       const zoom = Math.max(
         fit?.least ?? 0,
-        Math.min(this.scene.zoom ?? 1, fit ? Math.min(this.size[0] / fit.w, this.size[1] / fit.h) : 99),
+        fit?.tallest ? this.size[1] / fit.tallest : 0,
+        Math.min(this.scene.zoom ?? 1, fit?.w && fit.h ? Math.min(this.size[0] / fit.w, this.size[1] / fit.h) : 99),
       )
       if (zoom !== this.zoom) {
         this.zoom = zoom

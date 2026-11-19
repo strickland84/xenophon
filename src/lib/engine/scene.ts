@@ -294,9 +294,10 @@ export interface Scene {
   readonly zoom: number
   /**
    * what must be seen whole (frame px), so the art pixels are shown no larger than lets it fit: the hangar, the deck and a
-   * ship's rooms (these never smaller than `least` times the page's own art pixel); null otherwise
+   * ship's rooms (these never smaller than `least` times the page's own art pixel); `tallest`: the frame no taller than this
+   * (art px), so the art pixels are shown no smaller than lets it be (the seat: its cockpit's art is no taller); null otherwise
    */
-  readonly fit: { w: number; h: number; least?: number } | null
+  readonly fit: { w: number; h: number; least?: number; tallest?: number } | null
   /** where the pilot is inside, and what is there (place '': not inside) */
   readonly interior: InteriorStatus
   /** how the pilot stands out of his ship (for the page: its buttons, its words) */
