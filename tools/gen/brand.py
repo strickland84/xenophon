@@ -9,6 +9,7 @@
                                                    # (mark-1 … 6 were an earlier plan, with round suns and no rays)
   uv run tools/gen/brand.py word --seeds 6         # the letters drawn over their plan
   uv run tools/gen/brand.py sky --seeds 6          # the banner's sky: stars and the two suns
+  uv run tools/gen/brand.py og-sky --seeds 4       # the same sky the shape of a link's picture (1.9 to 1)
 
 One recipe, one style shared by everything drawn with it (BRAND): change the recipe here, never a single
 prompt. The letters' plan is drawn here on the wordmark's own pixel grid (word_plan), so the model paints
@@ -72,6 +73,10 @@ SUBJECTS = {
     "word": "a video game title logo, the word XENOPHON in large angular gilded bronze capital letters, polished gold "
     "on top shading to deep red bronze at the bottom, bevelled edges catching light, a dark outline, the words "
     "TWIN STARS beneath in smaller gold letters, " + ON_BLACK,
+    # (the link's picture: the suns smaller and out at the edges, so the shield and the name fit the dark between them)
+    "og-sky": "a wide view of deep black space full of tiny stars, a glowing gold sun at the far left edge, partly "
+    "cut off by it, with a granular surface and a soft corona, a smaller deep red dwarf sun at the far right edge, "
+    "faint dust, a wide empty dark middle taking most of the picture, no text, no spaceships",
     "sky": "a wide view of deep black space full of tiny stars, a large glowing gold sun on the left with a granular "
     "surface and a soft corona, a smaller deep red dwarf sun on the right, faint dust between them, a few tiny distant "
     "planets, empty dark middle, no text, no spaceships",
@@ -234,7 +239,7 @@ def make_guides():
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("what", choices=["mockups", "guides", "mark", "word", "sky"])
+    ap.add_argument("what", choices=["mockups", "guides", "mark", "word", "sky", "og-sky"])
     ap.add_argument("names", nargs="*")
     ap.add_argument("--seeds", type=int, default=3)
     ap.add_argument("--first", type=int, default=1)
@@ -261,6 +266,9 @@ def main():
         draw("word", BRAND.format(subject=SUBJECTS["word"]), seeds, control=os.path.join(GUIDES, "word-control.png"), strength=a.strength)
     elif a.what == "sky":
         draw("sky", BRAND.format(subject=SUBJECTS["sky"]), seeds, width=1280, height=400)
+    elif a.what == "og-sky":
+        # (the picture a link to the site shows, static/brand/og.png: 1200 by 630, drawn at 1216 by 640)
+        draw("og-sky", BRAND.format(subject=SUBJECTS["og-sky"]), seeds, width=1216, height=640)
 
 
 if __name__ == "__main__":

@@ -15,6 +15,9 @@ repeated whole (nearest neighbour), named @2x, @3x or by their size.
 - The wordmark: the letters keep the plan's outline exactly (art/brand/guides/word-plan.npy, drawn on the wordmark's
   own grid by tools/gen/brand.py); only their colours come from the model's picture. 336 by 64 game pixels.
 - The banner: the model's sky shrunk to 640 by 200, the mark and the wordmark laid on it, then doubled to 1280 by 400.
+- The link's picture (og.png, what a link to xenophon.me shows): its own sky, the suns at the edges, shrunk to 600 by
+  315, the mark over the wordmark in the dark between them and two lines in the game's pixel font under it, a font
+  pixel two of the picture's, then doubled to 1200 by 630.
 """
 
 import argparse
@@ -32,7 +35,8 @@ OUT = os.path.join(ROOT, "static", "brand")
 SHEET = os.path.join(ROOT, "art", "brand", "sheet.png")
 
 # which try of each was chosen (looked at side by side; the rest stay in art/brand/tries)
-PICKS = {"mark": "mark-b-6.png", "word": "word-1.png", "sky": "sky-4.png"}
+PICKS = {"mark": "mark-b-6.png", "word": "word-1.png", "sky": "sky-4.png", "og-sky": "og-sky-5.png"}
+FONT = os.path.join(ROOT, "static", "fonts", "xenophon-pixel.ttf")
 CELL = 4  # picture pixels to a letter pixel in the wordmark's plan (tools/gen/brand.py CELL)
 RIM = (30, 10, 12)  # the dark rim round everything: a red-black, warmer than the space behind
 SHADOW = (12, 4, 8)
@@ -355,6 +359,43 @@ def banner(sky_rgb, mark_rgba, word_rgba):
     return out
 
 
+def words(text, ink, scale=2):
+    """a line in the game's pixel font (static/fonts, built from the HUD's glyphs: a capital is 5 pixels tall at size
+    7), each font pixel `scale` square, with the dark rim round it"""
+    from PIL import ImageDraw, ImageFont
+
+    font = ImageFont.truetype(FONT, 7)
+    l, t, r, b = font.getbbox(text)
+    im = Image.new("L", (r - l + 4, b - t + 4), 0)
+    d = ImageDraw.Draw(im)
+    d.fontmode = "1"
+    d.text((2 - l, 2 - t), text, fill=255, font=font)
+    inside = np.asarray(im) > 127
+    art = np.zeros(inside.shape + (3,), np.int32)
+    art[inside] = ink
+    out = rimmed(art, inside, shadow=True)
+    return np.repeat(np.repeat(out, scale, axis=0), scale, axis=1)
+
+
+def og(sky_rgb, mark_rgba, word_rgba):
+    """the link's picture: the mark over the wordmark and two lines under them, in the middle of the dark between the
+    suns"""
+    h, w = sky_rgb.shape[:2]
+    out = np.zeros((h, w, 4), np.uint8)
+    out[..., :3] = sky_rgb
+    out[..., 3] = 255
+    line = words("A MULTIPLAYER SPACE GAME IN YOUR BROWSER", (236, 228, 204))
+    site = words("XENOPHON.ME", (255, 195, 109))
+    parts = [(mark_rgba, 10), (word_rgba, 14), (line, 8), (site, 0)]
+    y = (h - sum(p.shape[0] + gap for p, gap in parts)) // 2
+    for art, gap in parts:
+        x = (w - art.shape[1]) // 2
+        a = art[..., 3] > 0
+        out[y : y + art.shape[0], x : x + art.shape[1]][a] = art[a]
+        y += art.shape[0] + gap
+    return out
+
+
 def contact(pieces, path):
     """the pieces side by side on the game's night blue and on white, each at 2x"""
     scale = 2
@@ -394,6 +435,7 @@ def main():
     ban = banner(sky(src["sky"], 640, 200), marks[128], word)
     save(ban, os.path.join(OUT, "banner-1x.png"))
     save(ban, os.path.join(OUT, "banner.png"), 2)
+    save(og(sky(src["og-sky"], 600, 315), marks[128], word), os.path.join(OUT, "og.png"), 2)
     contact([marks[128], marks[64], marks[32], word], SHEET)
 
 
