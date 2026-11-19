@@ -172,8 +172,8 @@ stepSpaceUse`; `space.diving` and `FLIGHT3D.dive` are gone): down to the top of 
   Deck, Aboard (the one he is in lit, inside too, and Leave). The base screen has no tabs of its own: it shows the page
   the row asks for, titled by it with the base's name under it; the row stays over it (`FighterJetScene topOver`, z 11)
   with the open page lit, pressed again to close, and the screen opens under the row however it wraps (`onTopRow`,
-  `Panel under`). Q and E, or L1 and R1, step between the pages (`Panel onstep`, `padNav`'s `onStep`; the screen's foot
-  says so). Gone: the base's name as a button (it opened the hold) and the screen's Hangar button. Pictures
+  `Panel under`). the keys 1, 2 and 3 open the pages (`Panel onpick`; Q and E were, but they thrust the ship sideways) and
+  L1 and R1 step between them (`Panel onstep`, `padNav`'s `onStep`); the screen's foot says so. Gone: the base's name as a button (it opened the hold) and the screen's Hangar button. Pictures
   `docs/art/gen/base-menu-before.png`, `base-menu-after.png`. Left as it was: the bench, booth and shop are still only at
   their stations inside, and Tab away from a base shows the hold alone.
 - **2026-11-19, a full screen button** (James: "a fullscreen button in the top menu after the sound effects button …

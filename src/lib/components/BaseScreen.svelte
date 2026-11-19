@@ -4,7 +4,7 @@
   // the market (sell from the vault at today's prices) and supplies (repairs, missiles). Its pages are the Hold, Market
   // and Supplies buttons in the row at the top of the scene, which stays over it with the open one lit: it has no tabs of
   // its own (James, 2026-11-19: "I click Cairn Point and I see menu for market and supplies, but in the main screen I also
-  // have menu for market and supplies"). Q and E, or a controller's L1 and R1, step between them (`onpage`). Away from a
+  // have menu for market and supplies"). The keys 1, 2 and 3 open them, and a controller's L1 and R1 step between them (`onpage`). Away from a
   // base it only shows the hold and the vault. Everything is a button, so a click, the keys or a controller (padnav.ts)
   // work it; nothing is dragged.
   import { asset } from '$app/paths'
@@ -47,8 +47,8 @@
     start?: BasePage
     /** another page asked for from the keys or a controller (the row at the top shows it lit) */
     onpage?: (page: BasePage) => void
-    /** the keys that step between the pages, as the device in use names them (Q and E, L1 and R1 …) */
-    keys?: [string, string]
+    /** a controller's buttons that step between the pages, as it names them (L1 and R1, LB and RB); none: the keys 1, 2, 3 */
+    keys?: [string, string] | null
     /** where the scene's row at the top ends (CSS px from the top): the screen opens under it */
     under?: number
   }
@@ -67,7 +67,7 @@
     station = false,
     start = 'hold',
     onpage,
-    keys = ['Q', 'E'],
+    keys = null,
     under = 48,
   }: Props = $props()
 
@@ -107,9 +107,17 @@
   <span class="ui-label">Land at a friendly base to trade</span>
 {/snippet}
 {#snippet stepNote()}
-  <span class="ui-label flex items-center gap-2"
-    ><span class="ui-key">{keys[0]}</span><span class="ui-key">{keys[1]}</span>the base's other pages, or the buttons at the top</span
-  >
+  <span class="ui-label flex flex-wrap items-center gap-x-3 gap-y-1">
+    {#if keys}
+      <span class="flex items-center gap-2"
+        ><span class="ui-key">{keys[0]}</span><span class="ui-key">{keys[1]}</span>the base's other pages</span
+      >
+    {:else}
+      {#each BASE_PAGES as p, i (p.id)}
+        <span class="flex items-center gap-2 {p.id === tab ? 'text-accent' : ''}"><span class="ui-key">{i + 1}</span>{p.label}</span>
+      {/each}
+    {/if}
+  </span>
 {/snippet}
 
 <Panel
@@ -119,6 +127,7 @@
   label={base ? `${base.name}: ${tab}` : 'Hold'}
   under={trading ? under : 0}
   onstep={trading && onpage ? step : undefined}
+  onpick={trading && onpage ? (n) => BASE_PAGES[n] && onpage?.(BASE_PAGES[n].id) : undefined}
   foot={trading ? (onpage ? stepNote : undefined) : landNote}
   {onclose}
 >
