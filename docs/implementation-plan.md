@@ -836,7 +836,11 @@ every step, at rest), the faults were five, each of them the game moving his shi
   `FLIGHT3D aim, span, curve, dead, come`): how far it is above or below the middle of its steering is how far up or down
   the nose points, to 80°, and there it stays. The keys, a stick and the touch buttons still pitch it round for as long as
   they are held (1.3 radians a second: a loop in five seconds), since those are let go; let go, the ship comes level, and
-  one on its back rolls upright first. Overhead a climb or a dive held leans the nose (`lean`) and no more.
+  one on its back rolls upright first. Overhead a climb or a dive held leans the nose (`lean`) and no more. (2026-11-19,
+  James: "with the mouse cursor pitching up and down, I cannot do a full 360 spin. I can do it with W and S though":
+  pushed into a band at the frame's top or bottom, its outer tenth (`FLIGHT3D edge`), the pointer pitches the nose on
+  round as the keys do, from `edgeRate` of their rate to all of it at the edge; resting anywhere else it still aims.
+  `sim/spaceflight.spec.ts`.)
 - **A ship with a still mouse flew itself.** Five seconds without the pointer moving, or a finger lifted, and the ship
   was taken for one with nobody at it: it weaved about and rolled, as the ship on show does. The `wander` setting says
   where that is wanted (the scripted flights and a ship on show); the page sets it false, and a pilot's ship holds its

@@ -122,6 +122,10 @@ tools/voxel/brand.py`; tries in `art/brand/`); the favicon is `mark-32.png`, the
   tests; templates; Dependabot; CODEOWNERS); Vercel (`vercel.json`, static `build/`) serves `main` at xenophon.me.
   James's private notes moved to `CLAUDE.local.md` (not in git).
 
+- **2026-11-19, a mouse loops in space again** (James: "with the mouse cursor pitching up and down, I cannot do a full 360
+  spin. I can do it with W and S though"). The pointer still aims the nose, but in a band at the frame's top or bottom (its
+  outer tenth, `FLIGHT3D edge`, `edgeRate`) it pitches on round as the keys do (`sim/spaceflight.ts readStick`; tests in
+  `sim/spaceflight.spec.ts`). One flight re-recorded on purpose (`climbing and diving in space, from the seat`).
 - **2026-11-19, the seat never all roof** (James, of the cockpit with the picture size at 2: "Not great"). The cockpits'
   art is at most 256 rows and never scaled, so a taller frame repeated its roof (three fifths of the view on a tall
   window). In the seat the scene's fit asks for a frame no taller than `COCKPIT_TALLEST` (300, `sim/interior.ts fitOf`'s

@@ -11,6 +11,8 @@
 //   the pointer                            where the pointer is says how far up or down the nose points, and there it
 //                                          stays: a mouse resting anywhere is a ship flying steadily. (As a rate, the way
 //                                          the keys are, a mouse left in the middle of the screen looped it for ever.)
+//                                          Pushed into a band at the frame's top or bottom it pitches on round as the
+//                                          keys do, so a mouse loops too (FLIGHT3D edge).
 //
 // Left and right turn it about the plane's own up, as ever. Overhead the nose only leans up or down while a climb or a
 // dive is held. The cruise drive holds the plane. Over a world, flown well down under the plane, it is in the world's
@@ -70,6 +72,11 @@ function readStick(scene: SceneState, dt: number, lead: Jet, limits: FlightLimit
     else if (ctl.keyClimb !== 0) {
       stick.aiming = true
       stick.aim = ctl.keyClimb * sense * F.lean
+    } else if (ctl.pointerY < H * F.edge || ctl.pointerY > H * (1 - F.edge)) {
+      // (at the frame's top or bottom: on round, as the keys pitch it, harder the nearer the edge)
+      const into = ctl.pointerY < H * F.edge ? 1 - ctl.pointerY / (H * F.edge) : (ctl.pointerY - H * (1 - F.edge)) / (H * F.edge)
+      const up = ctl.pointerY < H * F.edge ? 1 : -1
+      stick.pitch = sense * up * (F.edgeRate + (1 - F.edgeRate) * clamp(into, 0, 1))
     } else {
       const off = clamp((view.steerY - ctl.pointerY) / (H * F.span), -1, 1)
       const far = Math.max(0, Math.abs(off) - F.dead) / (1 - F.dead)
