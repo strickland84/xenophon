@@ -79,6 +79,12 @@ function stranger(scene: Scene, prompt: Prompt, n: number, said: { beacon: () =>
     if (body) held.turn = toward(scene, body.x, body.y)
     return held
   }
+  // "Target a training drone: press T": what T is bound to, pressed now and then (again picks the next thing on the frame)
+  if (/target a training drone/i.test(t)) {
+    const a = key(/press (\S+)$/i)
+    if (a && n % 40 === 0) scene.act(a as 'target')
+    return held
+  }
   if (/shoot the training drones/i.test(t)) {
     // the brackets on the drone in his sights; else turn for the guide's mark (the nearest drone)
     const s = scene.status.target

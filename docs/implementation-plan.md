@@ -1881,8 +1881,9 @@ Built in Phase 9 (`lib/tutorial/`, `TutorialPrompt.svelte`, after `art/mockups/t
   row, each teaching one control on the device in use (keys and mouse as bound, a controller's buttons,
   the touch buttons), each waiting for him to do it: **launch** (Use held), **steer** to the capital world
   (the course's arrow is set for him), **descend** (Use held over it), **dive** low (the dive control;
-  under 90 px, where the laser reaches and the ore is scooped), **drones** (three training drones put up
-  ahead: the guns), **mine** (the guide's mark on the nearest outcrop, then on the chunks to scoop),
+  under 90 px, where the laser reaches and the ore is scooped), **target** (three training drones put
+  up ahead, one of them picked with the target key: T, D-pad left, the touch Target button; added 2026-11-19, James: "we
+  also need a section about TARGETING with T"), **drones** (the three shot down: the guns), **mine** (the guide's mark on the nearest outcrop, then on the chunks to scoop),
   **land** on the nearest outpost's pad (or anywhere the HUD says LAND), **out** (Use tapped), **beacon**
   (the view button, then its words), **board** (Use by the ship), **bank** (HOME, landing at one of his
   side's bases); then the galaxy map opens on today's hotspots with a line saying so, and he is free. A

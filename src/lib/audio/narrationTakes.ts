@@ -153,25 +153,45 @@ export const TAKES: Record<string, { text: string; seconds: number }> = {
     text: 'Dive. You can only mine and land close to the ground, so get your height under ninety.',
     seconds: 5.76,
   },
+  'sortie-target-keys': {
+    text: "Three training drones are up ahead. They don't shoot back. Press T to target the nearest one. Press it again for the next, and hold it to let go. Your sights follow the enemy you've targeted, and so do your missiles.",
+    seconds: 13.44,
+  },
+  'sortie-target-ps': {
+    text: "Three training drones are up ahead. They don't shoot back. Press left on the d-pad to target the nearest one. Press it again for the next, and hold it to let go. Your sights follow the enemy you've targeted, and so do your missiles.",
+    seconds: 14.33,
+  },
+  'sortie-target-pad': {
+    text: "Three training drones are up ahead. They don't shoot back. Press left on the d-pad to target the nearest one. Press it again for the next, and hold it to let go. Your sights follow the enemy you've targeted, and so do your missiles.",
+    seconds: 14.05,
+  },
+  'sortie-target-touch': {
+    text: "Three training drones are up ahead. They don't shoot back. Tap Target to target the nearest one. Tap it again for the next, and hold it to let go. Your sights follow the enemy you've targeted, and so do your missiles.",
+    seconds: 13.89,
+  },
+  'sortie-target-any': {
+    text: "Three training drones are up ahead. They don't shoot back. Press your target key to target the nearest one. Press it again for the next, and hold it to let go. Your sights follow the enemy you've targeted, and so do your missiles.",
+    seconds: 13.29,
+  },
   'sortie-drones-keys': {
-    text: "Three training drones are up ahead. They don't shoot back. Click to fire your guns, and shoot all three down.",
-    seconds: 6.72,
+    text: 'Now click to fire your guns, and shoot all three down. Keep your nose on the one you have targeted, and the guns will help you aim.',
+    seconds: 7.76,
   },
   'sortie-drones-ps': {
-    text: "Three training drones are up ahead. They don't shoot back. Hold R2 to fire your guns, and shoot all three down.",
-    seconds: 6.8,
+    text: 'Now hold R2 to fire your guns, and shoot all three down. Keep your nose on the one you have targeted, and the guns will help you aim.',
+    seconds: 8.4,
   },
   'sortie-drones-pad': {
-    text: "Three training drones are up ahead. They don't shoot back. Hold the right trigger to fire your guns, and shoot all three down.",
-    seconds: 6.8,
+    text: 'Now hold the right trigger to fire your guns, and shoot all three down. Keep your nose on the one you have targeted, and the guns will help you aim.',
+    seconds: 8.88,
   },
   'sortie-drones-touch': {
-    text: "Three training drones are up ahead. They don't shoot back. Hold Fire to fire your guns, and shoot all three down.",
-    seconds: 7.68,
+    text: 'Now hold Fire to fire your guns, and shoot all three down. Keep your nose on the one you have targeted, and the guns will help you aim.',
+    seconds: 8.24,
   },
   'sortie-drones-any': {
-    text: "Three training drones are up ahead. They don't shoot back. Fire your guns, and shoot all three down.",
-    seconds: 6.16,
+    text: 'Now fire your guns, and shoot all three down. Keep your nose on the one you have targeted, and the guns will help you aim.',
+    seconds: 7.2,
   },
   'sortie-mine-keys': {
     text: "The marked rock is ore. Fly low over it and hold R to cut it with your mining laser. Then fly through the chunks that break off, and they're scooped into your hold.",

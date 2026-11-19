@@ -9,7 +9,9 @@
 //   steer    to the capital world, the course's arrow showing the way (steering)
 //   descend  over it, down to its surface (Use held)
 //   dive     low, under the height the laser and the landing legs reach (diving)
-//   drones   three training drones put up ahead, shot down (the guns)
+//   target   three training drones put up ahead, one of them targeted (the target key: James, 2026-11-19, "we also need
+//            a section about TARGETING with T")
+//   drones   the three shot down (the guns)
 //   mine     the nearest outcrop cut, its ore scooped up (Use held, low)
 //   land     on flat ground (Use held, low)
 //   out      of the ship (Use tapped)
@@ -38,6 +40,7 @@ import type {
   LoopStatus,
   ShipInput,
   ShipState,
+  TargetStatus,
   ViewMode,
   ZoneStatus,
 } from '../engine'
@@ -45,7 +48,21 @@ import type { Bindable } from '../input/bindings'
 import type { InputKind } from '../input/hints'
 
 export type StepId =
-  'power' | 'launch' | 'look' | 'steer' | 'descend' | 'dive' | 'drones' | 'mine' | 'land' | 'out' | 'beacon' | 'board' | 'bank' | 'free'
+  | 'power'
+  | 'launch'
+  | 'look'
+  | 'steer'
+  | 'descend'
+  | 'dive'
+  | 'target'
+  | 'drones'
+  | 'mine'
+  | 'land'
+  | 'out'
+  | 'beacon'
+  | 'board'
+  | 'bank'
+  | 'free'
 export const STEPS: StepId[] = [
   'power',
   'launch',
@@ -53,6 +70,7 @@ export const STEPS: StepId[] = [
   'steer',
   'descend',
   'dive',
+  'target',
   'drones',
   'mine',
   'land',
@@ -73,6 +91,8 @@ export interface TutorialScene {
   readonly player: { x: number; y: number; height: number; heading: number; above: number }
   /** the view it is drawn in now (overhead, from behind, the seat) */
   readonly view: ViewMode
+  /** what the pilot has picked with the target key (null: nothing) */
+  readonly target: TargetStatus | null
   listShips(): ShipState[]
   bodies(): BodyState[]
   addShip(ship: Partial<ShipInput>): number
@@ -103,6 +123,8 @@ export const DRONES: [number, number][] = [
 /** the last line, when the first sortie is over (the galaxy map opens on it) */
 export const FREE_LINE = 'Training flight done. The marked worlds on the map have the richest ore today'
 export const FREE_SUB = 'Credits buy parts and better ships'
+/** what the target's status calls a training drone (render/targetinfo.ts) */
+const DRONE_NAME = 'TRAINING DRONE'
 /** units of ore in the hold that count as mined */
 export const MINED = 5
 
@@ -170,8 +192,8 @@ export class Tutorial {
 
   private go(scene: TutorialScene, step: StepId) {
     if (step === this.step) return
-    // (drones left over are taken away once their step is behind him)
-    if (this.step === 'drones') this.clearDrones(scene)
+    // (drones left over are taken away once their steps are behind him)
+    if ((this.step === 'drones' || this.step === 'target') && step !== 'drones' && step !== 'target') this.clearDrones(scene)
     this.step = step
     this.changed = true
     this.coursed = false
@@ -227,7 +249,12 @@ export class Tutorial {
     // on a world: the steps that are done
     switch (this.step) {
       case 'dive':
-        if (aboard && scene.player.above < DIVE_TO) this.go(scene, 'drones')
+        if (aboard && scene.player.above < DIVE_TO) this.go(scene, 'target')
+        return
+      case 'target':
+        // (one of the drones picked; or all three shot down without, and the shooting is done too)
+        if (this.dronesUp && this.downed >= DRONES.length) this.go(scene, 'mine')
+        else if (this.dronesUp && scene.target?.kind === 'ship' && scene.target.name === DRONE_NAME) this.go(scene, 'drones')
         return
       case 'drones':
         if (this.dronesUp && this.downed >= DRONES.length) this.go(scene, 'mine')
@@ -302,7 +329,7 @@ export class Tutorial {
     }
     const raid = scene.listShips().some((s) => s.side === 1 && !s.drill && s.hullLeft > 0)
     const sub = raid ? 'Raiders! Fight them, or fly for a base: its turrets help' : ''
-    const flyingSteps: StepId[] = ['dive', 'drones', 'mine', 'land']
+    const flyingSteps: StepId[] = ['dive', 'target', 'drones', 'mine', 'land']
     if (z.kind === 'surface' && L.stage === 'landed' && (flyingSteps.includes(this.step) || (this.step === 'bank' && !L.base?.friendly)))
       return say(takeOff, sub, true)
 
@@ -346,6 +373,11 @@ export class Tutorial {
           `Dive low: ${dive}`,
           Math.round(scene.player.above) > DIVE_TO ? `${Math.round(scene.player.above)} up. Mine and land under ${DIVE_TO}` : sub,
         )
+      }
+      case 'target': {
+        this.putUpDrones(scene)
+        const press = touch ? 'tap TARGET' : `press ${n('target')}`
+        return say(`Target a training drone: ${press}`, sub || `Again for the next. Held, it lets go`)
       }
       case 'drones': {
         this.putUpDrones(scene)
