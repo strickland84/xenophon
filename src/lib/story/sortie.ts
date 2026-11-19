@@ -61,12 +61,12 @@ const LINES: Record<StepId, Record<Voice, string>> = {
     any: 'Dive. You can only mine and land close to the ground, so get your height under ninety.',
   },
   target: {
-    keys: "Three training drones are up ahead. They don't shoot back. Press T to target the nearest one. Press it again for the next, and hold it to let go. Your sights follow the enemy you've targeted, and so do your missiles.",
-    ps: "Three training drones are up ahead. They don't shoot back. Press left on the d-pad to target the nearest one. Press it again for the next, and hold it to let go. Your sights follow the enemy you've targeted, and so do your missiles.",
-    pad: "Three training drones are up ahead. They don't shoot back. Press left on the d-pad to target the nearest one. Press it again for the next, and hold it to let go. Your sights follow the enemy you've targeted, and so do your missiles.",
+    keys: "Three training drones are up ahead. They don't shoot back. Press T to target the one your nose is on. Press it again for the next, and hold it to let go. Your sights follow the enemy you've targeted, and so do your missiles.",
+    ps: "Three training drones are up ahead. They don't shoot back. Press left on the d-pad to target the one your nose is on. Press it again for the next, and hold it to let go. Your sights follow the enemy you've targeted, and so do your missiles.",
+    pad: "Three training drones are up ahead. They don't shoot back. Press left on the d-pad to target the one your nose is on. Press it again for the next, and hold it to let go. Your sights follow the enemy you've targeted, and so do your missiles.",
     touch:
-      "Three training drones are up ahead. They don't shoot back. Tap Target to target the nearest one. Tap it again for the next, and hold it to let go. Your sights follow the enemy you've targeted, and so do your missiles.",
-    any: "Three training drones are up ahead. They don't shoot back. Press your target key to target the nearest one. Press it again for the next, and hold it to let go. Your sights follow the enemy you've targeted, and so do your missiles.",
+      "Three training drones are up ahead. They don't shoot back. Tap Target to target the one your nose is on. Tap it again for the next, and hold it to let go. Your sights follow the enemy you've targeted, and so do your missiles.",
+    any: "Three training drones are up ahead. They don't shoot back. Press your target key to target the one your nose is on. Press it again for the next, and hold it to let go. Your sights follow the enemy you've targeted, and so do your missiles.",
   },
   drones: {
     keys: 'Now click to fire your guns, and shoot all three down. Keep your nose on the one you have targeted, and the guns will help you aim.',

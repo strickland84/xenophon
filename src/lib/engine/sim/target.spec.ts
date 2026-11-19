@@ -42,12 +42,10 @@ const press = (sc: ReturnType<typeof withRaiders>['sc']) => {
 }
 
 describe('the target key', () => {
-  it('picks the nearest thing on the frame, then the next, round and round', () => {
+  it('picks the thing on the frame nearest where the ship is aiming, then the next, round and round', () => {
     const { sc, s } = withRaiders()
     const all = candidates(s).map((t) => t.ref)
     expect(all.length).toBeGreaterThanOrEqual(3)
-    // (nearest first: the three ships, nearest of them first)
-    for (let i = 1; i < all.length; i++) expect(candidates(s)[i].d).toBeGreaterThanOrEqual(candidates(s)[i - 1].d)
     const first = press(sc)
     expect(first?.kind).toBe('ship')
     const seen = [first]
@@ -56,6 +54,80 @@ describe('the target key', () => {
     expect(new Set(seen.map((r) => JSON.stringify(r))).size).toBe(all.length)
     expect(JSON.stringify(press(sc))).toBe(JSON.stringify(first))
     expect(sc.target?.rel).toBe('enemy')
+  })
+
+  // (James, 2026-11-19: "I want T to target the nearest thing to your crosshair or essentially where the ship is aiming")
+  it.each([
+    ['from behind', 0, 420, 140, 110],
+    ['overhead', 2, 100, 50, 70],
+  ])('picks what is under the sights before what is nearer off to the side (%s)', (_, back, far, along, across) => {
+    const { sc, s, ids } = withRaiders()
+    // (from behind, the view key twice more comes back round overhead)
+    for (let v = 0; v < back; v++) sc.act('view')
+    for (let n = 0; n < 60; n++) {
+      sc.setControls(ctl())
+      sc.step(STEP)
+    }
+    for (const id of ids) sc.removeShip(id)
+    const me = sc.player
+    const ahead = { x: Math.sin(me.heading), y: -Math.cos(me.heading) }
+    const side = { x: -ahead.y, y: ahead.x }
+    const put = (along: number, across: number) =>
+      sc.addShip({
+        x: me.x + ahead.x * along + side.x * across,
+        y: me.y + ahead.y * along + side.y * across,
+        height: me.height,
+        heading: me.heading,
+        hull: 'lance',
+        side: 1,
+        speed: 0,
+        pilot: 0,
+      })
+    const near = put(along, across)
+    const under = put(far, 0)
+    sc.setControls(ctl())
+    sc.step(STEP)
+    const all = candidates(s)
+    expect(all.find((t) => t.ref.kind === 'ship' && t.ref.id === near)!.d).toBeLessThan(
+      all.find((t) => t.ref.kind === 'ship' && t.ref.id === under)!.d,
+    )
+    expect(press(sc)).toEqual({ kind: 'ship', id: under })
+    // (the nearer, off to the side, comes later round)
+    const order = candidates(s).map((t) => JSON.stringify(t.ref))
+    expect(order.indexOf(JSON.stringify({ kind: 'ship', id: near }))).toBeGreaterThan(
+      order.indexOf(JSON.stringify({ kind: 'ship', id: under })),
+    )
+  })
+
+  // (James, 2026-11-19: two ships in the distance, seen from the seat, could not be picked)
+  it('picks a ship far off, beyond the near limit, while it is drawn as a mark to be seen; and not once it is too small', () => {
+    const { sc, s, ids } = withRaiders()
+    sc.act('view')
+    for (let n = 0; n < 60; n++) {
+      sc.setControls(ctl())
+      sc.step(STEP)
+    }
+    for (const id of ids) sc.removeShip(id)
+    const me = sc.player
+    const put = (along: number) =>
+      sc.addShip({
+        x: me.x + Math.sin(me.heading) * along,
+        y: me.y - Math.cos(me.heading) * along,
+        height: me.height,
+        heading: me.heading,
+        hull: 'lance',
+        side: 1,
+        speed: 0,
+        pilot: 0,
+      })
+    const far = put(TARGET.pickShip * 1.6)
+    const lost = put(TARGET.pickShip * 40)
+    sc.setControls(ctl())
+    sc.step(STEP)
+    const picks = candidates(s).map((t) => t.ref)
+    expect(picks).toContainEqual({ kind: 'ship', id: far })
+    expect(picks).not.toContainEqual({ kind: 'ship', id: lost })
+    expect(press(sc)).toEqual({ kind: 'ship', id: far })
   })
 
   it('held a moment, lets the target go', () => {

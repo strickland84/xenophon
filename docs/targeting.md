@@ -27,16 +27,23 @@ This is the plan. Once built, its decisions move into the plan's section 16 (UI)
   hole, station, gate, derelict), `{ kind: 'base', index }` or `{ kind: 'place', index }` on a world's ground. Null: none.
   It is the pilot's own: never sent, no protocol change, not saved.
 - **A new action, `target`** (`SceneAction`, `Scene.act('target')`; T, D-pad left, a touch button). A press picks the
-  nearest thing on the frame; pressed again it goes to the next nearest, round and round. Held for half a second it lets
-  go. Nearest means distance to its surface (a world's distance less its radius), so a raider 300 px off comes before a
-  world 9,000 px off; the frame is what the camera sees in the view in use, so it works the same overhead, from behind and
+  thing on the frame nearest where the ship is aiming; pressed again it goes to the next nearest, round and round. Held
+  for half a second it lets go. (Built first as the nearest by distance; James, 2026-11-19: "I want T to target the nearest
+  thing to your crosshair or essentially where the ship is aiming".) Where it aims is the line of the guns (`noseOf`) laid
+  on the frame, from 40 px ahead of the nose through 2,000 px ahead (`TARGET.aimNear`, `aimFar`); a thing is as near it as
+  its middle is off that line on the frame, its size bringing it at most `reach` (12 px) nearer, and within the sights'
+  own size (`sights`, 8 px) it counts as under them; ties go to the nearer by distance to its surface (a world's distance
+  less its radius), so a ship under the sights comes before the world behind it. Out of his ship it is by distance alone.
+  The frame is what the camera sees in the view in use, so it works the same overhead, from behind and
   from the seat. A press with nothing on the frame lets go too.
 - **What can be picked:** every ship (players of both sides, raiders, patrols, haulers, drones, a parked ship), and in
   space every body and structure; on a world's ground its bases and its places (settlements, ruins, relays). Not ghosts,
   not rocks, not crates. On foot: creatures and pilots on foot, the same key (a later step; the sidearm's assist already
   turns onto beasts, `foot.aimBeast`).
 - **It lets go by itself** when a ship is shot down or leaves the room, on a change of zone, and past a distance (ships
-  4,000 px; bodies never in their own system).
+  4,000 px; bodies never in their own system). A ship further off than the 3,000 px a ship is picked within may still be
+  picked while it is drawn at least 2 px across (`TARGET.seen`), and is kept until it is smaller than `lost` (James: two
+  ships in the distance, seen from the seat, could not be picked).
 - **The sights follow it.** An enemy targeted is the sights' target for as long as it is a fair choice at all (in range,
   within the cone): the guns lead it and the seeker locks onto it, so T is how a pilot chooses which of three raiders his
   missile goes after. With no enemy targeted the sights choose as now, so the fighting plays the same for a pilot who
@@ -92,7 +99,7 @@ A ship's own name does not exist yet (Phase 8 left it out): its callsign and hul
 - Touch: a Target button beside Missile while flying (tap: next; hold: let go). A tap on a thing in the picture is not
   used: in space a finger aims the nose.
 - The help bar, the prompts' key names (`input/hints.ts`) and the HUD's own lines name the bound key.
-- A first-time tip on first entering space: the names are gone, T picks the nearest (`tutorial/tips.ts`). No sortie step:
+- A first-time tip on first entering space: the names are gone, T picks what the ship aims at (`tutorial/tips.ts`). No sortie step:
   the narrator's lines would need reading again.
 - Sound: a short blip on picking, a lower one on letting go (existing takes; `cues.ts`).
 

@@ -154,24 +154,24 @@ export const TAKES: Record<string, { text: string; seconds: number }> = {
     seconds: 5.76,
   },
   'sortie-target-keys': {
-    text: "Three training drones are up ahead. They don't shoot back. Press T to target the nearest one. Press it again for the next, and hold it to let go. Your sights follow the enemy you've targeted, and so do your missiles.",
-    seconds: 13.44,
+    text: "Three training drones are up ahead. They don't shoot back. Press T to target the one your nose is on. Press it again for the next, and hold it to let go. Your sights follow the enemy you've targeted, and so do your missiles.",
+    seconds: 15.36,
   },
   'sortie-target-ps': {
-    text: "Three training drones are up ahead. They don't shoot back. Press left on the d-pad to target the nearest one. Press it again for the next, and hold it to let go. Your sights follow the enemy you've targeted, and so do your missiles.",
-    seconds: 14.33,
+    text: "Three training drones are up ahead. They don't shoot back. Press left on the d-pad to target the one your nose is on. Press it again for the next, and hold it to let go. Your sights follow the enemy you've targeted, and so do your missiles.",
+    seconds: 14.08,
   },
   'sortie-target-pad': {
-    text: "Three training drones are up ahead. They don't shoot back. Press left on the d-pad to target the nearest one. Press it again for the next, and hold it to let go. Your sights follow the enemy you've targeted, and so do your missiles.",
-    seconds: 14.05,
+    text: "Three training drones are up ahead. They don't shoot back. Press left on the d-pad to target the one your nose is on. Press it again for the next, and hold it to let go. Your sights follow the enemy you've targeted, and so do your missiles.",
+    seconds: 16.17,
   },
   'sortie-target-touch': {
-    text: "Three training drones are up ahead. They don't shoot back. Tap Target to target the nearest one. Tap it again for the next, and hold it to let go. Your sights follow the enemy you've targeted, and so do your missiles.",
-    seconds: 13.89,
+    text: "Three training drones are up ahead. They don't shoot back. Tap Target to target the one your nose is on. Tap it again for the next, and hold it to let go. Your sights follow the enemy you've targeted, and so do your missiles.",
+    seconds: 13.17,
   },
   'sortie-target-any': {
-    text: "Three training drones are up ahead. They don't shoot back. Press your target key to target the nearest one. Press it again for the next, and hold it to let go. Your sights follow the enemy you've targeted, and so do your missiles.",
-    seconds: 13.29,
+    text: "Three training drones are up ahead. They don't shoot back. Press your target key to target the one your nose is on. Press it again for the next, and hold it to let go. Your sights follow the enemy you've targeted, and so do your missiles.",
+    seconds: 13.92,
   },
   'sortie-drones-keys': {
     text: 'Now click to fire your guns, and shoot all three down. Keep your nose on the one you have targeted, and the guns will help you aim.',

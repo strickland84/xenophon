@@ -106,10 +106,10 @@ export function hintFor(view: ViewMode, input: InputKind, stick: boolean, loop =
 export function spaceHint(input: InputKind, b: Bindings = DEFAULT_BINDINGS) {
   const n = namer(input, b)
   if (input === 'ps' || input === 'pad')
-    return `Left stick to fly (down over a world goes down to it) · Right stick for the throttle · ${n('power')} powers the ship up, docked · ${n('fire')} fires · ${n('cruise')} for the cruise drive · ${n('target')} to target the nearest, again for the next · Hold ${n('use')} to dock, go down to a world, jump a gate or skim · ${n('view')} for the next view · ${n('map')} for the maps · ${n('seat')} to get up and walk the ship`
+    return `Left stick to fly (down over a world goes down to it) · Right stick for the throttle · ${n('power')} powers the ship up, docked · ${n('fire')} fires · ${n('cruise')} for the cruise drive · ${n('target')} to target what you aim at, again for the next · Hold ${n('use')} to dock, go down to a world, jump a gate or skim · ${n('view')} for the next view · ${n('map')} for the maps · ${n('seat')} to get up and walk the ship`
   return input === 'touch'
-    ? 'Touch to steer · Power, docked, to power up · Slide the throttle · Fire · Cruise for the cruise drive · Target the nearest · Hold Action to dock, go down, jump or skim · Dive over a world to go down · Map to plot a course · Seat (under More) to get up and walk the ship'
-    : `Move to steer · ${n('power')} powers the ship up, docked · ${n('faster')}/${n('slower')} or the wheel for the throttle · Click to fire · ${n('cruise')} for the cruise drive · ${n('target')} to target the nearest, again for the next, held to let go · Hold ${n('use')} to dock, go down to a world, jump a gate or skim · ${n('view')} for the next view · ${n('map')} for the maps · ${n('inventory')} for the hold · ${n('seat')} to get up and walk the ship`
+    ? 'Touch to steer · Power, docked, to power up · Slide the throttle · Fire · Cruise for the cruise drive · Target what you aim at · Hold Action to dock, go down, jump or skim · Dive over a world to go down · Map to plot a course · Seat (under More) to get up and walk the ship'
+    : `Move to steer · ${n('power')} powers the ship up, docked · ${n('faster')}/${n('slower')} or the wheel for the throttle · Click to fire · ${n('cruise')} for the cruise drive · ${n('target')} to target what you aim at, again for the next, held to let go · Hold ${n('use')} to dock, go down to a world, jump a gate or skim · ${n('view')} for the next view · ${n('map')} for the maps · ${n('inventory')} for the hold · ${n('seat')} to get up and walk the ship`
 }
 
 /** a key (or button, or gesture) and the one word for what it does: the help line as the page shows it */

@@ -122,6 +122,13 @@ tools/voxel/brand.py`; tries in `art/brand/`); the favicon is `mark-32.png`, the
   tests; templates; Dependabot; CODEOWNERS); Vercel (`vercel.json`, static `build/`) serves `main` at xenophon.me.
   James's private notes moved to `CLAUDE.local.md` (not in git).
 
+- **2026-11-19, T targets what the ship aims at, and far ships** (James: "I want T to target the nearest thing to your
+  crosshair or essentially where the ship is aiming"; two ships in the distance could not be picked). `sim/target.ts
+candidates` orders by how far a thing's middle lies off the guns' line on the frame (`aimOnFrame`, `offAim`; `TARGET`
+  `aimNear`, `aimFar`, `reach`, `sights`, `behind`), then by distance; a ship past `pickShip` is picked while drawn 2 px
+  across (`seen`, `lost`). `docs/targeting.md` has it. Two flights re-recorded on purpose (`a raider targeted from behind
+and shot`, its checks changed to the new order; `targets picked in turn from the seat, beside a station`);
+  `tools/film.mjs` films the target flights too.
 - **2026-11-19, a mouse loops in space again** (James: "with the mouse cursor pitching up and down, I cannot do a full 360
   spin. I can do it with W and S though"). The pointer still aims the nose, but in a band at the frame's top or bottom (its
   outer tenth, `FLIGHT3D edge`, `edgeRate`) it pitches on round as the keys do (`sim/spaceflight.ts readStick`; tests in

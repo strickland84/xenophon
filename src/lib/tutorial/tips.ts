@@ -50,7 +50,7 @@ export const TIPS: Tip[] = [
     when: (v) => v.zone.kind === 'space' && v.loop.stage === 'flying' && v.zone.cruise !== 'on',
     text: (n, input) => {
       const t = input === 'touch' ? 'TARGET' : n('target')
-      return `${t} targets the nearest thing in view and says what it is; ${t} again for the next, held to let go. Then ${input === 'touch' ? 'CRUISE' : n('cruise')} flies you to it`
+      return `${t} targets what you are aiming at and says what it is; ${t} again for the next, held to let go. Then ${input === 'touch' ? 'CRUISE' : n('cruise')} flies you to it`
     },
   },
   {

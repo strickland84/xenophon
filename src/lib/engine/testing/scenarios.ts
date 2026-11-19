@@ -2980,17 +2980,18 @@ export const targetFlights: Record<string, Script> = {
         )
     })
     f.fly(20, () => f.scene.setControls(held(0, 0)))
-    // (pressed three times: the nearest, the next, the furthest)
+    // (pressed: the raider dead ahead, under the sights, before the two either side of it; then pressed on round, the others
+    // come up in turn, among the worlds that lie near the line of fire)
+    f.scene.act('target')
+    f.fly(10, () => f.scene.setControls(held(0, 0)))
+    f.expect(f.scene.target?.name === 'RAIDER', `the raider under the sights picked first (${f.scene.target?.name})`)
     const picked: string[] = []
-    for (let i = 0; i < 3; i++) {
+    for (let i = 0; i < 12 && picked.filter((n) => n === 'RAIDER').length < 2; i++) {
       f.scene.act('target')
       f.fly(10, () => f.scene.setControls(held(0, 0)))
       picked.push(f.scene.target?.name ?? '')
     }
-    f.expect(
-      picked.every((n) => n === 'RAIDER'),
-      `three raiders picked in turn (${picked.join(', ')})`,
-    )
+    f.expect(picked.filter((n) => n === 'RAIDER').length === 2, `the other two raiders picked in turn (${picked.join(', ')})`)
     f.fly(600, () => f.hunt(0, true, false))
     f.expect((f.heard.explosion ?? 0) >= 1 || (f.scene.target?.rel ?? '') === 'enemy', 'the raider picked hunted')
     return f.marks

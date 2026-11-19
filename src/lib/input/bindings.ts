@@ -79,7 +79,7 @@ export const BINDABLE_WORDS: Record<Bindable, string> = {
   power: 'Power on and off (landed or docked)',
   mine: 'Mining laser (the cutter on foot)',
   seat: 'Get up from the seat in flight, and sit down',
-  target: 'Target the nearest, then the next (hold: let go)',
+  target: 'Target what you aim at, then the next (hold: let go)',
   map: 'Maps',
   inventory: 'Hold and vault',
   chat: 'Chat',
@@ -139,7 +139,7 @@ export const DEFAULT_BINDINGS: Bindings = {
     mine: ['KeyR'],
     // (up out of the seat in flight to walk the ship, and back: James, 2026-11-18)
     seat: ['KeyG'],
-    // (the target key: the nearest thing in view, then the next; held, let go. James, 2026-11-19)
+    // (the target key: the thing in view nearest where the ship aims, then the next; held, let go. James, 2026-11-19)
     target: ['KeyT'],
     map: ['KeyM'],
     inventory: ['Tab'],
