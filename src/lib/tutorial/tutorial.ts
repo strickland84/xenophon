@@ -385,7 +385,7 @@ export class Tutorial {
       case 'descend':
         return say(`Hold ${use} over ${world} to go down to it`, sub || 'Dive on down to its ground')
       case 'dive': {
-        const dive = pad ? `push the left stick ${this.o.stick() ? 'up' : 'down'}` : `hold ${this.o.stick() ? n('up') : n('down')}`
+        const dive = pad ? `push the left stick ${this.o.stick() ? 'up' : 'down'}` : `hold ${n('down')}`
         return say(
           `Dive low: ${dive}`,
           Math.round(scene.player.above) > DIVE_TO ? `${Math.round(scene.player.above)} up. Mine and land under ${DIVE_TO}` : sub,
@@ -430,7 +430,7 @@ export class Tutorial {
       case 'out':
         return say(
           `Tap ${use} to get out`,
-          pad ? 'On foot, the left stick walks' : `On foot, ${n('down')}${n('left')}${n('up')}${n('right')} walks`,
+          pad ? 'On foot, the left stick walks' : `On foot, ${n('up')}${n('left')}${n('down')}${n('right')} walks`,
         )
       case 'beacon':
         return say(`Plant a beacon: ${n('view')}, then pick its words`, 'Pilots landing here will read it')

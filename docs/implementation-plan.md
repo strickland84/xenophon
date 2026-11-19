@@ -2213,7 +2213,11 @@ Climbing and diving moved from W and S to E and Q (a stick's pull and push: as a
 a save with the old keys gets the new ones (`readBindings`). On foot and inside W and S still walk. (Since 2026-11-19, James:
 W and S pitch the nose, W up, as the arrows do, and E and Q are the throttle, E opening it; a save with the layout above,
 unchanged, gets the new one. On foot W still walks forward: the keys say how they walk apart from how they pitch,
-`HeldControls.walk`, the scene's `keyWalk`.) The scene keeps it
+`HeldControls.walk`, the scene's `keyWalk`.) (Later that day, James: "make UP CLIMBS the default": the mouse and a stick
+climb when moved up unless the setting says Up dives (`invertY` false on the page; the engine's own default, for the
+scripted flights, is still true). The pitch keys are named by what they do, Up (W, the up arrow) climbing and Down (S, the
+down arrow) diving, and the setting does not turn them over: `keyboard.ts` sends their pitch turned over while the scene
+turns it back. A save with the old keys as given gets the new names, `readBindings`.) The scene keeps it
 (`scene.throttle`, `Scene.throttleBy`, `setThrottle`, `status.throttle`); `sim/flight.ts stepThrust` flies at it (the
 thrusters open it all the way and beyond, from a standstill too; the way down and up, a gate and the cruise drive open it
 full); stopped, a ship still turns and climbs (`THROTTLE.climb`). The flames burn as hard as it is open. The HUD has a

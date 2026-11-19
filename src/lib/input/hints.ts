@@ -17,10 +17,10 @@ export function namer(input: InputKind, b: Bindings = DEFAULT_BINDINGS): (a: Bin
   return (a) => firstKey(b, a) || '?'
 }
 
-/** the four walking keys (the pitch's, the pull walking forward, and the turns') as one word when they are the usual WASD, or each named */
+/** the four walking keys (the pitch's, pitch up walking forward, and the turns') as one word when they are the usual WASD, or each named */
 function steerKeys(b: Bindings) {
   const k = (a: Bindable) => firstKey(b, a)
-  const four = [k('down'), k('left'), k('up'), k('right')]
+  const four = [k('up'), k('left'), k('down'), k('right')]
   return four.join('') === 'WASD' ? 'WASD' : four.join(' ')
 }
 
@@ -47,7 +47,7 @@ export function upHint(input: InputKind, b: Bindings = DEFAULT_BINDINGS) {
   return `${steerKeys(b)} to walk the ship (it flies itself) · ${n('boost')} to run · ${n('use')} to use what you stand by · ${n('seat')} back to the seat`
 }
 
-/** the help for a view; `stick` says up and down work like a flight stick (down climbs) */
+/** the help for a view; `stick` says the mouse and a stick work like a flight stick (down climbs); the keys are as named */
 export function hintFor(view: ViewMode, input: InputKind, stick: boolean, loop = false, b: Bindings = DEFAULT_BINDINGS) {
   const n = namer(input, b)
   const next = view === 'top' ? 'chase view' : view === 'chase' ? 'the cockpit' : 'overhead'
@@ -60,8 +60,8 @@ export function hintFor(view: ViewMode, input: InputKind, stick: boolean, loop =
     return `${fly} · ${n('fire')} fires · ${n('secondary')} for a missile once locked · ${n('roll')} to roll · Hold ${n('boost')} for the thrusters${land} · ${n('view')} for ${next} · ${n('seat')} to get up and walk the ship`
   }
   const steer = view === 'top' ? 'Move to steer' : `Point to turn · ${upDown}`
-  // (overhead, the keys climb and dive: up dives as a stick, unless the setting says otherwise)
-  const keysUpDown = view === 'top' ? ` · ${stick ? n('up') : n('down')} dives, ${stick ? n('down') : n('up')} climbs` : ''
+  // (overhead, the keys climb and dive, as named whatever the setting)
+  const keysUpDown = view === 'top' ? ` · ${n('down')} dives, ${n('up')} climbs` : ''
   const throttle = ` · ${n('faster')}/${n('slower')} or the wheel for the throttle (down to a stop)`
   return `${steer}${keysUpDown}${throttle} · Click (or ${n('fire')}) to fire · Right-click (or ${n('secondary')}) for a missile once locked · ${n('roll')} to roll · ${n('boost')} for the thrusters${loop ? ` · ${n('power')} powers the ship up, landed · Hold ${n('use')} to land, take off, or high up for space (tap it landed to get out) · Hold ${n('mine')} to mine · ${n('inventory')} for the hold · ${n('map')} for the maps` : ''} · ${n('view')} for ${next} · ${n('seat')} to get up and walk the ship`
 }

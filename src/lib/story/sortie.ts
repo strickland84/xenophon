@@ -129,7 +129,7 @@ const NAMED: Record<StepId, Bindable[]> = {
   throttle: ['faster', 'slower'],
   steer: ['left', 'right', 'faster', 'slower'],
   descend: ['use'],
-  dive: ['up'],
+  dive: ['down'],
   target: ['target'],
   drones: ['fire'],
   mine: ['mine'],
@@ -143,9 +143,9 @@ const NAMED: Record<StepId, Bindable[]> = {
 
 /** which version of a step's line to read, for the device in use, the pilot's bindings and his pitch (`stick`: up dives) */
 export function sortieVoice(step: StepId, input: InputKind, b: Bindings = DEFAULT_BINDINGS, stick = true): Voice {
-  // (the lines say the stick's up dives)
-  if (step === 'dive' && !stick) return 'any'
   const pad = input === 'ps' || input === 'pad'
+  // (the controller's lines say the stick's up dives; the keys' name the key that dives, whatever the setting)
+  if (step === 'dive' && !stick && pad) return 'any'
   const ps = input === 'ps'
   const same = (a: Bindable) =>
     pad ? firstButton(b, a, ps) === firstButton(DEFAULT_BINDINGS, a, ps) : firstKey(b, a) === firstKey(DEFAULT_BINDINGS, a)

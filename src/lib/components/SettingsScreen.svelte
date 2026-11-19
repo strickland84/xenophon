@@ -363,14 +363,14 @@
                   <!-- (laid out as the keys are: Q W E over A S D) -->
                   <div class="flex flex-col items-center gap-2">
                     <div class="flex gap-2">
-                      <!-- (Down is a stick's pull: as a flight stick, the default, it climbs) -->
+                      <!-- (the pitch keys climb and dive as named, whatever the setting below) -->
                       {@render cap('slower', 'Slower')}
-                      {@render cap('down', (settings.invertY ?? true) ? 'Climb' : 'Dive')}
+                      {@render cap('up', 'Climb')}
                       {@render cap('faster', 'Faster')}
                     </div>
                     <div class="flex gap-2">
                       {@render cap('left', 'Left')}
-                      {@render cap('up', (settings.invertY ?? true) ? 'Dive' : 'Climb')}
+                      {@render cap('down', 'Dive')}
                       {@render cap('right', 'Right')}
                     </div>
                   </div>
@@ -412,13 +412,13 @@
                 )}
                 {@render choices(
                   'Up and down',
-                  settings.invertY ?? true,
+                  settings.invertY ?? false,
                   [
-                    [true, 'Up dives'],
                     [false, 'Up climbs'],
+                    [true, 'Up dives'],
                   ],
                   (v) => set({ invertY: v }),
-                  'Up dives, as a flight stick does; or up climbs',
+                  'The mouse and the stick: up climbs, or up dives as a flight stick does. The keys climb and dive as named',
                 )}
                 <p class="ui-body w-full text-accent" role="status">
                   {#if waiting}{waiting.pad ? 'Press a button' : 'Press a key'}

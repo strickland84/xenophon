@@ -65,8 +65,8 @@ export const BINDABLE: Bindable[] = [
 export const BINDABLE_WORDS: Record<Bindable, string> = {
   faster: 'Throttle up (walk on foot)',
   slower: 'Throttle down (walk back)',
-  up: 'Push: dive, or climb as set (walk back)',
-  down: 'Pull: climb, or dive as set (walk on foot)',
+  up: 'Pitch up: climb (walk on foot)',
+  down: 'Pitch down: dive (walk back)',
   left: 'Turn left',
   right: 'Turn right',
   boost: 'Thrusters (run on foot)',
@@ -115,14 +115,14 @@ export interface Bindings {
 }
 
 /** the plan's controls table (W and S pitch the nose, W up, and E and Q the throttle, E opening it: James, 2026-11-19; the
- * arrows pitch as W and S do. Up and Down are a stick's push and pull: as a flight stick (the default) a pull climbs, so S
- * is Up and W Down) */
+ * arrows pitch as W and S do. The pitch keys are named by what they do, as Elite's are: Up climbs and Down dives whatever
+ * the setting, which turns over only the mouse and a stick) */
 export const DEFAULT_BINDINGS: Bindings = {
   keys: {
     faster: ['KeyE'],
     slower: ['KeyQ'],
-    up: ['KeyS', 'ArrowDown'],
-    down: ['KeyW', 'ArrowUp'],
+    up: ['KeyW', 'ArrowUp'],
+    down: ['KeyS', 'ArrowDown'],
     left: ['KeyA', 'ArrowLeft'],
     right: ['KeyD', 'ArrowRight'],
     boost: ['ShiftLeft', 'ShiftRight'],
@@ -200,6 +200,10 @@ export function readBindings(raw: unknown): Bindings {
   const was = (b: Bindable, keys: string[]) => out.keys[b].join() === keys.join()
   if (was('faster', ['KeyW']) && was('slower', ['KeyS']) && was('up', ['KeyQ', 'ArrowUp']) && was('down', ['KeyE', 'ArrowDown']))
     for (const b of ['faster', 'slower', 'up', 'down'] as const) out.keys[b] = [...DEFAULT_BINDINGS.keys[b]]
+  // (kept while Up and Down were a stick's push and pull, S and W, as given: the pitch keys named by what they do now,
+  // so W, which climbed, is Up; James, 2026-11-19, "make UP CLIMBS the default")
+  if (was('up', ['KeyS', 'ArrowDown']) && was('down', ['KeyW', 'ArrowUp']))
+    for (const b of ['up', 'down'] as const) out.keys[b] = [...DEFAULT_BINDINGS.keys[b]]
   // (kept before the power switch: its key, unless the player gave it something else)
   if (r.keys && !('power' in r.keys))
     out.keys.power = out.keys.power.filter((c) => !BINDABLE.some((a) => a !== 'power' && out.keys[a].includes(c)))

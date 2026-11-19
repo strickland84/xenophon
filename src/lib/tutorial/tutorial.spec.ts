@@ -63,8 +63,9 @@ function stranger(scene: Scene, prompt: Prompt, n: number, said: { beacon: () =>
   // "Dive low: hold W"
   if (/dive low/i.test(t)) {
     const a = key(/hold (\S+)$/i)
-    if (a === 'up') held.climb = 1
-    if (a === 'down') held.climb = -1
+    // (as the keyboard sends them with the scene's up dives, its default: keyboard.ts turns the pitch over, the scene back)
+    if (a === 'up') held.climb = -1
+    if (a === 'down') held.climb = 1
     return held
   }
   // "Press V: see your ship from behind", "V again: the cockpit": the key pressed now and then

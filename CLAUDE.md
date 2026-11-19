@@ -126,7 +126,11 @@ tools/voxel/brand.py`; tries in `art/brand/`); the favicon is `mark-32.png`, the
 - **2026-11-19, the controls reviewed against Elite Dangerous and Star Citizen** (players: "the control scheme is very
   hard to follow"). `docs/controls-review.md`: what confuses (the mouse steers four ways by view and zone, F's tap and
   hold, W/S pitch against the genre, no full controls card, silent changes of context) and nine ranked suggestions.
-  Nothing built yet.
+  Nothing built yet but the first piece: **up climbs** (James: "make UP CLIMBS the default"): the mouse and a stick climb
+  moved up unless Settings says Up dives (`invertY` false on the page, `Game.svelte`; the engine's default, which the
+  scripted flights fly with, is still true, so no frame changed); the pitch keys named by what they do (`up` W and the up
+  arrow, `down` S and the down arrow) and never turned over by the setting (`keyboard.ts invert`); old default layouts
+  renamed by `readBindings`. James's direction: one flight layout, Elite's, no presets.
 - **2026-11-19, the link's picture** (James: "make a nice opengraph image for xenophon.me"). `static/brand/og.png`,
   1200 × 630: its own sky with the suns at the edges (`uv run tools/gen/brand.py og-sky`, try 5 picked in
   `tools/voxel/brand.py PICKS`), the shield over the wordmark, and two lines in the game's pixel font (`words`, `og`);

@@ -38,10 +38,10 @@ describe('the keyboard', () => {
       KeyH: 'nextShip',
     })
   })
-  it('climbs with W and dives with S (a stick’s pull and push), or the arrows, turns with A and D, moves the throttle with E and Q, and Shift opens the thrusters', () => {
-    expect([HOLD_KEYS.KeyW, HOLD_KEYS.KeyA, HOLD_KEYS.KeyS, HOLD_KEYS.KeyD]).toEqual(['down', 'left', 'up', 'right'])
+  it('climbs with W and dives with S (pitch up and down, as named), or the arrows, turns with A and D, moves the throttle with E and Q, and Shift opens the thrusters', () => {
+    expect([HOLD_KEYS.KeyW, HOLD_KEYS.KeyA, HOLD_KEYS.KeyS, HOLD_KEYS.KeyD]).toEqual(['up', 'left', 'down', 'right'])
     expect([HOLD_KEYS.KeyE, HOLD_KEYS.KeyQ]).toEqual(['faster', 'slower'])
-    expect([HOLD_KEYS.ArrowUp, HOLD_KEYS.ArrowLeft, HOLD_KEYS.ArrowDown, HOLD_KEYS.ArrowRight]).toEqual(['down', 'left', 'up', 'right'])
+    expect([HOLD_KEYS.ArrowUp, HOLD_KEYS.ArrowLeft, HOLD_KEYS.ArrowDown, HOLD_KEYS.ArrowRight]).toEqual(['up', 'left', 'down', 'right'])
     expect(HOLD_KEYS.ShiftLeft).toBe('boost')
   })
 })
@@ -98,9 +98,15 @@ describe('devices together', () => {
     // (E was given to Use: the throttle up keeps none)
     expect(b.keys.faster).toEqual([])
     expect(b.keys.slower).toEqual(['KeyQ'])
-    expect(b.keys.up).toEqual(['KeyS', 'ArrowDown'])
-    expect(b.keys.down).toEqual(['KeyW', 'ArrowUp'])
+    expect(b.keys.up).toEqual(['KeyW', 'ArrowUp'])
+    expect(b.keys.down).toEqual(['KeyS', 'ArrowDown'])
     expect(b.keys.use).toEqual(['KeyE'])
+  })
+  it('a save with Up and Down as a stick’s push and pull (S and W), as given, takes the keys named by what they do; one changed keeps its own', () => {
+    const was = { faster: ['KeyE'], slower: ['KeyQ'], up: ['KeyS', 'ArrowDown'], down: ['KeyW', 'ArrowUp'] }
+    expect(readBindings({ keys: was }).keys).toMatchObject({ up: ['KeyW', 'ArrowUp'], down: ['KeyS', 'ArrowDown'] })
+    const own = { ...was, up: ['KeyZ'] }
+    expect(readBindings({ keys: own }).keys).toMatchObject({ up: ['KeyZ'], down: ['KeyW', 'ArrowUp'] })
   })
   it('a save with the throttle on W and S and the pitch on Q and E, as given, takes the new keys; one changed keeps its own', () => {
     const was = { faster: ['KeyW'], slower: ['KeyS'], up: ['KeyQ', 'ArrowUp'], down: ['KeyE', 'ArrowDown'] }
@@ -108,12 +114,12 @@ describe('devices together', () => {
     const own = { ...was, up: ['KeyZ', 'ArrowUp'] }
     expect(readBindings({ keys: own }).keys).toMatchObject(own)
   })
-  it('the keys walk as W and S pitch the nose: W, a pull that climbs, walks forward, as a stick pushed forward walks', () => {
-    const keys = { ...nothingHeld(), climb: -1, walk: 1 }
+  it('the keys walk as W and S pitch the nose: W, pitching up, walks forward, as a stick pushed forward walks', () => {
+    const keys = { ...nothingHeld(), climb: 1, walk: 1 }
     const stick = { ...nothingHeld(), climb: 0.5 }
     expect(combine([keys]).walk).toBe(1)
     expect(combine([stick]).walk).toBe(0.5)
-    expect(combine([keys, stick])).toMatchObject({ climb: -0.5, walk: 1 })
+    expect(combine([keys, stick])).toMatchObject({ climb: 1, walk: 1 })
   })
 })
 

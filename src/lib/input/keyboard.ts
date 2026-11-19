@@ -1,5 +1,5 @@
-// The keyboard: by default A and D (or the arrows) turn, W and S (or the arrows) pitch the nose up and down (a stick's pull
-// and push: bindings.ts) and walk forward and back, E and Q move the throttle, Shift opens the thrusters, Space rolls, F lands,
+// The keyboard: by default A and D (or the arrows) turn, W and S (or the arrows) pitch the nose up and down (whatever the
+// setting that turns over the mouse and a stick: bindings.ts) and walk forward and back, E and Q move the throttle, Shift opens the thrusters, Space rolls, F lands,
 // boards or uses, V changes the view, M the map, Tab the inventory, Enter chat, Escape the menu,
 // and H the hangar; the player can bind them otherwise (bindings.ts, the settings). Keys are known
 // by KeyboardEvent.code, so they sit in the same place on any layout. (The mouse's buttons fire:
@@ -38,6 +38,9 @@ export interface KeyboardHandlers {
   onPress(action: Press): void
   /** the bindings to start with (the defaults if none) */
   bindings?: Bindings
+  /** true while the setting has up dive (the scene's invertY): the keys say climb the other way round so the scene's turning
+   * over puts it back, and Up still climbs */
+  invert?: () => boolean
 }
 
 export function createKeyboardInput(handlers: KeyboardHandlers): KeyboardInput {
@@ -80,9 +83,10 @@ export function createKeyboardInput(handlers: KeyboardHandlers): KeyboardInput {
     get held() {
       const held = nothingHeld()
       held.turn = Math.sign(count('right') - count('left'))
-      held.climb = Math.sign(count('up') - count('down'))
-      // (the pull keys walk forward: W pitches the nose up, and walks on)
-      held.walk = -held.climb
+      const pitch = Math.sign(count('up') - count('down'))
+      held.climb = handlers.invert?.() ? -pitch : pitch
+      // (the pitch-up keys walk forward: W pitches the nose up, and walks on)
+      held.walk = pitch
       held.throttle = Math.sign(count('faster') - count('slower'))
       held.boost = count('boost') > 0 ? 1 : 0
       held.land = count('land') > 0

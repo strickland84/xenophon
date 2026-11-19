@@ -186,19 +186,19 @@ ring), `view.steerY`. Later, an option for **relative mouse** through the browse
 movement pushes the stick and it springs back to the middle, as in Elite and War Thunder. That is the best mouse flight
 there is for a fighter, and a browser can do it.
 
-### 2. Control presets, chosen on the first flight (high value, small effort)
+### 2. One flight layout, Elite's (high value, small effort)
 
-Add presets to Settings and ask once, before the first sortie, with a picture of each:
+James, 2026-11-19: "I dont want legacy controls - I want one, right way to do it. Mirroring elite dangerous. I
+specifically mean flight controls." So no presets: the flight controls become Elite's, as one layout. W/S throttle, the
+mouse pitches and turns, A/D turn (or roll, once there is a roll axis), X all stop; on foot WASD as now. Old saves'
+default layouts move over in `readBindings`, as before.
 
-- **Xenophon** (today's): W/S pitch, A/D turn, E/Q throttle.
-- **Space sim**: W/S throttle, A/D turn, the mouse pitches and turns; E and Q free (later, a true roll axis).
+**Done first, the same day** ("just make UP CLIMBS the default"): the mouse and a stick climb when moved up, as Elite's
+mouse does unless inverted; "Up dives" is the setting's other choice. The pitch keys are named by what they do (Up climbs,
+W and the up arrow; Down dives, S and the down arrow) and the setting no longer turns them over (`keyboard.ts invert`).
 
-On foot both are WASD. This keeps James's layout as the game's own and still meets players who arrive from Elite or Star
-Citizen. My recommendation is to show "Space sim" first, since it is what most players will expect, but that is the
-maintainer's choice.
-
-Touches `input/bindings.ts` (a `PRESETS` table beside `DEFAULT_BINDINGS`), `SettingsScreen.svelte`, the onboarding,
-the save. `readBindings` already migrates layouts.
+Touches `input/bindings.ts DEFAULT_BINDINGS`, `SettingsScreen.svelte`, `hints.ts`, the first sortie's lines (and the
+narrator's, read again).
 
 ### 3. Hold means commit, and shows it (high value, small effort)
 

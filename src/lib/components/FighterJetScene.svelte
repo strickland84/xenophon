@@ -325,6 +325,8 @@
 
     const keys = (keyboard = createKeyboardInput({
       bindings: untrack(() => bindings),
+      // (the pitch keys climb and dive as named: the scene's turning over is for the mouse and a stick)
+      invert: () => params.invertY,
       ignore: typingElsewhere,
       onActivity: padLetGo,
       onChange: sendControls,
