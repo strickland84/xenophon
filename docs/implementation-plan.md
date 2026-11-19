@@ -1883,7 +1883,7 @@ Built in Phase 9 (`lib/tutorial/`, `TutorialPrompt.svelte`, after `art/mockups/t
   his home system's space, the first sortie ahead of him.
 - **The first sortie** (`tutorial/tutorial.ts`), one short prompt at a time in a small box under the top
   row, each teaching one control on the device in use (keys and mouse as bound, a controller's buttons,
-  the touch buttons), each waiting for him to do it: **launch** (Use held), **steer** to the capital world
+  the touch buttons), each waiting for him to do it: **launch** (Use held), **look**, **throttle** (closed, then opened again: its keys, the wheel, a controller's right stick; added 2026-11-19, James: "the intro sortie/tutorial needs to explain Q and E and throttle up and down controls"), **steer** to the capital world
   (the course's arrow is set for him), **descend** (Use held over it), **dive** low (the dive control;
   under 90 px, where the laser reaches and the ore is scooped), **target** (three training drones put
   up ahead, one of them picked with the target key: T, D-pad left, the touch Target button; added 2026-11-19, James: "we

@@ -34,6 +34,12 @@ const LINES: Record<StepId, Record<Voice, string>> = {
     pad: 'Press the Y button to change your view. Once to see the ship from behind, again for the cockpit, and once more to go back to the view from above.',
     any: 'Press your view key to change your view. Once to see the ship from behind, again for the cockpit, and once more to go back to the view from above.',
   },
+  throttle: {
+    keys: 'The throttle sets your speed. Hold Q to close it and slow right down, then hold E to open it up again. The mouse wheel moves it too, and the third bar at the bottom left shows how open it is.',
+    ps: 'The throttle sets your speed. Pull the right stick back to close it and slow right down, then push it up to open it again. The third bar at the bottom left shows how open it is.',
+    pad: 'The throttle sets your speed. Pull the right stick back to close it and slow right down, then push it up to open it again. The third bar at the bottom left shows how open it is.',
+    any: 'The throttle sets your speed. Close it with your throttle keys to slow right down, then open it up again. The third bar at the bottom left shows how open it is.',
+  },
   steer: {
     keys: "The arrow on screen points at your side's home world. Steer with the mouse, or A and D, and fly until you're over it. E opens the throttle and Q closes it.",
     ps: "The arrow on screen points at your side's home world. Steer with the left stick, and fly until you're over it. The right stick sets the throttle.",
@@ -120,6 +126,7 @@ const NAMED: Record<StepId, Bindable[]> = {
   power: ['power'],
   launch: ['use'],
   look: ['view'],
+  throttle: ['faster', 'slower'],
   steer: ['left', 'right', 'faster', 'slower'],
   descend: ['use'],
   dive: ['up'],

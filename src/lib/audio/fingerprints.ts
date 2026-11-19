@@ -507,5 +507,9 @@ export const FINGERPRINTS: Record<string, string> = {
   'audio/voice/sortie-target-keys.ogg': 'e7aae2de96',
   'audio/voice/sortie-target-pad.ogg': '07cc723371',
   'audio/voice/sortie-target-ps.ogg': '3bf503662b',
+  'audio/voice/sortie-throttle-any.ogg': '5268915160',
+  'audio/voice/sortie-throttle-keys.ogg': '9e1ceccdb8',
+  'audio/voice/sortie-throttle-pad.ogg': 'f0dba011f3',
+  'audio/voice/sortie-throttle-ps.ogg': '8013a9a84c',
   'audio/voice/title.ogg': 'a176188391',
 }
