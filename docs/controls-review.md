@@ -198,8 +198,8 @@ mouse does unless inverted; "Up dives" is the setting's other choice. The pitch 
 W and the up arrow; Down dives, S and the down arrow) and the setting no longer turns them over (`keyboard.ts invert`).
 
 **Built the same day** (James: "yes build it to mirror elite dangerous control scheme"): W/S throttle and walk, X all
-stop, A/D turn, the arrows pitch and turn, Tab boost (Shift too, to run on foot), J the cruise drive, I the hold, F9 a
-clip; the mouse a stick in every view but overhead (suggestion 1, below, with its ring). The plan's section 16,
+stop, A/D turn, the arrows pitch and turn, Tab boost (Shift too, to run on foot), J the cruise drive (back on C the
+same day: James, "cruise was better as C"), I the hold, F9 a clip; the mouse a stick in every view but overhead (suggestion 1, below, with its ring). The plan's section 16,
 "Controls", has the table. Not done: a true roll axis (Space is still the dodge roll, the plan's decision 2), relative
 mouse, the controller left as it was.
 

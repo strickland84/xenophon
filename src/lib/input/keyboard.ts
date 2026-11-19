@@ -1,6 +1,6 @@
 // The keyboard, by default Elite Dangerous's flight keys (bindings.ts): W and S move the throttle and walk forward and back,
 // X is all stop, A and D (or the left and right arrows) turn, the up and down arrows pitch the nose up and down (whatever the
-// setting that turns over the mouse and a stick), Tab opens the thrusters (Shift too, which runs on foot), J the cruise
+// setting that turns over the mouse and a stick), Tab opens the thrusters (Shift too, which runs on foot), C the cruise
 // drive, Alt and Ctrl the vertical thrusters (up and down), Q and E the lateral (left and right), Space rolls, F lands, boards or uses, V changes the view, M the map, I the hold, Enter chat, Escape the menu, and H
 // the hangar; the player can bind them otherwise (the settings). Keys are known by KeyboardEvent.code, so they sit in the
 // same place on any layout. (The mouse's buttons fire: see pointer.ts.)

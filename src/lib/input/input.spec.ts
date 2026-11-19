@@ -33,7 +33,7 @@ describe('the keyboard', () => {
       KeyV: 'view',
       KeyM: 'map',
       KeyI: 'inventory',
-      KeyJ: 'cruise',
+      KeyC: 'cruise',
       KeyX: 'stop',
       F9: 'clip',
       Enter: 'chat',
@@ -124,6 +124,10 @@ describe('devices together', () => {
     expect(own.faster).toEqual(['KeyI'])
     expect(own.inventory).toEqual([])
     expect(own.slower).toEqual(['KeyS'])
+  })
+  it('a save with the cruise drive on J, as given, has it on C again; one with C given elsewhere keeps J', () => {
+    expect(readBindings({ keys: { cruise: ['KeyJ'] } }).keys.cruise).toEqual(['KeyC'])
+    expect(readBindings({ keys: { cruise: ['KeyJ'], map: ['KeyC'] } }).keys.cruise).toEqual(['KeyJ'])
   })
   it('Alt and Ctrl are the vertical thrusters, up and down, and a save from before them gets them unless his keys have them', () => {
     expect([HOLD_KEYS.AltLeft, HOLD_KEYS.ControlLeft]).toEqual(['thrustUp', 'thrustDown'])

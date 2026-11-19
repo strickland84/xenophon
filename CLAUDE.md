@@ -132,8 +132,8 @@ tools/voxel/brand.py`; tries in `art/brand/`); the favicon is `mark-32.png`, the
   arrow, `down` S and the down arrow) and never turned over by the setting (`keyboard.ts invert`); old default layouts
   renamed by `readBindings`. **Then Elite Dangerous's flight layout** (James: "build it to mirror elite dangerous control
   scheme"): W/S the throttle (and walking), X all stop (`stop`, a page action: `setThrottle(0)`), A/D turn, the arrows
-  pitch and turn, Tab the boost and Shift too (it runs on foot: `hints.ts runKey`), J the cruise drive (`params.cruiseKey`
-  names it on the HUD), I the hold, F9 a clip, K and L guns and missile from the keys. The mouse from behind and the seat
+  pitch and turn, Tab the boost and Shift too (it runs on foot: `hints.ts runKey`), C the cruise drive (it was J for a day: James, "cruise was better as C"; a save with it on J has it on C again,
+  `readBindings`; `params.cruiseKey` names it on the HUD), I the hold, F9 a clip, K and L guns and missile from the keys. The mouse from behind and the seat
   is a stick everywhere (in space its height was an aimed nose with an edge band: now a rate, `FLIGHT3D span`, `curve`),
   its middle drawn as a dotted ring with a line out to the pointer (`MOUSE_STICK` in `data/hulls.ts`, `render/hud.ts`;
   `npx jiti tools/mouse-stick.ts out.png`). Old saves' untouched keys move over (`bindings.ts BEFORE_ELITE`). The
@@ -146,8 +146,12 @@ up, down, left and right, from behind`. They move the ship and the height it hol
   does (`landing.ts sinking`, `LAND.sunk`). **Q and E thrust sideways** (`strafeLeft`, `strafeRight`;
   `HeldControls.strafe`, `ctl.keyStrafe`, `flight.sideV`), the nose not turning. **The mouse ring can be hidden**
   (Settings, Mouse ring: `settings.mouseRing`, `params.mouseRing`). The first sortie's steer step teaches the mouse as a
-  stick, J and Tab; its dive step the down arrow or Ctrl; its land step Ctrl all the way down (the box and the narrator,
+  stick, C and Tab; its dive step the down arrow or Ctrl; its land step Ctrl all the way down (the box and the narrator,
   all read again).
+- **2026-11-19, a full screen button** (James: "a fullscreen button in the top menu after the sound effects button …
+  simulate F11"): `FullscreenButton.svelte`, beside `SoundButton` in FighterJetScene's top row, puts the whole page full
+  screen (`requestFullscreen`) and back (or Esc); hidden where the browser cannot. Its icon is the model's
+  (`icon-fullscreen-2`, `uv run tools/voxel/interface.py --fullscreen`).
 - **2026-11-19, the link's picture** (James: "make a nice opengraph image for xenophon.me"). `static/brand/og.png`,
   1200 × 630: its own sky with the suns at the edges (`uv run tools/gen/brand.py og-sky`, try 5 picked in
   `tools/voxel/brand.py PICKS`), the shield over the wordmark, and two lines in the game's pixel font (`words`, `og`);
