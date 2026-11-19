@@ -1,0 +1,16 @@
+name: An idea
+description: Something that would make the game better or more fun
+labels: [idea]
+body:
+  - type: textarea
+    id: idea
+    attributes:
+      label: The idea
+      description: What you would like to see, and what it would be like to play.
+    validations:
+      required: true
+  - type: textarea
+    id: why
+    attributes:
+      label: Why
+      description: What is missing or not fun now.

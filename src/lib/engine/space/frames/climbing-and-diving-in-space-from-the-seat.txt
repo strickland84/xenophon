@@ -1,0 +1,43 @@
+4d94f229
+43377a45
+a45c6b0e
+b0111149
+96bf7978
+8b4f2fd6
+8131dbe8
+200258f7
+b1996b9e
+629297b1
+83eea43d
+529d1a71
+5c4d4713
+pulled back: 232 over the plane
+c2e060f9
+592bda67
+9e0690ac
+12437d50
+425bc48e
+b3357284
+0cd33cd3
+495ff0bc
+2d7df0ae
+fc265d62
+c21d32e7
+492d21e9
+8d535c32
+33cf75b3
+pushed: 118 over the plane
+4cc85303
+c692f732
+631ccc05
+0ac1455b
+06dfb883
+1abd7fa1
+86c5f386
+b7524ac3
+baab418d
+7628d07e
+f99ab064
+964aa65c
+737e24cb
+throttle 0, speed 0

@@ -1,0 +1,219 @@
+The sampler files (tools/audio/samplers.py). Nobody has heard them. Each number is the sound's take as the
+game plays it; the sampler page (/sounds, in the game's site) has every other take of each beside it.
+
+1-combat.mp3: A fight, as the game mixes it (combat), then each sound alone
+  1  cannon, take 2: cannon, one shot
+  2  cannon, take 3: cannon, one shot
+  3  cannon, take 4: cannon, one shot
+  4  flak, take 1: flak pod, one burst
+  5  flak, take 4: flak pod, one burst
+  6  laser_pulse, take 2: mining laser fired at a ship
+  7  laser_pulse, take 4: mining laser fired at a ship
+  8  hit_hull, take 1: a hit on the hull
+  9  hit_hull, take 3: a hit on the hull
+ 10  hit_hull, take 4: a hit on the hull
+ 11  hit_shield, take 1: a hit on the shield
+ 12  hit_shield, take 3: a hit on the shield
+ 13  shield_down, take 1: shield gives out
+ 14  shield_up, take 3: shield recharging
+ 15  lock_tick, take 4: missile lock building, one beep
+ 16  locked, take 2: missile lock made
+ 17  lock_tone, take 2: missile locked, steady tone
+ 18  no_lock, take 3: missile refused: nothing locked
+ 19  missile_launch, take 2: missile launched
+ 20  missile_warning, take 3: missile coming, one beep
+ 21  dodged, take 3: missile shaken off by a roll
+ 22  mine_drop, take 3: mine dropped
+ 23  overheat, take 4: guns jammed from heat
+ 24  explosion_small, take 1: small explosion (a missile, a mine)
+ 25  explosion_small, take 3: small explosion (a missile, a mine)
+ 26  explosion_large, take 2: large explosion (a ship)
+ 27  explosion_large, take 3: large explosion (a ship)
+ 28  kill, take 1: an enemy shot down
+ 29  ambush, take 3: raiders coming
+ 30  alarm_hull, take 1: hull nearly gone
+ 31  over, take 3: the last ship lost
+
+2-flying.mp3: Flying, as the game mixes it (flying, engines), then each sound alone
+ 32  drive_light_idle, take 7: light drive, idle
+ 33  drive_light_thrust, take 3: light drive, thrust
+ 34  drive_light_boost, take 3: light drive, boost
+ 35  drive_medium_idle, take 7: medium drive, idle
+ 36  drive_medium_thrust, take 7: medium drive, thrust
+ 37  drive_medium_boost, take 3: medium drive, boost
+ 38  drive_heavy_idle, take 7: heavy drive, idle
+ 39  drive_heavy_thrust, take 8: heavy drive, thrust
+ 40  drive_heavy_boost, take 3: heavy drive, boost
+ 41  power_up, take 8: a drive powering up
+ 42  power_down, take 7: a drive powering down
+ 43  lift, take 3: take-off
+ 44  brake, take 3: braking to land
+ 45  land, take 1: landing: the legs take the weight
+ 46  bank, take 2: the hold banked
+ 47  thunder, take 1: lightning
+ 48  thunder, take 2: lightning
+ 49  burn, take 1: lava (or acid) burning the hull
+ 50  burn, take 2: lava (or acid) burning the hull
+ 51  breakout, take 4: climbing out of the air into space
+ 52  entry, take 2: plunging into a world's air
+ 53  spool, take 2: cruise drive spooling
+ 54  cruise_punch, take 4: cruise drive engages
+ 55  cruise_drive, take 2: the cruise drive running
+ 56  charge, take 2: a gate charging round the ship
+ 57  jump, take 1: out of a gate in another system
+ 58  dock, take 2: docking at a station
+ 59  blackhole, take 1: near a black hole
+ 60  mining_laser, take 1: mining laser cutting ore
+ 61  chunk, take 3: a chunk of ore cracks off
+ 62  chunk, take 4: a chunk of ore cracks off
+ 63  chunk, take 7: a chunk of ore cracks off
+ 64  scoop, take 1: ore scooped into the hold
+ 65  scoop, take 2: ore scooped into the hold
+ 66  hold_full, take 2: the hold is full
+ 67  crate, take 2: a crate opened and taken
+ 68  pickup, take 2: a new ship: systems online
+
+3-on-foot.mp3: On foot, as the game mixes it (on-foot), then each sound alone
+ 69  eject, take 3: ejection seat fires
+ 70  down_parachute, take 2: coming down: a Solari's parachute opens
+ 71  down_wingsuit, take 2: coming down: a Kestrin spreads his wingsuit
+ 72  down_rotor, take 3: coming down: an Orrin's rotor spins up
+ 73  down_shell, take 2: coming down: a Skarn curls in his shell
+ 74  down_cloak, take 2: coming down: a Noctil opens his wing-cloak
+ 75  down_cap, take 1: coming down: a Thallin's cap opens
+ 76  touchdown, take 1: down on the ground after ejecting
+ 77  step_soft, take 1: footstep on grass and earth
+ 78  step_soft, take 2: footstep on grass and earth
+ 79  step_soft, take 4: footstep on grass and earth
+ 80  step_soft, take 8: footstep on grass and earth
+ 81  step_sand, take 1: footstep on sand
+ 82  step_sand, take 3: footstep on sand
+ 83  step_sand, take 5: footstep on sand
+ 84  step_sand, take 8: footstep on sand
+ 85  step_rock, take 1: footstep on rock and gravel
+ 86  step_rock, take 3: footstep on rock and gravel
+ 87  step_rock, take 5: footstep on rock and gravel
+ 88  step_rock, take 6: footstep on rock and gravel
+ 89  step_snow, take 1: footstep in snow
+ 90  step_snow, take 5: footstep in snow
+ 91  step_snow, take 6: footstep in snow
+ 92  step_snow, take 7: footstep in snow
+ 93  step_metal, take 1: footstep on a metal deck
+ 94  step_metal, take 3: footstep on a metal deck
+ 95  step_metal, take 6: footstep on a metal deck
+ 96  step_metal, take 7: footstep on a metal deck
+ 97  wade, take 2: a step through shallow water
+ 98  wade, take 3: a step through shallow water
+ 99  wade, take 4: a step through shallow water
+100  dive, take 1: diving to the side
+101  blaster, take 1: sidearm, one shot
+102  blaster, take 3: sidearm, one shot
+103  cutter, take 3: hand cutter cutting a vein
+104  flare, take 1: a flare goes up
+105  beacon, take 2: a beacon planted
+106  call, take 3: a ship called on the radio
+107  climb_out, take 4: canopy opens, climbing out
+108  climb_in, take 4: climbing in, canopy shuts
+109  die, take 2: killed on foot
+
+4-interface.mp3: The interface, as the game mixes it (interface), then each sound alone
+110  ui_open, take 4: a panel opens
+111  ui_close, take 3: a panel closes
+112  ui_move, take 4: the focus moves
+113  ui_select, take 3: a button pressed
+114  ui_confirm, take 3: confirmed
+115  ui_error, take 2: refused
+116  buy, take 1: something bought
+
+5-music.mp3: The music, as the game mixes it (music), then each sound alone
+117  music title, take 3: the title (the middle 30 s)
+118  music calm, take 3: a calm world (the middle 30 s)
+119  music calm, take 4: a calm world (the middle 30 s)
+120  music harsh, take 5: a harsh world (the middle 30 s)
+121  music harsh, take 6: a harsh world (the middle 30 s)
+122  music space, take 1: space (the middle 30 s)
+123  music space, take 2: space (the middle 30 s)
+124  music combat, take 3: a fight (the middle 30 s)
+125  music combat, take 4: a fight (the middle 30 s)
+126  music hangar, take 4: the hangar and the station (the middle 30 s)
+127  music map, take 3: the map (the middle 30 s)
+
+6-narrator.mp3: The narrator (tools/gen/narrate.py), every line he reads, in order
+   1  title (2.11 s, seed 7): Xenophon: Twin Stars.
+   2  intro-0 (4.55 s, seed 7): Between a gold sun and a red one lie forty worlds.
+   3  intro-1 (8.24 s, seed 7): The war for the forty worlds has flared again. Nomarchy and Anarchoi squadrons are fighting over Drassel, in the core, for the third time this year.
+   4  intro-2 (11.92 s, seed 7): Both sides pay well for ore, and raiders have learned that a ship shot down over open ground spills its hold for anyone to pick up. Ore is nobody's until it is banked at a friendly base.
+   5  intro-3 (7.92 s, seed 7): A world goes to the side with the most flags on its outpost mast, and both sides are short of pilots.
+   6  intro-4 (5.59 s, seed 7): The Nomarchy has opened its hangars on the Meridian Ring to anyone who will sign its register.
+   7  intro-5 (4.53 s, seed 7): The Anarchoi are handing out ships on the Raft to anyone who turns up.
+   8  intro-6 (4.8 s, seed 7): At the dock, a new pilot sits in a cold ship, waiting for clearance to launch...
+   9  sortie-power-keys (7.36 s, seed 7): Your ship is docked at the station with its power off. Press P to power up. The screens take a couple of seconds to come on.
+  10  sortie-power-ps (8.0 s, seed 7): Your ship is docked at the station with its power off. Press down on the d-pad to power up. The screens take a couple of seconds to come on.
+  11  sortie-power-pad (7.84 s, seed 7): Your ship is docked at the station with its power off. Press down on the d-pad to power up. The screens take a couple of seconds to come on.
+  12  sortie-power-touch (8.08 s, seed 7): Your ship is docked at the station with its power off. Tap the Power button to power up. The screens take a couple of seconds to come on.
+  13  sortie-power-any (9.76 s, seed 7): Your ship is docked at the station with its power off. Press the power key shown in the box at the top. The screens take a couple of seconds to come on.
+  14  sortie-launch-keys (6.72 s, seed 7): Now hold F to launch. F is your action key. It launches, lands, docks, and takes you down to worlds.
+  15  sortie-launch-ps (7.65 s, seed 7): Now hold Circle to launch. Circle is your action button. It launches, lands, docks, and takes you down to worlds.
+  16  sortie-launch-pad (7.07 s, seed 7): Now hold B to launch. B is your action button. It launches, lands, docks, and takes you down to worlds.
+  17  sortie-launch-touch (6.53 s, seed 7): Now hold the Action button to launch. Action launches, lands, docks, and takes you down to worlds.
+  18  sortie-launch-any (5.49 s, seed 7): Now hold your action key to launch. It launches, lands, docks, and takes you down to worlds.
+  19  sortie-look-keys (9.09 s, seed 7): Press V to change your view. Once to see the ship from behind, again for the cockpit, and once more to go back to the view from above.
+  20  sortie-look-ps (8.05 s, seed 7): Press Triangle to change your view. Once to see the ship from behind, again for the cockpit, and once more to go back to the view from above.
+  21  sortie-look-pad (8.89 s, seed 7): Press the Y button to change your view. Once to see the ship from behind, again for the cockpit, and once more to go back to the view from above.
+  22  sortie-look-touch (9.75 s, seed 7): Tap More, then View, to change your view. Once to see the ship from behind, again for the cockpit, and once more to go back to the view from above.
+  23  sortie-look-any (9.49 s, seed 7): Press your view key to change your view. Once to see the ship from behind, again for the cockpit, and once more to go back to the view from above.
+  24  sortie-steer-keys (11.12 s, seed 7): The arrow on screen points at your side's home world. Steer with the mouse, or A and D, and fly until you're over it. E opens the throttle and Q closes it.
+  25  sortie-steer-ps (8.41 s, seed 7): The arrow on screen points at your side's home world. Steer with the left stick, and fly until you're over it. The right stick sets the throttle.
+  26  sortie-steer-pad (8.43 s, seed 7): The arrow on screen points at your side's home world. Steer with the left stick, and fly until you're over it. The right stick sets the throttle.
+  27  sortie-steer-touch (6.56 s, seed 7): The arrow on screen points at your side's home world. Drag a finger to steer, and fly until you're over it.
+  28  sortie-steer-any (5.76 s, seed 7): The arrow on screen points at your side's home world. Steer towards it, and fly until you're over it.
+  29  sortie-descend-keys (6.16 s, seed 7): You're over the world now. Hold F to put the nose down, and keep diving through its air until you're flying over the ground.
+  30  sortie-descend-ps (6.8 s, seed 7): You're over the world now. Hold Circle to put the nose down, and keep diving through its air until you're flying over the ground.
+  31  sortie-descend-pad (6.96 s, seed 7): You're over the world now. Hold B to put the nose down, and keep diving through its air until you're flying over the ground.
+  32  sortie-descend-touch (6.64 s, seed 7): You're over the world now. Hold Action to put the nose down, and keep diving through its air until you're flying over the ground.
+  33  sortie-descend-any (8.08 s, seed 7): You're over the world now. Hold your action key to put the nose down, and keep diving through its air until you're flying over the ground.
+  34  sortie-dive-keys (6.27 s, seed 7): Hold S to dive. You can only mine and land close to the ground, so get your height under ninety.
+  35  sortie-dive-ps (7.09 s, seed 7): Push the left stick up to dive. You can only mine and land close to the ground, so get your height under ninety.
+  36  sortie-dive-pad (7.28 s, seed 7): Push the left stick up to dive. You can only mine and land close to the ground, so get your height under ninety.
+  37  sortie-dive-touch (6.67 s, seed 7): Hold the Dive button. You can only mine and land close to the ground, so get your height under ninety.
+  38  sortie-dive-any (4.91 s, seed 7): Dive. You can only mine and land close to the ground, so get your height under ninety.
+  39  sortie-drones-keys (6.47 s, seed 7): Three training drones are up ahead. They don't shoot back. Click to fire your guns, and shoot all three down.
+  40  sortie-drones-ps (6.21 s, seed 7): Three training drones are up ahead. They don't shoot back. Hold R2 to fire your guns, and shoot all three down.
+  41  sortie-drones-pad (6.87 s, seed 7): Three training drones are up ahead. They don't shoot back. Hold the right trigger to fire your guns, and shoot all three down.
+  42  sortie-drones-touch (6.79 s, seed 7): Three training drones are up ahead. They don't shoot back. Hold Fire to fire your guns, and shoot all three down.
+  43  sortie-drones-any (5.73 s, seed 7): Three training drones are up ahead. They don't shoot back. Fire your guns, and shoot all three down.
+  44  sortie-mine-keys (9.91 s, seed 7): The marked rock is ore. Fly low over it and hold R to cut it with your mining laser. Then fly through the chunks that break off, and they're scooped into your hold.
+  45  sortie-mine-ps (9.92 s, seed 7): The marked rock is ore. Fly low over it and hold L1 to cut it with your mining laser. Then fly through the chunks that break off, and they're scooped into your hold.
+  46  sortie-mine-pad (11.01 s, seed 7): The marked rock is ore. Fly low over it and hold the left bumper to cut it with your mining laser. Then fly through the chunks that break off, and they're scooped into your hold.
+  47  sortie-mine-touch (10.15 s, seed 7): The marked rock is ore. Fly low over it and hold Mine to cut it with your mining laser. Then fly through the chunks that break off, and they're scooped into your hold.
+  48  sortie-mine-any (10.08 s, seed 7): The marked rock is ore. Fly low over it and hold your mining key to cut it with the laser. Then fly through the chunks that break off, and they're scooped into your hold.
+  49  sortie-land-keys (7.44 s, seed 7): Now land. Fly to the pad shown on screen and hold F, low over it. Any flat ground will do as well.
+  50  sortie-land-ps (8.48 s, seed 7): Now land. Fly to the pad shown on screen and hold Circle, low over it. Any flat ground will do as well.
+  51  sortie-land-pad (6.64 s, seed 7): Now land. Fly to the pad shown on screen and hold B, low over it. Any flat ground will do as well.
+  52  sortie-land-touch (7.76 s, seed 7): Now land. Fly to the pad shown on screen and hold Action, low over it. Any flat ground will do as well.
+  53  sortie-land-any (8.32 s, seed 7): Now land. Fly to the pad shown on screen and hold your action key, low over it. Any flat ground will do as well.
+  54  sortie-out-keys (6.16 s, seed 7): Tap F to climb out of your ship. On foot, you walk with W, A, S and D.
+  55  sortie-out-ps (4.56 s, seed 7): Tap Circle to climb out of your ship. On foot, you walk with the left stick.
+  56  sortie-out-pad (4.72 s, seed 7): Tap B to climb out of your ship. On foot, you walk with the left stick.
+  57  sortie-out-touch (4.0 s, seed 7): Tap Action to climb out of your ship. On foot, drag a finger to walk.
+  58  sortie-out-any (2.32 s, seed 7): Tap your action key to climb out of your ship.
+  59  sortie-beacon-keys (5.68 s, seed 7): Press V to plant a beacon, and pick a message for it. Pilots who land here later will read it.
+  60  sortie-beacon-ps (6.16 s, seed 7): Press Triangle to plant a beacon, and pick a message for it. Pilots who land here later will read it.
+  61  sortie-beacon-pad (5.68 s, seed 7): Press Y to plant a beacon, and pick a message for it. Pilots who land here later will read it.
+  62  sortie-beacon-touch (5.84 s, seed 7): Tap Beacon to plant a beacon, and pick a message for it. Pilots who land here later will read it.
+  63  sortie-beacon-any (5.6 s, seed 7): Plant a beacon with your view key, and pick a message for it. Pilots who land here later will read it.
+  64  sortie-board-keys (2.72 s, seed 7): Walk back to your ship and press F to climb in.
+  65  sortie-board-ps (3.2 s, seed 7): Walk back to your ship and press Circle to climb in.
+  66  sortie-board-pad (2.96 s, seed 7): Walk back to your ship and press B to climb in.
+  67  sortie-board-touch (3.53 s, seed 7): Walk back to your ship and tap Action to climb in.
+  68  sortie-board-any (2.96 s, seed 7): Walk back to your ship and press your action key to climb in.
+  69  sortie-bank-keys (15.04 s, seed 7): Ore in your hold isn't yours until it's banked. If you're shot down, it spills on the ground for anyone to take. Hold F to take off, follow the home marker to one of your side's bases, and land on its pad. That banks your ore as credits.
+  70  sortie-bank-ps (14.63 s, seed 7): Ore in your hold isn't yours until it's banked. If you're shot down, it spills on the ground for anyone to take. Hold Circle to take off, follow the home marker to one of your side's bases, and land on its pad. That banks your ore as credits.
+  71  sortie-bank-pad (15.33 s, seed 7): Ore in your hold isn't yours until it's banked. If you're shot down, it spills on the ground for anyone to take. Hold B to take off, follow the home marker to one of your side's bases, and land on its pad. That banks your ore as credits.
+  72  sortie-bank-touch (14.21 s, seed 7): Ore in your hold isn't yours until it's banked. If you're shot down, it spills on the ground for anyone to take. Hold Action to take off, follow the home marker to one of your side's bases, and land on its pad. That banks your ore as credits.
+  73  sortie-bank-any (15.33 s, seed 7): Ore in your hold isn't yours until it's banked. If you're shot down, it spills on the ground for anyone to take. Take off, follow the home marker to one of your side's bases, and land on its pad. That banks your ore as credits.
+  74  sortie-free-keys (10.53 s, seed 7): That's the end of the training flight. Press M for the map. The marked worlds have the richest ore today. Spend your credits at any of your side's bases, on better parts and ships.
+  75  sortie-free-ps (11.01 s, seed 7): That's the end of the training flight. Press the touchpad for the map. The marked worlds have the richest ore today. Spend your credits at any of your side's bases, on better parts and ships.
+  76  sortie-free-pad (9.85 s, seed 7): That's the end of the training flight. Press Back for the map. The marked worlds have the richest ore today. Spend your credits at any of your side's bases, on better parts and ships.
+  77  sortie-free-touch (10.83 s, seed 7): That's the end of the training flight. Tap More, then Map, for the map. The marked worlds have the richest ore today. Spend your credits at any of your side's bases, on better parts and ships.
+  78  sortie-free-any (9.69 s, seed 7): That's the end of the training flight. Open the map: the marked worlds have the richest ore today. Spend your credits at any of your side's bases, on better parts and ships.

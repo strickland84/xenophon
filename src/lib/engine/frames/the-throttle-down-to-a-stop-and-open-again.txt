@@ -1,0 +1,52 @@
+d5a1d509
+5058139a
+f5ef5e90
+01eca447
+9e429f8f
+6a7ef210
+c472218e
+a4ddbcf2
+eb64cd60
+f44e7e27
+5ec36f23
+9d740032
+cb636aa7
+67c60ac8
+5ad344e3
+53e721ee
+stopped: throttle 0, speed 0, moved 0.00
+2a4dac9b
+295e9989
+fd18623b
+b4389c16
+2489269f
+d3fdad8e
+climbed in place 27, moved 0.00
+04122372
+fe811667
+1d5f1add
+1736d82a
+five notches: throttle 0.50
+c9e561ae
+93078c9a
+b9a5c170
+bfeb47be
+912c170b
+2e166f72
+937089d7
+c91c6c6c
+c0f7566e
+518868d5
+c067a220
+5f6e42ed
+4e4eda6a
+97b911b5
+50a76269
+e5bd1f84
+cf0bf5c0
+5ba23287
+ca491a19
+a3e4f0b0
+thrusters from a stop: throttle 0, speed 164
+49c76cae
+8c7345ca

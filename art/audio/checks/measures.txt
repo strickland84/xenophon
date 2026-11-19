@@ -1,0 +1,460 @@
+Every take, measured (tools/audio/pack.py). * the game's. None of it has been listened to.
+loud: K-weighted loudness (an effect's loudest 400 ms, a loop's mean, music's louder half); peak dBFS of the file;
+clip: share of the model's raw samples at full scale; lead/tail: silence at the ends; flat: 0 tones … 0.56 white noise;
+centre: spectral centroid; bangs: separate bangs in a shot; steady: a loop's wander (spread/mean); seam: a loop's join;
+drop: a loop's quietest 50 ms under its median;
+swing: music's loudest moments over its median; gaps: seconds of near-silence inside it; high: its share above 4 kHz.
+hum (the engines): centre to the ear; body: loudness from 150 Hz to 1 kHz; hiss: 2-8 kHz over <500 Hz; noise: how like
+noise band by band (0 tones ... 0.6+ a rumble or wind); whine: a narrow peak above 800 Hz over its neighbours; wander: loudness spread.
+
+  sfx/drive_light_idle_1    12.00s  loud  -15.9  peak  -1.0  clip  0.00%  lead     0ms  tail     0ms  flat 0.00  centre    89Hz steady 0.12 seam 0.2dB drop 6dB hum: centre 186Hz body -5dB hiss -50dB noise 0.43 whine 0dB@0 wander 0.6dB  
+  sfx/drive_light_idle_2    12.00s  loud  -16.6  peak  -1.0  clip  0.00%  lead     1ms  tail     0ms  flat 0.00  centre    77Hz steady 0.24 seam 1.4dB drop 9dB hum: centre 134Hz body -14dB hiss -52dB noise 0.52 whine 0dB@0 wander 1.7dB  rushing wanders
+  sfx/drive_light_idle_3    12.00s  loud  -16.3  peak  -1.0  clip  0.00%  lead     0ms  tail     0ms  flat 0.00  centre    74Hz steady 0.23 seam 2.0dB drop 8dB hum: centre 172Hz body -10dB hiss -56dB noise 0.22 whine 0dB@0 wander 1.5dB  
+  sfx/drive_light_idle_4    12.00s  loud  -15.4  peak  -1.0  clip  0.00%  lead     0ms  tail     0ms  flat 0.00  centre    69Hz steady 0.21 seam 3.9dB drop 8dB hum: centre 143Hz body -14dB hiss -56dB noise 0.20 whine 0dB@0 wander 1.1dB  
+  sfx/drive_light_idle_5    12.00s  loud  -16.8  peak  -1.0  clip  0.00%  lead     0ms  tail     0ms  flat 0.00  centre    73Hz steady 0.20 seam 0.9dB drop 8dB hum: centre 140Hz body -13dB hiss -52dB noise 0.51 whine 7dB@1314 wander 0.9dB  rushing
+  sfx/drive_light_idle_6    12.00s  loud  -17.2  peak  -1.0  clip  0.00%  lead     0ms  tail     0ms  flat 0.00  centre    70Hz steady 0.20 seam 1.6dB drop 7dB hum: centre 126Hz body -16dB hiss -53dB noise 0.34 whine 0dB@0 wander 1.3dB  
+* sfx/drive_light_idle_7    12.00s  loud  -14.1  peak  -1.0  clip  0.00%  lead     0ms  tail     0ms  flat 0.00  centre    85Hz steady 0.09 seam 1.8dB drop 4dB hum: centre 219Hz body -6dB hiss -52dB noise 0.36 whine 0dB@0 wander 0.4dB  
+  sfx/drive_light_idle_8    12.00s  loud  -16.3  peak  -1.0  clip  0.00%  lead     0ms  tail     0ms  flat 0.00  centre    75Hz steady 0.18 seam 3.0dB drop 10dB hum: centre 137Hz body -14dB hiss -52dB noise 0.38 whine 0dB@0 wander 0.9dB  
+  sfx/drive_light_thrust_1    12.00s  loud  -14.6  peak  -1.0  clip  0.00%  lead     0ms  tail     0ms  flat 0.00  centre   115Hz steady 0.18 seam 5.3dB drop 7dB hum: centre 169Hz body -4dB hiss -56dB noise 0.38 whine 0dB@0 wander 1.0dB  
+  sfx/drive_light_thrust_2    12.00s  loud  -15.7  peak  -1.0  clip  0.00%  lead     0ms  tail     0ms  flat 0.00  centre    98Hz steady 0.20 seam 7.6dB drop 6dB hum: centre 174Hz body -7dB hiss -56dB noise 0.22 whine 0dB@0 wander 1.1dB  seam
+* sfx/drive_light_thrust_3    12.00s  loud  -13.5  peak  -1.0  clip  0.00%  lead     0ms  tail     0ms  flat 0.00  centre   100Hz steady 0.18 seam 0.1dB drop 8dB hum: centre 189Hz body -7dB hiss -56dB noise 0.24 whine 0dB@0 wander 0.8dB  
+  sfx/drive_light_thrust_4    12.00s  loud  -14.2  peak  -1.0  clip  0.00%  lead     0ms  tail     0ms  flat 0.00  centre    88Hz steady 0.25 seam 5.2dB drop 7dB hum: centre 177Hz body -9dB hiss -57dB noise 0.24 whine 0dB@0 wander 1.3dB  unsteady
+  sfx/drive_light_thrust_5    12.00s  loud  -14.8  peak  -1.0  clip  0.00%  lead     0ms  tail     0ms  flat 0.00  centre    79Hz steady 0.22 seam 5.2dB drop 8dB hum: centre 140Hz body -14dB hiss -56dB noise 0.23 whine 0dB@0 wander 1.0dB  
+  sfx/drive_light_thrust_6    12.00s  loud  -16.9  peak  -1.0  clip  0.00%  lead     0ms  tail     0ms  flat 0.00  centre    82Hz steady 0.24 seam 2.4dB drop 6dB hum: centre 126Hz body -12dB hiss -56dB noise 0.20 whine 0dB@0 wander 1.5dB  wanders
+  sfx/drive_light_thrust_7    12.00s  loud  -15.1  peak  -1.0  clip  0.00%  lead     0ms  tail     0ms  flat 0.00  centre    88Hz steady 0.10 seam 0.5dB drop 4dB hum: centre 202Hz body -5dB hiss -50dB noise 0.45 whine 0dB@0 wander 0.7dB  
+  sfx/drive_light_thrust_8    12.00s  loud  -15.8  peak  -1.0  clip  0.00%  lead     0ms  tail     0ms  flat 0.00  centre    75Hz steady 0.32 seam 0.4dB drop 7dB hum: centre 91Hz body -31dB hiss -56dB noise 0.63 whine 0dB@0 wander 2.1dB  unsteady rushing wanders
+  sfx/drive_medium_idle_1    12.00s  loud  -14.7  peak  -1.0  clip  0.00%  lead     0ms  tail     0ms  flat 0.00  centre    61Hz steady 0.17 seam 0.1dB drop 9dB hum: centre 115Hz body -22dB hiss -55dB noise 0.34 whine 0dB@0 wander 0.9dB  
+  sfx/drive_medium_idle_2    12.00s  loud  -15.2  peak  -1.0  clip  0.00%  lead     0ms  tail     0ms  flat 0.00  centre    52Hz steady 0.22 seam 4.5dB drop 7dB hum: centre 140Hz body -16dB hiss -56dB noise 0.69 whine 0dB@0 wander 0.9dB  rushing
+  sfx/drive_medium_idle_3    12.00s  loud  -15.4  peak  -1.0  clip  0.00%  lead     0ms  tail     0ms  flat 0.00  centre    58Hz steady 0.22 seam 3.7dB drop 8dB hum: centre 109Hz body -22dB hiss -55dB noise 0.50 whine 0dB@0 wander 1.5dB  rushing wanders
+  sfx/drive_medium_idle_4    12.00s  loud  -13.1  peak  -1.0  clip  0.00%  lead     0ms  tail     0ms  flat 0.00  centre    61Hz steady 0.11 seam 0.3dB drop 6dB hum: centre 89Hz body -30dB hiss -56dB noise 0.50 whine 0dB@0 wander 0.9dB  
+  sfx/drive_medium_idle_5    12.00s  loud  -15.1  peak  -1.0  clip  0.00%  lead     0ms  tail     0ms  flat 0.00  centre    64Hz steady 0.22 seam 4.1dB drop 7dB hum: centre 109Hz body -19dB hiss -57dB noise 0.41 whine 0dB@0 wander 1.1dB  
+  sfx/drive_medium_idle_6    12.00s  loud  -13.9  peak  -1.0  clip  0.00%  lead     0ms  tail     0ms  flat 0.00  centre    61Hz steady 0.23 seam 0.8dB drop 5dB hum: centre 81Hz body -36dB hiss -56dB noise 0.68 whine 0dB@0 wander 1.9dB  rushing wanders
+* sfx/drive_medium_idle_7    12.00s  loud  -15.8  peak  -1.0  clip  0.00%  lead     0ms  tail     0ms  flat 0.00  centre    86Hz steady 0.19 seam 0.4dB drop 7dB hum: centre 225Hz body -6dB hiss -54dB noise 0.49 whine 0dB@0 wander 1.0dB  
+  sfx/drive_medium_idle_8    12.00s  loud  -14.6  peak  -1.0  clip  0.00%  lead     0ms  tail     0ms  flat 0.00  centre    66Hz steady 0.21 seam 1.4dB drop 8dB hum: centre 82Hz body -36dB hiss -56dB noise 0.69 whine 0dB@0 wander 1.1dB  rushing
+  sfx/drive_medium_thrust_1    12.00s  loud  -14.9  peak  -1.0  clip  0.00%  lead     0ms  tail     0ms  flat 0.00  centre    97Hz steady 0.12 seam 1.1dB drop 5dB hum: centre 190Hz body -6dB hiss -56dB noise 0.45 whine 0dB@0 wander 0.6dB  
+  sfx/drive_medium_thrust_2    12.00s  loud  -11.6  peak  -1.0  clip  0.00%  lead     0ms  tail     0ms  flat 0.00  centre    68Hz steady 0.21 seam 0.3dB drop 10dB hum: centre 121Hz body -16dB hiss -56dB noise 0.51 whine 0dB@0 wander 1.5dB  rushing
+  sfx/drive_medium_thrust_3    12.00s  loud  -12.7  peak  -1.0  clip  0.00%  lead     0ms  tail     0ms  flat 0.00  centre    83Hz steady 0.22 seam 0.9dB drop 9dB hum: centre 186Hz body -8dB hiss -56dB noise 0.23 whine 0dB@0 wander 1.3dB  
+  sfx/drive_medium_thrust_4    12.00s  loud  -14.6  peak  -1.0  clip  0.00%  lead     0ms  tail     0ms  flat 0.00  centre    77Hz steady 0.12 seam 2.4dB drop 6dB hum: centre 144Hz body -13dB hiss -56dB noise 0.23 whine 0dB@0 wander 0.5dB  
+  sfx/drive_medium_thrust_5    12.00s  loud  -11.3  peak  -1.0  clip  0.00%  lead     0ms  tail     0ms  flat 0.00  centre    66Hz steady 0.17 seam 0.3dB drop 8dB hum: centre 78Hz body -31dB hiss -57dB noise 0.55 whine 0dB@0 wander 0.9dB  rushing
+  sfx/drive_medium_thrust_6    12.00s  loud  -12.6  peak  -1.0  clip  0.00%  lead     0ms  tail     0ms  flat 0.00  centre    66Hz steady 0.27 seam 1.7dB drop 12dB hum: centre 75Hz body -38dB hiss -57dB noise 0.73 whine 0dB@0 wander 1.2dB  unsteady dropout rushing
+* sfx/drive_medium_thrust_7    12.00s  loud  -14.6  peak  -1.0  clip  0.00%  lead     0ms  tail     0ms  flat 0.00  centre   152Hz steady 0.08 seam 2.8dB drop 3dB hum: centre 220Hz body -2dB hiss -52dB noise 0.49 whine 0dB@0 wander 0.6dB  
+  sfx/drive_medium_thrust_8    12.00s  loud  -14.6  peak  -1.0  clip  0.00%  lead     0ms  tail     0ms  flat 0.00  centre    68Hz steady 0.28 seam 1.6dB drop 8dB hum: centre 81Hz body -37dB hiss -57dB noise 0.72 whine 0dB@0 wander 1.6dB  unsteady rushing wanders
+  sfx/drive_heavy_idle_1    12.00s  loud  -15.1  peak  -1.0  clip  0.00%  lead     0ms  tail     0ms  flat 0.00  centre    73Hz steady 0.18 seam 1.3dB drop 10dB hum: centre 243Hz body -14dB hiss -45dB noise 0.64 whine 22dB@1470 wander 1.0dB  dropout whine rushing
+  sfx/drive_heavy_idle_2    12.00s  loud  -13.6  peak  -1.0  clip  0.00%  lead     0ms  tail     0ms  flat 0.00  centre    73Hz steady 0.20 seam 4.0dB drop 7dB hum: centre 672Hz body -17dB hiss -52dB noise 0.45 whine 33dB@1184 wander 0.8dB  whine
+  sfx/drive_heavy_idle_3    12.00s  loud  -14.0  peak  -1.0  clip  0.00%  lead     0ms  tail     0ms  flat 0.00  centre    65Hz steady 0.25 seam 6.7dB drop 12dB hum: centre 188Hz body -18dB hiss -54dB noise 0.11 whine 0dB@0 wander 1.4dB  seam dropout
+  sfx/drive_heavy_idle_4    12.00s  loud  -12.8  peak  -1.0  clip  0.00%  lead     0ms  tail     0ms  flat 0.00  centre    69Hz steady 0.12 seam 1.2dB drop 5dB hum: centre 253Hz body -34dB hiss -44dB noise 0.54 whine 22dB@1120 wander 0.5dB  whine rushing
+  sfx/drive_heavy_idle_5    12.00s  loud  -12.8  peak  -1.0  clip  0.00%  lead     0ms  tail     0ms  flat 0.00  centre    72Hz steady 0.15 seam 3.6dB drop 6dB hum: centre 640Hz body -26dB hiss -47dB noise 0.30 whine 26dB@1179 wander 0.8dB  whine
+  sfx/drive_heavy_idle_6    12.00s  loud  -15.9  peak  -1.0  clip  0.00%  lead     0ms  tail     0ms  flat 0.00  centre    64Hz steady 0.21 seam 1.4dB drop 6dB hum: centre 118Hz body -33dB hiss -49dB noise 0.69 whine 15dB@1470 wander 1.5dB  whine rushing
+* sfx/drive_heavy_idle_7    12.00s  loud  -13.5  peak  -1.0  clip  0.00%  lead     0ms  tail     0ms  flat 0.00  centre   182Hz steady 0.13 seam 0.2dB drop 5dB hum: centre 222Hz body -1dB hiss -52dB noise 0.36 whine 0dB@0 wander 0.8dB  
+  sfx/drive_heavy_idle_8    12.00s  loud  -14.9  peak  -1.0  clip  0.00%  lead     0ms  tail     0ms  flat 0.00  centre    68Hz steady 0.23 seam 2.0dB drop 8dB hum: centre 147Hz body -33dB hiss -46dB noise 0.63 whine 19dB@1179 wander 1.0dB  whine rushing
+  sfx/drive_heavy_thrust_1    12.00s  loud  -14.9  peak  -1.0  clip  0.00%  lead     0ms  tail     0ms  flat 0.00  centre   113Hz steady 0.14 seam 0.3dB drop 6dB hum: centre 202Hz body -4dB hiss -55dB noise 0.54 whine 0dB@0 wander 0.8dB  rushing
+  sfx/drive_heavy_thrust_2    12.00s  loud  -15.0  peak  -1.0  clip  0.00%  lead     0ms  tail     0ms  flat 0.00  centre    92Hz steady 0.20 seam 1.4dB drop 8dB hum: centre 198Hz body -6dB hiss -54dB noise 0.65 whine 0dB@0 wander 1.0dB  rushing
+  sfx/drive_heavy_thrust_3    12.00s  loud  -13.7  peak  -1.0  clip  0.00%  lead     0ms  tail     0ms  flat 0.00  centre    95Hz steady 0.15 seam 0.5dB drop 6dB hum: centre 196Hz body -6dB hiss -55dB noise 0.47 whine 0dB@0 wander 0.8dB  
+  sfx/drive_heavy_thrust_4    12.00s  loud  -14.3  peak  -1.0  clip  0.00%  lead     0ms  tail     0ms  flat 0.00  centre    70Hz steady 0.31 seam 3.5dB drop 7dB hum: centre 115Hz body -17dB hiss -57dB noise 0.34 whine 0dB@0 wander 0.7dB  unsteady
+  sfx/drive_heavy_thrust_5    12.00s  loud  -13.0  peak  -1.0  clip  0.00%  lead     0ms  tail     0ms  flat 0.00  centre    66Hz steady 0.18 seam 0.2dB drop 4dB hum: centre 78Hz body -32dB hiss -57dB noise 0.44 whine 0dB@0 wander 1.1dB  
+  sfx/drive_heavy_thrust_6    12.00s  loud  -14.8  peak  -1.0  clip  0.00%  lead     0ms  tail     0ms  flat 0.00  centre    68Hz steady 0.29 seam 2.6dB drop 10dB hum: centre 82Hz body -37dB hiss -57dB noise 0.71 whine 0dB@0 wander 1.8dB  unsteady dropout rushing wanders
+  sfx/drive_heavy_thrust_7    12.00s  loud  -13.2  peak  -1.0  clip  0.00%  lead     0ms  tail     0ms  flat 0.00  centre   176Hz steady 0.12 seam 0.4dB drop 6dB hum: centre 223Hz body -1dB hiss -51dB noise 0.60 whine 0dB@0 wander 1.0dB  rushing
+* sfx/drive_heavy_thrust_8    12.00s  loud  -14.6  peak  -1.0  clip  0.00%  lead     0ms  tail     0ms  flat 0.00  centre    82Hz steady 0.23 seam 1.2dB drop 8dB hum: centre 173Hz body -10dB hiss -55dB noise 0.12 whine 0dB@0 wander 1.1dB  
+  sfx/drive_light_boost_1    12.00s  loud  -14.8  peak  -1.0  clip  0.00%  lead     0ms  tail     0ms  flat 0.00  centre   324Hz steady 0.14 seam 0.8dB drop 5dB hum: centre 767Hz body -1dB hiss -18dB noise 0.62 whine 6dB@3790 wander 0.8dB  
+  sfx/drive_light_boost_2    12.00s  loud  -14.3  peak  -1.0  clip  0.00%  lead     0ms  tail     0ms  flat 0.00  centre  1172Hz steady 0.11 seam 0.4dB drop 3dB hum: centre 1622Hz body -4dB hiss -6dB noise 0.51 whine 8dB@1572 wander 0.9dB  hiss
+  sfx/drive_light_boost_3    12.00s  loud  -15.5  peak  -1.0  clip  0.00%  lead     0ms  tail     0ms  flat 0.00  centre   648Hz steady 0.09 seam 3.6dB drop 3dB hum: centre 1042Hz body -2dB hiss -13dB noise 0.59 whine 7dB@1960 wander 0.8dB  seam
+  sfx/drive_light_boost_4    12.00s  loud  -14.3  peak  -1.0  clip  0.00%  lead     0ms  tail     0ms  flat 0.00  centre  1176Hz steady 0.10 seam 1.6dB drop 3dB hum: centre 1524Hz body -4dB hiss -4dB noise 0.60 whine 5dB@4936 wander 1.0dB  hiss
+  sfx/drive_light_boost_5    12.00s  loud  -14.4  peak  -1.0  clip  0.00%  lead     0ms  tail     0ms  flat 0.00  centre  1168Hz steady 0.14 seam 1.4dB drop 5dB hum: centre 1262Hz body -3dB hiss -9dB noise 0.59 whine 8dB@5340 wander 1.3dB  
+  sfx/drive_light_boost_6    12.00s  loud  -15.3  peak  -1.0  clip  0.00%  lead     0ms  tail     0ms  flat 0.00  centre   459Hz steady 0.14 seam 1.9dB drop 5dB hum: centre 969Hz body -2dB hiss -15dB noise 0.62 whine 8dB@4134 wander 1.0dB  
+  sfx/drive_light_boost_7    12.00s  loud  -14.3  peak  -1.0  clip  0.00%  lead     0ms  tail     0ms  flat 0.00  centre  1174Hz steady 0.10 seam 0.6dB drop 4dB hum: centre 1583Hz body -4dB hiss -6dB noise 0.54 whine 7dB@1626 wander 0.9dB  hiss
+* sfx/drive_light_boost_8    12.00s  loud  -14.6  peak  -1.0  clip  0.00%  lead     0ms  tail     0ms  flat 0.00  centre   706Hz steady 0.14 seam 1.5dB drop 4dB hum: centre 1072Hz body -2dB hiss -12dB noise 0.55 whine 7dB@1567 wander 1.1dB  
+  sfx/drive_medium_boost_1    12.00s  loud  -14.7  peak  -1.0  clip  0.00%  lead     0ms  tail     0ms  flat 0.00  centre   302Hz steady 0.14 seam 2.0dB drop 6dB hum: centre 1114Hz body -2dB hiss -15dB noise 0.64 whine 6dB@5755 wander 0.8dB  
+  sfx/drive_medium_boost_2    12.00s  loud  -16.2  peak  -1.0  clip  0.00%  lead     0ms  tail     0ms  flat 0.00  centre   932Hz steady 0.12 seam 0.4dB drop 4dB hum: centre 1999Hz body -5dB hiss -12dB noise 0.60 whine 9dB@15159 wander 1.3dB  
+* sfx/drive_medium_boost_3    12.00s  loud  -16.1  peak  -1.0  clip  0.00%  lead     0ms  tail     0ms  flat 0.00  centre   170Hz steady 0.12 seam 0.3dB drop 5dB hum: centre 1387Hz body -5dB hiss -17dB noise 0.61 whine 7dB@8786 wander 0.8dB  
+  sfx/drive_medium_boost_4    12.00s  loud  -16.1  peak  -1.0  clip  0.00%  lead     0ms  tail     0ms  flat 0.00  centre   358Hz steady 0.11 seam 1.5dB drop 4dB hum: centre 1657Hz body -4dB hiss -14dB noise 0.63 whine 8dB@13302 wander 1.1dB  
+  sfx/drive_medium_boost_5    12.00s  loud  -17.8  peak  -1.0  clip  0.00%  lead     0ms  tail     0ms  flat 0.00  centre   169Hz steady 0.10 seam 2.4dB drop 3dB hum: centre 1340Hz body -5dB hiss -18dB noise 0.68 whine 7dB@7127 wander 0.6dB  
+  sfx/drive_medium_boost_6    12.00s  loud  -16.3  peak  -1.0  clip  0.00%  lead     0ms  tail     0ms  flat 0.00  centre   281Hz steady 0.17 seam 1.1dB drop 6dB hum: centre 1079Hz body -4dB hiss -17dB noise 0.65 whine 7dB@1992 wander 1.1dB  
+  sfx/drive_medium_boost_7    12.00s  loud  -17.5  peak  -1.0  clip  0.00%  lead     0ms  tail     0ms  flat 0.00  centre   461Hz steady 0.14 seam 0.8dB drop 5dB hum: centre 1885Hz body -4dB hiss -12dB noise 0.65 whine 6dB@9884 wander 1.3dB  hiss
+  sfx/drive_medium_boost_8    12.00s  loud  -16.1  peak  -1.0  clip  0.00%  lead     0ms  tail     0ms  flat 0.00  centre   220Hz steady 0.12 seam 4.9dB drop 5dB hum: centre 817Hz body -4dB hiss -19dB noise 0.61 whine 9dB@2099 wander 0.8dB  seam
+  sfx/drive_heavy_boost_1    12.00s  loud  -16.5  peak  -1.0  clip  0.00%  lead     0ms  tail     0ms  flat 0.00  centre   246Hz steady 0.14 seam 1.0dB drop 4dB hum: centre 508Hz body -1dB hiss -26dB noise 0.64 whine 7dB@1034 wander 0.6dB  
+  sfx/drive_heavy_boost_2    12.00s  loud  -16.2  peak  -1.0  clip  0.00%  lead     0ms  tail     0ms  flat 0.00  centre   228Hz steady 0.16 seam 3.8dB drop 6dB hum: centre 1053Hz body -4dB hiss -19dB noise 0.52 whine 5dB@5340 wander 1.1dB  seam
+* sfx/drive_heavy_boost_3    12.00s  loud  -17.0  peak  -1.0  clip  0.00%  lead     0ms  tail     0ms  flat 0.00  centre   302Hz steady 0.10 seam 0.2dB drop 4dB hum: centre 810Hz body -3dB hiss -21dB noise 0.59 whine 6dB@5168 wander 0.7dB  
+  sfx/drive_heavy_boost_4    12.00s  loud  -15.4  peak  -1.0  clip  0.00%  lead     0ms  tail     0ms  flat 0.00  centre   318Hz steady 0.18 seam 1.3dB drop 6dB hum: centre 1123Hz body -4dB hiss -18dB noise 0.64 whine 8dB@9475 wander 1.1dB  
+  sfx/drive_heavy_boost_5    12.00s  loud  -17.7  peak  -1.0  clip  0.00%  lead     0ms  tail     0ms  flat 0.00  centre   221Hz steady 0.10 seam 0.3dB drop 4dB hum: centre 669Hz body -3dB hiss -28dB noise 0.64 whine 4dB@1550 wander 0.8dB  
+  sfx/drive_heavy_boost_6    12.00s  loud  -16.3  peak  -1.0  clip  0.00%  lead     0ms  tail     0ms  flat 0.00  centre   200Hz steady 0.15 seam 0.1dB drop 5dB hum: centre 781Hz body -5dB hiss -24dB noise 0.66 whine 4dB@4274 wander 0.9dB  
+  sfx/drive_heavy_boost_7    12.00s  loud  -15.4  peak  -1.0  clip  0.00%  lead     0ms  tail     0ms  flat 0.00  centre   405Hz steady 0.13 seam 1.7dB drop 5dB hum: centre 1200Hz body -4dB hiss -17dB noise 0.53 whine 5dB@883 wander 0.8dB  
+  sfx/drive_heavy_boost_8    12.00s  loud  -17.2  peak  -1.0  clip  0.00%  lead     0ms  tail     0ms  flat 0.00  centre   229Hz steady 0.11 seam 0.9dB drop 5dB hum: centre 620Hz body -3dB hiss -25dB noise 0.61 whine 5dB@2756 wander 0.9dB  
+  sfx/power_up_1     3.00s  loud  -12.6  peak  -1.0  clip  0.00%  lead     1ms  tail    57ms  flat 0.00  centre   130Hz  
+  sfx/power_up_2     3.00s  loud  -12.9  peak  -1.0  clip  0.00%  lead     1ms  tail    70ms  flat 0.00  centre   120Hz  
+  sfx/power_up_3     3.00s  loud  -12.5  peak  -1.0  clip  0.00%  lead     2ms  tail    68ms  flat 0.00  centre   117Hz  
+  sfx/power_up_4     3.00s  loud  -11.8  peak  -1.0  clip  0.00%  lead     1ms  tail    57ms  flat 0.00  centre   111Hz  
+  sfx/power_up_5     3.00s  loud  -12.1  peak  -1.0  clip  0.00%  lead     1ms  tail    46ms  flat 0.00  centre   118Hz  
+  sfx/power_up_6     3.00s  loud  -11.9  peak  -1.0  clip  0.00%  lead     1ms  tail    49ms  flat 0.00  centre   134Hz  
+  sfx/power_up_7     3.00s  loud  -12.3  peak  -1.0  clip  0.00%  lead     1ms  tail    49ms  flat 0.00  centre   112Hz  
+* sfx/power_up_8     3.00s  loud  -11.6  peak  -1.0  clip  0.00%  lead     1ms  tail    64ms  flat 0.00  centre   115Hz  
+  sfx/power_down_1     3.00s  loud  -14.0  peak  -1.0  clip  0.00%  lead     0ms  tail    77ms  flat 0.00  centre   128Hz  
+  sfx/power_down_2     3.00s  loud  -12.6  peak  -1.0  clip  0.00%  lead     1ms  tail    64ms  flat 0.00  centre   142Hz  
+  sfx/power_down_3     3.00s  loud  -13.4  peak  -1.0  clip  0.00%  lead     0ms  tail    75ms  flat 0.00  centre   117Hz  
+  sfx/power_down_4     3.00s  loud  -14.1  peak  -1.0  clip  0.00%  lead     0ms  tail    70ms  flat 0.00  centre   104Hz  
+  sfx/power_down_5     3.00s  loud  -13.1  peak  -1.0  clip  0.00%  lead     1ms  tail    75ms  flat 0.00  centre   112Hz  
+  sfx/power_down_6     3.00s  loud  -13.1  peak  -1.0  clip  0.00%  lead     0ms  tail    66ms  flat 0.00  centre   127Hz  
+* sfx/power_down_7     3.00s  loud  -12.3  peak  -1.0  clip  0.00%  lead     0ms  tail    72ms  flat 0.00  centre    95Hz  
+  sfx/power_down_8     3.00s  loud  -13.0  peak  -1.0  clip  0.00%  lead     1ms  tail    84ms  flat 0.00  centre   105Hz  
+  sfx/cruise_drive_1     4.00s  loud  -16.6  peak  -1.0  clip  0.00%  lead     0ms  tail     0ms  flat 0.00  centre    77Hz steady 0.23 seam 1.6dB drop 5dB  
+* sfx/cruise_drive_2     4.00s  loud  -17.1  peak  -1.0  clip  0.00%  lead     0ms  tail     0ms  flat 0.00  centre   109Hz steady 0.14 seam 1.5dB drop 3dB  
+  sfx/cruise_drive_3     4.00s  loud  -17.1  peak  -1.0  clip  0.00%  lead     0ms  tail     0ms  flat 0.00  centre    68Hz steady 0.14 seam 1.0dB drop 6dB  
+  sfx/cannon_1     0.45s  loud  -16.5  peak  -1.0  clip  0.01%  lead     1ms  tail    21ms  flat 0.00  centre   324Hz bangs 2  2 bangs
+* sfx/cannon_2     0.28s  loud  -17.8  peak  -1.0  clip  0.02%  lead     0ms  tail    17ms  flat 0.01  centre   536Hz bangs 1  
+* sfx/cannon_3     0.45s  loud  -15.4  peak  -1.0  clip  0.00%  lead     1ms  tail    26ms  flat 0.01  centre   333Hz bangs 1  
+* sfx/cannon_4     0.40s  loud  -16.2  peak  -1.0  clip  0.01%  lead     1ms  tail    23ms  flat 0.01  centre   396Hz bangs 1  
+* sfx/flak_1     0.40s  loud  -16.6  peak  -1.0  clip  0.02%  lead     1ms  tail    29ms  flat 0.00  centre   360Hz bangs 1  
+  sfx/flak_2     0.40s  loud  -18.5  peak  -1.0  clip  0.06%  lead     1ms  tail    46ms  flat 0.00  centre   311Hz bangs 1  
+  sfx/flak_3     0.80s  loud  -18.6  peak  -1.0  clip  0.09%  lead     1ms  tail    66ms  flat 0.00  centre   449Hz bangs 1  
+* sfx/flak_4     0.80s  loud  -17.8  peak  -1.0  clip  0.01%  lead     0ms  tail    78ms  flat 0.00  centre   202Hz bangs 1  
+  sfx/laser_pulse_1     0.40s  loud  -15.6  peak  -1.0  clip  0.00%  lead     1ms  tail    58ms  flat 0.03  centre  5047Hz bangs 1  
+* sfx/laser_pulse_2     0.40s  loud  -14.7  peak  -1.0  clip  0.00%  lead     1ms  tail    47ms  flat 0.02  centre  4143Hz bangs 1  
+  sfx/laser_pulse_3     0.40s  loud  -16.3  peak  -1.0  clip  0.00%  lead     1ms  tail    45ms  flat 0.03  centre  5497Hz bangs 1  
+* sfx/laser_pulse_4     0.40s  loud  -15.0  peak  -1.0  clip  0.00%  lead     1ms  tail    55ms  flat 0.03  centre  5025Hz bangs 1  
+* sfx/mining_laser_1     3.00s  loud  -11.6  peak  -1.0  clip  0.00%  lead     0ms  tail     0ms  flat 0.03  centre  5967Hz steady 0.07 seam 0.4dB drop 3dB  
+  sfx/mining_laser_2     3.00s  loud  -15.5  peak  -1.0  clip  0.00%  lead     0ms  tail     0ms  flat 0.01  centre  1095Hz steady 0.21 seam 0.1dB drop 6dB  
+  sfx/mining_laser_3     3.00s  loud  -15.8  peak  -1.0  clip  0.00%  lead     0ms  tail     0ms  flat 0.19  centre  6089Hz steady 0.29 seam 0.5dB drop 8dB  unsteady
+  sfx/missile_launch_1     1.80s  loud  -12.3  peak  -1.0  clip  0.00%  lead     0ms  tail   461ms  flat 0.10  centre  3866Hz  
+* sfx/missile_launch_2     1.80s  loud  -11.2  peak  -1.0  clip  0.00%  lead     0ms  tail   382ms  flat 0.04  centre  4133Hz  
+  sfx/missile_launch_3     1.80s  loud  -11.3  peak  -1.0  clip  0.01%  lead     0ms  tail   509ms  flat 0.09  centre  3586Hz  
+  sfx/missile_launch_4     1.80s  loud  -11.5  peak  -1.0  clip  0.00%  lead     0ms  tail   494ms  flat 0.04  centre  3732Hz  
+  sfx/lock_tick_1     0.12s  loud  -28.2  peak  -1.0  clip  0.00%  lead     0ms  tail    91ms  flat 0.25  centre  5755Hz bangs 1  
+  sfx/lock_tick_2     0.12s  loud  -19.9  peak  -1.0  clip  0.00%  lead     0ms  tail     4ms  flat 0.39  centre  8850Hz bangs 1  
+  sfx/lock_tick_3     0.12s  loud  -19.4  peak  -1.0  clip  0.00%  lead     0ms  tail     5ms  flat 0.22  centre  9146Hz bangs 1  
+* sfx/lock_tick_4     0.12s  loud  -11.1  peak  -1.0  clip  0.00%  lead     0ms  tail     2ms  flat 0.01  centre  2671Hz bangs 1  
+  sfx/lock_tone_1     1.50s  loud  -13.0  peak  -1.0  clip  0.00%  lead     0ms  tail     0ms  flat 0.04  centre  2348Hz steady 0.11 seam 1.0dB drop 4dB  
+* sfx/lock_tone_2     1.50s  loud  -10.0  peak  -1.0  clip  0.00%  lead     0ms  tail     0ms  flat 0.05  centre  3782Hz steady 0.09 seam 0.6dB drop 3dB  
+  sfx/lock_tone_3     1.50s  loud  -10.8  peak  -1.0  clip  0.00%  lead     0ms  tail     0ms  flat 0.01  centre  3898Hz steady 0.11 seam 0.4dB drop 3dB  
+  sfx/locked_1     0.25s  loud  -14.7  peak  -1.0  clip  0.00%  lead     0ms  tail     8ms  flat 0.13  centre  6921Hz bangs 1  
+* sfx/locked_2     0.50s  loud  -10.6  peak  -1.0  clip  0.00%  lead     0ms  tail    44ms  flat 0.12  centre  6394Hz bangs 1  
+  sfx/locked_3     0.50s  loud  -11.1  peak  -1.0  clip  0.00%  lead     1ms  tail    12ms  flat 0.10  centre  7986Hz bangs 1  
+  sfx/locked_4     0.50s  loud  -13.1  peak  -1.0  clip  0.00%  lead     1ms  tail   139ms  flat 0.14  centre  7680Hz bangs 1  
+  sfx/no_lock_1     0.40s  loud  -20.0  peak  -1.0  clip  0.00%  lead     0ms  tail    13ms  flat 0.00  centre   198Hz bangs 1  
+  sfx/no_lock_2     0.40s  loud  -15.6  peak  -1.0  clip  0.00%  lead     0ms  tail    14ms  flat 0.00  centre   149Hz bangs 1  
+* sfx/no_lock_3     0.40s  loud  -14.8  peak  -1.0  clip  0.00%  lead     0ms  tail    82ms  flat 0.00  centre   138Hz bangs 1  
+  sfx/no_lock_4     0.40s  loud  -15.2  peak  -1.0  clip  0.00%  lead     1ms  tail    13ms  flat 0.00  centre   121Hz bangs 1  
+  sfx/mine_drop_1     0.80s  loud  -16.3  peak  -1.0  clip  0.00%  lead     0ms  tail   171ms  flat 0.05  centre  2173Hz bangs 1  
+  sfx/mine_drop_2     0.80s  loud  -16.7  peak  -1.0  clip  0.00%  lead     1ms  tail   162ms  flat 0.05  centre  2524Hz bangs 1  
+* sfx/mine_drop_3     0.80s  loud  -15.0  peak  -1.0  clip  0.00%  lead     1ms  tail    81ms  flat 0.09  centre  3374Hz bangs 1  
+  sfx/mine_drop_4     0.80s  loud  -16.1  peak  -1.0  clip  0.00%  lead     1ms  tail   105ms  flat 0.08  centre  2208Hz bangs 1  
+  sfx/overheat_1     1.03s  loud  -13.7  peak  -1.0  clip  0.00%  lead     0ms  tail   116ms  flat 0.03  centre  1121Hz  
+  sfx/overheat_2     1.07s  loud  -13.1  peak  -1.0  clip  0.00%  lead     0ms  tail   152ms  flat 0.05  centre  1738Hz  
+  sfx/overheat_3     1.12s  loud  -13.2  peak  -1.0  clip  0.00%  lead     0ms  tail   118ms  flat 0.04  centre  1602Hz  
+* sfx/overheat_4     1.04s  loud  -12.9  peak  -1.0  clip  0.00%  lead     0ms  tail   119ms  flat 0.06  centre  1610Hz  
+  sfx/dodged_1     0.97s  loud  -15.2  peak  -1.0  clip  0.00%  lead     0ms  tail   186ms  flat 0.01  centre  1088Hz  
+  sfx/dodged_2     1.00s  loud  -14.1  peak  -1.0  clip  0.01%  lead     0ms  tail   158ms  flat 0.01  centre  1113Hz  
+* sfx/dodged_3     0.99s  loud  -13.7  peak  -1.0  clip  0.00%  lead     0ms  tail   132ms  flat 0.01  centre  1244Hz  
+  sfx/dodged_4     0.79s  loud  -14.2  peak  -1.0  clip  0.01%  lead     0ms  tail   111ms  flat 0.01  centre   990Hz  
+* sfx/hit_hull_1     0.35s  loud  -15.7  peak  -1.0  clip  0.00%  lead     0ms  tail    12ms  flat 0.03  centre  1414Hz bangs 1  
+  sfx/hit_hull_2     0.44s  loud  -15.8  peak  -1.0  clip  0.00%  lead     0ms  tail    18ms  flat 0.05  centre  2036Hz bangs 2  2 bangs
+* sfx/hit_hull_3     0.25s  loud  -16.9  peak  -1.0  clip  0.00%  lead     0ms  tail     5ms  flat 0.06  centre  1111Hz bangs 1  
+* sfx/hit_hull_4     0.50s  loud  -15.6  peak  -1.0  clip  0.00%  lead     0ms  tail    22ms  flat 0.03  centre  1418Hz bangs 1  
+* sfx/hit_shield_1     0.50s  loud  -15.6  peak  -1.0  clip  0.00%  lead     1ms  tail    22ms  flat 0.13  centre  8453Hz bangs 1  
+  sfx/hit_shield_2     0.50s  loud  -16.7  peak  -1.0  clip  0.00%  lead     1ms  tail    23ms  flat 0.13  centre  8285Hz bangs 1  
+* sfx/hit_shield_3     0.50s  loud  -14.2  peak  -1.0  clip  0.00%  lead     0ms  tail    16ms  flat 0.10  centre  8086Hz bangs 1  
+  sfx/hit_shield_4     0.50s  loud  -16.5  peak  -1.0  clip  0.00%  lead     0ms  tail    23ms  flat 0.13  centre  8668Hz bangs 1  
+* sfx/shield_down_1     1.08s  loud  -11.6  peak  -1.0  clip  0.00%  lead     1ms  tail    87ms  flat 0.03  centre  3915Hz  
+  sfx/shield_down_2     1.40s  loud  -15.0  peak  -1.0  clip  0.00%  lead     0ms  tail   181ms  flat 0.03  centre  3962Hz  
+  sfx/shield_down_3     1.10s  loud  -13.3  peak  -1.0  clip  0.00%  lead     1ms  tail    61ms  flat 0.03  centre  4593Hz  
+  sfx/shield_down_4     1.40s  loud  -14.7  peak  -1.0  clip  0.00%  lead     1ms  tail   297ms  flat 0.03  centre  4423Hz  
+  sfx/shield_up_1     1.23s  loud  -15.8  peak  -1.0  clip  0.00%  lead    10ms  tail    95ms  flat 0.00  centre   306Hz  
+  sfx/shield_up_2     1.23s  loud  -16.9  peak  -1.0  clip  0.00%  lead    12ms  tail    85ms  flat 0.01  centre  2268Hz  
+* sfx/shield_up_3     1.27s  loud  -13.1  peak  -1.0  clip  0.00%  lead    13ms  tail    89ms  flat 0.00  centre   408Hz  
+  sfx/shield_up_4     1.26s  loud  -17.4  peak  -1.0  clip  0.00%  lead    12ms  tail   118ms  flat 0.00  centre   206Hz  
+* sfx/explosion_small_1     1.60s  loud  -13.6  peak  -1.0  clip  0.00%  lead     0ms  tail   152ms  flat 0.00  centre   392Hz  
+  sfx/explosion_small_2     1.60s  loud  -14.6  peak  -1.0  clip  0.00%  lead     0ms  tail   200ms  flat 0.00  centre   286Hz  
+* sfx/explosion_small_3     1.60s  loud  -13.8  peak  -1.0  clip  0.00%  lead     0ms  tail   202ms  flat 0.00  centre   311Hz  
+  sfx/explosion_small_4     1.60s  loud  -13.8  peak  -1.0  clip  0.00%  lead     0ms  tail   196ms  flat 0.00  centre   422Hz  
+  sfx/explosion_large_1     3.50s  loud  -13.7  peak  -1.0  clip  0.02%  lead     2ms  tail   282ms  flat 0.00  centre   471Hz  
+* sfx/explosion_large_2     3.50s  loud  -12.5  peak  -1.0  clip  0.06%  lead     0ms  tail   225ms  flat 0.00  centre   451Hz  
+* sfx/explosion_large_3     3.50s  loud  -13.0  peak  -1.0  clip  0.00%  lead     1ms  tail   310ms  flat 0.00  centre   458Hz  
+  sfx/explosion_large_4     3.50s  loud  -13.0  peak  -1.0  clip  0.04%  lead     1ms  tail   309ms  flat 0.00  centre   551Hz  
+  sfx/eject_1     1.50s  loud  -16.6  peak  -1.0  clip  0.01%  lead     1ms  tail   159ms  flat 0.00  centre   157Hz  
+  sfx/eject_2     1.50s  loud  -15.1  peak  -1.0  clip  0.03%  lead     0ms  tail   156ms  flat 0.00  centre   224Hz  
+* sfx/eject_3     1.50s  loud  -14.8  peak  -1.0  clip  0.02%  lead     0ms  tail   151ms  flat 0.00  centre   176Hz  
+  sfx/eject_4     1.50s  loud  -16.5  peak  -1.0  clip  0.01%  lead     0ms  tail   154ms  flat 0.00  centre   233Hz  
+  sfx/down_parachute_1     0.81s  loud  -17.9  peak  -1.0  clip  0.00%  lead     0ms  tail    71ms  flat 0.20  centre  6183Hz  
+* sfx/down_parachute_2     0.86s  loud  -13.2  peak  -1.0  clip  0.00%  lead     0ms  tail   157ms  flat 0.14  centre  4586Hz  
+  sfx/down_parachute_3     0.73s  loud  -14.1  peak  -1.0  clip  0.00%  lead     0ms  tail   123ms  flat 0.13  centre  3179Hz  
+  sfx/down_parachute_4     0.68s  loud  -14.5  peak  -1.0  clip  0.00%  lead     0ms  tail   112ms  flat 0.12  centre  4433Hz  
+  sfx/down_wingsuit_1     1.18s  loud  -19.2  peak  -1.0  clip  0.00%  lead    16ms  tail    82ms  flat 0.00  centre   438Hz  
+* sfx/down_wingsuit_2     1.10s  loud  -17.0  peak  -1.0  clip  0.00%  lead    12ms  tail    89ms  flat 0.00  centre   402Hz  
+  sfx/down_wingsuit_3     1.06s  loud  -17.9  peak  -1.0  clip  0.01%  lead    13ms  tail    75ms  flat 0.01  centre   626Hz  
+  sfx/down_wingsuit_4     1.10s  loud  -19.3  peak  -1.0  clip  0.00%  lead    41ms  tail    59ms  flat 0.00  centre   364Hz  
+  sfx/down_rotor_1     1.20s  loud  -19.1  peak  -1.0  clip  0.00%  lead    15ms  tail    46ms  flat 0.03  centre  1076Hz  
+  sfx/down_rotor_2     1.42s  loud  -16.6  peak  -1.0  clip  0.00%  lead    13ms  tail    36ms  flat 0.03  centre  1631Hz  
+* sfx/down_rotor_3     1.30s  loud  -16.2  peak  -1.0  clip  0.00%  lead    13ms  tail    34ms  flat 0.05  centre  2390Hz  
+  sfx/down_rotor_4     1.21s  loud  -21.6  peak  -1.0  clip  0.00%  lead    18ms  tail    52ms  flat 0.09  centre  5178Hz  
+  sfx/down_shell_1     1.04s  loud  -20.3  peak  -1.0  clip  0.00%  lead     1ms  tail    58ms  flat 0.00  centre   654Hz  
+* sfx/down_shell_2     1.34s  loud  -19.6  peak  -1.0  clip  0.00%  lead     1ms  tail    87ms  flat 0.00  centre   846Hz  
+  sfx/down_shell_3     1.38s  loud  -20.3  peak  -1.0  clip  0.00%  lead     1ms  tail   135ms  flat 0.00  centre  1464Hz  
+  sfx/down_shell_4     1.12s  loud  -23.7  peak  -1.0  clip  0.01%  lead     1ms  tail   100ms  flat 0.00  centre  1168Hz  
+  sfx/down_cloak_1     0.99s  loud  -18.2  peak  -1.0  clip  0.00%  lead     0ms  tail   144ms  flat 0.00  centre   198Hz  
+* sfx/down_cloak_2     1.05s  loud  -16.5  peak  -1.0  clip  0.00%  lead     2ms  tail   133ms  flat 0.00  centre   155Hz  
+  sfx/down_cloak_3     1.00s  loud  -17.3  peak  -1.0  clip  0.00%  lead     1ms  tail   123ms  flat 0.00  centre   181Hz  
+  sfx/down_cloak_4     1.02s  loud  -18.2  peak  -1.0  clip  0.00%  lead     1ms  tail   126ms  flat 0.00  centre   170Hz  
+* sfx/down_cap_1     1.18s  loud  -17.3  peak  -1.0  clip  0.00%  lead     0ms  tail   191ms  flat 0.00  centre   334Hz  
+  sfx/down_cap_2     1.16s  loud  -20.5  peak  -1.0  clip  0.00%  lead     2ms  tail   277ms  flat 0.00  centre   559Hz  
+  sfx/down_cap_3     1.09s  loud  -17.8  peak  -1.0  clip  0.00%  lead     0ms  tail   237ms  flat 0.00  centre   593Hz  
+  sfx/down_cap_4     0.92s  loud  -19.5  peak  -1.0  clip  0.00%  lead     0ms  tail   187ms  flat 0.00  centre   566Hz  
+* sfx/touchdown_1     0.80s  loud  -18.1  peak  -1.0  clip  0.00%  lead     0ms  tail    98ms  flat 0.00  centre   356Hz bangs 1  
+  sfx/touchdown_2     0.40s  loud  -18.3  peak  -1.0  clip  0.02%  lead     1ms  tail    31ms  flat 0.00  centre   214Hz bangs 2  2 bangs
+  sfx/touchdown_3     0.40s  loud  -18.0  peak  -1.0  clip  0.00%  lead     1ms  tail    40ms  flat 0.00  centre   209Hz bangs 2  2 bangs
+  sfx/touchdown_4     0.40s  loud  -20.2  peak  -1.0  clip  0.06%  lead     0ms  tail    37ms  flat 0.00  centre   229Hz bangs 2  2 bangs
+  sfx/die_1     1.06s  loud  -18.0  peak  -1.0  clip  0.05%  lead     1ms  tail   175ms  flat 0.00  centre   329Hz  
+* sfx/die_2     0.90s  loud  -17.7  peak  -1.0  clip  0.01%  lead     0ms  tail   106ms  flat 0.00  centre   288Hz  
+  sfx/die_3     0.87s  loud  -18.6  peak  -1.0  clip  0.02%  lead     1ms  tail   120ms  flat 0.00  centre   207Hz  
+  sfx/die_4     0.80s  loud  -18.0  peak  -1.0  clip  0.01%  lead     1ms  tail   104ms  flat 0.00  centre   259Hz  
+  sfx/pickup_1     1.17s  loud  -14.8  peak  -1.0  clip  0.00%  lead     8ms  tail    27ms  flat 0.00  centre   361Hz  
+* sfx/pickup_2     1.21s  loud  -13.5  peak  -1.0  clip  0.00%  lead     6ms  tail    71ms  flat 0.00  centre   743Hz  
+  sfx/pickup_3     1.19s  loud  -15.3  peak  -1.0  clip  0.00%  lead    11ms  tail    35ms  flat 0.00  centre   390Hz  
+  sfx/pickup_4     1.14s  loud  -14.5  peak  -1.0  clip  0.00%  lead    10ms  tail    30ms  flat 0.01  centre   326Hz  
+  sfx/call_1     0.25s  loud  -13.7  peak  -1.0  clip  0.00%  lead     1ms  tail    22ms  flat 0.23  centre  5508Hz bangs 1  
+  sfx/call_2     0.71s  loud  -12.2  peak  -1.0  clip  0.00%  lead     1ms  tail    35ms  flat 0.31  centre  8161Hz bangs 1  
+* sfx/call_3     0.61s  loud  -10.6  peak  -1.0  clip  0.00%  lead     1ms  tail    33ms  flat 0.27  centre  7117Hz bangs 1  
+  sfx/call_4     0.68s  loud  -11.2  peak  -1.0  clip  0.00%  lead     0ms  tail   127ms  flat 0.20  centre  9272Hz bangs 1  
+  sfx/climb_out_1     1.20s  loud  -15.7  peak  -1.0  clip  0.00%  lead     1ms  tail    58ms  flat 0.13  centre  9173Hz  
+  sfx/climb_out_2     0.80s  loud  -13.6  peak  -1.0  clip  0.00%  lead     0ms  tail    68ms  flat 0.14  centre  9477Hz  
+  sfx/climb_out_3     0.75s  loud  -17.1  peak  -1.0  clip  0.00%  lead     0ms  tail    56ms  flat 0.14  centre  9365Hz  
+* sfx/climb_out_4     0.80s  loud  -13.1  peak  -1.0  clip  0.00%  lead     0ms  tail    74ms  flat 0.14  centre  9725Hz  
+  sfx/climb_in_1     1.25s  loud  -16.4  peak  -1.0  clip  0.00%  lead     0ms  tail    66ms  flat 0.03  centre  3242Hz  
+  sfx/climb_in_2     1.05s  loud  -17.7  peak  -1.0  clip  0.00%  lead     1ms  tail    50ms  flat 0.02  centre  3097Hz  
+  sfx/climb_in_3     1.01s  loud  -18.1  peak  -1.0  clip  0.01%  lead     0ms  tail    56ms  flat 0.01  centre  5503Hz  
+* sfx/climb_in_4     1.01s  loud  -16.2  peak  -1.0  clip  0.00%  lead     0ms  tail    62ms  flat 0.07  centre  5764Hz  
+* sfx/step_soft_1     0.35s  loud  -21.8  peak  -1.0  clip  0.00%  lead     1ms  tail    32ms  flat 0.25  centre 10638Hz bangs 1  
+* sfx/step_soft_2     0.17s  loud  -21.8  peak  -1.0  clip  0.00%  lead     1ms  tail    10ms  flat 0.23  centre  7692Hz bangs 1  
+  sfx/step_soft_3     0.35s  loud  -21.8  peak  -1.0  clip  0.00%  lead     1ms  tail    33ms  flat 0.23  centre  9692Hz bangs 1  
+* sfx/step_soft_4     0.35s  loud  -21.3  peak  -1.0  clip  0.00%  lead     1ms  tail    29ms  flat 0.21  centre 10203Hz bangs 1  
+  sfx/step_soft_5     0.17s  loud  -21.9  peak  -1.0  clip  0.00%  lead     1ms  tail    13ms  flat 0.22  centre  8369Hz bangs 1  
+  sfx/step_soft_6     0.17s  loud  -22.1  peak  -1.0  clip  0.00%  lead     0ms  tail    11ms  flat 0.20  centre  8502Hz bangs 1  
+  sfx/step_soft_7     0.35s  loud  -21.9  peak  -1.0  clip  0.00%  lead     1ms  tail    31ms  flat 0.23  centre 10950Hz bangs 1  
+* sfx/step_soft_8     0.17s  loud  -21.7  peak  -1.0  clip  0.00%  lead     1ms  tail    13ms  flat 0.23  centre  7620Hz bangs 1  
+* sfx/step_sand_1     0.35s  loud  -20.5  peak  -1.0  clip  0.00%  lead     1ms  tail    32ms  flat 0.24  centre  9693Hz bangs 1  
+  sfx/step_sand_2     0.35s  loud  -24.5  peak  -1.0  clip  0.00%  lead     1ms  tail    32ms  flat 0.28  centre  9654Hz bangs 1  
+* sfx/step_sand_3     0.35s  loud  -21.4  peak  -1.0  clip  0.00%  lead     1ms  tail    23ms  flat 0.26  centre  9276Hz bangs 1  
+  sfx/step_sand_4     0.17s  loud  -25.2  peak  -1.0  clip  0.00%  lead     1ms  tail    13ms  flat 0.20  centre  6783Hz bangs 1  
+* sfx/step_sand_5     0.35s  loud  -21.5  peak  -1.0  clip  0.00%  lead     1ms  tail    36ms  flat 0.27  centre  9404Hz bangs 1  
+  sfx/step_sand_6     0.17s  loud  -25.3  peak  -1.0  clip  0.00%  lead     1ms  tail     9ms  flat 0.21  centre  6988Hz bangs 1  
+  sfx/step_sand_7     0.17s  loud  -23.3  peak  -1.0  clip  0.00%  lead     1ms  tail    10ms  flat 0.27  centre  6349Hz bangs 1  
+* sfx/step_sand_8     0.35s  loud  -21.9  peak  -1.0  clip  0.00%  lead     1ms  tail    37ms  flat 0.18  centre  7030Hz bangs 1  
+* sfx/step_rock_1     0.17s  loud  -20.5  peak  -1.0  clip  0.00%  lead     1ms  tail     4ms  flat 0.04  centre  1654Hz bangs 1  
+  sfx/step_rock_2     0.35s  loud  -20.3  peak  -1.0  clip  0.00%  lead     1ms  tail    43ms  flat 0.19  centre  5461Hz bangs 2  2 bangs
+* sfx/step_rock_3     0.17s  loud  -23.1  peak  -1.0  clip  0.00%  lead     0ms  tail     8ms  flat 0.04  centre  1829Hz bangs 1  
+  sfx/step_rock_4     0.35s  loud  -19.9  peak  -1.0  clip  0.00%  lead     1ms  tail    38ms  flat 0.11  centre  6693Hz bangs 2  2 bangs
+* sfx/step_rock_5     0.35s  loud  -19.8  peak  -1.0  clip  0.00%  lead     0ms  tail    27ms  flat 0.09  centre  4848Hz bangs 1  
+* sfx/step_rock_6     0.17s  loud  -19.3  peak  -1.0  clip  0.00%  lead     0ms  tail     6ms  flat 0.07  centre  2220Hz bangs 1  
+  sfx/step_rock_7     0.35s  loud  -20.4  peak  -1.0  clip  0.00%  lead     1ms  tail    30ms  flat 0.07  centre  5560Hz bangs 2  2 bangs
+  sfx/step_rock_8     0.35s  loud  -24.2  peak  -1.0  clip  0.00%  lead     0ms  tail    39ms  flat 0.01  centre  2698Hz bangs 1  
+* sfx/step_snow_1     0.20s  loud  -21.1  peak  -1.0  clip  0.00%  lead     0ms  tail    34ms  flat 0.16  centre  1547Hz bangs 1  
+  sfx/step_snow_2     0.40s  loud  -21.5  peak  -1.0  clip  0.00%  lead     0ms  tail    84ms  flat 0.06  centre  3390Hz bangs 2  2 bangs
+  sfx/step_snow_3     0.40s  loud  -24.3  peak  -1.0  clip  0.00%  lead     0ms  tail    28ms  flat 0.12  centre  2785Hz bangs 1  
+  sfx/step_snow_4     0.40s  loud  -25.3  peak  -1.0  clip  0.00%  lead     0ms  tail    32ms  flat 0.11  centre  5838Hz bangs 1  
+* sfx/step_snow_5     0.40s  loud  -21.3  peak  -1.0  clip  0.00%  lead     0ms  tail    63ms  flat 0.09  centre  1793Hz bangs 1  
+* sfx/step_snow_6     0.40s  loud  -23.2  peak  -1.0  clip  0.00%  lead     0ms  tail    61ms  flat 0.14  centre  2163Hz bangs 1  
+* sfx/step_snow_7     0.20s  loud  -21.4  peak  -1.0  clip  0.00%  lead     0ms  tail    26ms  flat 0.07  centre  1027Hz bangs 1  
+  sfx/step_snow_8     0.40s  loud  -23.4  peak  -1.0  clip  0.00%  lead     0ms  tail    70ms  flat 0.06  centre  1670Hz bangs 2  2 bangs
+* sfx/step_metal_1     0.35s  loud  -22.3  peak  -1.0  clip  0.00%  lead     1ms  tail    47ms  flat 0.00  centre   747Hz bangs 1  
+  sfx/step_metal_2     0.35s  loud  -22.8  peak  -1.0  clip  0.00%  lead     1ms  tail    57ms  flat 0.00  centre   696Hz bangs 1  
+* sfx/step_metal_3     0.35s  loud  -21.1  peak  -1.0  clip  0.00%  lead     1ms  tail    48ms  flat 0.00  centre   838Hz bangs 1  
+  sfx/step_metal_4     0.35s  loud  -24.0  peak  -1.0  clip  0.00%  lead     1ms  tail    54ms  flat 0.00  centre   747Hz bangs 1  
+  sfx/step_metal_5     0.35s  loud  -22.6  peak  -1.0  clip  0.00%  lead     1ms  tail    42ms  flat 0.00  centre   724Hz bangs 1  
+* sfx/step_metal_6     0.35s  loud  -22.4  peak  -1.0  clip  0.00%  lead     1ms  tail    52ms  flat 0.00  centre   713Hz bangs 1  
+* sfx/step_metal_7     0.35s  loud  -21.4  peak  -1.0  clip  0.00%  lead     2ms  tail    60ms  flat 0.00  centre   605Hz bangs 1  
+  sfx/step_metal_8     0.35s  loud  -24.6  peak  -1.0  clip  0.01%  lead     1ms  tail    60ms  flat 0.00  centre   655Hz bangs 1  
+  sfx/wade_1     0.25s  loud  -19.2  peak  -1.0  clip  0.00%  lead     1ms  tail    11ms  flat 0.02  centre   793Hz bangs 2  2 bangs
+* sfx/wade_2     0.25s  loud  -19.8  peak  -1.0  clip  0.00%  lead     1ms  tail    10ms  flat 0.03  centre  1062Hz bangs 1  
+* sfx/wade_3     0.25s  loud  -20.2  peak  -1.0  clip  0.00%  lead     1ms  tail    12ms  flat 0.04  centre  1214Hz bangs 1  
+* sfx/wade_4     0.25s  loud  -20.7  peak  -1.0  clip  0.00%  lead     1ms  tail    10ms  flat 0.04  centre   813Hz bangs 1  
+* sfx/dive_1     0.80s  loud  -16.4  peak  -1.0  clip  0.00%  lead     0ms  tail    41ms  flat 0.01  centre   345Hz  
+  sfx/dive_2     0.80s  loud  -16.7  peak  -1.0  clip  0.00%  lead     0ms  tail    54ms  flat 0.01  centre   384Hz  
+  sfx/dive_3     0.80s  loud  -16.7  peak  -1.0  clip  0.00%  lead     0ms  tail    31ms  flat 0.01  centre   473Hz  
+  sfx/dive_4     0.80s  loud  -18.4  peak  -1.0  clip  0.01%  lead     0ms  tail    62ms  flat 0.01  centre   335Hz  
+* sfx/blaster_1     0.50s  loud  -15.6  peak  -1.0  clip  0.00%  lead     1ms  tail    35ms  flat 0.00  centre  1751Hz bangs 1  
+  sfx/blaster_2     0.32s  loud  -16.1  peak  -1.0  clip  0.00%  lead     0ms  tail    18ms  flat 0.00  centre  2153Hz bangs 1  
+* sfx/blaster_3     0.50s  loud  -15.8  peak  -1.0  clip  0.00%  lead     0ms  tail    43ms  flat 0.00  centre  1747Hz bangs 1  
+  sfx/blaster_4     0.36s  loud  -17.0  peak  -1.0  clip  0.00%  lead     0ms  tail    18ms  flat 0.01  centre  1744Hz bangs 1  
+  sfx/cutter_1     3.00s  loud  -11.2  peak  -1.0  clip  0.00%  lead     0ms  tail     0ms  flat 0.14  centre  8550Hz steady 0.08 seam 0.5dB drop 4dB  
+  sfx/cutter_2     3.00s  loud  -12.3  peak  -1.0  clip  0.00%  lead     0ms  tail     0ms  flat 0.11  centre  8097Hz steady 0.12 seam 0.4dB drop 5dB  
+* sfx/cutter_3     3.00s  loud  -13.2  peak  -1.0  clip  0.00%  lead     0ms  tail     0ms  flat 0.12  centre  8461Hz steady 0.08 seam 0.0dB drop 3dB  
+* sfx/flare_1     2.00s  loud  -16.3  peak  -1.0  clip  0.00%  lead     1ms  tail   207ms  flat 0.00  centre   417Hz  
+  sfx/flare_2     2.00s  loud  -17.7  peak  -1.0  clip  0.00%  lead     0ms  tail   134ms  flat 0.00  centre   147Hz  
+  sfx/flare_3     2.00s  loud  -16.9  peak  -1.0  clip  0.00%  lead     1ms  tail   182ms  flat 0.00  centre   371Hz  
+  sfx/flare_4     2.00s  loud  -17.5  peak  -1.0  clip  0.00%  lead     1ms  tail   124ms  flat 0.00  centre   175Hz  
+  sfx/beacon_1     1.12s  loud  -19.4  peak  -1.0  clip  0.00%  lead     0ms  tail   184ms  flat 0.00  centre  6065Hz  
+* sfx/beacon_2     1.25s  loud  -18.6  peak  -1.0  clip  0.00%  lead     0ms  tail   283ms  flat 0.01  centre  7476Hz  
+  sfx/beacon_3     1.30s  loud  -19.7  peak  -1.0  clip  0.00%  lead     0ms  tail   240ms  flat 0.00  centre  7252Hz  
+  sfx/beacon_4     1.21s  loud  -19.8  peak  -1.0  clip  0.00%  lead     0ms  tail   235ms  flat 0.00  centre  7411Hz  
+  sfx/chunk_1     0.25s  loud  -21.9  peak  -1.0  clip  0.00%  lead     1ms  tail    22ms  flat 0.14  centre  5051Hz bangs 2  2 bangs
+  sfx/chunk_2     0.25s  loud  -22.9  peak  -1.0  clip  0.00%  lead     1ms  tail    13ms  flat 0.12  centre  8660Hz bangs 2  2 bangs
+* sfx/chunk_3     0.25s  loud  -22.2  peak  -1.0  clip  0.00%  lead     1ms  tail     9ms  flat 0.13  centre  7005Hz bangs 1  
+* sfx/chunk_4     0.25s  loud  -23.2  peak  -1.0  clip  0.00%  lead     1ms  tail    20ms  flat 0.19  centre  6774Hz bangs 1  
+  sfx/chunk_5     0.25s  loud  -23.3  peak  -1.0  clip  0.00%  lead     1ms  tail    22ms  flat 0.20  centre  6330Hz bangs 3  3 bangs
+  sfx/chunk_6     0.30s  loud  -21.5  peak  -1.0  clip  0.00%  lead     1ms  tail    17ms  flat 0.21  centre  7476Hz bangs 3  3 bangs
+* sfx/chunk_7     0.25s  loud  -20.4  peak  -1.0  clip  0.00%  lead     1ms  tail    20ms  flat 0.15  centre  4553Hz bangs 2  2 bangs
+  sfx/chunk_8     0.30s  loud  -22.4  peak  -1.0  clip  0.00%  lead     0ms  tail    11ms  flat 0.26  centre  8880Hz bangs 3  3 bangs
+* sfx/scoop_1     0.49s  loud  -14.7  peak  -1.0  clip  0.00%  lead     0ms  tail    19ms  flat 0.02  centre  2206Hz bangs 1  
+* sfx/scoop_2     0.25s  loud  -18.5  peak  -1.0  clip  0.00%  lead     0ms  tail     9ms  flat 0.02  centre  2299Hz bangs 1  
+  sfx/scoop_3     0.25s  loud  -20.6  peak  -1.0  clip  0.00%  lead     1ms  tail     7ms  flat 0.02  centre  2026Hz bangs 1  
+  sfx/scoop_4     0.25s  loud  -19.6  peak  -1.0  clip  0.00%  lead     1ms  tail     6ms  flat 0.02  centre  2375Hz bangs 2  2 bangs
+  sfx/hold_full_1     0.34s  loud  -12.1  peak  -1.0  clip  0.00%  lead     0ms  tail    54ms  flat 0.00  centre   102Hz bangs 1  
+* sfx/hold_full_2     0.33s  loud  -10.4  peak  -1.0  clip  0.00%  lead     0ms  tail    34ms  flat 0.00  centre    85Hz bangs 1  
+  sfx/hold_full_3     0.35s  loud  -10.8  peak  -1.0  clip  0.00%  lead     0ms  tail    60ms  flat 0.00  centre    87Hz bangs 1  
+  sfx/hold_full_4     0.50s  loud  -11.2  peak  -1.0  clip  0.00%  lead     2ms  tail    19ms  flat 0.00  centre    73Hz bangs 1  
+  sfx/crate_1     0.98s  loud  -19.2  peak  -1.0  clip  0.00%  lead     1ms  tail   225ms  flat 0.02  centre  1663Hz  
+* sfx/crate_2     1.00s  loud  -15.4  peak  -1.0  clip  0.00%  lead     1ms  tail   225ms  flat 0.02  centre  1694Hz  
+  sfx/crate_3     1.00s  loud  -16.4  peak  -1.0  clip  0.00%  lead     1ms  tail   138ms  flat 0.01  centre  1787Hz  
+  sfx/crate_4     1.00s  loud  -19.5  peak  -1.0  clip  0.00%  lead     1ms  tail   228ms  flat 0.01  centre  2100Hz  
+  sfx/bank_1     1.37s  loud  -14.2  peak  -1.0  clip  0.00%  lead     1ms  tail   277ms  flat 0.05  centre  9592Hz  
+* sfx/bank_2     1.30s  loud   -9.0  peak  -1.0  clip  0.00%  lead     0ms  tail   166ms  flat 0.00  centre  7891Hz  
+  sfx/bank_3     1.40s  loud  -11.5  peak  -1.0  clip  0.00%  lead     1ms  tail   202ms  flat 0.01  centre  8185Hz  
+  sfx/bank_4     1.33s  loud  -14.2  peak  -1.0  clip  0.00%  lead     1ms  tail   232ms  flat 0.01  centre 10391Hz  
+* sfx/buy_1     0.90s  loud  -14.3  peak  -1.0  clip  0.00%  lead     0ms  tail   621ms  flat 0.00  centre   430Hz bangs 1  
+  sfx/buy_2     0.30s  loud  -15.7  peak  -1.0  clip  0.00%  lead     0ms  tail    22ms  flat 0.03  centre  1765Hz bangs 1  
+  sfx/buy_3     0.60s  loud  -17.8  peak  -1.0  clip  0.00%  lead     0ms  tail    48ms  flat 0.00  centre   493Hz bangs 1  
+  sfx/buy_4     0.38s  loud  -18.6  peak  -1.0  clip  0.00%  lead     0ms  tail    69ms  flat 0.02  centre  2292Hz bangs 1  
+  sfx/brake_1     1.02s  loud  -14.4  peak  -1.0  clip  0.00%  lead     0ms  tail   176ms  flat 0.00  centre   410Hz  
+  sfx/brake_2     1.17s  loud  -13.6  peak  -1.0  clip  0.00%  lead     1ms  tail   163ms  flat 0.00  centre   387Hz  
+* sfx/brake_3     1.21s  loud  -13.1  peak  -1.0  clip  0.00%  lead     0ms  tail   202ms  flat 0.00  centre   437Hz  
+  sfx/brake_4     1.24s  loud  -16.1  peak  -1.0  clip  0.00%  lead     1ms  tail   214ms  flat 0.00  centre   278Hz  
+* sfx/land_1     1.40s  loud  -14.9  peak  -1.0  clip  0.00%  lead     1ms  tail    51ms  flat 0.00  centre   265Hz  
+  sfx/land_2     1.28s  loud  -15.5  peak  -1.0  clip  0.00%  lead     0ms  tail   101ms  flat 0.00  centre   286Hz  
+  sfx/land_3     1.40s  loud  -16.4  peak  -1.0  clip  0.00%  lead     1ms  tail    53ms  flat 0.00  centre   299Hz  
+  sfx/land_4     1.40s  loud  -17.8  peak  -1.0  clip  0.00%  lead     1ms  tail    69ms  flat 0.01  centre   959Hz  
+  sfx/lift_1     2.50s  loud  -12.3  peak  -1.0  clip  0.00%  lead    23ms  tail    97ms  flat 0.00  centre   265Hz  
+  sfx/lift_2     2.50s  loud  -13.1  peak  -1.0  clip  0.00%  lead    14ms  tail    92ms  flat 0.00  centre   573Hz  
+* sfx/lift_3     2.50s  loud  -11.9  peak  -1.0  clip  0.00%  lead    19ms  tail    78ms  flat 0.00  centre   280Hz  
+  sfx/lift_4     2.50s  loud  -14.4  peak  -1.0  clip  0.00%  lead    20ms  tail   108ms  flat 0.00  centre   376Hz  
+  sfx/spool_1     1.22s  loud  -10.0  peak  -1.0  clip  0.00%  lead     6ms  tail    33ms  flat 0.00  centre  2275Hz  
+* sfx/spool_2     1.21s  loud   -8.2  peak  -1.0  clip  0.00%  lead     4ms  tail    40ms  flat 0.00  centre  2754Hz  
+  sfx/spool_3     1.20s  loud   -9.3  peak  -1.0  clip  0.00%  lead    21ms  tail    40ms  flat 0.00  centre  2581Hz  
+  sfx/spool_4     0.94s  loud  -10.2  peak  -1.0  clip  0.00%  lead     5ms  tail    25ms  flat 0.00  centre  2336Hz  
+  sfx/cruise_punch_1     2.20s  loud  -13.2  peak  -1.0  clip  0.00%  lead     0ms  tail   286ms  flat 0.00  centre    74Hz  
+  sfx/cruise_punch_2     2.20s  loud  -17.2  peak  -1.0  clip  0.00%  lead     2ms  tail   143ms  flat 0.00  centre   223Hz  
+  sfx/cruise_punch_3     2.20s  loud  -15.5  peak  -1.0  clip  0.00%  lead     0ms  tail   306ms  flat 0.00  centre    74Hz  
+* sfx/cruise_punch_4     2.20s  loud  -11.7  peak  -1.0  clip  0.00%  lead     1ms  tail   106ms  flat 0.00  centre   171Hz  
+  sfx/dock_1     1.80s  loud  -15.5  peak  -1.0  clip  0.00%  lead     0ms  tail    81ms  flat 0.04  centre  1575Hz  
+* sfx/dock_2     1.80s  loud  -14.0  peak  -1.0  clip  0.00%  lead     0ms  tail    92ms  flat 0.00  centre   621Hz  
+  sfx/dock_3     1.80s  loud  -16.4  peak  -1.0  clip  0.00%  lead     0ms  tail    89ms  flat 0.02  centre  1365Hz  
+  sfx/dock_4     1.80s  loud  -17.6  peak  -1.0  clip  0.01%  lead     1ms  tail    79ms  flat 0.03  centre   922Hz  
+  sfx/breakout_1     3.00s  loud  -12.5  peak  -1.0  clip  0.00%  lead    16ms  tail    76ms  flat 0.00  centre   712Hz  
+  sfx/breakout_2     3.00s  loud  -12.4  peak  -1.0  clip  0.00%  lead    21ms  tail   105ms  flat 0.00  centre   517Hz  
+  sfx/breakout_3     3.00s  loud  -12.9  peak  -1.0  clip  0.00%  lead    37ms  tail   108ms  flat 0.00  centre   460Hz  
+* sfx/breakout_4     3.00s  loud  -11.5  peak  -1.0  clip  0.00%  lead    15ms  tail    98ms  flat 0.00  centre   443Hz  
+  sfx/entry_1     3.00s  loud  -13.3  peak  -1.0  clip  0.00%  lead     5ms  tail    83ms  flat 0.00  centre   152Hz  
+* sfx/entry_2     3.00s  loud  -12.6  peak  -1.0  clip  0.00%  lead     3ms  tail    72ms  flat 0.00  centre   180Hz  
+  sfx/entry_3     3.00s  loud  -14.8  peak  -1.0  clip  0.00%  lead     7ms  tail    92ms  flat 0.00  centre    97Hz  
+  sfx/entry_4     3.00s  loud  -13.4  peak  -1.0  clip  0.00%  lead     1ms  tail    78ms  flat 0.00  centre   101Hz  
+  sfx/charge_1     3.20s  loud  -13.5  peak  -1.0  clip  0.00%  lead    23ms  tail   125ms  flat 0.00  centre   429Hz  
+* sfx/charge_2     3.20s  loud  -11.6  peak  -1.0  clip  0.00%  lead    16ms  tail    69ms  flat 0.00  centre   382Hz  
+  sfx/charge_3     3.20s  loud  -13.2  peak  -1.0  clip  0.00%  lead    27ms  tail    69ms  flat 0.00  centre   247Hz  
+  sfx/charge_4     3.20s  loud  -12.7  peak  -1.0  clip  0.01%  lead    53ms  tail    66ms  flat 0.00  centre   130Hz  late start
+* sfx/jump_1     2.20s  loud  -14.8  peak  -1.0  clip  0.00%  lead     1ms  tail   301ms  flat 0.00  centre    96Hz  
+  sfx/jump_2     2.20s  loud  -15.6  peak  -1.0  clip  0.00%  lead     1ms  tail   365ms  flat 0.00  centre   112Hz  
+  sfx/jump_3     2.20s  loud  -15.7  peak  -1.0  clip  0.00%  lead     0ms  tail   335ms  flat 0.00  centre   108Hz  
+  sfx/jump_4     2.20s  loud  -16.3  peak  -1.0  clip  0.00%  lead     1ms  tail   530ms  flat 0.00  centre   173Hz  
+* sfx/air_1     4.00s  loud  -15.2  peak  -1.0  clip  0.00%  lead     0ms  tail     0ms  flat 0.00  centre   268Hz steady 0.12 seam 0.3dB drop 3dB  
+  sfx/air_2     4.00s  loud  -16.0  peak  -1.0  clip  0.01%  lead     0ms  tail     0ms  flat 0.00  centre   233Hz steady 0.10 seam 1.6dB drop 3dB  
+  sfx/air_3     4.00s  loud  -15.8  peak  -1.0  clip  0.00%  lead     0ms  tail     0ms  flat 0.00  centre   338Hz steady 0.12 seam 2.1dB drop 3dB  
+  sfx/air_4     4.00s  loud  -15.0  peak  -1.0  clip  0.00%  lead     0ms  tail     0ms  flat 0.00  centre   319Hz steady 0.10 seam 1.2dB drop 4dB  
+* sfx/blackhole_1     6.00s  loud  -13.8  peak  -1.0  clip  0.00%  lead     0ms  tail     0ms  flat 0.00  centre    79Hz steady 0.17 seam 0.9dB drop 3dB  
+  sfx/blackhole_2     6.00s  loud  -14.2  peak  -1.0  clip  0.00%  lead     0ms  tail     0ms  flat 0.00  centre   100Hz steady 0.20 seam 0.7dB drop 8dB  
+  sfx/blackhole_3     6.00s  loud  -15.1  peak  -1.0  clip  0.00%  lead     0ms  tail     0ms  flat 0.00  centre    98Hz steady 0.17 seam 3.0dB drop 7dB  seam
+* sfx/kill_1     0.60s  loud  -12.1  peak  -1.0  clip  0.00%  lead     1ms  tail    73ms  flat 0.08  centre 12672Hz bangs 2  2 bangs
+  sfx/kill_2     0.30s  loud  -13.5  peak  -1.0  clip  0.00%  lead     1ms  tail    11ms  flat 0.12  centre 11441Hz bangs 2  2 bangs
+  sfx/kill_3     0.30s  loud  -14.1  peak  -1.0  clip  0.00%  lead     1ms  tail    12ms  flat 0.11  centre 12454Hz bangs 2  2 bangs
+  sfx/kill_4     0.30s  loud  -13.7  peak  -1.0  clip  0.00%  lead     1ms  tail    12ms  flat 0.08  centre 12166Hz bangs 2  2 bangs
+  sfx/ambush_1     0.66s  loud  -12.3  peak  -1.0  clip  0.00%  lead     1ms  tail    97ms  flat 0.00  centre   654Hz bangs 1  
+  sfx/ambush_2     0.86s  loud  -12.4  peak  -1.0  clip  0.00%  lead     0ms  tail    87ms  flat 0.00  centre  1967Hz bangs 1  
+* sfx/ambush_3     0.90s  loud  -10.4  peak  -1.0  clip  0.00%  lead     0ms  tail   109ms  flat 0.00  centre   757Hz bangs 1  
+  sfx/ambush_4     0.70s  loud  -14.3  peak  -1.0  clip  0.00%  lead     0ms  tail   100ms  flat 0.00  centre   827Hz bangs 1  
+  sfx/over_1     1.17s  loud  -13.9  peak  -1.0  clip  0.00%  lead     1ms  tail   108ms  flat 0.00  centre   214Hz  
+  sfx/over_2     1.20s  loud  -12.8  peak  -1.0  clip  0.00%  lead     1ms  tail   110ms  flat 0.00  centre   262Hz  
+* sfx/over_3     1.18s  loud  -11.9  peak  -1.0  clip  0.00%  lead     1ms  tail    87ms  flat 0.00  centre   305Hz  
+  sfx/over_4     1.24s  loud  -13.2  peak  -1.0  clip  0.00%  lead     1ms  tail   130ms  flat 0.00  centre   169Hz  
+* sfx/thunder_1     6.00s  loud  -12.9  peak  -1.0  clip  0.03%  lead     0ms  tail   355ms  flat 0.00  centre   277Hz  
+* sfx/thunder_2     6.00s  loud  -12.9  peak  -1.0  clip  0.05%  lead     0ms  tail   389ms  flat 0.00  centre   261Hz  
+  sfx/thunder_3     6.00s  loud  -13.9  peak  -1.0  clip  0.03%  lead     0ms  tail   184ms  flat 0.00  centre   315Hz  
+  sfx/thunder_4     6.00s  loud  -14.5  peak  -1.0  clip  0.01%  lead     0ms  tail   289ms  flat 0.00  centre   286Hz  
+* sfx/burn_1     1.00s  loud  -10.6  peak  -1.0  clip  0.00%  lead     0ms  tail    75ms  flat 0.29  centre  7251Hz  
+* sfx/burn_2     1.00s  loud  -12.2  peak  -1.0  clip  0.00%  lead     1ms  tail   126ms  flat 0.30  centre  7109Hz  
+  sfx/burn_3     1.00s  loud  -13.7  peak  -1.0  clip  0.00%  lead     0ms  tail    73ms  flat 0.21  centre  4274Hz  
+  sfx/burn_4     1.00s  loud  -15.9  peak  -1.0  clip  0.00%  lead     0ms  tail   108ms  flat 0.08  centre  3010Hz  
+* sfx/alarm_hull_1     0.35s  loud  -13.9  peak  -1.0  clip  0.00%  lead     0ms  tail    13ms  flat 0.29  centre  7614Hz bangs 1  
+  sfx/alarm_hull_2     0.35s  loud  -13.9  peak  -1.0  clip  0.00%  lead     1ms  tail    11ms  flat 0.27  centre  5253Hz bangs 2  2 bangs
+  sfx/alarm_hull_3     0.70s  loud  -15.3  peak  -1.0  clip  0.00%  lead     0ms  tail    80ms  flat 0.21  centre  4532Hz bangs 2  2 bangs
+  sfx/alarm_hull_4     0.35s  loud  -14.3  peak  -1.0  clip  0.00%  lead     0ms  tail    11ms  flat 0.30  centre  6373Hz bangs 1  
+  sfx/missile_warning_1     0.16s  loud  -14.9  peak  -1.0  clip  0.00%  lead     0ms  tail    35ms  flat 0.00  centre  3254Hz bangs 1  
+  sfx/missile_warning_2     0.25s  loud  -12.9  peak  -1.0  clip  0.00%  lead     0ms  tail     7ms  flat 0.22  centre 12409Hz bangs 1  
+* sfx/missile_warning_3     0.25s  loud  -12.6  peak  -1.0  clip  0.00%  lead     0ms  tail     6ms  flat 0.09  centre  6976Hz bangs 1  
+  sfx/missile_warning_4     0.25s  loud  -14.0  peak  -1.0  clip  0.00%  lead     0ms  tail     8ms  flat 0.00  centre  3180Hz bangs 1  
+  sfx/ui_open_1     0.40s  loud  -14.8  peak  -1.0  clip  0.00%  lead     0ms  tail     9ms  flat 0.00  centre  1220Hz bangs 1  
+  sfx/ui_open_2     0.40s  loud  -13.9  peak  -1.0  clip  0.00%  lead     0ms  tail     9ms  flat 0.00  centre   850Hz bangs 1  
+  sfx/ui_open_3     0.40s  loud  -14.0  peak  -1.0  clip  0.00%  lead     0ms  tail     8ms  flat 0.00  centre  2001Hz bangs 1  
+* sfx/ui_open_4     0.40s  loud  -13.2  peak  -1.0  clip  0.00%  lead     0ms  tail     8ms  flat 0.00  centre  1741Hz bangs 1  
+  sfx/ui_close_1     0.40s  loud  -14.4  peak  -1.0  clip  0.00%  lead     0ms  tail    13ms  flat 0.00  centre   783Hz bangs 1  
+  sfx/ui_close_2     0.40s  loud  -13.8  peak  -1.0  clip  0.00%  lead     0ms  tail    15ms  flat 0.00  centre   691Hz bangs 1  
+* sfx/ui_close_3     0.40s  loud  -13.0  peak  -1.0  clip  0.00%  lead     0ms  tail    14ms  flat 0.00  centre   678Hz bangs 1  
+  sfx/ui_close_4     0.40s  loud  -16.4  peak  -1.0  clip  0.00%  lead     0ms  tail    19ms  flat 0.00  centre   924Hz bangs 1  
+  sfx/ui_move_1     0.12s  loud  -22.9  peak  -1.0  clip  0.00%  lead     0ms  tail    62ms  flat 0.01  centre  4028Hz bangs 1  
+  sfx/ui_move_2     0.12s  loud  -23.5  peak  -1.0  clip  0.00%  lead     0ms  tail    60ms  flat 0.00  centre  3448Hz bangs 1  
+  sfx/ui_move_3     0.12s  loud  -23.3  peak  -1.0  clip  0.00%  lead     0ms  tail    64ms  flat 0.00  centre  3311Hz bangs 1  
+* sfx/ui_move_4     0.12s  loud  -21.3  peak  -1.0  clip  0.00%  lead     0ms  tail    57ms  flat 0.01  centre  3800Hz bangs 1  
+  sfx/ui_select_1     0.20s  loud  -21.8  peak  -1.0  clip  0.00%  lead     0ms  tail   137ms  flat 0.15  centre 11153Hz bangs 1  
+  sfx/ui_select_2     0.20s  loud  -22.1  peak  -1.0  clip  0.00%  lead     0ms  tail   132ms  flat 0.08  centre  4408Hz bangs 1  
+* sfx/ui_select_3     0.20s  loud  -21.6  peak  -1.0  clip  0.00%  lead     0ms  tail    38ms  flat 0.10  centre  4693Hz bangs 1  
+  sfx/ui_select_4     0.20s  loud  -22.0  peak  -1.0  clip  0.00%  lead     0ms  tail    49ms  flat 0.11  centre 11148Hz bangs 1  
+  sfx/ui_confirm_1     0.41s  loud  -14.7  peak  -1.0  clip  0.00%  lead     0ms  tail    20ms  flat 0.00  centre  1292Hz bangs 2  2 bangs
+  sfx/ui_confirm_2     0.42s  loud  -13.9  peak  -1.0  clip  0.00%  lead     1ms  tail    22ms  flat 0.00  centre  1309Hz bangs 1  
+* sfx/ui_confirm_3     0.50s  loud  -12.8  peak  -1.0  clip  0.00%  lead     0ms  tail    12ms  flat 0.00  centre  1172Hz bangs 1  
+  sfx/ui_confirm_4     0.48s  loud  -15.1  peak  -1.0  clip  0.00%  lead     1ms  tail    24ms  flat 0.00  centre  1550Hz bangs 2  2 bangs
+  sfx/ui_error_1     0.40s  loud  -17.6  peak  -1.0  clip  0.00%  lead     1ms  tail   231ms  flat 0.00  centre   104Hz bangs 1  
+* sfx/ui_error_2     0.17s  loud  -16.4  peak  -1.0  clip  0.00%  lead     1ms  tail    31ms  flat 0.00  centre   121Hz bangs 1  
+  sfx/ui_error_3     0.15s  loud  -17.5  peak  -1.0  clip  0.00%  lead     1ms  tail    27ms  flat 0.00  centre   101Hz bangs 1  
+  sfx/ui_error_4     0.40s  loud  -18.5  peak  -1.0  clip  0.00%  lead     0ms  tail   261ms  flat 0.00  centre    87Hz bangs 1  
+  music/title_1   134.98s  loud  -22.3  peak -12.0  clip  0.00%  lead  1189ms  tail  1909ms  flat 0.00  centre   341Hz swing 7dB gaps 0s high 0.5%  
+* music/title_2   136.22s  loud  -22.9  peak -10.9  clip  0.00%  lead   464ms  tail  1543ms  flat 0.00  centre   248Hz swing 5dB gaps 0s high 0.4%  
+* music/title_3   138.32s  loud  -23.3  peak -12.2  clip  0.00%  lead   362ms  tail  1478ms  flat 0.00  centre   174Hz swing 3dB gaps 0s high 0.2%  
+* music/calm_1   178.56s  loud  -22.4  peak  -8.7  clip  0.00%  lead   287ms  tail  1227ms  flat 0.00  centre   303Hz swing 2dB gaps 0s high 0.0%  
+* music/calm_2   178.38s  loud  -22.7  peak -10.0  clip  0.00%  lead   456ms  tail  1449ms  flat 0.00  centre   234Hz swing 1dB gaps 0s high 0.3%  
+* music/calm_3   178.34s  loud  -22.9  peak  -9.0  clip  0.00%  lead   246ms  tail  1303ms  flat 0.00  centre   204Hz swing 1dB gaps 0s high 0.0%  
+* music/night_1   143.58s  loud  -23.5  peak  -9.0  clip  0.00%  lead  1126ms  tail  1417ms  flat 0.00  centre   164Hz swing 2dB gaps 0s high 0.0%  
+* music/night_2   146.32s  loud  -22.6  peak -10.2  clip  0.00%  lead   394ms  tail  1350ms  flat 0.00  centre   241Hz swing 1dB gaps 0s high 0.0%  
+* music/harsh_1   168.04s  loud  -21.3  peak -11.1  clip  0.00%  lead   342ms  tail  1878ms  flat 0.00  centre   630Hz swing 1dB gaps 0s high 2.3%  
+* music/harsh_2   165.48s  loud  -23.3  peak -12.7  clip  0.00%  lead   227ms  tail   830ms  flat 0.00  centre   198Hz swing 1dB gaps 0s high 0.2%  
+* music/foot_1   154.04s  loud  -23.1  peak -11.2  clip  0.00%  lead   813ms  tail  1348ms  flat 0.00  centre   231Hz swing 1dB gaps 0s high 0.3%  
+* music/foot_2   154.28s  loud  -22.3  peak -10.5  clip  0.00%  lead   284ms  tail  1280ms  flat 0.00  centre   309Hz swing 2dB gaps 0s high 0.1%  
+* music/space_1   177.24s  loud  -23.1  peak -11.2  clip  0.00%  lead  1464ms  tail  1522ms  flat 0.00  centre   181Hz swing 1dB gaps 0s high 0.0%  
+* music/space_2   174.04s  loud  -22.9  peak -12.3  clip  0.00%  lead  1440ms  tail  1976ms  flat 0.00  centre   193Hz swing 5dB gaps 0s high 0.0%  
+* music/space_3   176.00s  loud  -22.4  peak -12.0  clip  0.00%  lead   855ms  tail  1908ms  flat 0.00  centre   287Hz swing 1dB gaps 0s high 0.0%  
+* music/cruise_1   152.22s  loud  -21.5  peak -11.4  clip  0.00%  lead   374ms  tail  1596ms  flat 0.00  centre   550Hz swing 1dB gaps 0s high 4.1%  
+* music/cruise_2   154.82s  loud  -21.4  peak -11.7  clip  0.00%  lead   495ms  tail   457ms  flat 0.00  centre   721Hz swing 1dB gaps 0s high 4.8%  
+* music/hole_1   115.60s  loud  -23.9  peak -11.6  clip  0.00%  lead   435ms  tail  1262ms  flat 0.00  centre   138Hz swing 4dB gaps 0s high 0.2%  
+  music/hole_2   110.30s  loud  -23.1  peak -12.2  clip  0.00%  lead   412ms  tail  2592ms  flat 0.00  centre   193Hz swing 2dB gaps 2s high 0.1%  silent gaps
+* music/hangar_1   153.68s  loud  -22.3  peak -11.5  clip  0.00%  lead   428ms  tail  1036ms  flat 0.00  centre   244Hz swing 1dB gaps 0s high 0.9%  
+* music/hangar_2   153.58s  loud  -22.1  peak -10.7  clip  0.00%  lead   258ms  tail   893ms  flat 0.00  centre   304Hz swing 2dB gaps 0s high 1.5%  
+* music/map_1   114.60s  loud  -22.5  peak  -8.1  clip  0.00%  lead   344ms  tail  1674ms  flat 0.00  centre   209Hz swing 2dB gaps 0s high 0.0%  
+  music/map_2   111.37s  loud  -23.1  peak  -8.8  clip  0.00%  lead   987ms  tail  1481ms  flat 0.00  centre   174Hz swing 2dB gaps 0s high 0.1%  
+* music/alert_1   114.88s  loud  -21.4  peak  -9.0  clip  0.00%  lead   433ms  tail  1360ms  flat 0.00  centre   267Hz swing 2dB gaps 0s high 0.6%  
+* music/alert_2   117.42s  loud  -20.4  peak  -9.8  clip  0.00%  lead   335ms  tail  1830ms  flat 0.00  centre   502Hz swing 1dB gaps 0s high 2.2%  
+* music/combat_1   148.85s  loud  -19.1  peak  -9.5  clip  0.00%  lead   290ms  tail   980ms  flat 0.00  centre   850Hz swing 1dB gaps 0s high 5.9%  
+* music/combat_2   153.82s  loud  -18.5  peak  -8.6  clip  0.00%  lead   302ms  tail  1140ms  flat 0.00  centre  1227Hz swing 1dB gaps 0s high 7.5%  
+* music/combat_3   147.96s  loud  -19.0  peak  -9.0  clip  0.00%  lead   436ms  tail  1314ms  flat 0.00  centre   714Hz swing 2dB gaps 0s high 2.9%  
+* music/peril_1   113.58s  loud  -19.2  peak  -9.0  clip  0.00%  lead   255ms  tail  1463ms  flat 0.00  centre   729Hz swing 1dB gaps 0s high 4.3%  
+* music/peril_2   116.46s  loud  -18.2  peak  -7.7  clip  0.00%  lead   345ms  tail  1382ms  flat 0.00  centre  1472Hz swing 1dB gaps 0s high 13.7%  bright
+* music/win_1     5.86s  loud  -17.2  peak  -6.9  clip  0.00%  lead     3ms  tail   366ms  flat 0.00  centre   718Hz swing 1dB gaps 0s high 3.8%  
+* music/win_2     5.10s  loud  -18.0  peak  -8.3  clip  0.00%  lead     7ms  tail   352ms  flat 0.00  centre   608Hz swing 1dB gaps 0s high 1.8%  
+  music/win_3     5.62s  loud  -17.0  peak  -6.1  clip  0.00%  lead    14ms  tail   311ms  flat 0.00  centre   644Hz swing 1dB gaps 0s high 6.3%  
+  music/lost_1     4.86s  loud  -21.8  peak  -8.8  clip  0.00%  lead    15ms  tail   280ms  flat 0.00  centre    73Hz swing 9dB gaps 0s high 0.0%  
+  music/lost_2     4.60s  loud  -20.2  peak  -7.6  clip  0.00%  lead     4ms  tail   293ms  flat 0.00  centre   151Hz swing 4dB gaps 0s high 0.7%  
+* music/lost_3     5.06s  loud  -21.4  peak -12.5  clip  0.00%  lead    11ms  tail   249ms  flat 0.00  centre    78Hz swing 3dB gaps 0s high 0.0%  
+  music/arrive_1     6.22s  loud  -16.2  peak  -3.3  clip  0.00%  lead     6ms  tail   396ms  flat 0.00  centre  2606Hz swing 8dB gaps 0s high 18.6%  bright
+* music/arrive_2     6.24s  loud  -16.7  peak  -5.6  clip  0.00%  lead     5ms  tail   347ms  flat 0.00  centre  2302Hz swing 8dB gaps 0s high 13.5%  bright
+* music/arrive_3     7.00s  loud  -17.5  peak  -6.0  clip  0.00%  lead     3ms  tail   352ms  flat 0.00  centre  1522Hz swing 3dB gaps 0s high 4.8%  
+  music/taken_1     6.36s  loud  -17.5  peak  -5.9  clip  0.00%  lead    12ms  tail   406ms  flat 0.00  centre   602Hz swing 5dB gaps 0s high 2.9%  
+  music/taken_2     7.20s  loud  -16.8  peak  -6.8  clip  0.00%  lead     4ms  tail   316ms  flat 0.00  centre  1154Hz swing 3dB gaps 0s high 9.3%  
+* music/taken_3     6.82s  loud  -17.5  peak  -5.8  clip  0.00%  lead     3ms  tail   336ms  flat 0.00  centre   519Hz swing 3dB gaps 0s high 2.4%  
+
+Chosen takes with something flagged: 4
+* sfx/chunk_7     0.25s  loud  -20.4  peak  -1.0  clip  0.00%  lead     1ms  tail    20ms  flat 0.15  centre  4553Hz bangs 2  2 bangs
+* sfx/kill_1     0.60s  loud  -12.1  peak  -1.0  clip  0.00%  lead     1ms  tail    73ms  flat 0.08  centre 12672Hz bangs 2  2 bangs
+* music/peril_2   116.46s  loud  -18.2  peak  -7.7  clip  0.00%  lead   345ms  tail  1382ms  flat 0.00  centre  1472Hz swing 1dB gaps 0s high 13.7%  bright
+* music/arrive_2     6.24s  loud  -16.7  peak  -5.6  clip  0.00%  lead     5ms  tail   347ms  flat 0.00  centre  2302Hz swing 8dB gaps 0s high 13.5%  bright

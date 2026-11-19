@@ -1,0 +1,28 @@
+name: Something is broken
+description: A bug, a crash, or something that looks wrong
+labels: [bug]
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened
+      description: What you saw, and what you expected instead. A screenshot helps a lot.
+    validations:
+      required: true
+  - type: textarea
+    id: how
+    attributes:
+      label: How to make it happen
+      description: The steps from the title screen, if you know them.
+  - type: input
+    id: where
+    attributes:
+      label: Browser and device
+      placeholder: e.g. Chrome 140 on Windows, Safari on an iPhone 15
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: The game's version
+      description: Shown in the menu and in Settings.

@@ -1,0 +1,40 @@
+node_modules
+
+# Output
+.output
+.vercel
+.netlify
+.wrangler
+/.svelte-kit
+/build
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Env
+.env
+.env.*
+!.env.example
+!.env.test
+
+# Vite
+vite.config.js.timestamp-*
+vite.config.ts.timestamp-*
+
+# Backup of the original React demo (safe to delete)
+/original-react-demo.tar.gz
+
+# Python caches from the art tools
+__pycache__/
+
+# Audio takes straight from the models and cut to shape (big; tools/gen/sounds.py and music.py make them again)
+/art/audio/raw/
+/art/audio/takes/
+/art/audio/voice/
+
+# The maintainer's own notes for AI sessions (his machine and services)
+CLAUDE.local.md
+
+# Scratch
+.tailnet-preview.config.mjs

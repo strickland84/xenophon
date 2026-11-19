@@ -1,0 +1,534 @@
+@import 'tailwindcss';
+
+/* The game's one pixel font (built from the HUD's glyphs by tools/font/build_font.py). Its em is
+   seven font pixels: set it at 14, 21, 28 … px and every font pixel is 2, 3, 4 … screen pixels. */
+@font-face {
+  font-family: 'Borrowed Pixel';
+  src: url('/fonts/xenophon-pixel.ttf') format('truetype');
+  font-display: block;
+}
+
+@theme {
+  --font-pixel: 'Borrowed Pixel', ui-monospace, monospace;
+  /* the menus' colours: cream ink on night blue, and each side's own */
+  --color-ink: #f4ecd0;
+  --color-ink-dim: #b8b4a4;
+  --color-night: #0b1023;
+  --color-panel: #0b1a33;
+  --color-nomarchy: #f2c14e;
+  --color-nomarchy-card: #131a33;
+  --color-anarchoi: #a46cf0;
+  --color-anarchoi-card: #1a1430;
+  --color-foe: #ff5446;
+  --color-ok: #70e27c;
+  /* the faction accent: the pilot's side's colour (Game.svelte sets it), the Nomarchy's gold until then */
+  --color-accent: var(--accent, #f2c14e);
+
+  /* The type scale, on the font's pixel grid (multiples of 7): nothing a player reads is under 21 px.
+     label: small capitals that name a thing (dim); body: what is read; head: a panel's sections;
+     title: a screen's name; display: the game's name. The settings' Text size raises each a step. */
+  --text-label: 21px;
+  --text-label--line-height: 1;
+  --text-body: 21px;
+  --text-body--line-height: 1.35;
+  --text-head: 28px;
+  --text-head--line-height: 1;
+  --text-title: 42px;
+  --text-title--line-height: 1;
+  --text-display: 70px;
+  --text-display--line-height: 1.1;
+}
+
+/* The menus' text, larger (the settings' Text in the menus): a step or two up the same grid. The touch
+   buttons and the HUD have their own sizes. */
+[data-text='large'] {
+  --text-label: 28px;
+  --text-body: 28px;
+  --text-head: 35px;
+  --text-title: 49px;
+}
+[data-text='larger'] {
+  --text-label: 35px;
+  --text-body: 35px;
+  --text-head: 42px;
+  --text-title: 56px;
+}
+
+/* Motion: quick, light, never in the way. Everything that moves takes its time from here, and the
+   Reduce motion setting (data-motion="less") or the device's own wish turns it down to plain fades. */
+:root {
+  /* The menu arrow's hotspot is the first bright pixel at its tip. */
+  --cursor: url('/ui/cursor-32.png') 4 2, default;
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --t-press: 80ms;
+  --t-quick: 140ms;
+  --t-panel: 200ms;
+  --t-out: 110ms;
+  /* the hard-edged trim along a panel's top: the Nomarchy's double gold rule (the Anarchoi's is hazard stripes) */
+  --trim: linear-gradient(var(--color-accent) 0 2px, transparent 2px 4px, color-mix(in srgb, var(--color-accent) 55%, transparent) 4px 5px);
+  --trim-h: 5px;
+}
+/* (the side's colour, set on the game's page as --accent, taken up there: declared only on the root, the accent was worked
+   out before --accent was set, and stayed the Nomarchy's gold for the Anarchoi) */
+[data-side] {
+  --color-accent: var(--accent, #f2c14e);
+}
+[data-side='anarchoi'] {
+  --trim: repeating-linear-gradient(-45deg, var(--color-accent) 0 6px, #1a1430 6px 12px);
+  --trim-h: 5px;
+}
+
+.pixel-text {
+  font-family: var(--font-pixel);
+  -webkit-font-smoothing: none;
+  font-smooth: never;
+  text-rendering: optimizeSpeed;
+  letter-spacing: 0;
+}
+
+/* (selected text and the caret in the game's colours) */
+::selection {
+  background: var(--color-accent);
+  color: var(--color-night);
+}
+
+@layer components {
+  /* ── text: one class per step of the scale */
+  .ui-label {
+    font-family: var(--font-pixel);
+    font-size: var(--text-label);
+    line-height: 1;
+    color: var(--color-ink-dim);
+    text-transform: uppercase;
+  }
+  .ui-body {
+    font-family: var(--font-pixel);
+    font-size: var(--text-body);
+    line-height: 1.35;
+    color: var(--color-ink);
+    text-transform: uppercase;
+  }
+  .ui-head {
+    font-family: var(--font-pixel);
+    font-size: var(--text-head);
+    line-height: 1;
+    color: var(--color-ink);
+    text-transform: uppercase;
+  }
+  .ui-title {
+    font-family: var(--font-pixel);
+    font-size: var(--text-title);
+    line-height: 1;
+    color: var(--color-ink);
+    text-transform: uppercase;
+  }
+  /* figures that change, kept from jumping about */
+  .ui-num {
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* ── the veil behind a screen over the game, and the panel itself */
+  .ui-veil {
+    position: absolute;
+    inset: 0;
+    z-index: 10;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding: max(8px, env(safe-area-inset-top)) max(8px, env(safe-area-inset-right)) max(8px, env(safe-area-inset-bottom))
+      max(8px, env(safe-area-inset-left));
+    background: rgb(6 10 24 / 0.72);
+    animation: ui-fade var(--t-quick) ease-out both;
+  }
+  /* (beside what it changes: the place left clear, the panel along the right; a narrow screen has no room beside) */
+  @media (min-width: 901px) {
+    .ui-veil-beside {
+      justify-content: flex-end;
+      background: transparent;
+    }
+    /* (its tabs by their words alone: with their icons the third ran off the narrow panel's edge) */
+    .ui-veil-beside .ui-tab {
+      padding: 0 8px;
+    }
+    .ui-veil-beside .ui-tab > img {
+      display: none;
+    }
+  }
+  .ui-panel {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-height: 100%;
+    color: var(--color-ink);
+    background: rgb(11 16 35 / 0.97);
+    border: 2px solid rgb(244 236 208 / 0.28);
+    padding-top: var(--trim-h);
+    user-select: none;
+    animation: ui-deploy var(--t-panel) var(--ease) both;
+  }
+  .ui-panel::before {
+    content: '';
+    position: absolute;
+    inset: 0 0 auto;
+    height: var(--trim-h);
+    background: var(--trim);
+  }
+
+  /* ── buttons: one shape, one set of states */
+  .ui-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: 44px;
+    padding: 0 14px;
+    font-family: var(--font-pixel);
+    font-size: var(--text-body);
+    line-height: 1;
+    color: var(--color-ink);
+    text-transform: uppercase;
+    white-space: nowrap;
+    background: var(--color-night);
+    border: 2px solid rgb(244 236 208 / 0.55);
+    outline: none;
+    cursor: pointer;
+    user-select: none;
+    transition:
+      background-color var(--t-quick) ease-out,
+      color var(--t-quick) ease-out,
+      border-color var(--t-quick) ease-out,
+      transform var(--t-press) ease-out;
+  }
+  .ui-btn:hover {
+    border-color: var(--color-ink);
+    background: rgb(244 236 208 / 0.1);
+  }
+  .ui-btn:focus-visible {
+    border-color: var(--color-ink);
+    box-shadow:
+      0 0 0 2px var(--color-night),
+      0 0 0 4px var(--color-accent);
+  }
+  .ui-btn:active:not(:disabled) {
+    transform: translateY(2px);
+    background: rgb(244 236 208 / 0.2);
+  }
+  .ui-btn:disabled {
+    cursor: var(--cursor);
+    opacity: 0.38;
+    background: var(--color-night);
+    border-color: rgb(244 236 208 / 0.4);
+  }
+  /* chosen: filled with ink (a tab, a choice of several) */
+  .ui-btn.is-on,
+  .ui-btn[aria-pressed='true'] {
+    color: var(--color-night);
+    background: var(--color-ink);
+    border-color: var(--color-ink);
+  }
+  /* the one thing the screen is for: filled with the side's colour */
+  .ui-btn-main {
+    color: var(--color-night);
+    background: var(--color-accent);
+    border-color: var(--color-accent);
+  }
+  .ui-btn-main:hover {
+    background: color-mix(in srgb, var(--color-accent) 82%, white);
+    border-color: color-mix(in srgb, var(--color-accent) 82%, white);
+  }
+  .ui-btn-main:active:not(:disabled) {
+    background: color-mix(in srgb, var(--color-accent) 78%, black);
+  }
+  .ui-btn-main:disabled {
+    color: var(--color-ink);
+  }
+  /* a way out or back, quieter than a button but as large to press */
+  .ui-btn-quiet {
+    background: transparent;
+    border-color: transparent;
+    color: var(--color-ink-dim);
+  }
+  .ui-btn-quiet:hover {
+    color: var(--color-ink);
+    background: rgb(244 236 208 / 0.08);
+    border-color: transparent;
+  }
+  .ui-btn-quiet:disabled {
+    background: transparent;
+    border-color: transparent;
+  }
+  /* a square button with a picture in it (Close, the touch buttons' kind) */
+  .ui-btn-icon {
+    width: 44px;
+    padding: 0;
+  }
+  .ui-btn-small {
+    min-height: 36px;
+    padding: 0 10px;
+  }
+
+  /* ── tabs: a row of words, the chosen one lit and underlined in the side's colour */
+  .ui-tabs {
+    display: flex;
+    gap: 4px;
+    border-bottom: 2px solid rgb(244 236 208 / 0.16);
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .ui-tab {
+    position: relative;
+    display: inline-flex;
+    flex: none;
+    align-items: center;
+    gap: 8px;
+    min-height: 44px;
+    padding: 0 12px;
+    margin-bottom: -2px;
+    font-family: var(--font-pixel);
+    font-size: var(--text-body);
+    line-height: 1;
+    color: var(--color-ink-dim);
+    text-transform: uppercase;
+    background: transparent;
+    border: 0;
+    outline: none;
+    cursor: pointer;
+    transition:
+      color var(--t-quick) ease-out,
+      background-color var(--t-quick) ease-out;
+  }
+  .ui-tab::after {
+    content: '';
+    position: absolute;
+    inset: auto 0 0;
+    height: 3px;
+    background: var(--color-accent);
+    transform: scaleX(0);
+    transition: transform var(--t-panel) var(--ease);
+  }
+  .ui-tab:hover {
+    color: var(--color-ink);
+    background: rgb(244 236 208 / 0.06);
+  }
+  .ui-tab:focus-visible {
+    color: var(--color-ink);
+    box-shadow: inset 0 0 0 2px var(--color-accent);
+  }
+  .ui-tab[aria-selected='true'] {
+    color: var(--color-ink);
+  }
+  .ui-tab[aria-selected='true']::after {
+    transform: scaleX(1);
+  }
+  .ui-tab:disabled {
+    opacity: 0.38;
+    cursor: var(--cursor);
+  }
+
+  /* ── a row of a list: a picture, its name, what it says, an action at the end */
+  .ui-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-height: 52px;
+    padding: 4px 12px;
+    font-family: var(--font-pixel);
+    font-size: var(--text-body);
+    line-height: 1.2;
+    color: var(--color-ink);
+    text-align: left;
+    text-transform: uppercase;
+    background: rgb(244 236 208 / 0.04);
+    border: 2px solid transparent;
+    outline: none;
+    transition:
+      background-color var(--t-quick) ease-out,
+      border-color var(--t-quick) ease-out,
+      transform var(--t-press) ease-out;
+  }
+  button.ui-row {
+    width: 100%;
+    cursor: pointer;
+  }
+  button.ui-row:hover {
+    background: rgb(244 236 208 / 0.1);
+  }
+  button.ui-row:focus-visible {
+    border-color: var(--color-ink);
+  }
+  button.ui-row:active:not(:disabled) {
+    transform: translateY(2px);
+  }
+  .ui-row[aria-selected='true'],
+  .ui-row[aria-pressed='true'],
+  .ui-row.is-on {
+    background: color-mix(in srgb, var(--color-accent) 16%, transparent);
+    border-color: var(--color-accent);
+  }
+  button.ui-row:disabled {
+    cursor: var(--cursor);
+    opacity: 0.45;
+  }
+
+  /* ── a box to type in */
+  .ui-input {
+    width: 100%;
+    min-height: 44px;
+    padding: 6px 10px;
+    font-family: var(--font-pixel);
+    font-size: var(--text-body);
+    line-height: 1.2;
+    color: var(--color-ink);
+    background: rgb(0 0 0 / 0.25);
+    border: 2px solid rgb(244 236 208 / 0.4);
+    outline: none;
+    transition: border-color var(--t-quick) ease-out;
+  }
+  .ui-input:focus {
+    border-color: var(--color-accent);
+  }
+  .ui-input::placeholder {
+    color: rgb(244 236 208 / 0.3);
+  }
+
+  /* ── a well: a square that holds a thing (a slot of the hold, a stack in the vault) */
+  .ui-well {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 64px;
+    height: 64px;
+    background: #121a36;
+    border: 2px solid rgb(244 236 208 / 0.22);
+    outline: none;
+    transition:
+      border-color var(--t-quick) ease-out,
+      background-color var(--t-quick) ease-out,
+      transform var(--t-press) ease-out;
+  }
+  button.ui-well {
+    cursor: pointer;
+  }
+  button.ui-well:hover:not(:disabled) {
+    border-color: var(--color-ink);
+    background: #18224a;
+  }
+  button.ui-well:focus-visible {
+    border-color: var(--color-accent);
+  }
+  button.ui-well:active:not(:disabled) {
+    transform: translateY(2px);
+  }
+  button.ui-well:disabled {
+    cursor: var(--cursor);
+  }
+
+  /* ── a bar that fills (its fill is an element inside, scaled from the left) */
+  .ui-meter {
+    position: relative;
+    height: 12px;
+    background: rgb(0 0 0 / 0.4);
+    border: 2px solid rgb(244 236 208 / 0.22);
+    overflow: hidden;
+  }
+  .ui-meter > span {
+    position: absolute;
+    inset: 0;
+    transform-origin: left;
+    transition: transform 420ms var(--ease);
+  }
+
+  /* ── keys and buttons named in the help: a key cap */
+  .ui-key {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 30px;
+    height: 30px;
+    padding: 0 6px;
+    font-family: var(--font-pixel);
+    font-size: 21px;
+    line-height: 1;
+    color: var(--color-night);
+    background: var(--color-ink);
+    box-shadow: inset 0 -3px 0 rgb(11 16 35 / 0.35);
+  }
+
+  /* lists that settle as a screen opens: each item comes in a moment after the last (--i is its place) */
+  .ui-settle > * {
+    animation: ui-rise 180ms var(--ease) both;
+    animation-delay: calc(min(var(--i, 0), 10) * 22ms);
+  }
+}
+
+@keyframes ui-fade {
+  from {
+    opacity: 0;
+  }
+}
+/* a panel deploys: it rises a little and unrolls from its top edge */
+@keyframes ui-deploy {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+    clip-path: inset(0 0 70% 0);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+    clip-path: inset(0 0 0 0);
+  }
+}
+@keyframes ui-rise {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+}
+/* a value that just changed flashes in the side's colour */
+@keyframes ui-flash {
+  from {
+    color: var(--color-accent);
+    text-shadow: 0 0 0 var(--color-accent);
+  }
+}
+.ui-changed {
+  animation: ui-flash 600ms ease-out;
+}
+
+/* Reduce motion: nothing moves across the screen; things still fade, briefly, so a change is seen */
+[data-motion='less'] *,
+[data-motion='less'] *::before,
+[data-motion='less'] *::after {
+  animation-duration: 60ms !important;
+  animation-delay: 0ms !important;
+  transition-duration: 60ms !important;
+}
+[data-motion='less'] .ui-panel,
+[data-motion='less'] .ui-settle > * {
+  animation-name: ui-fade !important;
+}
+[data-motion='less'] .ui-btn:active,
+[data-motion='less'] .ui-row:active,
+[data-motion='less'] .ui-well:active {
+  transform: none !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 60ms !important;
+    animation-delay: 0ms !important;
+    transition-duration: 60ms !important;
+  }
+  .ui-panel,
+  .ui-settle > * {
+    animation-name: ui-fade !important;
+  }
+}
+
+html {
+  cursor: var(--cursor);
+}

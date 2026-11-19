@@ -1,0 +1,48 @@
+# Every pull request and every push to main: the same checks a change must pass before it is merged
+# (CONTRIBUTING.md, "Before you open a pull request").
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    name: Lint, types and build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+      - run: npm run lint
+      - run: npm run check
+      - run: npm run build
+
+  test:
+    name: Tests (the pinned frames)
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+      # (the worlds the flights fly over, built once and kept: src/lib/engine/testing/surfaces.ts)
+      - uses: actions/cache@v4
+        with:
+          path: node_modules/.cache/xenophon-surfaces
+          key: surfaces-${{ hashFiles('src/lib/engine/world/**', 'src/lib/engine/galaxy/**', 'src/lib/engine/data/**', 'src/lib/engine/util/**') }}
+      - run: npm test
