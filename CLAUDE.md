@@ -422,7 +422,9 @@ tools/gen/narrate.py`, then `uv run tools/audio/narration.py` (cuts, checks ever
   opening story (lore in `docs/factions-and-races.md`),
   the side cards' lines, the six races' (`races.ts what`), the ship pitches (`HULL_PITCH`), the first sortie's last line,
   the galaxy map's first note, the menu's Story tip. Instructions and stat lines stay plain.
-- **2026-11-18, the opening story** (`IntroCrawl.svelte`): a first visit opens on a line in the dark, the title lit a
+- **2026-11-18, the opening story** (`IntroCrawl.svelte`): a first visit opens on a Begin button in the middle of the sky
+  (2026-11-19, after `art/mockups/intro-begin.png`: its press lets the sound on, so the story is heard from its first word;
+  left out when the sound is already on, and on the still page), then a line in the dark, the title lit a
   letter at a time, then the story a paragraph at a time, flat in the pixel font (`ui-head`), the one being read held
   still in the middle and the column gliding up between them (the perspective roll was unreadable), over the model's sky between the two suns (`static/ui/intro-sky.png`,
   `intro-stars*.png`, `tools/gen/interface.py` group `intro`); about 90 s, read aloud by the narrator and paced by his

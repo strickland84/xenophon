@@ -62,7 +62,7 @@ At a dock on the edge of the war, a new pilot sits in a cold ship, waiting for c
 
 ## Help wanted
 
-These are the four areas where the game most needs help:
+These are the five areas where the game most needs help:
 
 - **Art:** ships, places, creatures, the interface, effects. The pipeline draws with local image models and turns the
   pictures into pixel art by code. Mockups, references and critique help as well.
@@ -70,6 +70,8 @@ These are the four areas where the game most needs help:
 - **Gameplay:** the feel of flying and fighting, the loop of mining and banking, the balance, and new things to do.
 - **A bigger galaxy:** new worlds and kinds of world, new star systems, stations, settlements with something to do in
   them, creatures, and events.
+- **Un-slopify the lore:** take the AI slop out of the story and flavour text, and write original lore for the sides,
+  the worlds and the people who live on them.
 
 Read [CONTRIBUTING.md](CONTRIBUTING.md), then open an issue or a pull request.
 

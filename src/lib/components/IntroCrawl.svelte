@@ -10,6 +10,10 @@
   // middle of the screen, and in the breath before the next the column glides up to it, the one read dimming and those
   // above fading out. Skipped, after its first moments, by the button, Escape, Enter or Space, a tap, or a controller's
   // button; it ends by itself into the title. With Reduce motion it is a still page, read at leisure.
+  //
+  // It waits first on a Begin button in the middle of the sky (James, 2026-11-19: "a much clearer 'BEGIN' button right in
+  // the intro. User clicks it, thus triggering sound and then the full intro plays"; art/mockups/intro-begin.png): a page's
+  // sound may only start from a press, so the story is told from its first word only once it has had one.
   import { asset } from '$app/paths'
   import { onMount } from 'svelte'
   import { audio } from '../audio/mixer'
@@ -88,6 +92,11 @@
 
   let still = $state(false)
   let t = $state(0)
+  /** Begin has been pressed: the story is told from then (on the still page there is nothing to wait for) */
+  let begun = $state(false)
+  /** the sky has come up out of the dark (once, as the page opens) */
+  let skyUp = $state(false)
+  let beginButton = $state<HTMLButtonElement>()
   let leaving = $state(false)
   /** the sound has been let on (the page's audio waits for a first press) */
   let heard = $state(true)
@@ -110,6 +119,14 @@
 
   /** the story can be skipped now (the still page at once) */
   const canSkip = $derived(still || t >= T.skipFrom)
+
+  /** Begin pressed (a click, a tap, Enter or Space, a controller's Cross): the press lets the sound on (mixer.ts
+   * listenForUnlock), and the story starts */
+  function begin() {
+    if (begun || leaving) return
+    begun = true
+    window.setTimeout(() => (skip ?? box)?.focus({ preventScroll: true }), 0)
+  }
 
   function finish() {
     if (leaving) return
@@ -165,7 +182,9 @@
     const pads = navigator.getGamepads ? navigator.getGamepads() : []
     const down: number[] = []
     for (const pad of pads) if (pad) pad.buttons.forEach((b, i) => b.pressed && down.push(i))
-    if (canSkip && PAD_SKIP.some((i) => down.includes(i) && !padWas.includes(i))) finish()
+    const pressed = PAD_SKIP.some((i) => down.includes(i) && !padWas.includes(i))
+    if (pressed && !begun && !still) begin()
+    else if (pressed && canSkip) finish()
     padWas = down
   }
 
@@ -174,18 +193,23 @@
     e.stopPropagation()
     if (e.key === 'Escape' || e.key === 'Enter' || (e.key === ' ' && !still)) {
       e.preventDefault()
-      if (canSkip) finish()
+      if (!begun && !still) {
+        if (e.key !== 'Escape') begin()
+      } else if (canSkip) finish()
     }
   }
   /** a tap or click anywhere but a button skips (not on the still page, which is scrolled by a finger) */
   function onTap(e: PointerEvent) {
-    if (still || !canSkip || (e.target as HTMLElement | null)?.closest('button')) return
+    if (still || !begun || !canSkip || (e.target as HTMLElement | null)?.closest('button')) return
     finish()
   }
 
   onMount(() => {
     still = !moving()
+    // (the still page has nothing to wait for; nor has the story told again with the sound already on)
+    if (still || audio()) begun = true
     fit()
+    requestAnimationFrame(() => (skyUp = true))
     let ready = still
     void document.fonts.ready.then(() => {
       measure()
@@ -195,7 +219,7 @@
     window.addEventListener('keydown', onKey, true)
     // (the opening is told before the title's buttons take the focus: the keys stay with the story, and go to Skip
     // when it comes)
-    const focus = window.setTimeout(() => (skip ?? box)?.focus({ preventScroll: true }), 50)
+    const focus = window.setTimeout(() => (beginButton ?? skip ?? box)?.focus({ preventScroll: true }), 50)
     let last = performance.now()
     let said = 0
     preload(LINES.map((l) => l.id))
@@ -215,7 +239,7 @@
           said = 0
         }
       }
-      if (!ready || still) return
+      if (!ready || still || !begun) return
       t += dt
       // (each of the narrator's lines once, as its moment comes: from its start, or a moment in, or not at all)
       while (said < LINES.length && t >= LINES[said].at) {
@@ -255,7 +279,10 @@
   onpointerup={onTap}
 >
   <!-- the sky, and its two fields of stars drifting at their own paces -->
-  <div class="pointer-events-none absolute inset-0" style="opacity: {still ? 1 : ramp(t, 0, 1.4)}">
+  <div
+    class="pointer-events-none absolute inset-0"
+    style="opacity: {still || skyUp ? 1 : 0}; transition: opacity {still ? 0 : 1400}ms linear"
+  >
     <img
       src={asset('ui/intro-sky.png' as Parameters<typeof asset>[0])}
       alt=""
@@ -303,6 +330,16 @@
       </article>
     </div>
   {:else}
+    {#if !begun}
+      <!-- Begin: the press that lets the sound on, and the story starts (art/mockups/intro-begin.png) -->
+      <div class="absolute inset-0 flex flex-col items-center justify-center gap-5 px-4 pb-[4vh]">
+        <button bind:this={beginButton} type="button" class="ui-btn begin" onclick={begin}>
+          <UiIcon name="sound" size={32} />
+          <span class="flex-1 text-center">Begin</span>
+        </button>
+        <p class="ui-label text-center" style="text-shadow: {EDGED}">Sound on: the story is read aloud</p>
+      </div>
+    {/if}
     <!-- the opening and the name as text, for a screen reader: the story's own words are text below -->
     <div class="sr-only">
       <p>{OPENING}</p>
@@ -364,7 +401,7 @@
   {/if}
 
   <!-- the sound waits for a first press: this lets it on without ending the story -->
-  {#if !heard}
+  {#if !heard && begun}
     <button
       type="button"
       class="{quiet} absolute bottom-[max(12px,env(safe-area-inset-bottom))] left-[max(12px,env(safe-area-inset-left))] gap-2 bg-night/70"
@@ -387,6 +424,36 @@
 </div>
 
 <style>
+  /* Begin: wide, in the night's blue, a double rule of gold round it and a soft glow (art/mockups/intro-begin.png) */
+  .begin {
+    min-width: min(22rem, 84vw);
+    min-height: 76px;
+    padding: 0 24px;
+    gap: 16px;
+    font-size: var(--text-head);
+    color: #f2c14e;
+    background: #0d1640;
+    border: 3px solid #f2c14e;
+    box-shadow:
+      inset 0 0 0 3px #0d1640,
+      inset 0 0 0 5px #b8862a,
+      0 0 0 3px #3a2410,
+      0 0 28px 6px rgb(242 193 78 / 0.35);
+  }
+  .begin:hover,
+  .begin:focus-visible {
+    color: #ffe08a;
+    background: #142057;
+    border-color: #ffd76a;
+    box-shadow:
+      inset 0 0 0 3px #142057,
+      inset 0 0 0 5px #d9a43a,
+      0 0 0 3px #3a2410,
+      0 0 36px 10px rgb(242 193 78 / 0.5);
+  }
+  .begin:active {
+    background: #0a1033;
+  }
   /* the wordmark at its own pixels, doubled where there is room: never a fraction, so its pixels stay square */
   .wordmark {
     display: block;

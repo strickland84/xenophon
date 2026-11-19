@@ -192,6 +192,12 @@ MOCKUPS.update({
     "creatures-harsh": f"{WILD}, standing on black volcanic rock with a glowing orange lava river, alien wildlife each its own original design: a squat alien with a glowing throat sac spitting a glob of acid at the pilot, two long armoured segmented crawlers with many legs closing in, a tiny six legged critter, a defeated creature lying on its side fading out, small pickups glinting on the ground: a shard of chitin and a glowing gland",
 })
 
+# The opening story's first screen (James, 2026-11-19: "a much clearer 'BEGIN' button right in the intro"): the press
+# that lets the sound on, so the story is heard from its first word.
+MOCKUPS.update({
+    "intro-begin": "the first screen of a pixel art space game on a wide laptop screen: a deep dark violet and navy night sky full of tiny stars and a faint nebula, a small gold sun glowing far off at the left edge and a small dim red sun at the right edge, and in the exact middle one single large wide rectangular button with hard square corners, a thick bright gold double border and a dark night-blue fill, a small gold loudspeaker icon at its left end, a soft gold glow around it, a thin short line of small dim cream blocky lettering under the button, nothing else, lots of empty dark space, minimal and clean",
+})
+
 ap = argparse.ArgumentParser()
 ap.add_argument("names", nargs="*")
 ap.add_argument("--seed", type=int, default=1)
