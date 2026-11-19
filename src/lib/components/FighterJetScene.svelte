@@ -32,6 +32,7 @@
   import type { PointerInput } from '../input/pointer'
   import HintBar from './HintBar.svelte'
   import SoundButton from './SoundButton.svelte'
+  import FullscreenButton from './FullscreenButton.svelte'
 
   type Props = Partial<SceneParams> & {
     /** size of one art pixel on screen, in CSS px. 0 picks one that suits the canvas */
@@ -73,6 +74,10 @@
     onInput?: (kind: InputKind) => void
     /** more for the row at the top, beside the sound button */
     top?: Snippet
+    /** the row at the top over the page's screens (the base's: the row's Hold, Market and Supplies are its pages) */
+    topOver?: boolean
+    /** where the row at the top ends, CSS px from the top of the view (it wraps on a narrow window) */
+    onTopRow?: (low: number) => void
     /** where the HUD is, for what the page lays over the view (the chat): one art pixel in CSS px, the HUD kept to the top
      * (the cockpit), in the cockpit, and the view from overhead */
     onHud?: (hud: { pixel: number; top: boolean; cockpit: boolean; overhead: boolean }) => void
@@ -99,6 +104,8 @@
     toggle = { fire: false, boost: false },
     onInput,
     top,
+    topOver = false,
+    onTopRow,
     onHud,
     ...settings
   }: Props = $props()
@@ -148,7 +155,7 @@
     merged.useKey = padInput ? hudButton(bindings.pad.use?.[0] ?? 1, padInput === 'ps') : firstKey(bindings, 'use') || 'F'
     merged.mineKey = padInput ? hudButton(bindings.pad.mine?.[0] ?? 4, padInput === 'ps') : firstKey(bindings, 'mine') || 'R'
     merged.powerKey = padInput ? hudButton(bindings.pad.power?.[0] ?? 13, padInput === 'ps') : firstKey(bindings, 'power') || 'P'
-    merged.cruiseKey = padInput ? hudButton(bindings.pad.cruise?.[0] ?? 5, padInput === 'ps') : firstKey(bindings, 'cruise') || 'J'
+    merged.cruiseKey = padInput ? hudButton(bindings.pad.cruise?.[0] ?? 5, padInput === 'ps') : firstKey(bindings, 'cruise') || 'C'
     merged.seatKey = padInput ? hudButton(bindings.pad.seat?.[0] ?? 10, padInput === 'ps') : firstKey(bindings, 'seat') || 'G'
     // (on the page a ship landed or docked waits with its power off until its pilot brings it up: sim/power.ts)
     merged.coldStart = settings.coldStart ?? true
@@ -209,6 +216,12 @@
 
   // so the keys still fly it after a click
   const focus = () => container.focus({ preventScroll: true })
+  // the row at the top, and how tall it is (the page lays its base screen under it)
+  let topRow = $state<HTMLElement>()
+  let topRowHigh = $state(0)
+  $effect(() => {
+    if (topRow && topRowHigh) onTopRow?.(topRow.offsetTop + topRowHigh)
+  })
 
   const fadeHintIn = (seconds: number) => {
     window.clearTimeout(hintTimer)
@@ -483,8 +496,14 @@
     <!-- the line of help, always at the very bottom of the view -->
     <HintBar text={hint} {chips} visible={hintOn} />
   {/if}
-  <!-- the row at the top: the volume, and whatever the page adds -->
-  <div class="pointer-events-none absolute inset-x-0 top-[max(6px,env(safe-area-inset-top))] flex justify-center gap-1.5">
+  <!-- the row at the top: the volume, full screen, and whatever the page adds -->
+  <div
+    bind:this={topRow}
+    bind:clientHeight={topRowHigh}
+    class="pointer-events-none absolute inset-x-0 top-[max(6px,env(safe-area-inset-top))] flex flex-wrap justify-center gap-1.5 px-2 {topOver
+      ? 'z-[11]'
+      : ''}"
+  >
     <SoundButton
       volume={loudness}
       onchange={(v) => {
@@ -495,6 +514,7 @@
         focus()
       }}
     />
+    <FullscreenButton ondone={focus} />
     {@render top?.()}
   </div>
 </div>

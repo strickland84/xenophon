@@ -132,8 +132,8 @@ tools/voxel/brand.py`; tries in `art/brand/`); the favicon is `mark-32.png`, the
   arrow, `down` S and the down arrow) and never turned over by the setting (`keyboard.ts invert`); old default layouts
   renamed by `readBindings`. **Then Elite Dangerous's flight layout** (James: "build it to mirror elite dangerous control
   scheme"): W/S the throttle (and walking), X all stop (`stop`, a page action: `setThrottle(0)`), A/D turn, the arrows
-  pitch and turn, Tab the boost and Shift too (it runs on foot: `hints.ts runKey`), J the cruise drive (`params.cruiseKey`
-  names it on the HUD), I the hold, F9 a clip, K and L guns and missile from the keys. The mouse from behind and the seat
+  pitch and turn, Tab the boost and Shift too (it runs on foot: `hints.ts runKey`), C the cruise drive (it was J for a day: James, "cruise was better as C"; a save with it on J has it on C again,
+  `readBindings`; `params.cruiseKey` names it on the HUD), I the hold, F9 a clip, K and L guns and missile from the keys. The mouse from behind and the seat
   is a stick everywhere (in space its height was an aimed nose with an edge band: now a rate, `FLIGHT3D span`, `curve`),
   its middle drawn as a dotted ring with a line out to the pointer (`MOUSE_STICK` in `data/hulls.ts`, `render/hud.ts`;
   `npx jiti tools/mouse-stick.ts out.png`). Old saves' untouched keys move over (`bindings.ts BEFORE_ELITE`). The
@@ -146,8 +146,22 @@ up, down, left and right, from behind`. They move the ship and the height it hol
   does (`landing.ts sinking`, `LAND.sunk`). **Q and E thrust sideways** (`strafeLeft`, `strafeRight`;
   `HeldControls.strafe`, `ctl.keyStrafe`, `flight.sideV`), the nose not turning. **The mouse ring can be hidden**
   (Settings, Mouse ring: `settings.mouseRing`, `params.mouseRing`). The first sortie's steer step teaches the mouse as a
-  stick, J and Tab; its dive step the down arrow or Ctrl; its land step Ctrl all the way down (the box and the narrator,
+  stick, C and Tab; its dive step the down arrow or Ctrl; its land step Ctrl all the way down (the box and the narrator,
   all read again).
+- **2026-11-19, the base's row is its only menu** (James: "these menus are so confused … I click Cairn Point and I see
+  menu for market and supplies, but in the main screen I also have menu for market and supplies"). At a friendly base the
+  row at the top is Hold, Market, Supplies (the base screen's pages: `components/basePages.ts BASE_PAGES`), then Hangar,
+  Deck, Aboard (the one he is in lit, inside too, and Leave). The base screen has no tabs of its own: it shows the page
+  the row asks for, titled by it with the base's name under it; the row stays over it (`FighterJetScene topOver`, z 11)
+  with the open page lit, pressed again to close, and the screen opens under the row however it wraps (`onTopRow`,
+  `Panel under`). Q and E, or L1 and R1, step between the pages (`Panel onstep`, `padNav`'s `onStep`; the screen's foot
+  says so). Gone: the base's name as a button (it opened the hold) and the screen's Hangar button. Pictures
+  `docs/art/gen/base-menu-before.png`, `base-menu-after.png`. Left as it was: the bench, booth and shop are still only at
+  their stations inside, and Tab away from a base shows the hold alone.
+- **2026-11-19, a full screen button** (James: "a fullscreen button in the top menu after the sound effects button …
+  simulate F11"): `FullscreenButton.svelte`, beside `SoundButton` in FighterJetScene's top row, puts the whole page full
+  screen (`requestFullscreen`) and back (or Esc); hidden where the browser cannot. Its icon is the model's
+  (`icon-fullscreen-2`, `uv run tools/voxel/interface.py --fullscreen`).
 - **2026-11-19, the link's picture** (James: "make a nice opengraph image for xenophon.me"). `static/brand/og.png`,
   1200 × 630: its own sky with the suns at the edges (`uv run tools/gen/brand.py og-sky`, try 5 picked in
   `tools/voxel/brand.py PICKS`), the shield over the wordmark, and two lines in the game's pixel font (`words`, `og`);
@@ -158,7 +172,7 @@ up, down, left and right, from behind`. They move the ship and the height it hol
   to repair my ship"; "we should not be able to do a roll when landed"). **The shadow** (`render/walker.ts`) lies on the
   ground under him (`groundAt`), at his sprite's lowest drawn row (`lowestRow`), a pixel wider than him each side, two rows
   deep and darker; in a jump it stays down there, smaller and fainter as he rises (`SHADOW_HIGH`); inside, at his feet.
-  `npx jiti tools/foot-shadow.ts out.png [scale] [clock] [crop]` draws it close. **The base header** at a friendly base:
+  `npx jiti tools/foot-shadow.ts out.png [scale] [clock] [crop]` draws it close. **The base header** at a friendly base (as it was that day; the entry above has it now):
   its name (the hold), Market, Supplies, Hangar, Deck, Aboard, each with its icon (`hangar`, `deck`, `aboard` drawn in
   `tools/voxel/hud_icons.py`); Market and Supplies open the base's screen at that page (`BaseScreen start`,
   `Game.svelte openBase`), and away from a base Tab shows the hold and vault with no tabs. **Repairs:** a tooltip on

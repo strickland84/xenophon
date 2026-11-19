@@ -2195,7 +2195,7 @@ control scheme"; the review is `docs/controls-review.md`). The touch column is o
 | Fire             | Left button                                 | R2          | Fire button           |
 | Secondary weapon | Right button                                | Square      | Secondary button      |
 | Boost            | Tab (and Shift, which runs on foot)         | L2          | Boost button          |
-| Cruise drive     | J                                           | R1          |                       |
+| Cruise drive     | C                                           | R1          |                       |
 | Roll             | Space                                       | Cross       | Swipe, or Roll button |
 | Land, board, use | F                                           | Circle      | Action button         |
 | Change view      | V                                           | Triangle    | View button           |

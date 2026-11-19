@@ -1,6 +1,6 @@
 // A game controller in a screen of the page (the base's screen): the D-pad or the left stick
 // moves the focus to the nearest button that way, Cross (A) presses it, Circle (B) or Options
-// closes the screen. While a screen has the controller, the ship does not (FighterJetScene's
+// closes the screen, L1 and R1 (LB and RB) step between its pages where it has them (`onStep`). While a screen has the controller, the ship does not (FighterJetScene's
 // `padOff`). The arrow keys move the focus the same way (`arrows`), so a screen works from the
 // keyboard alone. The focus moving is heard (audio/ui.ts).
 
@@ -8,6 +8,8 @@ import { uiSound } from '../audio/ui'
 
 const CROSS = 0
 const CIRCLE = 1
+const L1 = 4
+const R1 = 5
 const OPTIONS = 9
 const UP = 12
 const DOWN = 13
@@ -56,7 +58,7 @@ export function move(root: HTMLElement, dx: number, dy: number) {
 }
 
 /** lets a controller work the buttons of `root` until the returned function is called */
-export function padNav(root: HTMLElement, onClose: () => void): () => void {
+export function padNav(root: HTMLElement, onClose: () => void, onStep?: (way: -1 | 1) => void): () => void {
   let was = new Set<number>()
   let repeat = 0
   let frame = 0
@@ -75,6 +77,8 @@ export function padNav(root: HTMLElement, onClose: () => void): () => void {
     const pressed = (i: number) => down.has(i) && !was.has(i)
     if (pressed(CROSS)) (document.activeElement as HTMLElement | null)?.click()
     if (pressed(CIRCLE) || pressed(OPTIONS)) onClose()
+    if (onStep && pressed(L1)) onStep(-1)
+    if (onStep && pressed(R1)) onStep(1)
     const dx = (down.has(RIGHT) ? 1 : 0) - (down.has(LEFT) ? 1 : 0) || (Math.abs(sx) > 0.6 ? Math.sign(sx) : 0)
     let dy = (down.has(DOWN) ? 1 : 0) - (down.has(UP) ? 1 : 0) || (Math.abs(sy) > 0.6 ? Math.sign(sy) : 0)
     if (Math.abs(dx) && Math.abs(dy)) dy = 0

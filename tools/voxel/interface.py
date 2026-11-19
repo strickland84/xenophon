@@ -187,6 +187,7 @@ def console_art():
 parser = argparse.ArgumentParser()
 parser.add_argument("--console", action="store_true", help="only rebuild the interface, inventory and rank icons and pointers")
 parser.add_argument("--desktop", action="store_true", help="only the desktop computer's icon (the page a phone is shown)")
+parser.add_argument("--fullscreen", action="store_true", help="only the full screen button's icon (the row at the top)")
 args = parser.parse_args()
 
 
@@ -201,10 +202,23 @@ def desktop_icon():
     ]
 
 
+def fullscreen_icon():
+    """The top row's full screen button (James, 2026-11-19: "simulate F11"): the model's screen in four corner brackets,
+    try 2 of four, a true shrink at 16 and 24 pixels."""
+    src = os.path.join(SRC, "icon-fullscreen-2.png")
+    return [
+        save(sprite(src, 14, 6, 16), os.path.join(UI, "fullscreen.png")),
+        save(sprite(src, 22, 8, 24), os.path.join(UI, "fullscreen-24.png")),
+    ]
+
+
 if args.desktop:
     print("\n".join(desktop_icon()))
     raise SystemExit(0)
-made = console_art() + save_ui_icons() + save_inventory_and_ranks() + desktop_icon()
+if args.fullscreen:
+    print("\n".join(fullscreen_icon()))
+    raise SystemExit(0)
+made = console_art() + save_ui_icons() + save_inventory_and_ranks() + desktop_icon() + fullscreen_icon()
 if args.console:
     raise SystemExit(0)
 

@@ -131,7 +131,8 @@ export interface Bindings {
 
 /** the plan's controls table: Elite Dangerous's flight keys (James, 2026-11-19: "build it to mirror elite dangerous control
  * scheme"). The mouse pitches and turns as a stick; W and S the throttle, X all stop, the wheel too; A and D turn; Tab the
- * boost (and Shift, which runs on foot, as Odyssey's does); J the cruise drive, as Elite's frame shift drive; the arrows
+ * boost (and Shift, which runs on foot, as Odyssey's does); C the cruise drive (it was J, as Elite's frame shift drive, for a
+ * day: James, 2026-11-19, "cruise was better as C"); the arrows
  * pitch and turn from the keys. The pitch keys are named by what they do, as Elite's are: Up climbs and Down dives whatever
  * the setting, which turns over only the mouse and a stick. (Space stays the roll and V the view: the plan's decision 2) */
 export const DEFAULT_BINDINGS: Bindings = {
@@ -156,7 +157,7 @@ export const DEFAULT_BINDINGS: Bindings = {
     roll: ['Space'],
     use: ['KeyF'],
     view: ['KeyV'],
-    cruise: ['KeyJ'],
+    cruise: ['KeyC'],
     // (the ship's power, since James asked for ships powered off on the ground: 2026-11-18)
     power: ['KeyP'],
     // (mining its own, since James's first flights: on F it took the place of landing wherever ore was in reach)
@@ -204,7 +205,6 @@ const BEFORE_ELITE: Record<Bindable, string[]> = {
   boost: ['ShiftLeft', 'ShiftRight'],
   fire: ['KeyJ'],
   secondary: ['KeyK'],
-  cruise: ['KeyC'],
   inventory: ['Tab'],
   clip: ['KeyX'],
 }
@@ -266,6 +266,8 @@ export function readBindings(raw: unknown): Bindings {
     for (const a of moved)
       out.keys[a] = out.keys[a].filter((c) => !BINDABLE.some((o) => o !== a && !moved.includes(o) && out.keys[o].includes(c)))
   }
+  // (kept while the cruise drive was on J, as given: it is on C again, unless the player gave C to something else)
+  if (out.keys.cruise.join() === 'KeyJ' && !BINDABLE.some((a) => a !== 'cruise' && out.keys[a].includes('KeyC'))) out.keys.cruise = ['KeyC']
   // (and before the vertical thrusters had keys)
   for (const t of ['thrustUp', 'thrustDown', 'strafeLeft', 'strafeRight'] as const)
     if (r.keys && !(t in r.keys)) out.keys[t] = out.keys[t].filter((c) => !BINDABLE.some((a) => a !== t && out.keys[a].includes(c)))

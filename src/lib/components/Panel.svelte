@@ -39,6 +39,11 @@
     /** beside what it changes (the hangar's bench and booth): along the right of a wide screen, the place not darkened, so
      * the ship in the middle shows each change as it is made (centred over it, the panel hid the ship it was fitting) */
     beside?: boolean
+    /** under the scene's row at the top (where it ends, CSS px from the top), which stays over it (the base's screen: that row's Hold, Market and Supplies are
+     * its pages) */
+    under?: number
+    /** to the page before or after (Q and E, a controller's L1 and R1), where its pages are outside it (the base's) */
+    onstep?: (way: -1 | 1) => void
     onclose: () => void
     children: Snippet
   }
@@ -56,6 +61,8 @@
     inlineTabs = false,
     foot,
     beside = false,
+    under = 0,
+    onstep,
     onclose,
     children,
   }: Props = $props()
@@ -78,13 +85,14 @@
     ;(body?.querySelector<HTMLElement>('button:not(:disabled), input') ?? panel?.querySelector<HTMLElement>('button'))?.focus({
       preventScroll: true,
     })
-    return panel ? padNav(panel, onclose) : undefined
+    return panel ? padNav(panel, onclose, (way) => onstep?.(way)) : undefined
   })
 </script>
 
 <div
   class="ui-veil"
   class:ui-veil-beside={beside}
+  style={under ? `padding-top: ${under + 8}px` : undefined}
   role="presentation"
   out:fade|global={{ duration: ms(110) }}
   onpointerdown={(e) => {
@@ -98,6 +106,9 @@
     if (e.key === 'Escape' || (e.key === 'Tab' && tabCloses) || (!typing && closeKeys.includes(e.key))) {
       e.preventDefault()
       onclose()
+    } else if (onstep && !typing && (e.code === 'KeyQ' || e.code === 'KeyE')) {
+      e.preventDefault()
+      onstep(e.code === 'KeyQ' ? -1 : 1)
     }
   }}
 >

@@ -500,7 +500,7 @@ export const FINGERPRINTS: Record<string, string> = {
   'audio/voice/sortie-power-pad.ogg': '988566dfaf',
   'audio/voice/sortie-power-ps.ogg': '5d12d98a08',
   'audio/voice/sortie-steer-any.ogg': '3bdd020954',
-  'audio/voice/sortie-steer-keys.ogg': '69fc844c58',
+  'audio/voice/sortie-steer-keys.ogg': 'af5c5c0a24',
   'audio/voice/sortie-steer-pad.ogg': '2802c116d6',
   'audio/voice/sortie-steer-ps.ogg': 'b5b338b0b6',
   'audio/voice/sortie-target-any.ogg': 'd4a604ff41',

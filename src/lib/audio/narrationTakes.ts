@@ -98,8 +98,8 @@ export const TAKES: Record<string, { text: string; seconds: number }> = {
     seconds: 10.32,
   },
   'sortie-steer-keys': {
-    text: "The arrow on screen points at your side's home world. Fly until you're over it. From behind or in the cockpit, the mouse works like a stick: the further you push it from the ring in the middle, the harder you turn. Press J for the cruise drive, and Tab to boost.",
-    seconds: 16.72,
+    text: "The arrow on screen points at your side's home world. Fly until you're over it. From behind or in the cockpit, the mouse works like a stick: the further you push it from the ring in the middle, the harder you turn. Press C for the cruise drive, and Tab to boost.",
+    seconds: 16.8,
   },
   'sortie-steer-ps': {
     text: "The arrow on screen points at your side's home world. Steer with the left stick, and fly until you're over it. The right stick sets the throttle.",

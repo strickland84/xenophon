@@ -41,7 +41,7 @@ const LINES: Record<StepId, Record<Voice, string>> = {
     any: 'The throttle sets your speed. Close it with your throttle keys to slow right down, then open it up again. The third bar at the bottom left shows how open it is.',
   },
   steer: {
-    keys: "The arrow on screen points at your side's home world. Fly until you're over it. From behind or in the cockpit, the mouse works like a stick: the further you push it from the ring in the middle, the harder you turn. Press J for the cruise drive, and Tab to boost.",
+    keys: "The arrow on screen points at your side's home world. Fly until you're over it. From behind or in the cockpit, the mouse works like a stick: the further you push it from the ring in the middle, the harder you turn. Press C for the cruise drive, and Tab to boost.",
     ps: "The arrow on screen points at your side's home world. Steer with the left stick, and fly until you're over it. The right stick sets the throttle.",
     pad: "The arrow on screen points at your side's home world. Steer with the left stick, and fly until you're over it. The right stick sets the throttle.",
     any: "The arrow on screen points at your side's home world. Steer towards it, and fly until you're over it.",
