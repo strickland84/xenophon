@@ -123,6 +123,10 @@ tools/voxel/brand.py`; tries in `art/brand/`); the favicon is `mark-32.png`, the
   tests; templates; Dependabot; CODEOWNERS); Vercel (`vercel.json`, static `build/`) serves `main` at xenophon.me.
   James's private notes moved to `CLAUDE.local.md` (not in git).
 
+- **2026-11-19, the controls reviewed against Elite Dangerous and Star Citizen** (players: "the control scheme is very
+  hard to follow"). `docs/controls-review.md`: what confuses (the mouse steers four ways by view and zone, F's tap and
+  hold, W/S pitch against the genre, no full controls card, silent changes of context) and nine ranked suggestions.
+  Nothing built yet.
 - **2026-11-19, the link's picture** (James: "make a nice opengraph image for xenophon.me"). `static/brand/og.png`,
   1200 × 630: its own sky with the suns at the edges (`uv run tools/gen/brand.py og-sky`, try 5 picked in
   `tools/voxel/brand.py PICKS`), the shield over the wordmark, and two lines in the game's pixel font (`words`, `og`);
