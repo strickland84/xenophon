@@ -351,6 +351,7 @@ function drawHudAll(scene: SceneState) {
   // out to where the pointer is, as far as the stick goes hard over; the further out, the faster the ship turns
   const ctl = scene.controls
   if (
+    p.mouseRing &&
     p.followPointer &&
     ctl.pointerOn &&
     !ctl.keyMode &&

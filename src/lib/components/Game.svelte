@@ -756,6 +756,7 @@
       // (the settings screen's: up and down (up climbs unless he says otherwise: James, 2026-11-19), the shake, the flames)
       own.invertY = save.settings.invertY ?? false
       own.shake = save.settings.shake
+      own.mouseRing = save.settings.mouseRing ?? true
       if (save.settings.flames) own.flameStyle = save.settings.flames
     }
     return { ...own, ...settings, world }

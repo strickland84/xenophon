@@ -1,7 +1,7 @@
 // The keyboard, by default Elite Dangerous's flight keys (bindings.ts): W and S move the throttle and walk forward and back,
 // X is all stop, A and D (or the left and right arrows) turn, the up and down arrows pitch the nose up and down (whatever the
 // setting that turns over the mouse and a stick), Tab opens the thrusters (Shift too, which runs on foot), J the cruise
-// drive, Space rolls, F lands, boards or uses, V changes the view, M the map, I the hold, Enter chat, Escape the menu, and H
+// drive, Alt and Ctrl the vertical thrusters (up and down), Q and E the lateral (left and right), Space rolls, F lands, boards or uses, V changes the view, M the map, I the hold, Enter chat, Escape the menu, and H
 // the hangar; the player can bind them otherwise (the settings). Keys are known by KeyboardEvent.code, so they sit in the
 // same place on any layout. (The mouse's buttons fire: see pointer.ts.)
 
@@ -47,26 +47,52 @@ export function createKeyboardInput(handlers: KeyboardHandlers): KeyboardInput {
   const down = new Set<string>()
   let maps = handlers.bindings ? keyMaps(handlers.bindings) : DEFAULT_MAPS
 
+  /** Ctrl or Alt held as one of ours (bound: the vertical thrusters), this key being it or held already */
+  const ours = (e: KeyboardEvent, mod: 'Control' | 'Alt') =>
+    (e.code.startsWith(mod) && !!maps.hold[e.code]) || [...down].some((c) => c.startsWith(mod))
+  // (while a bound Ctrl or Alt is held, closing or leaving the page asks first: Ctrl+W closes a tab, and a page cannot stop it)
+  const guard = (e: BeforeUnloadEvent) => {
+    e.preventDefault()
+    e.returnValue = ''
+  }
+  let guarded = false
+  const guardNow = () => {
+    const want = [...down].some((c) => c.startsWith('Control') || c.startsWith('Alt'))
+    if (want === guarded) return
+    guarded = want
+    if (want) window.addEventListener('beforeunload', guard)
+    else window.removeEventListener('beforeunload', guard)
+  }
+
   const onKeyDown = (e: KeyboardEvent) => {
-    if (handlers.ignore(e) || e.metaKey || e.ctrlKey || e.altKey) return
+    // (Ctrl and Alt are the browser's, but where they are bound: then the keys under them are the game's too, and the
+    // browser's shortcut is kept from them)
+    if (handlers.ignore(e) || e.metaKey || (e.ctrlKey && !ours(e, 'Control')) || (e.altKey && !ours(e, 'Alt'))) return
     const press = maps.press[e.code]
     const hold = maps.hold[e.code]
     if (!press && !hold) return
     handlers.onActivity()
-    if (KEEP.has(e.code)) e.preventDefault()
+    if (KEEP.has(e.code) || e.ctrlKey || e.altKey) e.preventDefault()
     // (Action is both: pressed once, and held to land or take off)
     if (press && !e.repeat) handlers.onPress(press)
     if (hold && !down.has(e.code)) {
       down.add(e.code)
+      guardNow()
       handlers.onChange()
     }
   }
   const onKeyUp = (e: KeyboardEvent) => {
-    if (down.delete(e.code)) handlers.onChange()
+    // (Alt let go alone would put the focus on the browser's menu)
+    if (down.has(e.code) && e.code.startsWith('Alt')) e.preventDefault()
+    if (down.delete(e.code)) {
+      guardNow()
+      handlers.onChange()
+    }
   }
   // the window lost focus: every key has been let go
   const onBlur = () => {
     down.clear()
+    guardNow()
     handlers.onChange()
   }
   window.addEventListener('keydown', onKeyDown)
@@ -88,6 +114,8 @@ export function createKeyboardInput(handlers: KeyboardHandlers): KeyboardInput {
       // (the pitch-up keys walk forward: W pitches the nose up, and walks on)
       held.walk = pitch
       held.throttle = Math.sign(count('faster') - count('slower'))
+      held.lift = Math.sign(count('thrustUp') - count('thrustDown'))
+      held.strafe = Math.sign(count('strafeRight') - count('strafeLeft'))
       held.boost = count('boost') > 0 ? 1 : 0
       held.land = count('land') > 0
       held.mine = count('mine') > 0
@@ -105,6 +133,7 @@ export function createKeyboardInput(handlers: KeyboardHandlers): KeyboardInput {
       window.removeEventListener('keydown', onKeyDown)
       window.removeEventListener('keyup', onKeyUp)
       window.removeEventListener('blur', onBlur)
+      window.removeEventListener('beforeunload', guard)
     },
   }
 }

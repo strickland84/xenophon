@@ -84,7 +84,10 @@
   // ── the actions, in groups, each with its icon and a short name (what it does elsewhere goes in its tooltip)
   const GROUPS: { name: string; actions: Bindable[] }[] = [
     { name: 'Fight', actions: ['fire', 'secondary', 'boost', 'roll'] },
-    { name: 'Fly', actions: ['stop', 'use', 'mine', 'power', 'view', 'cruise', 'nextShip'] },
+    {
+      name: 'Fly',
+      actions: ['stop', 'thrustUp', 'thrustDown', 'strafeLeft', 'strafeRight', 'use', 'mine', 'power', 'view', 'cruise', 'nextShip'],
+    },
     { name: 'Screens', actions: ['map', 'inventory', 'chat', 'menu', 'clip'] },
   ]
   const ICON: Partial<Record<Bindable, string>> = {
@@ -97,6 +100,10 @@
     power: 'power',
     view: 'view',
     cruise: 'cruise',
+    thrustUp: 'climb',
+    thrustDown: 'dive',
+    strafeLeft: 'boost',
+    strafeRight: 'boost',
     nextShip: 'ships',
     clip: 'picture',
     map: 'map',
@@ -109,6 +116,10 @@
     boost: 'Thrusters',
     cruise: 'Cruise',
     stop: 'All stop',
+    thrustUp: 'Thrust up',
+    thrustDown: 'Thrust down',
+    strafeLeft: 'Thrust left',
+    strafeRight: 'Thrust right',
     inventory: 'Hold',
     mine: 'Mining',
     power: 'Power',
@@ -422,6 +433,16 @@
                   ],
                   (v) => set({ invertY: v }),
                   'The mouse and the stick: up climbs, or up dives as a flight stick does. The keys climb and dive as named',
+                )}
+                {@render choices(
+                  'Mouse ring',
+                  settings.mouseRing ?? true,
+                  [
+                    [true, 'Show'],
+                    [false, 'Hide'],
+                  ],
+                  (v) => set({ mouseRing: v }),
+                  'From behind and in the cockpit, a ring for the middle of the mouse’s steering and a line out to the pointer',
                 )}
                 <p class="ui-body w-full text-accent" role="status">
                   {#if waiting}{waiting.pad ? 'Press a button' : 'Press a key'}

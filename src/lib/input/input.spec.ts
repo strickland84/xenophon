@@ -45,7 +45,7 @@ describe('the keyboard', () => {
     expect([HOLD_KEYS.KeyW, HOLD_KEYS.KeyA, HOLD_KEYS.KeyS, HOLD_KEYS.KeyD]).toEqual(['faster', 'left', 'slower', 'right'])
     expect([HOLD_KEYS.ArrowUp, HOLD_KEYS.ArrowLeft, HOLD_KEYS.ArrowDown, HOLD_KEYS.ArrowRight]).toEqual(['up', 'left', 'down', 'right'])
     expect([HOLD_KEYS.Tab, HOLD_KEYS.ShiftLeft]).toEqual(['boost', 'boost'])
-    expect([HOLD_KEYS.KeyE, HOLD_KEYS.KeyQ]).toEqual([undefined, undefined])
+    expect([HOLD_KEYS.KeyQ, HOLD_KEYS.KeyE]).toEqual(['strafeLeft', 'strafeRight'])
   })
 })
 
@@ -77,6 +77,8 @@ describe('devices together', () => {
       climb: -0.4,
       walk: -0.4,
       throttle: 0,
+      lift: 0,
+      strafe: 0,
       boost: 1,
       fire: true,
       secondary: false,
@@ -122,6 +124,12 @@ describe('devices together', () => {
     expect(own.faster).toEqual(['KeyI'])
     expect(own.inventory).toEqual([])
     expect(own.slower).toEqual(['KeyS'])
+  })
+  it('Alt and Ctrl are the vertical thrusters, up and down, and a save from before them gets them unless his keys have them', () => {
+    expect([HOLD_KEYS.AltLeft, HOLD_KEYS.ControlLeft]).toEqual(['thrustUp', 'thrustDown'])
+    const own = readBindings({ keys: { faster: ['KeyW'], boost: ['ControlLeft'] } }).keys
+    expect(own.thrustDown).toEqual([])
+    expect(own.thrustUp).toEqual(['AltLeft'])
   })
   it('a save with Up and Down as a stick’s push and pull (S and W), as given, takes Elite’s layout', () => {
     const was = { faster: ['KeyE'], slower: ['KeyQ'], up: ['KeyS', 'ArrowDown'], down: ['KeyW', 'ArrowUp'] }

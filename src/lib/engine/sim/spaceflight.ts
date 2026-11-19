@@ -25,7 +25,7 @@
 // only tilts with it. That was space's too once, in a band of 268 px, where no ship could pitch past a lean.
 
 import { FLIGHT3D, SPACE_DEEP, SPACE_TOP } from '../data/space'
-import { MOUSE_STICK } from '../data/hulls'
+import { LIFT, MOUSE_STICK } from '../data/hulls'
 import type { Jet } from '../jet/jet'
 import type { SceneState } from '../state'
 import { clamp, hash8, wrapAngle } from '../util/math'
@@ -180,6 +180,17 @@ export function flySpace(scene: SceneState, dt: number, lead: Jet, introDone: bo
   lead.x += lead.vx * dt
   lead.y += lead.vy * dt
   lead.z += sp * speed * dt
+  // the vertical thrusters: square to the nose, along the ship's own up (not with the cruise drive pushing)
+  const liftWant = introDone && scene.space.pace <= 1.2 ? scene.controls.keyLift * LIFT.space : 0
+  flight.liftV += (liftWant - flight.liftV) * (1 - Math.exp(-dt * LIFT.ease))
+  lead.x += -Math.sin(lead.yaw) * sp * flight.liftV * dt
+  lead.y += Math.cos(lead.yaw) * sp * flight.liftV * dt
+  lead.z += cp * flight.liftV * dt
+  // the lateral thrusters: along the ship's own right, level in the plane
+  const sideWant = introDone && scene.space.pace <= 1.2 ? scene.controls.keyStrafe * LIFT.space : 0
+  flight.sideV += (sideWant - flight.sideV) * (1 - Math.exp(-dt * LIFT.ease))
+  lead.x += Math.cos(lead.yaw) * flight.sideV * dt
+  lead.y += Math.sin(lead.yaw) * flight.sideV * dt
   // the band it flies in: at its edge the ship goes no further out (its nose is its pilot's)
   const walled = lead.z > SPACE_TOP || lead.z < SPACE_DEEP
   lead.z = clamp(lead.z, SPACE_DEEP, SPACE_TOP)

@@ -93,6 +93,8 @@ export const CHUNK = {
 export const LAND = {
   /** px above the ground from which the ship can come down */
   reach: 150,
+  /** px over the lowest it may fly (its floor) within which the vertical thrusters held down land it, as Land does */
+  sunk: 3,
   /** px beyond a pad's edge where the ship would come to rest that still bring it down onto the pad (a landing begun
    * short of a pad otherwise settled across its edge, not at the base) */
   padPull: 24,

@@ -48,6 +48,8 @@ export function combine(all: Held[]): Held {
     // (a device that does not say how it walks walks as it climbs: a stick pushed forward)
     sum.walk = (sum.walk ?? 0) + (h.walk ?? h.climb)
     sum.throttle = (sum.throttle ?? 0) + (h.throttle ?? 0)
+    sum.lift = (sum.lift ?? 0) + (h.lift ?? 0)
+    sum.strafe = (sum.strafe ?? 0) + (h.strafe ?? 0)
     sum.boost = Math.max(sum.boost, h.boost)
     sum.fire ||= h.fire
     sum.secondary ||= h.secondary
@@ -59,5 +61,7 @@ export function combine(all: Held[]): Held {
   sum.climb = Math.max(-1, Math.min(1, sum.climb))
   sum.walk = Math.max(-1, Math.min(1, sum.walk ?? 0))
   sum.throttle = Math.max(-1, Math.min(1, sum.throttle ?? 0))
+  sum.lift = Math.max(-1, Math.min(1, sum.lift ?? 0))
+  sum.strafe = Math.max(-1, Math.min(1, sum.strafe ?? 0))
   return sum
 }

@@ -174,6 +174,8 @@ interface Held {
   secondary: boolean
   land?: boolean
   throttle?: number
+  lift?: number
+  strafe?: number
   mine?: boolean
   target?: boolean
 }
@@ -437,6 +439,40 @@ export const scenarios: Record<string, Script> = {
       if (n === 520) s.setControls({ ...held(0, 0), throttle: -1 })
       if (n === 640) s.setControls(held(0, 0, 1))
       if (n === 700) f.marks.push(`thrusters from a stop: throttle ${s.status.throttle}, speed ${Math.round(s.status.speed)}`)
+    })
+    return f.marks
+  },
+
+  // the thrusters (Alt and Ctrl, Q and E, as Elite's): straight up, then straight down while turning, then sideways left and
+  // right, from behind, the nose level and not turning for them (sim/lift.spec.ts checks the nose)
+  'the thrusters: up, down, left and right, from behind': (create, defaults) => {
+    const f = new Flight(create, defaults, { intro: false, view: 'chase', crash: false, skirmish: false, wander: false }, 240, 135)
+    let was = 0
+    let from = { x: 0, y: 0, heading: 0 }
+    f.fly(720, (n) => {
+      const s = f.scene
+      if (n === 60) {
+        was = s.player.height
+        s.setControls({ ...held(0, 0), lift: 1 })
+      }
+      if (n === 240) {
+        f.marks.push(`thrust up: ${Math.round(s.player.height - was)} higher`)
+        was = s.player.height
+        s.setControls({ ...held(0.4, 0), lift: -1 })
+      }
+      if (n === 420) {
+        f.marks.push(`thrust down, turning: ${Math.round(was - s.player.height)} lower`)
+        s.setControls({ ...held(0, 0), strafe: 1 })
+      }
+      if (n === 450) from = { ...s.player }
+      if (n === 540) {
+        const p = s.player
+        // (how far it slid square to its heading: along its right)
+        const side = (p.x - from.x) * Math.cos(from.heading) + (p.y - from.y) * Math.sin(from.heading)
+        f.marks.push(`thrust right: ${Math.round(side)} to the right, heading ${(p.heading - from.heading).toFixed(3)} off`)
+        s.setControls({ ...held(0, 0), strafe: -1 })
+      }
+      if (n === 660) s.setControls(held(0, 0))
     })
     return f.marks
   },

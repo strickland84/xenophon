@@ -16,6 +16,10 @@ export type Bindable =
   | 'stop'
   | 'up'
   | 'down'
+  | 'thrustUp'
+  | 'thrustDown'
+  | 'strafeLeft'
+  | 'strafeRight'
   | 'left'
   | 'right'
   | 'boost'
@@ -42,6 +46,10 @@ export const BINDABLE: Bindable[] = [
   'stop',
   'up',
   'down',
+  'thrustUp',
+  'thrustDown',
+  'strafeLeft',
+  'strafeRight',
   'left',
   'right',
   'boost',
@@ -70,6 +78,10 @@ export const BINDABLE_WORDS: Record<Bindable, string> = {
   stop: 'All stop: the throttle shut',
   up: 'Pitch up: climb (walk on foot)',
   down: 'Pitch down: dive (walk back)',
+  thrustUp: 'Thrust up: straight up, the nose level',
+  thrustDown: 'Thrust down: straight down, the nose level',
+  strafeLeft: 'Thrust left: sideways, the nose not turning',
+  strafeRight: 'Thrust right: sideways, the nose not turning',
   left: 'Turn left',
   right: 'Turn right',
   boost: 'Thrusters (run on foot: Shift)',
@@ -129,6 +141,12 @@ export const DEFAULT_BINDINGS: Bindings = {
     stop: ['KeyX'],
     up: ['ArrowUp'],
     down: ['ArrowDown'],
+    // (the vertical thrusters: James, 2026-11-19, "Ctrl to thrust down and alt to thrust up")
+    thrustUp: ['AltLeft'],
+    thrustDown: ['ControlLeft'],
+    // (and the lateral: "q and e like thrust left and right")
+    strafeLeft: ['KeyQ'],
+    strafeRight: ['KeyE'],
     left: ['KeyA', 'ArrowLeft'],
     right: ['KeyD', 'ArrowRight'],
     boost: ['Tab', 'ShiftLeft'],
@@ -248,6 +266,9 @@ export function readBindings(raw: unknown): Bindings {
     for (const a of moved)
       out.keys[a] = out.keys[a].filter((c) => !BINDABLE.some((o) => o !== a && !moved.includes(o) && out.keys[o].includes(c)))
   }
+  // (and before the vertical thrusters had keys)
+  for (const t of ['thrustUp', 'thrustDown', 'strafeLeft', 'strafeRight'] as const)
+    if (r.keys && !(t in r.keys)) out.keys[t] = out.keys[t].filter((c) => !BINDABLE.some((a) => a !== t && out.keys[a].includes(c)))
   // (and before All stop had a key)
   if (r.keys && !('stop' in r.keys))
     out.keys.stop = out.keys.stop.filter((c) => !BINDABLE.some((a) => a !== 'stop' && out.keys[a].includes(c)))
@@ -287,13 +308,45 @@ export const keyOwner = (b: Bindings, code: string) => BINDABLE.find((a) => b.ke
 export const buttonOwner = (b: Bindings, button: number) => PAD_BINDABLE.find((a) => (b.pad[a] ?? []).includes(button)) ?? null
 
 /** what a held key does */
-export type HoldKey = 'left' | 'right' | 'up' | 'down' | 'faster' | 'slower' | 'boost' | 'land' | 'mine' | 'fire' | 'secondary' | 'target'
+export type HoldKey =
+  | 'left'
+  | 'right'
+  | 'up'
+  | 'down'
+  | 'thrustUp'
+  | 'thrustDown'
+  | 'strafeLeft'
+  | 'strafeRight'
+  | 'faster'
+  | 'slower'
+  | 'boost'
+  | 'land'
+  | 'mine'
+  | 'fire'
+  | 'secondary'
+  | 'target'
 
 /** the keyboard's maps from bindings: keys held (steering, thrusters, Land, and the guns if a key is given them) and keys pressed once */
 export function keyMaps(b: Bindings): { hold: Record<string, HoldKey>; press: Record<string, Press> } {
   const hold: Record<string, HoldKey> = {}
   const press: Record<string, Press> = {}
-  for (const a of ['faster', 'slower', 'up', 'down', 'left', 'right', 'boost', 'mine', 'fire', 'secondary', 'target'] as const)
+  for (const a of [
+    'faster',
+    'slower',
+    'up',
+    'down',
+    'thrustUp',
+    'thrustDown',
+    'strafeLeft',
+    'strafeRight',
+    'left',
+    'right',
+    'boost',
+    'mine',
+    'fire',
+    'secondary',
+    'target',
+  ] as const)
     for (const c of b.keys[a]) hold[c] = a
   // (Action is both: pressed once, and held to land or take off; so is the target key, held a moment to let go)
   for (const c of b.keys.use) hold[c] = 'land'

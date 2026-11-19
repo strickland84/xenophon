@@ -2183,32 +2183,41 @@ controller the D-pad does not steer: up and right are taken.
 Since 2026-11-19 the keys and the mouse are Elite Dangerous's flight layout (James: "build it to mirror elite dangerous
 control scheme"; the review is `docs/controls-review.md`). The touch column is of how it was.
 
-| Action           | Mouse and keys                             | Controller  | Touch                 |
-| ---------------- | ------------------------------------------ | ----------- | --------------------- |
-| Pitch and turn   | The mouse, a stick (a ring for its middle) | Left stick  | Touch and drag        |
-| Pitch            | Up and down arrows                         | Left stick  |                       |
-| Turn             | A and D, left and right arrows             | Left stick  |                       |
-| Throttle         | W and S, wheel                             | Right stick | Throttle lever        |
-| All stop         | X                                          |             |                       |
-| Fire             | Left button                                | R2          | Fire button           |
-| Secondary weapon | Right button                               | Square      | Secondary button      |
-| Boost            | Tab (and Shift, which runs on foot)        | L2          | Boost button          |
-| Cruise drive     | J                                          | R1          |                       |
-| Roll             | Space                                      | Cross       | Swipe, or Roll button |
-| Land, board, use | F                                          | Circle      | Action button         |
-| Change view      | V                                          | Triangle    | View button           |
-| Power on and off | P                                          | D-pad down  | Power button          |
-| Map              | M                                          | Touchpad    | Map button            |
-| Inventory        | I                                          | D-pad up    | Bag button            |
-| Chat             | Enter                                      | D-pad right | Chat button           |
-| Menu             | Escape                                     | Options     | Menu button           |
-| Clip             | F9                                         |             |                       |
+| Action           | Mouse and keys                              | Controller  | Touch                 |
+| ---------------- | ------------------------------------------- | ----------- | --------------------- |
+| Pitch and turn   | The mouse, a stick (a ring for its middle)  | Left stick  | Touch and drag        |
+| Pitch            | Up and down arrows                          | Left stick  |                       |
+| Thrust up, down  | Alt, Ctrl (straight up and down)            |             |                       |
+| Thrust sideways  | Q, E (left and right, the nose not turning) |             |                       |
+| Turn             | A and D, left and right arrows              | Left stick  |                       |
+| Throttle         | W and S, wheel                              | Right stick | Throttle lever        |
+| All stop         | X                                           |             |                       |
+| Fire             | Left button                                 | R2          | Fire button           |
+| Secondary weapon | Right button                                | Square      | Secondary button      |
+| Boost            | Tab (and Shift, which runs on foot)         | L2          | Boost button          |
+| Cruise drive     | J                                           | R1          |                       |
+| Roll             | Space                                       | Cross       | Swipe, or Roll button |
+| Land, board, use | F                                           | Circle      | Action button         |
+| Change view      | V                                           | Triangle    | View button           |
+| Power on and off | P                                           | D-pad down  | Power button          |
+| Map              | M                                           | Touchpad    | Map button            |
+| Inventory        | I                                           | D-pad up    | Bag button            |
+| Chat             | Enter                                       | D-pad right | Chat button           |
+| Menu             | Escape                                      | Options     | Menu button           |
+| Clip             | F9                                          |             |                       |
 
 From behind and from the seat the mouse is a stick, as Elite's is: how far it is from the middle of its steering is how
 fast the ship turns and, in space, pitches (over a world, how fast it climbs), with a dead zone in the middle
 (`MOUSE_STICK` in `data/hulls.ts`); the HUD draws that dead zone as a ring and a line out to the pointer, as Elite's mouse
 widget does (`render/hud.ts`). Up climbs unless Settings says Up dives; the arrow keys climb and dive as named whatever
-the setting. On foot W and S walk (the throttle keys walk), Shift runs. A save that kept the old keys, as given, takes the
+the setting. Alt and Ctrl are the vertical thrusters, as Elite's (James: "Ctrl to thrust down and alt to thrust up"): the
+ship goes straight up or down, square to its nose, which does not pitch (`LIFT` in `data/hulls.ts`, `flight.liftV`; over a
+world its height moves, with the ship, so its nose does not tip; in space it moves along its own up). Held down all the
+way to the floor it lands the ship, as Land does (`landing.ts sinking`, `LAND.sunk`). Q and E are the lateral thrusters
+("q and e like thrust left and right"): the ship slides along its own right, its nose not turning (`flight.sideV`). While a bound Ctrl or Alt is held the keys under it are the
+game's and the browser's shortcuts are kept from them (`keyboard.ts`); Ctrl+W, which a page cannot stop, asks before the
+tab closes (a `beforeunload` while either is held). The ring can be hidden (Settings, Controls: Mouse ring;
+`settings.mouseRing`, the scene's `mouseRing`). On foot W and S walk (the throttle keys walk), Shift runs. A save that kept the old keys, as given, takes the
 new ones; a key the player chose keeps its own (`readBindings`, `BEFORE_ELITE`). Overhead the pointer still turns the
 ship towards it (Elite has no such view).
 

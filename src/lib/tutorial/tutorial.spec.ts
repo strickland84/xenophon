@@ -60,9 +60,9 @@ function stranger(scene: Scene, prompt: Prompt, n: number, said: { beacon: () =>
   }
   // "hold F to …": what F is bound to, held (Action: Land)
   const holdKey = key(/hold (\S+) (?:to|over|low)/i)
-  // "Dive low: hold DOWN"
+  // "Dive low: hold DOWN, or CTRL to drop straight down"
   if (/dive low/i.test(t)) {
-    const a = key(/hold (\S+)$/i)
+    const a = key(/hold (\w+)/i)
     // (as the keyboard sends them with the scene's up dives, its default: keyboard.ts turns the pitch over, the scene back)
     if (a === 'up') held.climb = -1
     if (a === 'down') held.climb = 1

@@ -2,7 +2,7 @@
 // left alone), climbing and diving over the ground, and the full roll.
 
 import { slipOf } from './squad'
-import { CRASH_COMMIT, MOUSE_STICK, statsOf, THROTTLE } from '../data/hulls'
+import { CRASH_COMMIT, LIFT, MOUSE_STICK, statsOf, THROTTLE } from '../data/hulls'
 import { AIR } from '../data/space'
 import { axes, jetSize, makeJet, sliceSpread, TRAIL_N } from '../jet/jet'
 import type { Jet } from '../jet/jet'
@@ -35,6 +35,9 @@ export interface Flight {
   climbV: number
   /** the jet's climb angle, which the chase camera leans with */
   climbTilt: number
+  /** the vertical thrusters: how fast they move the ship square to its nose, px per second (eased); and the lateral, to its right */
+  liftV: number
+  sideV: number
   /** in space, flown free (spaceflight.ts): how fast the nose is coming up (radians a second), and seconds since the pilot last pitched it */
   pitchRate: number
   idle: number
@@ -69,6 +72,8 @@ export function createFlight(p: SceneParams): Flight {
     altGoal: p.altitude,
     climbV: 0,
     climbTilt: 0,
+    liftV: 0,
+    sideV: 0,
     pitchRate: 0,
     idle: 0,
     level: false,
@@ -120,6 +125,8 @@ export function resetFlight(scene: SceneState) {
   flight.altGoal = p.altitude
   flight.climbV = 0
   flight.climbTilt = 0
+  flight.liftV = 0
+  flight.sideV = 0
   scene.boost = 0
   eject.stage = EJ_FLY
   eject.wreck = null
@@ -353,6 +360,22 @@ export function flyLeader(scene: SceneState, dt: number, lead: Jet, introDone: b
   lead.vy = -Math.cos(lead.yaw) * speed
   lead.x += lead.vx * dt
   lead.y += lead.vy * dt
+  // the lateral thrusters: sideways, square to its heading, the nose not turning for them
+  const sideWant = introDone && !scene.interior.flying && !limits.level ? ctl.keyStrafe * climbMax * LIFT.share : 0
+  flight.sideV += (sideWant - flight.sideV) * (1 - Math.exp(-dt * LIFT.ease))
+  lead.x += Math.cos(lead.yaw) * flight.sideV * dt
+  lead.y += Math.sin(lead.yaw) * flight.sideV * dt
+  // the vertical thrusters: the ship and the height it holds move together, straight up or down, never past the floor or
+  // the ceiling; it does not chase the height, so its nose does not tip for them (it wobbled when they moved the height
+  // alone: James, 2026-11-19, "a bit wobbly - like the nose moves weirdly")
+  const liftWant = introDone && !scene.interior.flying && !limits.level ? ctl.keyLift * climbMax * LIFT.share : 0
+  flight.liftV += (liftWant - flight.liftV) * (1 - Math.exp(-dt * LIFT.ease))
+  if (Math.abs(flight.liftV) > 0.5) {
+    const by = clamp(flight.liftV * dt, Math.min(0, altLo - flight.altGoal), Math.max(0, altHi - flight.altGoal))
+    flight.altGoal += by
+    lead.z += by
+    flown = true
+  }
   // height: left alone it drifts back to cruising; it climbs and dives at a limited rate
   if (!flown && !limits.level) flight.altGoal += (p.altitude - flight.altGoal) * (1 - Math.exp(-dt * 0.9))
   flight.altGoal = clamp(flight.altGoal, commit ? altLo - DEEP : altLo, altHi)
@@ -363,7 +386,8 @@ export function flyLeader(scene: SceneState, dt: number, lead: Jet, introDone: b
   const hard = groundAt(world, lead.x, lead.y) + clearance * 0.7
   if (!commit && !limits.level && lead.z < hard) lead.z += (hard - lead.z) * (1 - Math.exp(-dt * 22))
   flight.climbV += (dz / Math.max(dt, 1e-4) - flight.climbV) * (1 - Math.exp(-dt * 6))
-  // nose up in a climb, down in a dive (the gentle cruise bob does not count)
+  // nose up in a climb, down in a dive (the gentle cruise bob does not count, nor the vertical thrusters: they move the ship
+  // outside the climb measured here)
   const climbing = Math.sign(flight.climbV) * Math.max(0, Math.abs(flight.climbV) - 3)
   flight.climbTilt = clamp((climbing / Math.max(20, speed)) * 1.25, -0.5, 0.5)
   const pitchTarget = Math.abs(lead.yawRate / maxRate) * 0.1 + flight.climbTilt
