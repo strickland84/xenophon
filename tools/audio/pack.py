@@ -579,3 +579,5 @@ def draw(entries):
 
 if __name__ == "__main__":
     main()
+    # (the files' fingerprints, so a browser fetches those made again afresh: tools/audio/fingerprints.mjs)
+    subprocess.run(["node", os.path.join(os.path.dirname(os.path.abspath(__file__)), "fingerprints.mjs")], check=True)

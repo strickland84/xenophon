@@ -9,6 +9,8 @@
 // also be made on a context of the caller's (an OfflineAudioContext, to render a mix faster than time
 // for the tools): createMixer.
 
+import { FINGERPRINTS } from './fingerprints'
+
 export interface Mixer {
   ctx: BaseAudioContext
   /** the effects' bus and the music's */
@@ -110,7 +112,12 @@ let urlOf = (path: string) => '/' + path
 export function setAudioUrl(f: (path: string) => string) {
   urlOf = f
 }
-export const audioUrl = (path: string) => urlOf(path)
+/** a file's address, with a fingerprint of what is in it (fingerprints.ts): one made again is fetched afresh, never the
+ * copy a browser kept of the one before (James, 2026-11-19: "I still hear the old voice overs!") */
+export const audioUrl = (path: string) => {
+  const v = FINGERPRINTS[path]
+  return v ? `${urlOf(path)}?v=${v}` : urlOf(path)
+}
 
 // ── the page's own mixer, made on the first click or key
 
