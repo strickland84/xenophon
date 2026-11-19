@@ -1,7 +1,7 @@
 // Films the way up out of a world into space and the way back down, in a view, from the engine alone: a frame kept every
 // so many steps, laid out as a sheet to look at (427 × 240 each: a 4K screen's frame). The ship lifts off its base's pad
 // and climbs, a climb held with its thrusters, up through the top of the world's sky and its air and out; then flies back
-// over the middle of the world, Use held to put its nose down at it, and once in its air lets go and sinks through it.
+// over the middle of the world, Use held, which takes it into its air, and once in it lets go and sinks through it.
 // Nothing is begun or flown for it: it is flown as a pilot flies it (sim/travel.ts flyAir). Run it after changing anything
 // of the air (sim/air.ts, sim/travel.ts, render/air.ts, render/globe.ts):
 //

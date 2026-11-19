@@ -712,13 +712,14 @@ describe('space in a shared sky', () => {
     b.scene.placePlayer(w.x + w.size * 0.1 + 120, w.y, 0)
     await run(2)
     expect(shipOf(b), 'B sees A over the world').toBeTruthy()
-    // A holds Use: his nose goes down at the world and he flies down into its air; B sees him sink under the plane
-    await run(5, () => a.scene.setControls({ turn: 0, climb: 0, boost: 0, fire: false, secondary: false, land: true }))
+    // A holds Use: straight into the world's air; B sees him sink under the plane
+    await run(1.5, () => a.scene.setControls({ turn: 0, climb: 0, boost: 0, fire: false, secondary: false, land: true }))
     expect(a.scene.zone.travel, 'A is on the way down').toBe('down')
     const sinking = shipOf(b)
-    expect(sinking && sinking.height < a.scene.player.height + 20 && sinking.height < 0, 'B sees A sink under the plane').toBe(true)
+    // (as he was a moment before: others are drawn 100 ms in the past, and he sinks fast)
+    expect(sinking && sinking.height < a.scene.player.height + 60 && sinking.height < 0, 'B sees A sink under the plane').toBe(true)
     // half way down the room changes: B sees him no more; C, on the world, sees him come down from high over it
-    // (he lets go: dived in, his ship goes on sinking through the air)
+    // (he lets go: his ship goes on sinking through the air)
     await run(6, () => a.scene.setControls({ turn: 0, climb: 0, boost: 0, fire: false, secondary: false }))
     expect(a.scene.zone.key, 'A on the world').toBe('w1')
     expect(shipOf(b), 'B sees A no more').toBeFalsy()

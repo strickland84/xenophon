@@ -7,7 +7,7 @@
 // camera does not lean to look at it (both did, and near a world he was "spinning around getting sucked
 // down": James, 2026-11-18). A world is gone down to by flying down at it: over its disc, well under
 // the plane, nose still down, the ship is in its air (sim/travel.ts flyAir), which he flies through as
-// he flew to it. Use held over a world puts the nose down for him.
+// he flew to it, or by holding Use over it, which takes him straight into its air.
 
 import { clearWild } from './creatures'
 import { AIR, GATE, GIANT, HOLE, SPACE_Z } from '../data/space'
@@ -124,7 +124,6 @@ function stepSpaceUse(scene: SceneState, dt: number) {
   const f = ownFighter(scene)
   const flying = !!f && scene.eject.stage === EJ_FLY && !j.away && scene.introT > INTRO_TIME
   const mining = scene.loop.mining
-  sp.diving = false
   const scooping = flying && L.stage === FLYING ? j : null
   stepChunks(scene, dt, scooping, scoopReach(scene))
   stepCrates(scene, dt, scooping)
@@ -209,9 +208,12 @@ function stepSpaceUse(scene: SceneState, dt: number) {
   }
   if (sp.held < USE_HOLD) return
   if (sp.prompt === 'descend') {
-    // (held over a world: the nose goes down at it, and the ship flies down into its air; let go, it flies as it was)
-    sp.diving = true
-    if (sp.cruise !== CRUISE_OFF) dropCruise(scene, '')
+    // (held over a world: straight into its air, and on down through it. It put the nose down and left the ship to dive
+    // in, many seconds steeply down, the world spinning under it as the mouse turned it: James, 2026-11-19)
+    dropCruise(scene, '')
+    L.release = true
+    sp.held = 0
+    startDescent(scene, b.body.index)
     return
   }
   L.release = true

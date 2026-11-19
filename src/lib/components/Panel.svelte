@@ -42,8 +42,10 @@
     /** under the scene's row at the top (where it ends, CSS px from the top), which stays over it (the base's screen: that row's Hold, Market and Supplies are
      * its pages) */
     under?: number
-    /** to the page before or after (Q and E, a controller's L1 and R1), where its pages are outside it (the base's) */
+    /** where its pages are outside it (the base's): to the page before or after (a controller's L1 and R1), and straight to
+     * one by its number (the keys 1, 2, 3 …, which fly nothing; Q and E, which it was, thrust the ship sideways) */
     onstep?: (way: -1 | 1) => void
+    onpick?: (n: number) => void
     onclose: () => void
     children: Snippet
   }
@@ -63,6 +65,7 @@
     beside = false,
     under = 0,
     onstep,
+    onpick,
     onclose,
     children,
   }: Props = $props()
@@ -106,9 +109,9 @@
     if (e.key === 'Escape' || (e.key === 'Tab' && tabCloses) || (!typing && closeKeys.includes(e.key))) {
       e.preventDefault()
       onclose()
-    } else if (onstep && !typing && (e.code === 'KeyQ' || e.code === 'KeyE')) {
+    } else if (onpick && !typing && /^Digit[1-9]$/.test(e.code)) {
       e.preventDefault()
-      onstep(e.code === 'KeyQ' ? -1 : 1)
+      onpick(Number(e.code.slice(5)) - 1)
     }
   }}
 >

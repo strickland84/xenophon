@@ -37,7 +37,7 @@ export const SPACE_TOP = SPACE_Z + 900
  * height, `curve` making it gentle near the middle. (It was an aimed nose, to 80°, with a band at the frame's edges that
  * pitched on round: a pilot could not see where its middle was. The ring shows it.) Overhead a climb or a dive held is a
  * nose `lean` radians up or down, and level again let go, come to at `come` a second for each radian it is off (`aim`
- * the most it is asked); Use held over a world is a nose `dive` radians down.
+ * the most it is asked).
  */
 export const FLIGHT3D = {
   pitch: 1.3,
@@ -50,7 +50,6 @@ export const FLIGHT3D = {
   curve: 1.4,
   come: 2.5,
   lean: 0.9,
-  dive: 0.95,
 }
 
 /**
@@ -168,21 +167,24 @@ export const DOCK = { reach: 170, time: 1.4, undock: 1.2 }
  * The air between a world's ground and space (sim/air.ts, sim/travel.ts flyAir): where the flat ground a ship flies over
  * and the globe it sees from space become one another. It is a place the pilot flies through, not a passage he is taken
  * along: he climbs into it from the top of the world's sky and on up into space, dives into it from space and on down,
- * and stays where he is in it when he does neither. (It was a flight of ten seconds flown for him, begun with Use.
+ * and turns back in it if he likes. (It was a flight of ten seconds flown for him, begun with Use.
  * James, 2026-11-18: "why do we NEED a transition? Why isnt the whole universe one seamless thing??")
  *
  * How far through it the ship is is `e`: 0 in space's plane, `ground` at the world's ceiling, where the ground itself
  * takes over from the globe the air makes of it (render/air.ts), drawn there at the same place and size (the two laid
  * over each other for `blend` of the way before it). The zone changes `switchDown` of the way down (`switchUp` going
- * back up), where the ship is `over` px above the ceiling. A climb or a dive held hard crosses it all in `cross`
- * seconds; under `slack` of a push it stays where it is.
+ * back up), where the ship is `over` px above the ceiling. It goes on through it the way it is going, crossing it all
+ * in `cross` seconds, whatever is held; only a push the other way harder than `slack` turns it back (nobody is left
+ * hanging in it: James, 2026-11-19, "I am stuck in the planet orbit for ages"). The cruise drive asked for on the way
+ * up takes it through the rest `rush` times as fast, and spools up as it comes out.
  *
  * Into it from below: at the ceiling, a climb asked for (`out`: this hard or harder), or Use held high over the ground
  * (from `from` px up), which climbs for as long as it is held. Into it from space: over a world (within `rim` of its
  * disc), flown `enter` px down under the plane with the nose well down (its sine under −`steep`: a dive that is meant,
  * steeper than a pointer resting off the middle of its steering gives), or flown all the way down to the globe's own air
- * (`shell` of its radius over it) at any slope; Use held over a world puts the nose down. A ship that dived in goes on
- * sinking, `trim` of as hard as it can, until its pilot asks anything else of it. A world climbed out of is turned on for
+ * (`shell` of its radius over it) at any slope; or Use held over a world (HOLD [F] DESCEND), which takes it straight into
+ * the air (it pointed the nose down and left it to dive, and with the mouse off the middle the world spun round under the
+ * ship: James, 2026-11-19). A world climbed out of is turned on for
  * its pilot, to bring the place he left up to face the plane (its normal's z at least `top`), by the time he is `turnBy`
  * of the way up through its air (and back as it was if he comes back down): he comes out over the place he left.
  * `cam`: at the air's top the camera is space's, which looks where the ship's nose points; between these two shares of
@@ -193,12 +195,12 @@ export const DOCK = { reach: 170, time: 1.4, undock: 1.2 }
  * plane by the time it changes zone.
  */
 export const AIR = {
-  cross: 5,
-  slack: 0.1,
+  cross: 3.5,
+  slack: 0.5,
+  rush: 3.5,
   enter: 220,
   steep: 0.5,
   shell: 0.12,
-  trim: 0.6,
   rim: 0.87,
   top: 0.85,
   turnBy: 0.72,

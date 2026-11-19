@@ -148,14 +148,32 @@ up, down, left and right, from behind`. They move the ship and the height it hol
   (Settings, Mouse ring: `settings.mouseRing`, `params.mouseRing`). The first sortie's steer step teaches the mouse as a
   stick, C and Tab; its dive step the down arrow or Ctrl; its land step Ctrl all the way down (the box and the narrator,
   all read again).
+- **2026-11-19, the way between a world and space made quick** (James: "I am stuck in the planet orbit for ages … the view
+  gets all wonky, I cant cruise until I escape orbit"; "ship spins around like crazy when I do hold F to descend"; the
+  plan's section 6 "No transition"). In a world's air the ship goes on the way it is going, whatever is held or let go,
+  across it in `AIR.cross` 3.5 s; only a push the other way past `AIR.slack` 0.5 turns it back (`travel.ts flyAir`;
+  `Travel.trim` is gone). **Hold F over a world** (HOLD [F] DESCEND) takes it straight into its air (`spacezone.ts
+stepSpaceUse`; `space.diving` and `FLIGHT3D.dive` are gone): down to the top of the sky in about 4 s, where it had been
+  15 s nose down and then 9. **C on the way up** (`Travel.cruise`, `space.ts toggleCruise`, `scene.ts` act) takes it
+  through the rest `AIR.rush` times as fast and spools the drive as it comes out. **The camera** looks down at the world
+  as much at the air's top as below it (`AirShape.look`, no longer cut by `AIR.cam`) and the nose comes level there
+  (`climbTilt` by `smooth(0, AIR.cam[1], e)`, eased at one rate); out in space the look eases away. **The HUD**
+  (`spacehud.ts airHud`): DOWN TO … or LEAVING … over a bar of how far through, and on the way up [C] CRUISE (CRUISE ON
+  THE WAY OUT once asked). **Poles** are one colour past the map's last row (`render/globe.ts capsOf`): they were a
+  starburst. Flight `up out of a world on the cruise drive`; twelve flights re-recorded on purpose (the air, and the
+  caps where a pole is in view); `session.spec.ts`'s pilot going down holds F 1.5 s. Left: a mouse off the middle with
+  the nose steeply down still turns about space's up, and the world wheels round under the ship. **A sun's glow** no
+  longer ends at a straight line square to the way to the sun (`render/bodies.ts castSun`: rays looking away from the
+  sun were left out; they take the camera's own distance from it now) and fades to nothing where it ends; five flights
+  re-recorded for that.
 - **2026-11-19, the base's row is its only menu** (James: "these menus are so confused … I click Cairn Point and I see
   menu for market and supplies, but in the main screen I also have menu for market and supplies"). At a friendly base the
   row at the top is Hold, Market, Supplies (the base screen's pages: `components/basePages.ts BASE_PAGES`), then Hangar,
   Deck, Aboard (the one he is in lit, inside too, and Leave). The base screen has no tabs of its own: it shows the page
   the row asks for, titled by it with the base's name under it; the row stays over it (`FighterJetScene topOver`, z 11)
   with the open page lit, pressed again to close, and the screen opens under the row however it wraps (`onTopRow`,
-  `Panel under`). Q and E, or L1 and R1, step between the pages (`Panel onstep`, `padNav`'s `onStep`; the screen's foot
-  says so). Gone: the base's name as a button (it opened the hold) and the screen's Hangar button. Pictures
+  `Panel under`). the keys 1, 2 and 3 open the pages (`Panel onpick`; Q and E were, but they thrust the ship sideways) and
+  L1 and R1 step between them (`Panel onstep`, `padNav`'s `onStep`); the screen's foot says so. Gone: the base's name as a button (it opened the hold) and the screen's Hangar button. Pictures
   `docs/art/gen/base-menu-before.png`, `base-menu-after.png`. Left as it was: the bench, booth and shop are still only at
   their stations inside, and Tab away from a base shows the hold alone.
 - **2026-11-19, a full screen button** (James: "a fullscreen button in the top menu after the sound effects button …
@@ -307,12 +325,11 @@ chased down`; 26 flights re-recorded on purpose (the rack on the HUD, and every 
   zones (a flat ground that wraps, a ball in space) and the air between them is where one is drawn as the other
   (`sim/air.ts`, `render/air.ts`, `travel.e`: 0 in space's plane, `AIR.ground` at the top of the world's sky), but
   nothing begins or is flown for the pilot: **`sim/travel.ts flyAir`** flies him through it at his own pace, steering
-  as ever; a climb takes him up through it and a dive down (`AIR.cross` s at full push), and asking neither he stays
-  where he is. **Up:** at the top of the sky a climb asked for goes straight on into the air and out into space
+  as ever; it goes on the way he is going and a push the other way turns it back (the entry above). **Up:** at the top of the sky a climb asked for goes straight on into the air and out into space
   (`stepClimbOut`); Use held high over the ground only climbs for him (`heldUp`). **Down:** over a world, flown `AIR.enter`
   px under the plane in a dive that is meant (`AIR.steep`; or all the way to the globe's own air), he is in its air
-  (`spacezone.ts`, `worldUnder`), goes on sinking until he asks otherwise (`Travel.trim`) and comes out at the top of the
-  world's sky, flying; Use held over a world only puts his nose down (`space.diving`). **He comes out over the place he
+  (`spacezone.ts`, `worldUnder`), goes on sinking and comes out at the top of the world's sky, flying; Use held over a
+  world takes him straight in. **He comes out over the place he
   left:** a world climbed out of is turned on, for this pilot only, to bring that place up to face the plane
   (`scene.spun`, `turnedOn`, `placeNormal`; everything that asks where a place of a world is goes through them), so its
   ground stays under him all the way up and its day comes up as he rises (`daylight.ts FADE_AIR`). **The camera** is

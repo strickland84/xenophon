@@ -859,13 +859,13 @@ export function createScene(initial: SceneParams): Scene {
       const afoot = scene.foot.stage === WALKING
       if (action === 'roll' && afoot) dive(scene)
       else if (action === 'view' && afoot) scene.foot.plant = true
-      // (the cruise drive has a button of its own; it works only in space)
+      // (the cruise drive has a button of its own; it works in space, and on the way up out of a world's air)
       else if (action === 'cruise') {
         // (a body picked and no course: the drive takes him to it; docs/targeting.md, T then C)
         const on = scene.target.on
         if (inSpace(scene) && scene.space.course < 0 && on?.kind === 'body' && scene.space.cruise === CRUISE_OFF)
           scene.space.course = on.index
-        if (inSpace(scene)) toggleCruise(scene)
+        if (inSpace(scene) || scene.travel.kind === 'out') toggleCruise(scene)
       } else if (action === 'power') scene.power.ask = true
       else if (action === 'roll') {
         if (scene.introT > INTRO_TIME) startRoll(scene)

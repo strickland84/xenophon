@@ -1778,7 +1778,7 @@
         onmissiles={missiles}
         onpage={openBase}
         under={topRowLow}
-        keys={inputKind === 'pointer' ? ['Q', 'E'] : inputKind === 'ps' ? ['L1', 'R1'] : ['LB', 'RB']}
+        keys={inputKind === 'pointer' ? null : inputKind === 'ps' ? ['L1', 'R1'] : ['LB', 'RB']}
       />
     {/if}
     {#if benchOpen && totals && save}

@@ -75,8 +75,6 @@ export interface Space {
   /** the body the prompt is about (an index into bodies, −1 none), and seconds Use has been held for it */
   target: number
   held: number
-  /** Use is held over a world: the ship's nose goes down at it (sim/spaceflight.ts), for as long as it is held */
-  diving: boolean
   /** seconds since the last tick of heat or crushing; and scene seconds the ship was last burned, crushed */
   tick: number
   burnedAt: number
@@ -117,7 +115,6 @@ export function createSpace(): Space {
     prompt: '',
     target: -1,
     held: 0,
-    diving: false,
     tick: 0,
     burnedAt: -99,
     crushedAt: -99,
@@ -349,7 +346,15 @@ export function toggleCruise(scene: SceneState) {
     dropCruise(scene, '')
     return
   }
-  if (!ownFighter(scene) || scene.travel.kind || sp.prompt === 'undock' || nearStructure(scene)) {
+  // (on the way up out of a world's air: through the rest of it quickly, and the drive spools up as the ship comes out;
+  // James, 2026-11-19: "I cant cruise until I escape orbit")
+  const tr = scene.travel
+  if (tr.kind === 'out' && ownFighter(scene)) {
+    tr.cruise = !tr.cruise
+    sound(scene, tr.cruise ? 'spool' : 'noLock', 0, 0, 0, 1, true)
+    return
+  }
+  if (!ownFighter(scene) || tr.kind || sp.prompt === 'undock' || nearStructure(scene)) {
     sound(scene, 'noLock', 0, 0, 0, 1, true)
     return
   }
