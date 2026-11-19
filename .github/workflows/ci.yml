@@ -41,7 +41,7 @@ jobs:
           cache: npm
       - run: npm ci
       # (the worlds the flights fly over, built once and kept: src/lib/engine/testing/surfaces.ts)
-      - uses: actions/cache@v4
+      - uses: actions/cache@v6
         with:
           path: node_modules/.cache/xenophon-surfaces
           key: surfaces-${{ hashFiles('src/lib/engine/world/**', 'src/lib/engine/galaxy/**', 'src/lib/engine/data/**', 'src/lib/engine/util/**') }}
