@@ -29,10 +29,16 @@ jobs:
       - run: npm run check
       - run: npm run build
 
+  # (the tests in four parts at once: on a private repo the runners have two cores, and one ran them all in eight to
+  # ten minutes)
   test:
-    name: Tests (the pinned frames)
+    name: Tests (the pinned frames, part ${{ matrix.part }} of 4)
     runs-on: ubuntu-latest
     timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        part: [1, 2, 3, 4]
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-node@v7
@@ -44,5 +50,6 @@ jobs:
       - uses: actions/cache@v6
         with:
           path: node_modules/.cache/xenophon-surfaces
-          key: surfaces-${{ hashFiles('src/lib/engine/world/**', 'src/lib/engine/galaxy/**', 'src/lib/engine/data/**', 'src/lib/engine/util/**') }}
-      - run: npm test
+          # (each part flies over its own worlds, so each keeps its own)
+          key: surfaces-${{ matrix.part }}-${{ hashFiles('src/lib/engine/world/**', 'src/lib/engine/galaxy/**', 'src/lib/engine/data/**', 'src/lib/engine/util/**') }}
+      - run: npx vitest run --shard=${{ matrix.part }}/4
