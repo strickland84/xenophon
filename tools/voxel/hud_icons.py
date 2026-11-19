@@ -261,6 +261,29 @@ def console():
     line(d, [(7, 7), (9, 6)], TEAL)
 
     hull(glyph("ships"), 7, 1)
+
+    # the places at a friendly base, beside its Market and Supplies over the sky (James, 2026-11-19: "why does market and
+    # supplies have an icon but the hangar deck and aboard dont"): the hangar's bay door with a ship in it, the deck's
+    # walkway to a lit doorway under a lamp, and aboard, the ship with the way in
+    d = glyph("hangar")
+    poly(d, [(1, 6), (4, 2), (11, 2), (14, 6), (14, 14), (1, 14)])
+    line(d, [(4, 3), (11, 3)], EDGE)
+    box(d, (3, 7, 12, 14), DARK)
+    line(d, [(3, 6), (12, 6)], GOLD)
+    poly(d, [(7, 7), (11, 13), (9, 14), (7, 13), (5, 14), (3, 13)], ICE)
+    box(d, (7, 10, 7, 11), TEAL)
+
+    d = glyph("deck")
+    poly(d, [(1, 14), (14, 14), (10, 9), (5, 9)])
+    line(d, [(4, 12), (11, 12)], EDGE)
+    box(d, (4, 3, 11, 9), STEEL, DARK)
+    box(d, (6, 5, 9, 9), TEAL)
+    line(d, [(7, 6), (8, 6)], ICE)
+    box(d, (7, 1, 8, 2), GOLD)
+
+    d = glyph("aboard")
+    hull(d, 7, 0)
+    poly(d, [(7, 10), (11, 14), (9, 15), (7, 13), (5, 15), (3, 14)], GOLD)
     pack(glyph("gear"), GOLD, 2)
     pack(glyph("bag"), TEAL, 2)
     d = glyph("furniture")

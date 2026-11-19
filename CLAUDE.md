@@ -123,6 +123,20 @@ tools/voxel/brand.py`; tries in `art/brand/`); the favicon is `mark-32.png`, the
   tests; templates; Dependabot; CODEOWNERS); Vercel (`vercel.json`, static `build/`) serves `main` at xenophon.me.
   James's private notes moved to `CLAUDE.local.md` (not in git).
 
+- **2026-11-19, a shadow on foot, the base's pages over the sky, repairs told, no roll landed** (James: "on foot can you
+  give our player a shadow - its especially apparent we dont have one when jumping"; Market and Supplies "not even usable
+  unless at a base. These 'tabs' should move to the Base header next to Hangar"; "need some tooltips or something on how
+  to repair my ship"; "we should not be able to do a roll when landed"). **The shadow** (`render/walker.ts`) lies on the
+  ground under him (`groundAt`), at his sprite's lowest drawn row (`lowestRow`), a pixel wider than him each side, two rows
+  deep and darker; in a jump it stays down there, smaller and fainter as he rises (`SHADOW_HIGH`); inside, at his feet.
+  `npx jiti tools/foot-shadow.ts out.png [scale] [clock] [crop]` draws it close. **The base header** at a friendly base:
+  its name (the hold), Market, Supplies, Hangar, Deck, Aboard, each with its icon (`hangar`, `deck`, `aboard` drawn in
+  `tools/voxel/hud_icons.py`); Market and Supplies open the base's screen at that page (`BaseScreen start`,
+  `Game.svelte openBase`), and away from a base Tab shows the hold and vault with no tabs. **Repairs:** a tooltip on
+  Supplies, and the tips `repair` (the hull holed in flight: land at a base and hold the mining key, or Supplies) and
+  `repairHere` (landed holed at a friendly base). **No roll** landing, landed, docked or lifting (`sim/flight.ts
+startRoll`; `sim/roll.spec.ts`). Twenty flights re-recorded on purpose (every one with a pilot on foot or inside: the
+  shadow).
 - **2026-11-19, desktop only** (James: "remove all MOBILE views and adjustments - this game is now purely intended for
   desktop mouse and keyboard. If someone is on a narrow device like that just point them to the github and tell them to
   get a PC"). `display/desktop.ts isDesktop` (a fine pointer and a screen 1,024 px on its long side; `?desktop=yes` gets

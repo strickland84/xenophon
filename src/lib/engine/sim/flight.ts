@@ -142,6 +142,9 @@ export function startRoll(scene: SceneState) {
   const { view, rig } = scene
   const lead = scene.jets[0]
   if (lead.stunt >= 0 || (lead.fighter && lead.fighter.rollRest > 0)) return
+  // (not on the ground: landing, landed or docked, lifting off. James, 2026-11-19: "we should not be able to do a roll
+  // when landed either with space bar")
+  if (scene.loop.landing.stage !== FLYING) return
   const dir = lead.yawRate >= 0 ? 1 : -1
   rig.spin = view.cockpit > 0.5 ? 1 : 0
   scene.jets.forEach((j, i) => {

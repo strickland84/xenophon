@@ -79,18 +79,38 @@ export function letters(
   }
 }
 
-/** a dark smudge on the ground under a pilot, to stand him on it */
-function shadow(f: Frame, x: number, y: number, half: number, V: number) {
+/** a dark smudge on the ground under a pilot, to stand him on it: an oval two rows deep (the row behind him a pixel
+ * narrower each side), its edge softer; `k` how dark, 0..1 (a pilot high in a jump casts a fainter one) */
+function shadow(f: Frame, x: number, y: number, half: number, V: number, k = 1) {
   const { w: W, h: H, fb, zbuf } = f
-  if (y < 0 || y >= H) return
-  for (let dx = -half; dx <= half; dx++) {
-    const xx = x + dx
-    if (xx < 0 || xx >= W) continue
-    const at = y * W + xx
-    if (zbuf[at] < V - 3) continue
-    fb[at] = blend(fb[at], SHADOW, Math.abs(dx) === half ? 50 : 96)
+  for (let row = 0; row < 2; row++) {
+    const yy = y - row
+    const hw = half - row
+    if (yy < 0 || yy >= H || hw < 0) continue
+    for (let dx = -hw; dx <= hw; dx++) {
+      const xx = x + dx
+      if (xx < 0 || xx >= W) continue
+      const at = yy * W + xx
+      if (zbuf[at] < V - 3) continue
+      fb[at] = blend(fb[at], SHADOW, Math.round((Math.abs(dx) === hw ? 96 : 176) * k))
+    }
   }
 }
+
+/** the lowest row of a sprite with anything drawn in it (its pictures have see-through rows under the feet), by its rows */
+const lowest = new Map<string, number>()
+function lowestRow(rows: string, w: number, h: number) {
+  let r = lowest.get(rows)
+  if (r === undefined) {
+    r = h - 1
+    while (r > 0 && ![...rows.slice(r * w, (r + 1) * w)].some((ch) => INK[ch.charCodeAt(0)] >= 0)) r--
+    lowest.set(rows, r)
+  }
+  return r
+}
+
+/** px over the ground at which a pilot's shadow is smallest and faintest (a jump's height is about FOOT.jump's) */
+const SHADOW_HIGH = 24
 
 /** which of the eight ways on the screen a pilot faces, from his heading and the camera's turn */
 function wayOf(scene: SceneState, yaw: number) {
@@ -177,7 +197,22 @@ export function drawWalker(scene: SceneState, f: Frame, w: Walker, own: boolean)
     flip = !mirror
     lift = small ? -1 : -2
   }
-  if (!w.hidden && !w.wading) shadow(f, fx, fy + 1, Math.max(1, (shown.w >> 1) - 2), pr.v)
+  if (!w.hidden && !w.wading) {
+    // (on the ground under him, wherever his feet are: off the ground in a jump it stays down there, smaller and fainter
+    // the higher he is. James, 2026-11-19: "its especially apparent we dont have one when jumping". Inside, the floor is
+    // where his feet are)
+    // (a pixel wider than him each side, so it shows past his feet: as narrow as them, his own bottom row hid it all)
+    const half = Math.max(2, (shown.w >> 1) + 1)
+    const inside = scene.zone.kind === 'interior' || scene.interior.flying
+    const ground = inside ? feet : Math.min(feet, groundAt(scene.world, j.x, j.y))
+    const up = clamp((feet - ground) / SHADOW_HIGH, 0, 1)
+    // (at the row his feet are drawn on, the sprite's lowest: it is laid with its bottom row a row under his feet)
+    const under = (lowestRow(rows, shown.w, shown.h) - shown.h + 2) * s
+    if (ground === feet) shadow(f, fx, fy + under, half, pr.v)
+    else if (project(view, j.x, j.y, ground))
+      shadow(f, Math.round(pr.x), Math.round(pr.y) + under, Math.max(1, Math.round(half * (1 - up * 0.5))), pr.v, 1 - up * 0.55)
+    project(view, j.x, j.y, feet)
+  }
   letters(f, rows, shown.w, shown.h, colours, fx - ((shown.w * s) >> 1), fy - shown.h * s + s * 2 - lift * s, s, V, flip, false, cut, faint)
   if (w.wading) {
     // ripples round his legs

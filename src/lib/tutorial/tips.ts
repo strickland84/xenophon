@@ -13,7 +13,8 @@ export interface TipView {
   loop: { stage: string; base: { friendly: boolean } | null }
   interior: { place: string; flying?: boolean }
   traces: { atSite: boolean }
-  status: { lock: number; incoming: number; ambushed?: boolean }
+  /** how he stands: a lock on, a missile's seconds away, an ambush, and his hull left (0..1) */
+  status: { lock: number; incoming: number; ambushed?: boolean; hull?: number }
   /** a weapon or module is within reach: its credits in hand, and the ore it needs in the vault */
   affordable: boolean
   /** other pilots of his side in the room */
@@ -109,6 +110,19 @@ export const TIPS: Tip[] = [
     id: 'roll',
     when: (v) => v.status.incoming < 2.5,
     text: (n) => `A missile is coming: ${n('roll')} as ROLL! shows, to shake it off`,
+  },
+  // (James, 2026-11-19: "need some tooltips or something on how to repair my ship": the HUD says HOLD [R] REPAIR at a base,
+  // but nothing told him to go there)
+  {
+    id: 'repair',
+    when: (v) => (v.status.hull ?? 1) < 0.75 && v.loop.stage === 'flying',
+    text: (n) =>
+      `Your hull is holed. Land at one of your side's bases and hold ${n('mine')} to mend it where you stand, a credit a point, or buy a repair at its SUPPLIES`,
+  },
+  {
+    id: 'repairHere',
+    when: (v) => (v.status.hull ?? 1) < 0.99 && v.loop.stage === 'landed' && !!v.loop.base?.friendly,
+    text: (n) => `Your hull is holed: hold ${n('mine')} here to mend it, a credit a point. SUPPLIES, at the top, sells a whole repair`,
   },
   {
     id: 'ambush',

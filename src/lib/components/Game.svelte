@@ -131,6 +131,7 @@
   import UpdateBanner from './UpdateBanner.svelte'
   import TooltipHost from './TooltipHost.svelte'
   import UiIcon from './UiIcon.svelte'
+  import { tip as tooltip } from './tooltip.svelte'
   import { priceWords } from './items'
   import { moving, ms, setReducedMotion } from './motion'
   import { fade, fly as flyIn } from 'svelte/transition'
@@ -179,6 +180,8 @@
   let lock: PilotLock | null = null
   /** the base's screen is open; how the loop and the ship stood when last looked at */
   let baseOpen = $state(false)
+  /** the base's screen opens at this page (its Market and Supplies buttons over the sky) */
+  let baseStart = $state<'hold' | 'market' | 'supplies'>('hold')
   let loopNow = $state<LoopStatus | null>(null)
   let shipNow = $state({ hullLeft: 1, missiles: 0, missilesMax: 0 })
   /** inside (the hangar, the deck, a ship's rooms): where, as last looked at; and the screens opened from there */
@@ -1322,7 +1325,7 @@
       if (u.kind === 'open') {
         if (u.spot === 'bench') benchOpen = true
         else if (u.spot === 'booth') boothOpen = true
-        else if (u.spot === 'vault') baseOpen = true
+        else if (u.spot === 'vault') openBase('hold')
         else if (u.spot === 'shop') shopOpen = true
         else if (u.spot === 'board') boardOpen = true
       } else if (s && !insideNow?.owner) {
@@ -1423,6 +1426,12 @@
     return { top: above, bottom: room < 70 ? Math.max(8, viewHigh - above - 70) : below, openBottom: below }
   })
 
+  /** the base's screen, open at one of its pages */
+  function openBase(page: 'hold' | 'market' | 'supplies') {
+    baseStart = page
+    baseOpen = true
+  }
+
   /** mute or block a pilot (or let him be heard again) */
   function toggle(list: 'muted' | 'blocked', key: string) {
     if (!save) return
@@ -1499,7 +1508,10 @@
       onVolume={volume}
       onView={view}
       onMenu={() => (menu = !menu)}
-      onInventory={() => (baseOpen = !baseOpen)}
+      onInventory={() => {
+        baseStart = 'hold'
+        baseOpen = !baseOpen
+      }}
       onMap={() => (mapOpen = !mapOpen)}
       onChat={() => (chatOpen = !chatOpen)}
       onClip={clipThat}
@@ -1526,12 +1538,31 @@
       {#snippet top()}
         <NetBadge sky={netState} onclick={() => (menu = !menu)} />
         {#if atBase && !baseOpen}
-          <!-- landed at a friendly base: its screen is a press away -->
+          <!-- landed at a friendly base: its screen is a press away, at its hold, its market or its supplies (James,
+          2026-11-19: they were tabs behind Tab, and of no use until he landed) -->
           <button
             type="button"
             class="{topButton} !border-accent text-accent"
-            onclick={() => (baseOpen = true)}
+            onclick={() => openBase('hold')}
             onpointerdown={(e) => e.stopPropagation()}><UiIcon name="hold" size={32} />{loopNow?.base?.name}</button
+          >
+          <button
+            type="button"
+            class={topButton}
+            use:tooltip={{ title: 'Market', line: "Sell the ore in your vault at today's prices here" }}
+            onclick={() => openBase('market')}
+            onpointerdown={(e) => e.stopPropagation()}><UiIcon name="market" size={32} />Market</button
+          >
+          <button
+            type="button"
+            class={topButton}
+            use:tooltip={{
+              title: 'Supplies',
+              line: 'Repair your hull and buy missiles',
+              note: `Or hold ${namer(inputKind, save?.settings.bindings)('mine')} landed here to mend the hull where you stand, a credit a point`,
+            }}
+            onclick={() => openBase('supplies')}
+            onpointerdown={(e) => e.stopPropagation()}><UiIcon name="supplies" size={32} />Supplies</button
           >
           {#if !insideNow?.place}
             <!-- … and the places inside: the hangar, the deck, his ship's rooms -->
@@ -1540,7 +1571,7 @@
                 type="button"
                 class={topButton}
                 onclick={() => flown?.goInside(place as 'hangar')}
-                onpointerdown={(e) => e.stopPropagation()}>{label}</button
+                onpointerdown={(e) => e.stopPropagation()}><UiIcon name={place === 'ship' ? 'aboard' : place} size={32} />{label}</button
               >
             {/each}
           {/if}
@@ -1698,6 +1729,7 @@
     {/if}
     {#if baseOpen && totals && save}
       <BaseScreen
+        start={baseStart}
         base={loopNow?.stage === 'landed' && loopNow.base ? loopNow.base : null}
         station={zoneNow?.kind === 'space'}
         {totals}
