@@ -148,6 +148,11 @@ up, down, left and right, from behind`. They move the ship and the height it hol
   (Settings, Mouse ring: `settings.mouseRing`, `params.mouseRing`). The first sortie's steer step teaches the mouse as a
   stick, C and Tab; its dive step the down arrow or Ctrl; its land step Ctrl all the way down (the box and the narrator,
   all read again).
+- **2026-11-19, Vercel Web Analytics** (James: "install vercel analytics"): `@vercel/analytics`'s plain `inject` in
+  `src/routes/+layout.ts` (development mode in `dev`). Its SvelteKit helper is not used: it imports `$app/environment` and
+  `$app/stores`, which SvelteKit 3 has as `$app/env` and `$app/state`; `package.json` `overrides` lets it take the
+  project's SvelteKit 3 for its optional peer (it asks for 1 or 2), so `npm ci` installs cleanly. It counts only once
+  Analytics is turned on for the project in Vercel.
 - **2026-11-19, the way between a world and space made quick** (James: "I am stuck in the planet orbit for ages … the view
   gets all wonky, I cant cruise until I escape orbit"; "ship spins around like crazy when I do hold F to descend"; the
   plan's section 6 "No transition"). In a world's air the ship goes on the way it is going, whatever is held or let go,
