@@ -137,6 +137,11 @@ tools/voxel/brand.py`; tries in `art/brand/`); the favicon is `mark-32.png`, the
   `repairHere` (landed holed at a friendly base). **No roll** landing, landed, docked or lifting (`sim/flight.ts
 startRoll`; `sim/roll.spec.ts`). Twenty flights re-recorded on purpose (every one with a pilot on foot or inside: the
   shadow).
+- **2026-11-19, audio fetched afresh when it changes** (James: "I still hear the old voice overs!": the files kept their
+  names, and his browser its copies). Every file under `static/audio/` has a fingerprint of what is in it
+  (`src/lib/audio/fingerprints.ts`, written by `node tools/audio/fingerprints.mjs`, which `tools/audio/pack.py` and
+  `narration.py` now run when they finish); `audio/mixer.ts audioUrl` adds it to the address (`?v=`), and `vercel.json`
+  keeps `/audio/` a year, immutable. `fingerprints.spec.ts` fails while the table and the files disagree.
 - **2026-11-19, desktop only** (James: "remove all MOBILE views and adjustments - this game is now purely intended for
   desktop mouse and keyboard. If someone is on a narrow device like that just point them to the github and tell them to
   get a PC"). `display/desktop.ts isDesktop` (a fine pointer and a screen 1,024 px on its long side; `?desktop=yes` gets
