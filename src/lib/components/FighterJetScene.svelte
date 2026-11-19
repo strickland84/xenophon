@@ -32,6 +32,7 @@
   import type { PointerInput } from '../input/pointer'
   import HintBar from './HintBar.svelte'
   import SoundButton from './SoundButton.svelte'
+  import FullscreenButton from './FullscreenButton.svelte'
 
   type Props = Partial<SceneParams> & {
     /** size of one art pixel on screen, in CSS px. 0 picks one that suits the canvas */
@@ -148,7 +149,7 @@
     merged.useKey = padInput ? hudButton(bindings.pad.use?.[0] ?? 1, padInput === 'ps') : firstKey(bindings, 'use') || 'F'
     merged.mineKey = padInput ? hudButton(bindings.pad.mine?.[0] ?? 4, padInput === 'ps') : firstKey(bindings, 'mine') || 'R'
     merged.powerKey = padInput ? hudButton(bindings.pad.power?.[0] ?? 13, padInput === 'ps') : firstKey(bindings, 'power') || 'P'
-    merged.cruiseKey = padInput ? hudButton(bindings.pad.cruise?.[0] ?? 5, padInput === 'ps') : firstKey(bindings, 'cruise') || 'J'
+    merged.cruiseKey = padInput ? hudButton(bindings.pad.cruise?.[0] ?? 5, padInput === 'ps') : firstKey(bindings, 'cruise') || 'C'
     merged.seatKey = padInput ? hudButton(bindings.pad.seat?.[0] ?? 10, padInput === 'ps') : firstKey(bindings, 'seat') || 'G'
     // (on the page a ship landed or docked waits with its power off until its pilot brings it up: sim/power.ts)
     merged.coldStart = settings.coldStart ?? true
@@ -483,7 +484,7 @@
     <!-- the line of help, always at the very bottom of the view -->
     <HintBar text={hint} {chips} visible={hintOn} />
   {/if}
-  <!-- the row at the top: the volume, and whatever the page adds -->
+  <!-- the row at the top: the volume, full screen, and whatever the page adds -->
   <div class="pointer-events-none absolute inset-x-0 top-[max(6px,env(safe-area-inset-top))] flex justify-center gap-1.5">
     <SoundButton
       volume={loudness}
@@ -495,6 +496,7 @@
         focus()
       }}
     />
+    <FullscreenButton ondone={focus} />
     {@render top?.()}
   </div>
 </div>
