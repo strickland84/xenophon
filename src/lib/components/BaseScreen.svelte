@@ -1,8 +1,9 @@
 <script lang="ts">
-  // The base's screen (Tab, the D-pad's up, or the Bag button), after art/mockups/inventory.png
+  // The base's screen (Tab, the D-pad's up, or the base's buttons over the sky), after art/mockups/inventory.png
   // and shop.png: the ship's hold and the vault side by side, and, landed at a friendly base,
-  // the market (sell from the vault at today's prices), supplies (repairs, missiles), parts and
-  // paint. Away from a base it only shows the hold and the vault. Everything is a button, so a
+  // the market (sell from the vault at today's prices) and supplies (repairs, missiles), opened at whichever was asked
+  // for (`start`: the page's Market and Supplies buttons, beside Hangar). Away from a base it only shows the hold and the
+  // vault, with no tabs (James, 2026-11-19: they were there, and of no use, until he landed). Everything is a button, so a
   // tap, a click, the keys or a controller (padnav.ts) work it; nothing is dragged.
   import { asset } from '$app/paths'
   import { RESOURCES, SHOP } from '../engine'
@@ -41,6 +42,8 @@
     onhangar?: () => void
     /** docked at a station in space (not landed on a world) */
     station?: boolean
+    /** the page to open at (the base's Market or Supplies button), at a friendly base */
+    start?: 'hold' | 'market' | 'supplies'
   }
   let {
     base,
@@ -56,22 +59,24 @@
     onmissiles,
     onhangar,
     station = false,
+    start = 'hold',
   }: Props = $props()
 
   type Tab = 'hold' | 'market' | 'supplies'
-  let tab = $state<Tab>('hold')
   const trading = $derived(!!base?.friendly)
+  // (as asked for, at a friendly base; and asked again while it is open, the page it goes to)
+  let tab = $derived<Tab>(trading ? start : 'hold')
   const used = $derived(hold.filter((s) => !!s).length)
   const repairCost = $derived(Math.ceil((1 - ship.hullLeft) * ship.hullPoints * SHOP.repair))
   // (the icons, cut from the image model's sheet by tools/voxel/prefabs.py)
   const icon = (id: string) => asset(`icons/${id}.png` as Parameters<typeof asset>[0])
   const roomFor = (id: ResourceId) => hold.reduce((n, s) => n + (!s ? RESOURCES[id].stack : s.id === id ? RESOURCES[id].stack - s.n : 0), 0)
 
-  const tabItems = $derived([
+  const tabItems = [
     { id: 'hold' as Tab, label: 'Hold', icon: 'hold' },
-    { id: 'market' as Tab, label: 'Market', icon: 'market', disabled: !trading },
-    { id: 'supplies' as Tab, label: 'Supplies', icon: 'supplies', disabled: !trading },
-  ])
+    { id: 'market' as Tab, label: 'Market', icon: 'market' },
+    { id: 'supplies' as Tab, label: 'Supplies', icon: 'supplies' },
+  ]
   const kind = $derived(base ? (base.owner ? (base.capital ? 'Capital' : 'Base') : 'Outpost') + (base.friendly ? '' : ' · enemy') : '')
   const nameOf = (id: ResourceId) => RESOURCES[id].name
   // the place's own picture over the hold (the image model's, tools/gen/interface.py): a side's base on its world, a
@@ -87,12 +92,20 @@
   )
 </script>
 
-<Panel title={base ? base.name : 'In flight'} sub={kind} credits={totals.credits} label="Base" {onclose}>
+{#snippet baseTabs()}
+  <Tabs items={tabItems} value={tab} onchange={(t) => (tab = t)} label="Base screens" />
+{/snippet}
+
+<Panel
+  title={base ? base.name : 'In flight'}
+  sub={kind}
+  credits={totals.credits}
+  label="Base"
+  {onclose}
+  tabs={trading ? baseTabs : undefined}
+>
   {#snippet lead()}
     {#if base?.owner}<Emblem side={base.owner} size={32} />{/if}
-  {/snippet}
-  {#snippet tabs()}
-    <Tabs items={tabItems} value={tab} onchange={(t) => (tab = t)} label="Base screens" />
   {/snippet}
   {#snippet foot()}
     {#if !trading}
@@ -107,7 +120,7 @@
     {#if tab === 'hold'}
       {#if picture}
         <div class="ui-settle relative -mt-1 mb-4 h-36 overflow-hidden border-2 border-ink/15 max-sm:h-16" style="--i: 0">
-          <!-- (each of its pixels a whole number of CSS pixels, three across a laptop's panel and two on a phone: a strip of it
+          <!-- (each of its pixels a whole number of CSS pixels, three across a laptop's panel and two on a small window: a strip of it
           across the middle) -->
           <img
             src={asset(picture as Parameters<typeof asset>[0])}

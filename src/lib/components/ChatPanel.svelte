@@ -6,8 +6,7 @@
   // channel (All, Side, Squad, News), a line to type at its bottom, and quick chat. Each line has its pilot's side mark
   // and callsign in his side's colour; a callsign, opened, offers Mute and Block. News is said by nobody: a pilot come
   // or gone, one downed, a world changing hands, a squad's comings and goings. Alone, his own lines and the news still
-  // show. It keeps to the place the page gives it (`top`, `bottom`, in CSS px): clear of the HUD's corners and of the
-  // touch buttons. What is typed is held to what the pixel font draws; muted and blocked pilots are left out by the page.
+  // show. It keeps to the place the page gives it (`top`, `bottom`, in CSS px): clear of the HUD's corners. What is typed is held to what the pixel font draws; muted and blocked pilots are left out by the page.
   import { tick } from 'svelte'
   import { QUICK_CHAT } from '../engine'
   import { padNav } from '../input/padnav'
@@ -38,7 +37,7 @@
     top: number
     bottom: number
     openBottom: number
-    /** a small screen (a phone held sideways): fewer lines, a narrower column */
+    /** a short window: fewer lines, a narrower column */
     small: boolean
     /** pilots muted (their lines are gone; the name offers Unmute) */
     muted: string[]

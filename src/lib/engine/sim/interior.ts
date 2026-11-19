@@ -371,15 +371,23 @@ export function hangarShip(scene: SceneState) {
 }
 
 /**
- * What the page must show whole (px): nothing, now. Every place inside is drawn at one art pixel (INSIDE.zoom) and the
- * camera follows the pilot round it where it is larger than the frame (the fresh review: the hangar and the deck, each
+ * What the page must show whole (px): nothing inside, now. Every place inside is drawn at one art pixel (INSIDE.zoom) and
+ * the camera follows the pilot round it where it is larger than the frame (the fresh review: the hangar and the deck, each
  * fitted whole to the page, and a ship's rooms drawn as large as they would go, showed the same pilot and the people
- * round him at three sizes). Kept for the page, which asks.
+ * round him at three sizes).
+ *
+ * In the seat, `tallest`: the frame no taller than that (the art pixel no smaller than lets it be). The cockpits' art is
+ * made at most COCKPIT_TALLEST rows high, as many as the model's pictures have pixels, and is never scaled; a taller
+ * frame repeated a plain row of its roof, and with the picture size at 2 on a tall window three fifths of the view was
+ * roof (James, 2026-11-19: "this is my cockpit view. Not great").
  */
-export function fitOf(scene: SceneState): { w: number; h: number; least?: number } | null {
-  void scene
-  return null
+export function fitOf(scene: SceneState): { w: number; h: number; least?: number; tallest?: number } | null {
+  const seat = scene.rig.target === 2 && scene.zone.kind !== 'interior' && !scene.interior.flying && scene.foot.stage === ABOARD
+  return seat ? { w: 0, h: 0, tallest: COCKPIT_TALLEST } : null
 }
+
+/** the tallest frame the seat is drawn in (art px): the cockpits' larger build (256 rows) and a little of its roof again */
+export const COCKPIT_TALLEST = 300
 
 /** whether a pilot of radius `rad` can stand at (x, y) */
 export function standable(scene: SceneState, x: number, y: number, rad = INSIDE.radius) {

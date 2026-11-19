@@ -1,15 +1,24 @@
 // What the pilot has picked with the target key (James, 2026-11-19: "T to target the nearest thing in view"; the whole of it
-// in docs/targeting.md). A press picks the nearest thing on the frame, and the next nearest each press after, round and
-// round; held a moment, the key lets it go. Anything may be picked: every ship, and in space every body and structure, on a
+// in docs/targeting.md). A press picks the thing on the frame nearest where the ship is aiming (James, the same day: "I want
+// T to target the nearest thing to your crosshair or essentially where the ship is aiming"), and the next nearest it each
+// press after, round and round; held a moment, the key lets it go. Anything may be picked: every ship, and in space every body and structure, on a
 // world's ground its bases and its places. The HUD brackets it and the cockpit's screen says what it is (render/target.ts);
 // an enemy picked is the one the sights follow (sim/fight.ts), so it is the one a missile goes after.
 //
-// It is the pilot's own: no other game hears of it, and it is not kept. Nearest is by distance to a thing's surface (a world
-// is as near as its ground), ties by what it is, so the same presses pick the same things in every run.
+// It is the pilot's own: no other game hears of it, and it is not kept. Where he is aiming is the way his guns fire (guns.ts
+// noseOf), laid on the frame as a line from a point just ahead of his nose through one far along it (in the seat, looking
+// along it, all but a point). Nearest it is by how far a thing's middle lies off that line on the frame, its size there
+// bringing it a little nearer (no more than `TARGET.reach`: a sun's disc covers the sights from far off, and was picked
+// before the raiders in front of it), and anything within the sights' own size (`TARGET.sights`) counting as under them;
+// then by distance to its surface (a world is as near as its ground), then by what it
+// is, so the same presses pick the same things in every run. With nothing to aim (out of his ship) it is by distance alone.
 
 import type { Jet } from '../jet/jet'
 import type { SceneState } from '../state'
 import type { Fighter } from './combat'
+import { ownFighter } from './combat'
+import { noseOf } from './guns'
+import type { Aim } from './guns'
 import type { SpaceBody } from './space'
 import type { Base, Place } from '../world/features'
 import { TARGET } from '../data/target'
@@ -160,6 +169,19 @@ export function targetNow(scene: SceneState, ref: TargetRef): TargetNow | null {
   return t
 }
 
+/** where a point of the world is on the frame now, as the camera has it (turned with the cockpit's roll); null behind the camera (`m` its scale there) */
+function frameAt(scene: SceneState, x: number, y: number, z: number): { x: number; y: number; m: number } | null {
+  const view = scene.view
+  if (!project(view, x, y, z)) return null
+  if (view.roll === 0) return { x: pr.x, y: pr.y, m: pr.m }
+  const W = scene.screen.w
+  const c = Math.cos(view.roll)
+  const s = Math.sin(view.roll)
+  const dx = pr.x - (W >> 1)
+  const dy = pr.y - scene.pivotNow
+  return { x: (W >> 1) + c * dx + s * dy, y: scene.pivotNow - s * dx + c * dy, m: pr.m }
+}
+
 /** where a target is on the frame now, as the camera has it (turned with the cockpit's roll), and its radius there; null behind the camera */
 export function targetOnScreen(scene: SceneState, t: TargetNow): { x: number; y: number; r: number } | null {
   const view = scene.view
@@ -174,19 +196,42 @@ export function targetOnScreen(scene: SceneState, t: TargetNow): { x: number; y:
     } else r = k === 'planet' || k === 'moon' ? overheadRadius(t.body.body) : t.body.body.size
     return { x: p.x, y: p.y, r }
   }
-  if (!project(view, t.x, t.y, t.z)) return null
-  let x = pr.x
-  let y = pr.y
-  if (view.roll !== 0) {
-    const W = scene.screen.w
-    const c = Math.cos(view.roll)
-    const s = Math.sin(view.roll)
-    const dx = pr.x - (W >> 1)
-    const dy = pr.y - scene.pivotNow
-    x = (W >> 1) + c * dx + s * dy
-    y = scene.pivotNow - s * dx + c * dy
+  const p = frameAt(scene, t.x, t.y, t.z)
+  if (!p) return null
+  return { x: p.x, y: p.y, r: t.r * p.m * (t.jet ? jetSize(scene.params) : 1) }
+}
+
+/** where the ship is aiming on the frame: a line from just ahead of its nose (`dx`, `dy` its way on the frame, a unit), or
+ * looking along it a point (`dx`, `dy` 0); null with nothing to aim (out of his ship) or the way behind the camera */
+export function aimOnFrame(scene: SceneState): { x: number; y: number; dx: number; dy: number } | null {
+  const f = ownFighter(scene)
+  if (!f) return null
+  const j = f.jet
+  noseOf(f, nose)
+  const at = (k: number) => frameAt(scene, j.x + nose.x * k, j.y + nose.y * k, j.z + nose.z * k)
+  const tip = at(TARGET.aimFar)
+  if (!tip) return null
+  const from = at(TARGET.aimNear)
+  if (!from) return { x: tip.x, y: tip.y, dx: 0, dy: 0 }
+  const len = Math.hypot(tip.x - from.x, tip.y - from.y)
+  if (len < 1e-3) return { x: from.x, y: from.y, dx: 0, dy: 0 }
+  return { x: from.x, y: from.y, dx: (tip.x - from.x) / len, dy: (tip.y - from.y) / len }
+}
+const nose: Aim = { x: 0, y: 0, z: 0 }
+
+/** how far a thing's middle on the frame lies off the aim, its radius there bringing it no more than `reach` nearer (0:
+ * under the sights); what lies back past the line's start comes after everything ahead of it */
+function offAim(aim: NonNullable<ReturnType<typeof aimOnFrame>>, p: { x: number; y: number; r: number }) {
+  const ox = p.x - aim.x
+  const oy = p.y - aim.y
+  let off = Math.hypot(ox, oy)
+  if (aim.dx || aim.dy) {
+    const along = ox * aim.dx + oy * aim.dy
+    off = along > 0 ? Math.abs(ox * aim.dy - oy * aim.dx) : off + TARGET.behind
   }
-  return { x, y, r: t.r * pr.m * (t.jet ? jetSize(scene.params) : 1) }
+  const by = Math.max(0, Math.round(off - Math.min(p.r, TARGET.reach)))
+  // (within the sights' own size, under them: the nearest first, so a ship before the world behind it)
+  return by <= TARGET.sights ? 0 : by
 }
 
 /** whether a target can be seen on the frame now (in the seat, above the panel) */
@@ -200,7 +245,13 @@ function onFrame(scene: SceneState, t: TargetNow) {
   return p.x + p.r >= m && p.y + p.r >= m && p.x - p.r < W - m && p.y - p.r < bottom - m
 }
 
-/** everything that may be picked now and is on the frame, nearest first */
+/** whether a target is drawn at least `r` px in radius on the frame now (a ship far off, still a mark to be seen) */
+function drawnAtLeast(scene: SceneState, t: TargetNow, r: number) {
+  const p = targetOnScreen(scene, t)
+  return !!p && p.r >= r
+}
+
+/** everything that may be picked now and is on the frame, nearest where the ship is aiming first */
 export function candidates(scene: SceneState): TargetNow[] {
   const refs: TargetRef[] = []
   for (const s of scene.ships) refs.push({ kind: 'ship', id: s.id })
@@ -213,15 +264,19 @@ export function candidates(scene: SceneState): TargetNow[] {
     for (const p of scene.world.features.places) refs.push({ kind: 'place', name: p.name })
   }
   const out: TargetNow[] = []
+  const aim = aimOnFrame(scene)
+  const off = new Map<TargetNow, number>()
   for (const ref of refs) {
     const t = targetNow(scene, ref)
     if (!t) continue
-    if (t.jet && t.d > TARGET.pickShip) continue
+    if (t.jet && t.d > TARGET.pickShip && !drawnAtLeast(scene, t, TARGET.seen)) continue
     if ((t.base || t.place) && t.d > TARGET.pickGround) continue
     if (!onFrame(scene, t)) continue
+    const p = aim ? targetOnScreen(scene, t) : null
+    off.set(t, aim && p ? offAim(aim, p) : 0)
     out.push(t)
   }
-  out.sort((a, b) => a.d - b.d || (refKey(a.ref) < refKey(b.ref) ? -1 : 1))
+  out.sort((a, b) => off.get(a)! - off.get(b)! || a.d - b.d || (refKey(a.ref) < refKey(b.ref) ? -1 : 1))
   return out
 }
 
@@ -250,7 +305,8 @@ export function stepTarget(scene: SceneState, dt: number) {
   if (tg.on && (tg.zone !== scene.worldKey || !targetNow(scene, tg.on))) tg.on = null
   if (tg.on) {
     const t = targetNow(scene, tg.on)
-    if (t && ((t.jet && t.d > TARGET.shipFar) || ((t.base || t.place) && t.d > TARGET.groundFar))) tg.on = null
+    if (t && ((t.jet && t.d > TARGET.shipFar && !drawnAtLeast(scene, t, TARGET.lost)) || ((t.base || t.place) && t.d > TARGET.groundFar)))
+      tg.on = null
   }
   // (a press: the next; held a moment: let go, once a hold)
   if (tg.ask) {

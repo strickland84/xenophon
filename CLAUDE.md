@@ -41,8 +41,9 @@ Twin Stars on 2026-11-19 (it was Borrowed Stars). Built with SvelteKit (Svelte 5
 - **Code style:** Prettier and ESLint as configured (no semicolons, single quotes, 140
   columns). Comments say what a thing is for, in plain words, as the existing ones do.
 - **Plain words in names and comments.** Match the surrounding code's voice.
-- **Phones are first-class.** Every feature ships with touch controls and a layout that
-  works on a phone held sideways.
+- **Desktop only.** The game is for a desktop with a mouse and a keyboard (a game controller works too). A phone or a
+  tablet is shown a page that says so and links to the repo (`display/desktop.ts`, `DesktopOnly.svelte`). Add no touch
+  controls or phone layouts (James, 2026-11-19; it was "phones are first-class").
 - **Works alone.** With no other players and no network, everything still runs.
 
 ## Before saying work is done
@@ -109,7 +110,7 @@ Update this section when your work changes it. Keep each entry to what is true n
   rooms `xenophon/...`, the namespace `xenophon-dev-g1`, `window.__xenophon`, the font `xenophon-pixel.ttf`; old saves
   and events are not read. The lore is the lot and the urn, Gant is gone (`docs/factions-and-races.md`, the
   story-voice skill); the title has no line under it (James: "horrible slop"); the Nomarchy's ranks are Greek (`daily.ts RANK_TITLES`).
-  **The narrator is Xenophon**, ElevenLabs voice `YjbHBTWH8WkGAhNrkp0i` on `eleven_v3` with "[Greek accent]"
+  **The narrator is Xenophon**, ElevenLabs on `eleven_v3` with "[Greek accent]" (voice: the entry above)
   (`tools/gen/voice_recipe.py NARRATOR`, `tools/gen/narrate.py` reads the key from `.env`); all 78 lines read, packed
   with `tools/audio/narration.py --keep` (Whisper mishears the accent; James: "ignore the whisper thing"). He says the
   title (`title`, `TITLE_LINE`) as the name is lit and on the title page once the sound is on (`saidWithin`), and the
@@ -122,6 +123,54 @@ tools/voxel/brand.py`; tries in `art/brand/`); the favicon is `mark-32.png`, the
   tests; templates; Dependabot; CODEOWNERS); Vercel (`vercel.json`, static `build/`) serves `main` at xenophon.me.
   James's private notes moved to `CLAUDE.local.md` (not in git).
 
+- **2026-11-19, a shadow on foot, the base's pages over the sky, repairs told, no roll landed** (James: "on foot can you
+  give our player a shadow - its especially apparent we dont have one when jumping"; Market and Supplies "not even usable
+  unless at a base. These 'tabs' should move to the Base header next to Hangar"; "need some tooltips or something on how
+  to repair my ship"; "we should not be able to do a roll when landed"). **The shadow** (`render/walker.ts`) lies on the
+  ground under him (`groundAt`), at his sprite's lowest drawn row (`lowestRow`), a pixel wider than him each side, two rows
+  deep and darker; in a jump it stays down there, smaller and fainter as he rises (`SHADOW_HIGH`); inside, at his feet.
+  `npx jiti tools/foot-shadow.ts out.png [scale] [clock] [crop]` draws it close. **The base header** at a friendly base:
+  its name (the hold), Market, Supplies, Hangar, Deck, Aboard, each with its icon (`hangar`, `deck`, `aboard` drawn in
+  `tools/voxel/hud_icons.py`); Market and Supplies open the base's screen at that page (`BaseScreen start`,
+  `Game.svelte openBase`), and away from a base Tab shows the hold and vault with no tabs. **Repairs:** a tooltip on
+  Supplies, and the tips `repair` (the hull holed in flight: land at a base and hold the mining key, or Supplies) and
+  `repairHere` (landed holed at a friendly base). **No roll** landing, landed, docked or lifting (`sim/flight.ts
+startRoll`; `sim/roll.spec.ts`). Twenty flights re-recorded on purpose (every one with a pilot on foot or inside: the
+  shadow).
+- **2026-11-19, desktop only** (James: "remove all MOBILE views and adjustments - this game is now purely intended for
+  desktop mouse and keyboard. If someone is on a narrow device like that just point them to the github and tell them to
+  get a PC"). `display/desktop.ts isDesktop` (a fine pointer and a screen 1,024 px on its long side; `?desktop=yes` gets
+  past) decides in `routes/+page.svelte`; anything else gets `DesktopOnly.svelte` (after `art/mockups/desktop-only.png`;
+  the icon `static/ui/desktop-24.png` by `uv run tools/voxel/interface.py --desktop`). Gone: `TouchButtons.svelte`, finger
+  steering (`input/pointer.ts` is the mouse's), the `touch` InputKind and every touch wording in the help, prompts, tips
+  and the narrator's lines (the sortie's `touch` voice and its fifteen recordings), the scene's `hudTop` and `hudSides`
+  (`clearWidth` is the frame less 16 px), clips off on touch, the tooltips' long press, the maps' pinch,
+  `?touchControls`, `tools/phone-check.mjs` and the tools' phone runs. Controllers stay. Every entry below that names
+  the touch screen's buttons is of how it was. The plan's sections 16 ("Desktop only") and 25 (decision 11) have it.
+- **2026-11-19, T targets what the ship aims at, and far ships** (James: "I want T to target the nearest thing to your
+  crosshair or essentially where the ship is aiming"; two ships in the distance could not be picked). `sim/target.ts
+candidates` orders by how far a thing's middle lies off the guns' line on the frame (`aimOnFrame`, `offAim`; `TARGET`
+  `aimNear`, `aimFar`, `reach`, `sights`, `behind`), then by distance; a ship past `pickShip` is picked while drawn 2 px
+  across (`seen`, `lost`). `docs/targeting.md` has it. Two flights re-recorded on purpose (`a raider targeted from behind
+and shot`, its checks changed to the new order; `targets picked in turn from the seat, beside a station`);
+  `tools/film.mjs` films the target flights too.
+- **2026-11-19, a mouse loops in space again** (James: "with the mouse cursor pitching up and down, I cannot do a full 360
+  spin. I can do it with W and S though"). The pointer still aims the nose, but in a band at the frame's top or bottom (its
+  outer tenth, `FLIGHT3D edge`, `edgeRate`) it pitches on round as the keys do (`sim/spaceflight.ts readStick`; tests in
+  `sim/spaceflight.spec.ts`). One flight re-recorded on purpose (`climbing and diving in space, from the seat`).
+- **2026-11-19, the seat never all roof** (James, of the cockpit with the picture size at 2: "Not great"). The cockpits'
+  art is at most 256 rows and never scaled, so a taller frame repeated its roof (three fifths of the view on a tall
+  window). In the seat the scene's fit asks for a frame no taller than `COCKPIT_TALLEST` (300, `sim/interior.ts fitOf`'s
+  `tallest`), and the page makes the art pixel that much larger there (`display/screen.ts wanted`; the flights do the
+  same, `scenarios.ts`). `npx jiti tools/seat-frame.ts out.png [hull] [page w] [page h] [art pixel]` shows it.
+- **2026-11-19, the narrator's voice and the music made again, and the intro's own music** (James: "find a better
+  elevenlabs voice"; the music "more in keeping with the game, more midi"; "The intro needs music too"). The narrator is
+  **Theos** (`n0vzWypeCK1NlWPVwhOc`, `eleven_v3`, "[Greek accent]"; `voice_recipe.py NARRATOR`), chosen from ten voices
+  by measurement (`tools/gen/voice_eleven.py`, `voice_check.py`): the deepest and slowest of them. All 78 lines were
+  read again. The music is sequenced MIDI-style game music of the early 1990s (`sound_recipe.py SCORE`, `NOT_MIDI`,
+  patches named in every piece), two takes of each piece and sting. The opening story has its own piece and place,
+  `intro` (`moods.ts`, set by `Game.svelte` while `IntroCrawl` is open). Nobody has heard any of it; the plan's section
+  17 has the details. The repo is private and the Vercel project paused "for now" (xenophon.me answers 503).
 - **2026-11-19, the wind leaves what stands on the ground, and no sheet of cloud lies across the view as a line** (James:
   "it pushes my ship around when landed"; "a very clear thin line that looks like land"). The wind (`sim/hazards.ts
 standing`) no longer moves turrets, pilots on foot, a parked ship, or his own ship landing, landed, lifting off or left.
@@ -414,7 +463,9 @@ tools/gen/narrate.py`, then `uv run tools/audio/narration.py` (cuts, checks ever
   opening story (lore in `docs/factions-and-races.md`),
   the side cards' lines, the six races' (`races.ts what`), the ship pitches (`HULL_PITCH`), the first sortie's last line,
   the galaxy map's first note, the menu's Story tip. Instructions and stat lines stay plain.
-- **2026-11-18, the opening story** (`IntroCrawl.svelte`): a first visit opens on a line in the dark, the title lit a
+- **2026-11-18, the opening story** (`IntroCrawl.svelte`): a first visit opens on a Begin button in the middle of the sky
+  (2026-11-19, after `art/mockups/intro-begin.png`: its press lets the sound on, so the story is heard from its first word;
+  left out when the sound is already on, and on the still page), then a line in the dark, the title lit a
   letter at a time, then the story a paragraph at a time, flat in the pixel font (`ui-head`), the one being read held
   still in the middle and the column gliding up between them (the perspective roll was unreadable), over the model's sky between the two suns (`static/ui/intro-sky.png`,
   `intro-stars*.png`, `tools/gen/interface.py` group `intro`); about 90 s, read aloud by the narrator and paced by his
@@ -630,7 +681,7 @@ cleared`, `clearedBands`). Brains: `pilots.ts` LURK, PATROL, RETURN; prey within
   in Node and in a browser (laptop and phone). No raiders live in a side's home system, and the first hour
   earns by mining (`HOME_PAY`: home pays 60%).
 - **The first sortie** (`src/lib/tutorial/tutorial.ts`, `TutorialPrompt.svelte`): a new pilot starts
-  docked at his capital station; launch, steer, descend, dive, three training drones, mine, land on an
+  docked at his capital station; launch, steer, descend, dive, three training drones (one targeted with T, then shot down), mine, land on an
   outpost's pad, out, beacon, board, bank; then the galaxy map on today's hotspots. One prompt, one
   control, in the bound keys of the device in use (`input/hints.ts namer`); Skip and End (and in the
   menu); the step that fits where he is takes over, and getting back on (shot down, killed, inside) has
@@ -936,7 +987,7 @@ tools/space.mjs out/ <url>` plays space in a browser (laptop, phone).
   quiet flight through a home system, an ambush at a gate, a derelict cleared and staying clear, a patrol
   defending its world, a loaded ship chased and escaping; the flights before them are flown with
   `locals: false`, the scripted flights' default, and keep their pictures; two of Phase 9, `tutorial/flights.spec.ts`:
-  training drones with the guide, a finger steering while diving and climbing; twelve of Phase 8, `ships/flights.spec.ts`: flak
+  training drones with the guide, the mouse steering while diving and climbing; twelve of Phase 8, `ships/flights.spec.ts`: flak
   fitted and fired, a laser and a cannon, missile racks, mines on a chaser, a ship repainted, every
   hull fitted, the hangar and deck walked, a fighter's and a hauler's rooms, furniture placed, a
   squad's slipstream, gear on an ice world); `data/loadout.spec.ts` tries every fit of every hull; earlier: (five of the persistent world,

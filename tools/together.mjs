@@ -10,7 +10,7 @@
 //   node tools/together.mjs out/ [http://localhost:5173/]
 //
 // It drives each game through window.__xenophon (development and playtest builds only). Different networks and
-// real phones cannot be tried from one machine: this proves the game's side of it, over the real relays.
+// other machines cannot be tried from one: this proves the game's side of it, over the real relays.
 import fs from 'node:fs'
 import os from 'node:os'
 import path from 'node:path'

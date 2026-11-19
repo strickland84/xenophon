@@ -1,7 +1,7 @@
 // The whole game played through in a real browser, as a new player would meet it, from a fresh save, alone
 // (?net=off): the parts the other tools do not play. first-session.mjs plays the guided first sortie, play.mjs a
 // sortie of mining and banking, walk.mjs being on foot, hangar.mjs the hangar, the bench, the booth, the deck and
-// furnishing, space.mjs the way out and the maps, phone-check.mjs every screen; this plays the rest, end to end:
+// furnishing, space.mjs the way out and the maps, audit.mjs every screen; this plays the rest, end to end:
 //
 //   flying to a frontier world and fighting the raider band there; landing; out, walking to a vein and cutting it,
 //   back in; banking; buying a ship at the deck's shop and flying it; out into space and every view there; the cruise
@@ -15,7 +15,7 @@
 //
 //   npm i --no-save playwright-core     # once (it is not one of the game's dependencies)
 //   npm run dev                         # in another terminal (or use one already running)
-//   node tools/playthrough.mjs out/ [laptop|phone|both] [http://localhost:5173/]
+//   node tools/playthrough.mjs out/ [http://localhost:5173/]
 //
 // It reads how the scene stands through window.__xenophon (development builds, or a build made with
 // VITE_PLAYTEST=1 for playing the built site through).
@@ -24,7 +24,8 @@ import os from 'node:os'
 import path from 'node:path'
 import { chromium } from 'playwright-core'
 
-const [out = 'playthrough', which = 'both', base = 'http://localhost:5173/'] = process.argv.slice(2)
+// (a device named before the address, as older commands did, is passed over: it is a laptop)
+const [out = 'playthrough', base = 'http://localhost:5173/'] = process.argv.slice(2).filter((a) => !['laptop', 'phone', 'both'].includes(a))
 fs.mkdirSync(out, { recursive: true })
 const cache = path.join(os.homedir(), '.cache/ms-playwright')
 const chrome =
@@ -38,12 +39,9 @@ const chrome =
 const browser = await chromium.launch({ executablePath: chrome, args: ['--use-gl=swiftshader', '--enable-unsafe-swiftshader'] })
 
 async function play(device) {
-  const phone = device === 'phone'
-  const W = phone ? 844 : 1280
-  const H = phone ? 390 : 720
-  const context = await browser.newContext(
-    phone ? { viewport: { width: W, height: H }, isMobile: true, hasTouch: true, deviceScaleFactor: 1 } : { viewport: { width: W, height: H } },
-  )
+  const W = 1280
+  const H = 720
+  const context = await browser.newContext({ viewport: { width: W, height: H } })
   const page = await context.newPage()
   const errors = []
   const steps = []
@@ -81,7 +79,7 @@ async function play(device) {
     throw new Error(`${what}: not within ${ms / 1000} s`)
   }
 
-  // ── his hands: keys (laptop) or the touch buttons (phone)
+  // ── his hands: the keys
   const keys = new Set()
   const key = async (code, on) => {
     if (on && !keys.has(code)) {
@@ -97,33 +95,12 @@ async function play(device) {
     await wait(70)
     await page.keyboard.up(code)
   }
-  const held = new Set()
-  const button = async (label, on) => {
-    const b = page.getByRole('button', { name: new RegExp(`^${label}(: hold)?$`, 'i') }).first()
-    if (on === undefined) {
-      await b.dispatchEvent('pointerdown', { pointerId: 9, pointerType: 'touch', isPrimary: false })
-      await wait(70)
-      await b.dispatchEvent('pointerup', { pointerId: 9, pointerType: 'touch', isPrimary: false })
-      await b.dispatchEvent('click')
-      return
-    }
-    if (on && !held.has(label)) {
-      held.add(label)
-      await b.dispatchEvent('pointerdown', { pointerId: 9, pointerType: 'touch', isPrimary: false })
-    } else if (!on && held.has(label)) {
-      held.delete(label)
-      await b.dispatchEvent('pointerup', { pointerId: 9, pointerType: 'touch', isPrimary: false })
-    }
-  }
   /** Action (F) held or let go, or pressed once */
-  const action = (on) => (phone ? button('Action', on) : on === undefined ? tap('KeyF') : key('KeyF', on))
+  const action = (on) => (on === undefined ? tap('KeyF') : key('KeyF', on))
   const release = async () => {
     for (const k of [...keys]) await key(k, false)
-    for (const b of [...held]) await button(b, false).catch(() => {})
   }
-  /** turns towards a point, with A and D (or a finger, on a phone), for a while; `fire` holds the guns */
-  const cdp = phone ? await context.newCDPSession(page) : null
-  let finger = false
+  /** turns towards a point, with A and D, for a while; `fire` holds the guns */
   const steerTo = async (x, y, fire = false) => {
     const off = await S(
       ([x, y]) => {
@@ -134,27 +111,12 @@ async function play(device) {
       },
       [x, y],
     )
-    if (phone) {
-      const yaw = await S(() => window.__xenophon.scene.foot.yaw)
-      const me = await S(() => window.__xenophon.scene.player)
-      const b = Math.atan2(x - me.x, -(y - me.y)) + yaw
-      const fx = Math.round(W / 2 + Math.sin(b) * 150)
-      const fy = Math.round(H / 2 - Math.cos(b) * 120)
-      await cdp.send('Input.dispatchTouchEvent', { type: finger ? 'touchMove' : 'touchStart', touchPoints: [{ x: fx, y: fy, id: 1 }] })
-      finger = true
-      await button('Fire', fire)
-    } else {
-      await key('KeyA', off < -0.08)
-      await key('KeyD', off > 0.08)
-      await key('KeyJ', fire)
-    }
+    await key('KeyA', off < -0.08)
+    await key('KeyD', off > 0.08)
+    await key('KeyJ', fire)
     return off
   }
-  const lift = async () => {
-    if (finger) await cdp.send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] })
-    finger = false
-    await release()
-  }
+  const lift = () => release()
   /** puts the player's ship somewhere (getting there is not the point of the step) */
   const place = (x, y, heading = 0) => S(([x, y, h]) => window.__xenophon.scene.placePlayer(x, y, h), [x, y, heading])
   const loop = () => S(() => window.__xenophon.scene.loop)
@@ -197,12 +159,11 @@ async function play(device) {
   // ── a new pilot: the first screens (the first sortie is first-session.mjs's), into the sky at his capital world
   await step('new-pilot', async () => {
     await page.goto(`${base}?net=off&tutorial=off`)
-    const press = (loc) => (phone ? loc.tap() : loc.click())
-    await press(page.getByRole('button', { name: 'Play' }))
-    await page.keyboard.type(phone ? 'THUMB' : 'WALKER')
-    await press(page.getByRole('button', { name: 'Next' }))
-    await press(page.getByRole('button', { name: /Fly for The Nomarchy/ }))
-    await press(page.getByRole('button', { name: 'Done' }))
+    await page.getByRole('button', { name: 'Play' }).click()
+    await page.keyboard.type('WALKER')
+    await page.getByRole('button', { name: 'Next' }).click()
+    await page.getByRole('button', { name: /Fly for The Nomarchy/ }).click()
+    await page.getByRole('button', { name: 'Done' }).click()
     await page.waitForFunction(() => window.__xenophon?.scene, null, { timeout: 30000 })
     await until('landed at the capital world', () => window.__xenophon.scene.loop.stage === 'landed', 30000)
   })
@@ -269,7 +230,7 @@ async function play(device) {
       if (L.home && L.home.d > 900) await place(L.home.x + 400, L.home.y + 300, -2.2)
       if (L.home) await steerTo(L.home.x, L.home.y)
       await action(L.prompt === 'pad' || L.stage === 'landing')
-      if (!phone) await key('KeyS', L.prompt !== 'pad' && L.home && L.home.d < 260)
+      await key('KeyS', L.prompt !== 'pad' && L.home && L.home.d < 260)
       await wait(120)
     }
     await lift()
@@ -279,16 +240,10 @@ async function play(device) {
     await toShip()
     await until('landed', () => window.__xenophon.scene.loop.stage === 'landed', 30000)
     await getOut()
-    // a few steps with the keys or the stick
-    if (phone) {
-      await cdp.send('Input.dispatchTouchEvent', { type: 'touchStart', touchPoints: [{ x: W / 2 + 40, y: H / 2, id: 2 }] })
-      await wait(900)
-      await cdp.send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] })
-    } else {
-      await key('KeyD', true)
-      await wait(900)
-      await key('KeyD', false)
-    }
+    // a few steps with the keys
+    await key('KeyD', true)
+    await wait(900)
+    await key('KeyD', false)
     // the nearest vein: walked up to (put beside it if it is far), cut with Action held
     const v = (await foot()).vein
     if (!v) throw new Error('no vein on this world')
@@ -348,12 +303,10 @@ async function play(device) {
     await action(true)
     await until('flying', () => window.__xenophon.scene.loop.stage === 'flying', 15000)
     await action(false)
-    // climb (W, or Climb on a phone) to 160 px and over, then Action held
-    if (phone) await button('Climb', true)
-    else await key('KeyW', true)
+    // climb (W) to 160 px and over, then Action held
+    await key('KeyW', true)
     await until('high up', () => window.__xenophon.scene.player.height > 200, 30000)
-    if (phone) await button('Climb', false)
-    else await key('KeyW', false)
+    await key('KeyW', false)
     await action(true)
     await until('in space', () => window.__xenophon.scene.zone.kind === 'space' && !window.__xenophon.scene.zone.travel, 40000)
     await action(false)
@@ -361,8 +314,7 @@ async function play(device) {
   await step('every-view-in-space', async () => {
     const views = []
     for (let i = 0; i < 3; i++) {
-      if (phone) await button('View')
-      else await tap('KeyV')
+      await tap('KeyV')
       await wait(1400)
       views.push(await S(() => window.__xenophon.inner().params.view))
       await shot(`space-view-${views.at(-1)}`)
@@ -380,8 +332,7 @@ async function play(device) {
     })
     if (!st) throw new Error('no station in this system')
     await S((i) => window.__xenophon.scene.setCourse(i), st.index)
-    if (phone) await button('Cruise')
-    else await tap('KeyC')
+    await tap('KeyC')
     const end = Date.now() + 90_000
     while (Date.now() < end) {
       const z = await zone()
@@ -389,7 +340,7 @@ async function play(device) {
       const me = await S(() => window.__xenophon.scene.player)
       const s = await S((i) => window.__xenophon.scene.bodies().find((b) => b.index === i), st.index)
       await steerTo(z.aim?.x ?? s.x, z.aim?.y ?? s.y)
-      if (Math.hypot(s.x - me.x, s.y - me.y) > 6000 && z.cruise === 'off') phone ? await button('Cruise') : await tap('KeyC')
+      if (Math.hypot(s.x - me.x, s.y - me.y) > 6000 && z.cruise === 'off') await tap('KeyC')
       await wait(200)
     }
     await lift()
@@ -455,8 +406,7 @@ async function play(device) {
     await step(`down-to-a-world-${view}`, async () => {
       // (over the nearest world of this system, in this view, Action held: the whole way down through its air)
       while ((await S(() => window.__xenophon.inner().params.view)) !== view) {
-        if (phone) await button('View')
-        else await tap('KeyV')
+        await tap('KeyV')
         await wait(600)
       }
       let w = await S(() => {
@@ -491,14 +441,9 @@ async function play(device) {
       await until('down on the world', () => window.__xenophon.scene.zone.kind === 'surface' && !window.__xenophon.scene.zone.travel, 45000)
       await action(false)
       await shot(`arrived-${view}`)
-      // and back up for the next view (on a phone the Climb button is there overhead: from behind, a finger above the ship climbs)
+      // and back up for the next view
       if (view !== 'cockpit') {
-        while (phone && (await S(() => window.__xenophon.inner().params.view)) !== 'top') {
-          await button('View')
-          await wait(600)
-        }
-        if (phone) await button('Climb', true)
-        else await key('KeyW', true)
+        await key('KeyW', true)
         await until('high up', () => window.__xenophon.scene.player.height > 200, 30000)
         await release()
         await action(true)
@@ -612,13 +557,12 @@ async function play(device) {
     await until('back at a base', () => window.__xenophon.scene.foot.stage === 'ship', 20000)
   })
 
-  // ── the maps and the screens: M, Tab, Enter, Escape (the menu's tiles are phone-check's)
+  // ── the maps and the screens: M, Tab, Enter, Escape (the menu's tiles are audit.mjs's)
   await step('maps-and-screens', async () => {
-    const open = async (keyCode, btn, label) => {
-      if (phone) await button(btn)
-      else await tap(keyCode)
+    const open = async (keyCode, name, label) => {
+      await tap(keyCode)
       await page.locator(`section[aria-label="${label}"]`).first().waitFor({ timeout: 5000 })
-      await shot(`screen-${btn.toLowerCase()}`)
+      await shot(`screen-${name.toLowerCase()}`)
       await page.keyboard.press('Escape')
       await wait(500)
     }
@@ -628,8 +572,7 @@ async function play(device) {
 
   // ── every setting changed, and still so after a reload
   await step('settings-kept', async () => {
-    if (phone) await button('Menu')
-    else await tap('Escape')
+    await tap('Escape')
     await page.getByRole('button', { name: 'Settings' }).first().click()
     const panel = page.locator('section[aria-label="Settings"]')
     await panel.waitFor({ timeout: 5000 })
@@ -667,14 +610,13 @@ async function play(device) {
 
   // ── the pilot saved to a file from the menu, and restored from it on a fresh browser's first screen
   await step('backup-and-restore', async () => {
-    if (phone) await button('Menu')
-    else await tap('Escape')
+    await tap('Escape')
     await page.getByRole('tab', { name: /Pilot file/ }).click()
     const [download] = await Promise.all([page.waitForEvent('download'), page.getByRole('button', { name: 'Save file' }).click()])
     const file = path.join(out, `${device}-pilot.json`)
     await download.saveAs(file)
     const callsign = JSON.parse(fs.readFileSync(file, 'utf8')).callsign ?? JSON.parse(fs.readFileSync(file, 'utf8')).pilot?.callsign
-    const fresh = await browser.newContext(phone ? { viewport: { width: W, height: H }, isMobile: true, hasTouch: true } : { viewport: { width: W, height: H } })
+    const fresh = await browser.newContext({ viewport: { width: W, height: H } })
     const p2 = await fresh.newPage()
     p2.on('pageerror', (e) => errors.push(`restored page: ${String(e).slice(0, 300)}`))
     await p2.goto(`${base}?net=off`)
@@ -699,7 +641,7 @@ async function play(device) {
 }
 
 const report = []
-for (const d of which === 'both' ? ['laptop', 'phone'] : [which]) report.push(await play(d))
+report.push(await play('laptop'))
 fs.writeFileSync(path.join(out, 'report.json'), JSON.stringify(report, null, 1))
 for (const r of report) {
   const bad = r.steps.filter((s) => !s.ok)

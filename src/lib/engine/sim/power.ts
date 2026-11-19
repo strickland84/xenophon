@@ -1,8 +1,7 @@
 // The ship's power (James, 2026-11-18, after playing: "we should have a power control to ships. They should be defaulted to
 // powered off, and then when we switch power on they power up (affecting instruments etc)"). Landed or docked, a ship can
 // sit with its power off: its screens dark, the HUD saying so and which key brings it up, no glow in its engines, the
-// throttle dead, and no lifting off. The power switch (an action of its own: P, a controller's D-pad down, the touch
-// screen's Power button) brings it up over `POWER.up` seconds, the instruments coming alive one after another and the
+// throttle dead, and no lifting off. The power switch (an action of its own: P, a controller's D-pad down) brings it up over `POWER.up` seconds, the instruments coming alive one after another and the
 // engines lighting last; landed or docked, the switch shuts it down again. In flight the switch is refused: a ship never
 // loses its power by it. Land held to lift off (Use held to undock) with the power off switches it on, and the ship goes
 // once it is up (landing.ts, spacezone.ts).

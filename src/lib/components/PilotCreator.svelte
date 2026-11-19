@@ -3,8 +3,7 @@
   // his side's three; his portrait's face, skin and eyes (or feathers, brass, shell, fuzz or cap;
   // a throat, a lens, spots or lanterns); his suit's colour and its trim's, which colour his tiny
   // sprite in the world as well. Randomise picks for him. Built to art/mockups/creator.png: the
-  // portrait large on the left with the sprite walking under it, the choices on the right; for a
-  // phone held sideways first. In onboarding after the side, and from the menu later.
+  // portrait large on the left with the sprite walking under it, the choices on the right. In onboarding after the side, and from the menu later.
   import { untrack } from 'svelte'
   import { FACES, lookOf, lookText, raceOf, racesOf, randomLook, SUITS, TRIMS } from '../engine'
   import type { PilotLook } from '../engine'

@@ -115,6 +115,7 @@ export type EffectName =
   | 'ui_error'
 
 export type PieceName =
+  | 'intro'
   | 'title'
   | 'calm'
   | 'night'
@@ -222,24 +223,25 @@ export const EFFECTS: Record<EffectName, Clip> = {
 }
 
 export const PIECES: Record<PieceName, Clip> = {
-  title: { group: 'Music', label: 'the title', loop: false, use: [2, 3], byEar: false, new: true, takes: [{ n: 1, seconds: 134.98, gain: 1.0, flags: [] }, { n: 2, seconds: 136.22, gain: 1.0, flags: [] }, { n: 3, seconds: 138.32, gain: 1.0, flags: [] }] },
-  calm: { group: 'Music', label: 'a calm world', loop: false, use: [1, 2, 3], byEar: false, new: true, takes: [{ n: 1, seconds: 178.56, gain: 1.0, flags: [] }, { n: 2, seconds: 178.38, gain: 1.0, flags: [] }, { n: 3, seconds: 178.34, gain: 1.0, flags: [] }] },
-  night: { group: 'Music', label: 'a world at night', loop: false, use: [1, 2], byEar: false, new: true, takes: [{ n: 1, seconds: 143.58, gain: 1.0, flags: [] }, { n: 2, seconds: 146.32, gain: 1.0, flags: [] }] },
-  harsh: { group: 'Music', label: 'a harsh world', loop: false, use: [1, 2], byEar: false, new: true, takes: [{ n: 1, seconds: 168.04, gain: 1.0, flags: [] }, { n: 2, seconds: 165.48, gain: 1.0, flags: [] }] },
-  foot: { group: 'Music', label: 'on foot', loop: false, use: [1, 2], byEar: false, new: true, takes: [{ n: 1, seconds: 154.04, gain: 1.0, flags: [] }, { n: 2, seconds: 154.28, gain: 1.0, flags: [] }] },
-  space: { group: 'Music', label: 'space', loop: false, use: [1, 2, 3], byEar: false, new: true, takes: [{ n: 1, seconds: 177.24, gain: 1.0, flags: [] }, { n: 2, seconds: 174.04, gain: 1.0, flags: [] }, { n: 3, seconds: 176.0, gain: 1.0, flags: [] }] },
-  cruise: { group: 'Music', label: 'the cruise drive', loop: false, use: [1, 2], byEar: false, new: true, takes: [{ n: 1, seconds: 152.22, gain: 1.0, flags: [] }, { n: 2, seconds: 154.82, gain: 1.0, flags: [] }] },
-  hole: { group: 'Music', label: 'near a black hole', loop: false, use: [1], byEar: false, new: true, takes: [{ n: 1, seconds: 115.6, gain: 1.0, flags: [] }, { n: 2, seconds: 110.3, gain: 1.0, flags: ['silent gaps'] }] },
-  hangar: { group: 'Music', label: 'the hangar and the station', loop: false, use: [1, 2], byEar: false, new: true, takes: [{ n: 1, seconds: 153.68, gain: 1.0, flags: [] }, { n: 2, seconds: 153.58, gain: 1.0, flags: [] }] },
-  map: { group: 'Music', label: 'the map', loop: false, use: [1], byEar: false, new: true, takes: [{ n: 1, seconds: 114.6, gain: 1.0, flags: [] }, { n: 2, seconds: 111.37, gain: 1.0, flags: [] }] },
-  alert: { group: 'Music', label: 'a fight coming (enemies near)', loop: false, use: [1, 2], byEar: false, new: true, takes: [{ n: 1, seconds: 114.88, gain: 1.0, flags: [] }, { n: 2, seconds: 117.42, gain: 1.0, flags: [] }] },
-  combat: { group: 'Music', label: 'a fight', loop: false, use: [1, 2, 3], byEar: false, new: true, takes: [{ n: 1, seconds: 148.85, gain: 1.0, flags: [] }, { n: 2, seconds: 153.82, gain: 1.0, flags: [] }, { n: 3, seconds: 147.96, gain: 1.0, flags: [] }] },
-  peril: { group: 'Music', label: 'a fight going badly', loop: false, use: [1, 2], byEar: false, new: true, takes: [{ n: 1, seconds: 113.58, gain: 1.0, flags: [] }, { n: 2, seconds: 116.46, gain: 1.0, flags: ['bright'] }] },
-  win: { group: 'Music', label: 'a fight won', loop: false, use: [1, 2], byEar: false, new: true, takes: [{ n: 1, seconds: 5.86, gain: 1.0, flags: [] }, { n: 2, seconds: 5.1, gain: 1.0, flags: [] }, { n: 3, seconds: 5.62, gain: 1.0, flags: [] }] },
-  lost: { group: 'Music', label: 'shot down', loop: false, use: [3], byEar: false, new: true, takes: [{ n: 1, seconds: 4.86, gain: 1.0, flags: [] }, { n: 2, seconds: 4.6, gain: 1.0, flags: [] }, { n: 3, seconds: 5.06, gain: 1.0, flags: [] }] },
-  arrive: { group: 'Music', label: 'a new system reached', loop: false, use: [2, 3], byEar: false, new: true, takes: [{ n: 1, seconds: 6.22, gain: 1.0, flags: ['bright'] }, { n: 2, seconds: 6.24, gain: 1.0, flags: ['bright'] }, { n: 3, seconds: 7.0, gain: 1.0, flags: [] }] },
-  taken: { group: 'Music', label: 'a world taken', loop: false, use: [3], byEar: false, new: true, takes: [{ n: 1, seconds: 6.36, gain: 1.0, flags: [] }, { n: 2, seconds: 7.2, gain: 1.0, flags: [] }, { n: 3, seconds: 6.82, gain: 1.0, flags: [] }] },
+  intro: { group: 'Music', label: 'the opening story', loop: false, use: [1, 2], byEar: false, new: true, takes: [{ n: 1, seconds: 108.2, gain: 1.0, flags: [] }, { n: 2, seconds: 123.79, gain: 1.0, flags: [] }] },
+  title: { group: 'Music', label: 'the title', loop: false, use: [1, 2], byEar: false, new: true, takes: [{ n: 1, seconds: 134.26, gain: 1.0, flags: [] }, { n: 2, seconds: 133.32, gain: 1.0, flags: [] }] },
+  calm: { group: 'Music', label: 'a calm world', loop: false, use: [1, 2], byEar: false, new: true, takes: [{ n: 1, seconds: 134.02, gain: 1.0, flags: [] }, { n: 2, seconds: 138.54, gain: 1.0, flags: [] }] },
+  night: { group: 'Music', label: 'a world at night', loop: false, use: [1, 2], byEar: false, new: true, takes: [{ n: 1, seconds: 119.28, gain: 1.0, flags: [] }, { n: 2, seconds: 119.32, gain: 1.0, flags: [] }] },
+  harsh: { group: 'Music', label: 'a harsh world', loop: false, use: [1, 2], byEar: false, new: true, takes: [{ n: 1, seconds: 136.3, gain: 1.0, flags: [] }, { n: 2, seconds: 137.26, gain: 1.0, flags: [] }] },
+  foot: { group: 'Music', label: 'on foot', loop: false, use: [1, 2], byEar: false, new: true, takes: [{ n: 1, seconds: 133.56, gain: 1.0, flags: [] }, { n: 2, seconds: 135.004, gain: 1.0, flags: [] }] },
+  space: { group: 'Music', label: 'space', loop: false, use: [1, 2], byEar: false, new: true, takes: [{ n: 1, seconds: 146.1, gain: 1.0, flags: [] }, { n: 2, seconds: 147.42, gain: 1.0, flags: [] }] },
+  cruise: { group: 'Music', label: 'the cruise drive', loop: false, use: [1, 2], byEar: false, new: true, takes: [{ n: 1, seconds: 131.19, gain: 1.0, flags: [] }, { n: 2, seconds: 132.374, gain: 1.0, flags: [] }] },
+  hole: { group: 'Music', label: 'near a black hole', loop: false, use: [2], byEar: false, new: true, takes: [{ n: 1, seconds: 104.16, gain: 1.0, flags: [] }, { n: 2, seconds: 104.28, gain: 1.0, flags: [] }] },
+  hangar: { group: 'Music', label: 'the hangar and the station', loop: false, use: [1, 2], byEar: false, new: true, takes: [{ n: 1, seconds: 132.68, gain: 1.0, flags: [] }, { n: 2, seconds: 134.64, gain: 1.0, flags: [] }] },
+  map: { group: 'Music', label: 'the map', loop: false, use: [1], byEar: false, new: true, takes: [{ n: 1, seconds: 91.0, gain: 1.0, flags: [] }, { n: 2, seconds: 91.4, gain: 1.0, flags: [] }] },
+  alert: { group: 'Music', label: 'a fight coming (enemies near)', loop: false, use: [1, 2], byEar: false, new: true, takes: [{ n: 1, seconds: 96.94, gain: 1.0, flags: [] }, { n: 2, seconds: 103.74, gain: 1.0, flags: [] }] },
+  combat: { group: 'Music', label: 'a fight', loop: false, use: [1, 2], byEar: false, new: true, takes: [{ n: 1, seconds: 135.004, gain: 1.0, flags: [] }, { n: 2, seconds: 133.64, gain: 1.0, flags: [] }] },
+  peril: { group: 'Music', label: 'a fight going badly', loop: false, use: [1, 2], byEar: false, new: true, takes: [{ n: 1, seconds: 104.76, gain: 1.0, flags: [] }, { n: 2, seconds: 103.04, gain: 1.0, flags: [] }] },
+  win: { group: 'Music', label: 'a fight won', loop: false, use: [1, 2], byEar: false, new: true, takes: [{ n: 1, seconds: 4.96, gain: 1.0, flags: [] }, { n: 2, seconds: 4.26, gain: 1.0, flags: [] }] },
+  lost: { group: 'Music', label: 'shot down', loop: false, use: [1], byEar: false, new: true, takes: [{ n: 1, seconds: 5.2, gain: 1.0, flags: [] }, { n: 2, seconds: 4.78, gain: 1.0, flags: [] }] },
+  arrive: { group: 'Music', label: 'a new system reached', loop: false, use: [1, 2], byEar: false, new: true, takes: [{ n: 1, seconds: 4.76, gain: 1.0, flags: [] }, { n: 2, seconds: 5.12, gain: 1.0, flags: [] }] },
+  taken: { group: 'Music', label: 'a world taken', loop: false, use: [2], byEar: false, new: true, takes: [{ n: 1, seconds: 4.78, gain: 1.0, flags: [] }, { n: 2, seconds: 5.18, gain: 1.0, flags: [] }] },
 }
 
 /** bytes: the files the game plays, and every take (for the sampler page) */
-export const AUDIO_BYTES = { game: 34299811, everything: 43337069 }
+export const AUDIO_BYTES = { game: 30277715, everything: 37867524 }

@@ -102,7 +102,7 @@ export interface GoldenScene {
     pull: number
   }
   readonly zoom: number
-  readonly fit?: { w: number; h: number; least?: number } | null
+  readonly fit?: { w: number; h: number; least?: number; tallest?: number } | null
   readonly pilot: { x: number; y: number; ship: number }
   readonly foot: {
     stage: string
@@ -229,11 +229,12 @@ class Flight {
       each?.(n)
       this.scene.step(DT)
       // (the camera pulled in on foot: the page shows larger art pixels, so the frame is smaller; no larger than lets the
-      // hangar or the deck be seen whole)
+      // hangar or the deck be seen whole; in the seat, no smaller than keeps the frame within its cockpit's art)
       const fit = this.scene.fit
       const zoom = Math.max(
         fit?.least ?? 0,
-        Math.min(this.scene.zoom ?? 1, fit ? Math.min(this.size[0] / fit.w, this.size[1] / fit.h) : 99),
+        fit?.tallest ? this.size[1] / fit.tallest : 0,
+        Math.min(this.scene.zoom ?? 1, fit?.w && fit.h ? Math.min(this.size[0] / fit.w, this.size[1] / fit.h) : 99),
       )
       if (zoom !== this.zoom) {
         this.zoom = zoom
@@ -682,7 +683,7 @@ export const scenarios: Record<string, Script> = {
     return f.marks
   },
 
-  // the HUD with its text twice the size (a phone's small art pixels, or larger text asked for), in a fight:
+  // the HUD with its text twice the size (small art pixels, or larger text asked for), in a fight:
   // a raider on his tail hits him, the part of the bar just lost shows pale and drains away, the bars jolt,
   // and the warnings and the kill feed's spacing follow the text's height
   'the HUD at twice the size, hit and draining': (create, defaults) => {
@@ -2421,8 +2422,8 @@ export const firstFlights: Record<string, Script> = {
     return f.marks
   },
 
-  // overhead, a finger steering: the touch screen's Dive held takes the ship down, Climb takes it up, and it still turns
-  'overhead, a finger steering while diving and climbing': (create, defaults) => {
+  // overhead, the mouse steering: a dive held on the keys takes the ship down, a climb takes it up, and it still turns
+  'overhead, the mouse steering while diving and climbing': (create, defaults) => {
     const f = new Flight(create, defaults, { intro: false, skirmish: false, crash: false }, 200, 120)
     let high = 0
     let low = 9999
@@ -2431,7 +2432,7 @@ export const firstFlights: Record<string, Script> = {
       const s = f.scene
       const a = n * 0.02
       s.pointerMove(100 + Math.cos(a) * 60, 60 + Math.sin(a) * 30)
-      // (as the touch buttons send it: climb, with the stick's sense (invertY): −1 climbs, +1 dives)
+      // (as the keys send it: climb, with the stick's sense (invertY): −1 climbs, +1 dives)
       if (n === 10) s.setControls(held(0, -1))
       if (n === 250) s.setControls(held(0, 1))
       if (n === 480) s.setControls(held(0, 0))
@@ -2979,17 +2980,18 @@ export const targetFlights: Record<string, Script> = {
         )
     })
     f.fly(20, () => f.scene.setControls(held(0, 0)))
-    // (pressed three times: the nearest, the next, the furthest)
+    // (pressed: the raider dead ahead, under the sights, before the two either side of it; then pressed on round, the others
+    // come up in turn, among the worlds that lie near the line of fire)
+    f.scene.act('target')
+    f.fly(10, () => f.scene.setControls(held(0, 0)))
+    f.expect(f.scene.target?.name === 'RAIDER', `the raider under the sights picked first (${f.scene.target?.name})`)
     const picked: string[] = []
-    for (let i = 0; i < 3; i++) {
+    for (let i = 0; i < 12 && picked.filter((n) => n === 'RAIDER').length < 2; i++) {
       f.scene.act('target')
       f.fly(10, () => f.scene.setControls(held(0, 0)))
       picked.push(f.scene.target?.name ?? '')
     }
-    f.expect(
-      picked.every((n) => n === 'RAIDER'),
-      `three raiders picked in turn (${picked.join(', ')})`,
-    )
+    f.expect(picked.filter((n) => n === 'RAIDER').length === 2, `the other two raiders picked in turn (${picked.join(', ')})`)
     f.fly(600, () => f.hunt(0, true, false))
     f.expect((f.heard.explosion ?? 0) >= 1 || (f.scene.target?.rel ?? '') === 'enemy', 'the raider picked hunted')
     return f.marks

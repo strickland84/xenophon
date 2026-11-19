@@ -13,7 +13,8 @@ export interface TipView {
   loop: { stage: string; base: { friendly: boolean } | null }
   interior: { place: string; flying?: boolean }
   traces: { atSite: boolean }
-  status: { lock: number; incoming: number; ambushed?: boolean }
+  /** how he stands: a lock on, a missile's seconds away, an ambush, and his hull left (0..1) */
+  status: { lock: number; incoming: number; ambushed?: boolean; hull?: number }
   /** a weapon or module is within reach: its credits in hand, and the ore it needs in the vault */
   affordable: boolean
   /** other pilots of his side in the room */
@@ -41,25 +42,24 @@ export const TIPS: Tip[] = [
   {
     id: 'cruise',
     when: (v) => v.zone.kind === 'space' && v.loop.stage === 'flying',
-    text: (n, input) =>
-      `${input === 'touch' ? 'CRUISE' : n('cruise')} starts the cruise drive: the further from anything, the faster; the map (${n('map')}) plots a course`,
+    text: (n) => `${n('cruise')} starts the cruise drive: the further from anything, the faster; the map (${n('map')}) plots a course`,
   },
   {
     // (James, 2026-11-19: no names float in space now; the target key names what it picks. docs/targeting.md)
     id: 'target',
     when: (v) => v.zone.kind === 'space' && v.loop.stage === 'flying' && v.zone.cruise !== 'on',
-    text: (n, input) => {
-      const t = input === 'touch' ? 'TARGET' : n('target')
-      return `${t} targets the nearest thing in view and says what it is; ${t} again for the next, held to let go. Then ${input === 'touch' ? 'CRUISE' : n('cruise')} flies you to it`
+    text: (n) => {
+      const t = n('target')
+      return `${t} targets what you are aiming at and says what it is; ${t} again for the next, held to let go. Then ${n('cruise')} flies you to it`
     },
   },
   {
     // (James, 2026-11-18: "walk around the ship when its flying"; said on a long run under the cruise drive, when calm)
     id: 'seat',
     when: (v) => v.zone.kind === 'space' && v.zone.cruise === 'on' && !v.status.ambushed && v.status.incoming > 10 && !v.interior.flying,
-    text: (n, input) => {
-      const seat = input === 'touch' ? 'SEAT (under More)' : n('seat')
-      return `A long run: ${seat} gets you up out of your seat to walk the ship while it flies itself; ${input === 'touch' ? 'SEAT' : n('seat')} again sits you down`
+    text: (n) => {
+      const seat = n('seat')
+      return `A long run: ${seat} gets you up out of your seat to walk the ship while it flies itself; ${seat} again sits you down`
     },
   },
   {
@@ -72,8 +72,7 @@ export const TIPS: Tip[] = [
     // had a credit, a part or a reason to leave home: nothing had said the vault's ore is sold, or that the frontier pays more)
     id: 'sell',
     when: (v) => v.loop.stage === 'landed' && !!v.loop.base?.friendly && (v.vault ?? 0) > 0 && (v.credits ?? 0) < 380,
-    text: (n, input) =>
-      `Your ore is banked: sell it at the MARKET (${input === 'touch' ? 'BAG' : n('inventory')}) for credits, keeping what a part needs`,
+    text: (n) => `Your ore is banked: sell it at the MARKET (${n('inventory')}) for credits, keeping what a part needs`,
   },
   {
     id: 'frontier',
@@ -105,12 +104,25 @@ export const TIPS: Tip[] = [
   {
     id: 'missile',
     when: (v) => v.status.lock >= 1,
-    text: (n, input) => `Locked on: ${input === 'pointer' ? 'right-click' : pad(input) ? n('secondary') : 'MISSILE'} fires a missile`,
+    text: (n, input) => `Locked on: ${pad(input) ? n('secondary') : 'right-click'} fires a missile`,
   },
   {
     id: 'roll',
     when: (v) => v.status.incoming < 2.5,
-    text: (n, input) => `A missile is coming: ${input === 'touch' ? 'swipe or ROLL' : n('roll')} as ROLL! shows, to shake it off`,
+    text: (n) => `A missile is coming: ${n('roll')} as ROLL! shows, to shake it off`,
+  },
+  // (James, 2026-11-19: "need some tooltips or something on how to repair my ship": the HUD says HOLD [R] REPAIR at a base,
+  // but nothing told him to go there)
+  {
+    id: 'repair',
+    when: (v) => (v.status.hull ?? 1) < 0.75 && v.loop.stage === 'flying',
+    text: (n) =>
+      `Your hull is holed. Land at one of your side's bases and hold ${n('mine')} to mend it where you stand, a credit a point, or buy a repair at its SUPPLIES`,
+  },
+  {
+    id: 'repairHere',
+    when: (v) => (v.status.hull ?? 1) < 0.99 && v.loop.stage === 'landed' && !!v.loop.base?.friendly,
+    text: (n) => `Your hull is holed: hold ${n('mine')} here to mend it, a credit a point. SUPPLIES, at the top, sells a whole repair`,
   },
   {
     id: 'ambush',

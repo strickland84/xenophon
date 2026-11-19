@@ -12,7 +12,7 @@ import type { WorldRecipe } from '../engine/galaxy/recipe'
 import type { PieceName } from './catalogue'
 
 export type Place =
-  'title' | 'calm' | 'night' | 'harsh' | 'foot' | 'space' | 'cruise' | 'hole' | 'alert' | 'combat' | 'peril' | 'hangar' | 'map'
+  'intro' | 'title' | 'calm' | 'night' | 'harsh' | 'foot' | 'space' | 'cruise' | 'hole' | 'alert' | 'combat' | 'peril' | 'hangar' | 'map'
 
 export interface Mood {
   piece: PieceName
@@ -26,6 +26,8 @@ export interface Mood {
 }
 
 export const MOODS: Record<Place, Mood> = {
+  // (the opening story's own piece, under the narrator: IntroCrawl.svelte)
+  intro: { piece: 'intro', fadeIn: 2, fadeOut: 3, rest: [0, 0], hold: 0 },
   title: { piece: 'title', fadeIn: 3, fadeOut: 3, rest: [0, 0], hold: 0 },
   calm: { piece: 'calm', fadeIn: 5, fadeOut: 5, rest: [25, 60], hold: 0 },
   night: { piece: 'night', fadeIn: 6, fadeOut: 6, rest: [25, 60], hold: 0 },

@@ -19,9 +19,8 @@
 // under the middle the key that brings it up; coming up, they come alive in turn (the bars fill, the radar sweeps round
 // once, the missiles and the guns' heat last). Landed, GUNS SAFE where the guns' heat is.
 //
-// On a touch screen the bottom of the frame belongs to the buttons, and in the cockpit to the
-// instrument panel: then everything keeps to the top (`hudTop`), and the cockpit's own radar
-// stands in for this one.
+// In the cockpit the bottom of the frame belongs to the instrument panel: there everything keeps to
+// the top, and the cockpit's own radar stands in for this one.
 
 import { SCORE } from '../data/skirmish'
 import { targetHud } from './targethud'
@@ -191,7 +190,7 @@ function drawHudAll(scene: SceneState) {
   if (k <= 0) return
   const view = scene.view
   const cockpit = view.cockpit > 0.5
-  const top = p.hudTop || cockpit
+  const top = cockpit
   const own = ownFighter(scene)
   const time = scene.time
   const blink = ((time * 5) | 0) % 2 === 0
@@ -950,9 +949,9 @@ export function namePlate(box: LoopHud['box'], midX: number, y0: number, y1: num
   for (let i = 0; i < 4; i++) box(x0 - i, y0 - 4 - i, x1 + i, y1 + 4 + i, SHADE, (k * (i ? 30 : 110)) >> 8)
 }
 
-/** how wide a line under the middle may be: the frame, less the page's buttons at its sides and a margin (a touch screen; else no limit) */
+/** how wide a line under the middle may be: the frame, less a margin either side (a line wider is broken, or its parts stacked) */
 export function clearWidth(scene: SceneState) {
-  return scene.params.hudSides > 0 ? scene.screen.w - 2 * scene.params.hudSides - 8 : Infinity
+  return scene.screen.w - 16
 }
 
 /** words broken into lines no wider than `w` (a line that cannot be broken is left whole) */
@@ -1020,7 +1019,7 @@ export function promptLine(scene: SceneState, h: LoopHud, parts: PromptPart[], y
   const partW = (p: PromptPart) => (p.hold ? textWidth('HOLD ') : 0) + kwOf(p) + 4 * u + textWidth(p.words)
   let w = -gap
   for (const p of parts) w += partW(p) + gap
-  // (on a touch screen, too wide for the room between the buttons at the sides: a line a part, the last on the row asked for)
+  // (too wide for the frame: a line a part, the last on the row asked for)
   const stack = parts.length > 1 && w > clearWidth(scene)
   let x = (W >> 1) - ((stack ? partW(parts[0]) : w) >> 1)
   if (stack) y0 -= (parts.length - 1) * (th + 4 * u + 3)

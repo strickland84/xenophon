@@ -6,7 +6,7 @@
 //
 //   npm i --no-save playwright-core     # once (it is not one of the game's dependencies)
 //   npm run dev                         # in another terminal (or use one already running)
-//   node tools/audit.mjs out/ [group ...] [--url=http://localhost:5173/] [--phone]
+//   node tools/audit.mjs out/ [group ...] [--url=http://localhost:5173/]
 //
 // groups: first tutorial worlds weather fight base foot inside space travel maps menus (all of them if none is named).
 // Getting somewhere is helped along (Scene.placePlayer, the address's world); what is shown is the real page. It reads
@@ -18,7 +18,6 @@ import { chromium } from 'playwright-core'
 
 const args = process.argv.slice(2)
 const flag = (name, or) => args.find((a) => a.startsWith(`--${name}=`))?.split('=')[1] ?? or
-const phone = args.includes('--phone')
 const base = flag('url', 'http://localhost:5173/')
 const [out = 'audit', ...wanted] = args.filter((a) => !a.startsWith('--'))
 const ALL = ['first', 'tutorial', 'worlds', 'weather', 'fight', 'base', 'foot', 'inside', 'space', 'travel', 'maps', 'menus']
@@ -35,14 +34,12 @@ const chrome =
     .map((d) => path.join(cache, d, 'chrome-linux64/chrome'))
     .find((f) => fs.existsSync(f))
 const browser = await chromium.launch({ executablePath: chrome, args: ['--use-gl=swiftshader', '--enable-unsafe-swiftshader'] })
-const size = phone ? { width: 844, height: 390 } : { width: 1366, height: 768 }
+const size = { width: 1366, height: 768 }
 const made = []
 const errors = []
 
 async function newPage() {
-  const context = await browser.newContext(
-    phone ? { viewport: size, isMobile: true, hasTouch: true, deviceScaleFactor: 1 } : { viewport: size, deviceScaleFactor: 1 },
-  )
+  const context = await browser.newContext({ viewport: size, deviceScaleFactor: 1 })
   const page = await context.newPage()
   page.on('pageerror', (e) => errors.push(String(e).slice(0, 300)))
   return { context, page }
@@ -50,7 +47,7 @@ async function newPage() {
 const { context, page } = await newPage()
 const wait = (ms) => page.waitForTimeout(ms)
 const S = (fn, arg) => page.evaluate(fn, arg)
-const press = (loc) => (phone ? loc.tap() : loc.click())
+const press = (loc) => loc.click()
 const button = (name) =>
   page
     .getByRole('button', { name, exact: typeof name === 'string' })
@@ -84,15 +81,15 @@ async function newPilot(p, shots) {
   await p.waitForSelector('main button', { timeout: 30000 })
   await p.mouse.move(2, 2)
   if (shots) await shot('first', 'title', 1500)
-  await (phone ? p.getByRole('button', { name: 'Play' }).tap() : p.getByRole('button', { name: 'Play' }).click())
+  await p.getByRole('button', { name: 'Play' }).click()
   if (shots) await shot('first', 'callsign', 600)
   await p.keyboard.type('VESPER')
-  await (phone ? p.getByRole('button', { name: 'Next' }).tap() : p.getByRole('button', { name: 'Next' }).click())
+  await p.getByRole('button', { name: 'Next' }).click()
   await p.mouse.move(2, 2)
   if (shots) await shot('first', 'side', 1200)
-  await (phone ? p.getByRole('button', { name: /Fly for The Nomarchy/ }).tap() : p.getByRole('button', { name: /Fly for The Nomarchy/ }).click())
+  await p.getByRole('button', { name: /Fly for The Nomarchy/ }).click()
   if (shots) await shot('first', 'creator', 900)
-  await (phone ? p.getByRole('button', { name: 'Done' }).tap() : p.getByRole('button', { name: 'Done' }).click())
+  await p.getByRole('button', { name: 'Done' }).click()
   await p.waitForFunction(() => window.__xenophon?.scene, null, { timeout: 40000 })
   await p.evaluate(() => {
     const key = Object.keys(localStorage).find((k) => k.startsWith('xenophon/save/'))

@@ -34,18 +34,10 @@ const SIZES = [
   { width: 1920, height: 1080, dpr: 1 },
   { width: 1536, height: 864, dpr: 1.25 },
   { width: 1280, height: 720, dpr: 1.5 },
-  { width: 844, height: 390, dpr: 1, phone: true },
-  { width: 844, height: 390, dpr: 2, phone: true },
-  { width: 844, height: 390, dpr: 3, phone: true },
 ]
 const errors = []
 for (const s of SIZES) {
-  const context = await browser.newContext({
-    viewport: { width: s.width, height: s.height },
-    deviceScaleFactor: s.dpr,
-    hasTouch: !!s.phone,
-    isMobile: !!s.phone,
-  })
+  const context = await browser.newContext({ viewport: { width: s.width, height: s.height }, deviceScaleFactor: s.dpr })
   const page = await context.newPage()
   page.on('pageerror', (e) => errors.push(String(e)))
   await page.goto(`${base}?net=off&tutorial=off&intro=off`)

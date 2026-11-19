@@ -311,7 +311,7 @@ export function createMusic(o: MusicOptions = {}): Music {
       begin(p)
     },
     sting(which) {
-      if (!mixer || !bus || gone || place === 'title') return
+      if (!mixer || !bus || gone || place === 'title' || place === 'intro') return
       const t = now()
       if (t - (stungAt.get(which) ?? -Infinity) < STING_AGAIN) return
       stungAt.set(which, t)

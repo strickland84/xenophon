@@ -47,6 +47,7 @@ const scenarios = {
   ...bundled.localFlights,
   ...bundled.creatureFlights,
   ...bundled.seatFlights,
+  ...bundled.targetFlights,
 }
 fs.rmSync(dir, { recursive: true })
 if (!scenarios[name]) {

@@ -836,7 +836,11 @@ every step, at rest), the faults were five, each of them the game moving his shi
   `FLIGHT3D aim, span, curve, dead, come`): how far it is above or below the middle of its steering is how far up or down
   the nose points, to 80°, and there it stays. The keys, a stick and the touch buttons still pitch it round for as long as
   they are held (1.3 radians a second: a loop in five seconds), since those are let go; let go, the ship comes level, and
-  one on its back rolls upright first. Overhead a climb or a dive held leans the nose (`lean`) and no more.
+  one on its back rolls upright first. Overhead a climb or a dive held leans the nose (`lean`) and no more. (2026-11-19,
+  James: "with the mouse cursor pitching up and down, I cannot do a full 360 spin. I can do it with W and S though":
+  pushed into a band at the frame's top or bottom, its outer tenth (`FLIGHT3D edge`), the pointer pitches the nose on
+  round as the keys do, from `edgeRate` of their rate to all of it at the edge; resting anywhere else it still aims.
+  `sim/spaceflight.spec.ts`.)
 - **A ship with a still mouse flew itself.** Five seconds without the pointer moving, or a finger lifted, and the ship
   was taken for one with nobody at it: it weaved about and rolled, as the ship on show does. The `wander` setting says
   where that is wanted (the scripted flights and a ship on show); the page sets it false, and a pilot's ship holds its
@@ -1881,8 +1885,9 @@ Built in Phase 9 (`lib/tutorial/`, `TutorialPrompt.svelte`, after `art/mockups/t
   row, each teaching one control on the device in use (keys and mouse as bound, a controller's buttons,
   the touch buttons), each waiting for him to do it: **launch** (Use held), **steer** to the capital world
   (the course's arrow is set for him), **descend** (Use held over it), **dive** low (the dive control;
-  under 90 px, where the laser reaches and the ore is scooped), **drones** (three training drones put up
-  ahead: the guns), **mine** (the guide's mark on the nearest outcrop, then on the chunks to scoop),
+  under 90 px, where the laser reaches and the ore is scooped), **target** (three training drones put
+  up ahead, one of them picked with the target key: T, D-pad left, the touch Target button; added 2026-11-19, James: "we
+  also need a section about TARGETING with T"), **drones** (the three shot down: the guns), **mine** (the guide's mark on the nearest outcrop, then on the chunks to scoop),
   **land** on the nearest outpost's pad (or anywhere the HUD says LAND), **out** (Use tapped), **beacon**
   (the view button, then its words), **board** (Use by the ship), **bank** (HOME, landing at one of his
   side's bases); then the galaxy map opens on today's hotspots with a line saying so, and he is free. A
@@ -2278,15 +2283,31 @@ link. Clips are on where there is a mouse and off on a touch screen unless turne
 work a phone feels); the key is said once a session, after the first bounty. `node tools/clip.mjs out/ <url>` takes
 one in a browser it starts itself and checks it; pictures `docs/art/gen/clip-panel.png`, `clip-frame.png`.
 
-### Touch
+### Desktop only (2026-11-19)
 
-Phones and tablets are first-class, alongside mouse and keys and controllers.
+The game is for a desktop with a mouse and a keyboard (a game controller works too). James: "this game is now purely
+intended for desktop mouse and keyboard. If someone is on a narrow device like that just point them to the github and
+tell them to get a PC". Anything else (`display/desktop.ts isDesktop`: no mouse or other fine pointer, or a screen under
+1,024 px on its long side; `?desktop=yes` lets a tool past) is shown `DesktopOnly.svelte` instead of the game, after
+`art/mockups/desktop-only.png`: the opening story's sky, the wordmark, the model's desktop computer
+(`static/ui/desktop-24.png`), two lines, and a button to the code on GitHub. Nothing of the game starts behind it.
 
-- Every feature ships with touch controls: flying, fighting, walking, mining, menus,
+Taken out: the touch screen's buttons (`TouchButtons.svelte`), steering and walking with a finger (`input/pointer.ts` is
+the mouse's alone), the help, prompts, tips and the narrator's lines worded for touch (the `touch` voice of the first
+sortie, fifteen lines, and its recordings), the HUD keeping to the top and its prompts between the buttons (the scene's
+`hudTop` and `hudSides`; a line too wide for the frame itself is still broken), the clips being off on a touch screen,
+the tooltips' long press, the maps' pinch, `?touchControls`, and `tools/phone-check.mjs` and the browser tools' phone
+runs. Screens still fit a short or narrow window. The section below is of how it was.
+
+### Touch (as it was, before 2026-11-19)
+
+Phones and tablets were first-class, alongside mouse and keys and controllers.
+
+- Every feature shipped with touch controls: flying, fighting, walking, mining, menus,
   inventory, the maps and the character creator.
-- Every screen is laid out for a phone held sideways first, then scaled up.
-- On foot, a virtual stick moves the pilot and buttons appear for what is in reach.
-- Menus use large targets and tap-to-move in the inventory, never drag only.
+- Every screen was laid out for a phone held sideways first, then scaled up.
+- On foot, a virtual stick moved the pilot and buttons appeared for what was in reach.
+- Menus used large targets and tap-to-move in the inventory, never drag only.
 
 ### Accessibility
 
@@ -2461,6 +2482,27 @@ project.
   piece be brighter (`bright`: its share over 4 kHz before it is flagged). James chooses by ear on `/sounds`
   (each piece marked New) and the recipe's `use`.
 
+### The music, made a third time: MIDI (2026-11-19)
+
+James, of the set above: "it needs to be more in keeping with the game, more midi. The intro needs music too". The game
+is pixel art, so its music is now sequenced as a game of the early 1990s would have had it, on a MIDI sound module's
+patches. The same model and plan; `SCORE` is now "1990s sequenced MIDI game music", "General MIDI sound module
+instruments", "quantized MIDI sequencing, every note on the grid", retro science fiction, a catchy melody, a dry, clear
+mix. Every section carries `NOT_MIDI` as negative styles (a live orchestra, a film score, realistic acoustic instruments,
+modern pop production, heavy reverb), and each piece names its patches (a square-wave lead, an FM bass, a synth strings
+patch, a brass section patch, orchestra hits, a MIDI drum kit, an FM electric piano, a marimba patch). Each place keeps
+its key, tempo and character, and the fight still shares 140 BPM in E minor.
+
+- **The opening story has its own piece**, `intro` (place `intro` in `audio/moods.ts`, set by `Game.svelte` while
+  `IntroCrawl` is open; it shared the title's before, and that piece's first 25 s were a near-silent drone, pushed down
+  under the voice, so the story seemed to have no music). It runs for about two minutes in five sections laid to the
+  story (dark, the war, the worlds, the dock, a coda), in D minor at 76 BPM: low bass, high bells and soft pads, so the
+  narrator's range stays clear. It is evened 1 dB louder than the other pieces, since it is held down under him nearly
+  all the time.
+- Two takes of every piece and sting (36 in all, about 60 minutes), made in about three minutes. The music did not
+  draw on the plan's character credits. The cinematic set is kept in `art/audio/takes/music-cinematic/` (not in git).
+  Nobody has heard it; `/sounds` marks it New.
+
 ### The narrator
 
 The opening story is to be read aloud, the voice made on this PC and shipped as a file (a model in the
@@ -2490,6 +2532,18 @@ when a line's words change and it has not been read again. Played on the effects
 him (`speak`, `hush`): the opening story times itself by his lines (each paragraph comes up to be read as he begins it;
 a reader's pace where a line is not voiced), `Game.svelte` says a step's line as the step begins (not on a detour).
 Takes are in `art/audio/voice/`, not kept in git.
+
+**Read by ElevenLabs since 2026-11-19** (James's plan): `narrate.py` sends each line to its text to speech (`eleven_v3`,
+seed 7) in `NARRATOR`'s voice. The first was Miltiadis (`YjbHBTWH8WkGAhNrkp0i`), a Greek speaker told to put on a
+Greek accent. James asked for "a better elevenlabs voice", so ten from the voice library were tried over the test
+passage (`tools/gen/voice_eleven.py`: voices that speak English with a Greek accent of their own, Greek narrators told
+to keep one, and old, deep English storytellers) and measured by `voice_check.py` and by Whisper's guess at the
+language (a strong accent is heard as part Greek). Miltiadis read the fastest (159 words a minute), and Whisper heard
+him as more Greek (0.54) than English (0.28). **Theos** (`n0vzWypeCK1NlWPVwhOc`, a Greek narrator for documentaries and
+trailers, with "[Greek accent]") was the deepest (77 Hz) and among the slowest (118 words a minute), with every word
+heard and the accent plain (English 0.38, Greek 0.26). All 78 lines were read again in his voice (about 5,000 credits)
+and packed with `narration.py --keep`. Miltiadis's takes are in `art/audio/voice/lines-miltiadis/`, and each voice's
+test take is in `art/audio/voice/eleven/` (not in git).
 
 ### Before
 
@@ -3020,7 +3074,7 @@ the way down; both are the globe and the world drawn in perspective.
 
 - Built in Phase 9: the first sortie flown by a scripted stranger who only does what the prompts say,
   both sides, and shot down half way (`tutorial/tutorial.spec.ts`); two scripted flights
-  (`tutorial/flights.spec.ts`: training drones with the guide on each, a finger steering while diving
+  (`tutorial/flights.spec.ts`: training drones with the guide on each, the mouse steering while diving
   and climbing); a save kept and brought back by file, by phrase, and from a sealed copy on relays in
   memory with only the phrase (`save/backup.spec.ts`); keys and controller buttons remapped
   (`input/input.spec.ts`); an old build hearing a newer one's presence (`net/chronicle.spec.ts`); the
@@ -3264,8 +3318,11 @@ These are the choices I most need from you. My proposal is given for each.
 9. **Friendly fire.** Decided: off.
 10. **Changing faction.** Decided: permanent for a pilot. A new pilot can choose again.
     Factions get strong identities and their own races.
-11. **Touch support.** Decided: phones and tablets are first-class. Every feature ships
-    with touch controls.
+11. **Touch support.** Decided again, 2026-11-19 (James: "this game is now purely intended for desktop mouse and
+    keyboard. If someone is on a narrow device like that just point them to the github and tell them to get a PC"):
+    a desktop with a mouse and a keyboard only (a game controller still works). A phone or a tablet is shown a page
+    that says so and links to the code (section 16, "Desktop only"). It was: phones and tablets first-class, every
+    feature with touch controls.
 12. **Order.** Decided: loop before galaxy, as in the roadmap.
 13. **Number of factions.** Decided: two.
 14. **Ships.** Decided: spaceships, not jets, and the demo's jet is scrapped. 8 to 10 base

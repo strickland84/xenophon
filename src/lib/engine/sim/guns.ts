@@ -1,7 +1,7 @@
 // The cannon: fast shots along the ship's nose, in three dimensions. Each mount fires in turn;
 // firing heats the guns, and too much heat jams them for a moment. The player's shots are
 // turned onto a target that is nearly in line (a small aim-assist cone), so a pointer, keys,
-// a controller and a finger can all hit. Shots fly on, and strike the first enemy hull they
+// and a controller can all hit. Shots fly on, and strike the first enemy hull they
 // pass through, or the ground. Shots from a ship another game owns (room.ts) do no harm here:
 // they show, and pass through; that game decides what they hit.
 

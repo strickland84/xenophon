@@ -18,11 +18,14 @@ PASSAGE = (
 OUT = 'art/audio/voice'
 
 # the narrator (2026-11-19): Xenophon, an old hired pilot of the game's own world (docs/factions-and-races.md), read by
-# ElevenLabs on James's own paid plan in this voice, with a Greek accent; James chose it by ear from test takes.
-# tools/gen/narrate.py reads every line in it. (Before, Chatterbox in a voice made from Kokoro's bm_lewis, kept as
-# art/audio/narrator/voice.wav.)
+# ElevenLabs on James's own paid plan. Since the second search the same day (James: "find a better elevenlabs voice"),
+# Theos, a Greek narrator for documentaries and trailers, told to keep a Greek accent in English: of ten voices tried
+# (tools/gen/voice_eleven.py, measured by tools/audio/voice_check.py) the deepest (a median of 77 Hz) and among the
+# slowest (118 words a minute), every word made out, the accent plain but easy to follow. The first, Miltiadis
+# (YjbHBTWH8WkGAhNrkp0i), read at 159 words a minute and was heard by Whisper as more Greek than English.
+# tools/gen/narrate.py reads every line in it.
 NARRATOR = {
-    'voice': 'YjbHBTWH8WkGAhNrkp0i',
+    'voice': 'n0vzWypeCK1NlWPVwhOc',
     'model': 'eleven_v3',
     'style': '[Greek accent]',
     'seed': 7,

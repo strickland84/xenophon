@@ -11,7 +11,7 @@ Every change is judged against these (they are in the README too):
 2. **Fun first.** A feature is done when it is fun to play, not when it works.
 3. **Beautiful pixel art.** One pixel size on screen, no scaled sprites, no programmer art.
 4. **Fair.** Nothing is sold; nothing cosmetic adds power.
-5. **For everyone.** Alone and offline, on a phone held sideways, with keys, a controller or touch.
+5. **For a desktop.** Alone and offline, with a mouse and a keyboard, or a controller. No touch controls, no phone layouts.
 
 ## Where help is most wanted
 
@@ -58,7 +58,8 @@ works alone, offline, too. `?net=off` in the address keeps a tab off the network
   Multiplayer and the tests depend on it.
 - **Everything is drawn into one low-resolution pixel buffer.** Never scale a sprite; all pixels on screen stay the
   same size.
-- **Phones are first class.** Every control has a touch version, and every screen works on a phone held sideways.
+- **Desktop only.** The game is played with a mouse and a keyboard (a controller works too). Phones and tablets are shown
+  a page that points them to this repository; add no touch controls or phone layouts.
 - **It works alone.** With no other players and no network, everything still runs.
 - **Style:** Prettier and ESLint as configured (no semicolons, single quotes, 140 columns). Comments say what a thing
   is for, in plain words, as the existing ones do. British spelling.
@@ -76,7 +77,7 @@ one recorded in `src/lib/engine/testing/frames/`. So:
 ## Before you open a pull request
 
 1. `npm run lint`, `npm run check` and `npm test` pass (CI runs the same on every pull request).
-2. You have looked at what you changed, in the game or in rendered frames, on a laptop and a phone-sized window.
+2. You have looked at what you changed, in the game or in rendered frames, on a laptop-sized window.
 3. One change per pull request, with a title that says what a player would notice.
 
 The maintainer reviews every pull request (`.github/CODEOWNERS`). Small, focused pull requests are merged soonest.

@@ -1,11 +1,9 @@
 // Walks the pilot inside (the hangar, the deck, a ship's rooms) to a spot, as a player would: along the way through
-// the room's open tiles (round the furniture and his ship), with the keys, or on a phone with a finger as the stick.
-// For the tools that play the game in a browser (phone-check.mjs, hangar.mjs, playthrough.mjs); it reads the room
-// through window.__xenophon (development and playtest builds only).
+// the room's open tiles (round the furniture and his ship), with the keys. For the tools that play the game in a
+// browser (hangar.mjs); it reads the room through window.__xenophon (development and playtest builds only).
 //
 //   import { walkToSpot, walkToTile } from './inside-walk.mjs'
-//   await walkToSpot(page, 'booth')               // with the keys
-//   await walkToSpot(page, 'booth', { cdp })      // with a finger (a CDP session of a phone's page)
+//   await walkToSpot(page, 'booth')
 
 /** the way from where he stands to a tile (x, y), as tile middles in px: the room's open tiles, four ways, nearest first */
 async function wayTo(page, tx, ty) {
@@ -52,46 +50,36 @@ async function wayTo(page, tx, ty) {
   )
 }
 
-/** walks to a point (px) with the keys, or a finger held off the middle of the screen (a phone's stick) */
-async function stepTo(page, x, y, cdp) {
+/** walks to a point (px) with the keys */
+async function stepTo(page, x, y) {
   for (let i = 0; i < 30; i++) {
     const me = await page.evaluate(() => window.__xenophon.scene.interior)
     const dx = x - me.x
     const dy = y - me.y
     if (Math.hypot(dx, dy) < 2.5) break
-    if (cdp) {
-      const vp = page.viewportSize()
-      const d = Math.hypot(dx, dy)
-      const fx = Math.round(vp.width / 2 + (dx / d) * 40)
-      const fy = Math.round(vp.height / 2 + (dy / d) * 40)
-      await cdp.send('Input.dispatchTouchEvent', { type: i === 0 ? 'touchStart' : 'touchMove', touchPoints: [{ x: fx, y: fy, id: 3 }] })
-      await page.waitForTimeout(Math.min(250, (d / 30) * 1000))
-    } else {
-      const keys = []
-      if (dx > 1.5) keys.push('d')
-      if (dx < -1.5) keys.push('a')
-      if (dy > 1.5) keys.push('s')
-      if (dy < -1.5) keys.push('w')
-      for (const k of keys) await page.keyboard.down(k)
-      await page.waitForTimeout(Math.min(250, (Math.max(Math.abs(dx), Math.abs(dy)) / 30) * 1000))
-      for (const k of keys) await page.keyboard.up(k)
-    }
+    const keys = []
+    if (dx > 1.5) keys.push('d')
+    if (dx < -1.5) keys.push('a')
+    if (dy > 1.5) keys.push('s')
+    if (dy < -1.5) keys.push('w')
+    for (const k of keys) await page.keyboard.down(k)
+    await page.waitForTimeout(Math.min(250, (Math.max(Math.abs(dx), Math.abs(dy)) / 30) * 1000))
+    for (const k of keys) await page.keyboard.up(k)
   }
-  if (cdp) await cdp.send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] })
 }
 
 /** walks to a tile of the room along the way through it; false if there is no way */
-export async function walkToTile(page, tx, ty, opts = {}) {
+export async function walkToTile(page, tx, ty) {
   const path = await wayTo(page, tx, ty)
   if (!path) return false
   // (a turn at each corner of the way, straight runs between)
   const corners = path.filter((p, i) => i === path.length - 1 || (path[i + 1].x - p.x !== p.x - (path[i - 1] ?? p).x) || path[i + 1].y - p.y !== p.y - (path[i - 1] ?? p).y)
-  for (const p of corners) await stepTo(page, p.x, p.y, opts.cdp)
+  for (const p of corners) await stepTo(page, p.x, p.y)
   return true
 }
 
 /** walks to stand by a spot of the room (the bench, the booth, a door…) until it is in reach; true if it is */
-export async function walkToSpot(page, id, opts = {}) {
+export async function walkToSpot(page, id) {
   const room = await page.evaluate(() => window.__xenophon.open())
   const s = room?.spots.find((x) => x.id === id)
   if (!s) return false
@@ -106,8 +94,8 @@ export async function walkToSpot(page, id, opts = {}) {
     if (!best || d < best.d) best = { i, d }
   }
   if (!best) return false
-  await walkToTile(page, best.i % w, Math.floor(best.i / w), opts)
-  await stepTo(page, s.x, s.y, opts.cdp)
+  await walkToTile(page, best.i % w, Math.floor(best.i / w))
+  await stepTo(page, s.x, s.y)
   if ((await page.evaluate(() => window.__xenophon.scene.interior.spot)) === id) return true
   // (the walk fell short, a visitor or a slow machine in the way: put by the spot, said so, so a tool that is checking
   // the screen behind it carries on)

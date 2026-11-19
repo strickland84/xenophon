@@ -6,14 +6,13 @@
 //
 //   npm i --no-save playwright-core     # once (it is not one of the game's dependencies)
 //   npm run dev                         # in another terminal (or use one already running)
-//   node tools/interface-sheet.mjs out/ [http://localhost:5173/] [--phone]
+//   node tools/interface-sheet.mjs out/ [http://localhost:5173/]
 //     → out/screens.png, out/hud.png and each picture alone
 import fs from 'node:fs'
 import os from 'node:os'
 import path from 'node:path'
 import { chromium } from 'playwright-core'
 
-const phone = process.argv.includes('--phone')
 const [out = 'interface-sheet', base = 'http://localhost:5173/'] = process.argv.slice(2).filter((a) => !a.startsWith('--'))
 fs.mkdirSync(out, { recursive: true })
 const cache = path.join(os.homedir(), '.cache/ms-playwright')
@@ -26,10 +25,8 @@ const chrome =
     .map((d) => path.join(cache, d, 'chrome-linux64/chrome'))
     .find((f) => fs.existsSync(f))
 const browser = await chromium.launch({ executablePath: chrome, args: ['--use-gl=swiftshader', '--enable-unsafe-swiftshader'] })
-const size = phone ? { width: 844, height: 390 } : { width: 1366, height: 768 }
-const context = await browser.newContext(
-  phone ? { viewport: size, isMobile: true, hasTouch: true, deviceScaleFactor: 1 } : { viewport: size, deviceScaleFactor: 1 },
-)
+const size = { width: 1366, height: 768 }
+const context = await browser.newContext({ viewport: size, deviceScaleFactor: 1 })
 const page = await context.newPage()
 const shots = {}
 async function shot(name, wait = 400) {
@@ -39,7 +36,7 @@ async function shot(name, wait = 400) {
   shots[name] = file
   console.log(name)
 }
-const press = (loc) => (phone ? loc.tap() : loc.click())
+const press = (loc) => loc.click()
 const button = (name) =>
   page
     .getByRole('button', { name, exact: typeof name === 'string' })
@@ -128,7 +125,11 @@ await page.waitForTimeout(500)
 await press(button('Galaxy'))
 await page.waitForTimeout(500)
 // (a tooltip: a system's danger and holders, under the pointer)
-if (!phone) await page.locator('section[aria-label="Maps"] svg [role="button"]').nth(6).hover().catch(() => {})
+await page
+  .locator('section[aria-label="Maps"] svg [role="button"]')
+  .nth(6)
+  .hover()
+  .catch(() => {})
 await shot('galaxy', 800)
 await page.keyboard.press('Escape')
 
@@ -144,7 +145,11 @@ await walkTo(32, 40)
 await page.keyboard.press('f')
 await page.waitForTimeout(500)
 // (a tooltip: what a part gives and costs)
-if (!phone) await page.locator('section[aria-label="Loadout bench"] button.item').nth(1).hover().catch(() => {})
+await page
+  .locator('section[aria-label="Loadout bench"] button.item')
+  .nth(1)
+  .hover()
+  .catch(() => {})
 await shot('bench', 800)
 await page.keyboard.press('Escape')
 await page.waitForTimeout(300)

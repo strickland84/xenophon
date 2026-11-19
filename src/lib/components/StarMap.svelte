@@ -5,7 +5,6 @@
   //   a mouse    drag to move over the plane; drag with the right button (or Shift held) to turn round and tilt; the wheel
   //              to come in and go out about the pointer; a click picks, a double click goes in (a system from the galaxy, a
   //              body close up)
-  //   a finger   drag to move; two to pinch in and out and to twist round; a tap picks, a double tap goes in
   //   the keys   W A S D move, Q E turn, R F tilt, + − in and out, H back to where he is; the arrows (padnav.ts) go from mark
   //              to mark, Enter picks; the controller's right stick turns and tilts, its triggers come in and go out
   //   buttons    in and out, turn, flat or tilted, and back to where he is, in the map's corner
@@ -86,7 +85,7 @@
     dirty = true
   }
 
-  // ── sizing: about 3 CSS px an art pixel (2 on a short map, a phone's), a whole number of device px
+  // ── sizing: about 3 CSS px an art pixel (2 on a short map), a whole number of device px
   function resize() {
     if (!box || !canvas) return
     const ratio = window.devicePixelRatio || 1
@@ -209,7 +208,7 @@
     dirty = true
   }
 
-  // ── the pointer: one drags or turns, two pinch and twist
+  // ── the mouse: it drags or turns
   // eslint-disable-next-line svelte/prefer-svelte-reactivity
   const pointers = new Map<number, { x: number; y: number }>()
   let downAt: { x: number; y: number; t: number } | null = null
@@ -249,20 +248,7 @@
     if (!dragged) return
     goal = null
     touched = true
-    if (pointers.size >= 2) {
-      // (two fingers: the other's place, before and now)
-      const [aId, bId] = [...pointers.keys()]
-      const otherId = aId === e.pointerId ? bId : aId
-      const o = pointers.get(otherId)!
-      const before = Math.hypot(was.x - o.x, was.y - o.y)
-      const after = Math.hypot(p.x - o.x, p.y - o.y)
-      const mid0 = { x: (was.x + o.x) / 2, y: (was.y + o.y) / 2 }
-      const mid1 = { x: (p.x + o.x) / 2, y: (p.y + o.y) / 2 }
-      const twist = Math.atan2(p.y - o.y, p.x - o.x) - Math.atan2(was.y - o.y, was.x - o.x)
-      cam = panBy(cam, W, H, mid0.x, mid0.y, mid1.x, mid1.y, k)
-      if (before > 4 && after > 4) cam = zoomAbout(cam, W, H, mid1.x, mid1.y, before / after, k)
-      if (Math.abs(twist) < 0.5) cam = clampCam({ ...cam, yaw: cam.yaw - twist }, k)
-    } else if (turning) {
+    if (turning) {
       cam = clampCam({ ...cam, yaw: cam.yaw - ((p.x - was.x) * px) / 180, pitch: cam.pitch + ((p.y - was.y) * px) / 260 }, k)
     } else cam = panBy(cam, W, H, was.x, was.y, p.x, p.y, k)
     pointers.set(e.pointerId, p)
@@ -276,7 +262,7 @@
       if (!pointers.size) downAt = null
       return
     }
-    // (a click or a tap that went nowhere: a pick, or a double one going in)
+    // (a click that went nowhere: a pick, or a double one going in)
     const p = local(e)
     const m = markAt(marks, p.x, p.y)
     const now = performance.now()

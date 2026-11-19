@@ -91,7 +91,7 @@ export interface Settings {
   /** the art pixel's size on screen, CSS px (0: whatever suits the screen), and the flames drawn in pixels or smooth (null: smooth where the graphics card can) */
   pixel: number
   flames: 'pixel' | 'realistic' | null
-  /** the last seconds of play kept all the while, to be had as a short film (display/clips.ts); null: on where there is a mouse, off on a touch screen */
+  /** the last seconds of play kept all the while, to be had as a short film (display/clips.ts); null: on (it was off on a touch screen, before the game was for a desktop only) */
   clips: boolean | null
 }
 

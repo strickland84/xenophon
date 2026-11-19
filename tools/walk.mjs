@@ -1,14 +1,13 @@
 // Plays being on foot in a real browser, alone (?net=off), and writes screenshots: a new pilot
 // made in the creator (Randomise, then Done), landed at his side's base; out of his ship with a
 // tap of F; a walk with the keys; the sidearm fired where the mouse points; a beacon and a flare;
-// back in. Then the same on a phone held sideways: the creator, a tap of Action to climb out, and
-// a walk with the touch stick. To look at after changing being on foot or its screens.
+// back in. To look at after changing being on foot or its screens.
 //
 //   npm i --no-save playwright-core     # once (it is not one of the game's dependencies)
 //   npm run dev                         # in another terminal (or use one already running)
 //   node tools/walk.mjs out/ [http://localhost:5173/]
 //
-// Everything goes through the page as a player's keys, mouse and fingers would; it only reads
+// Everything goes through the page as a player's keys and mouse would; it only reads
 // how the pilot stands from window.__xenophon, which only development builds have.
 import fs from 'node:fs'
 import os from 'node:os'
@@ -31,15 +30,14 @@ const errors = []
 const shot = (page, name) => page.screenshot({ path: path.join(out, `${name}.png`) })
 const foot = (page) => page.evaluate(() => window.__xenophon.scene.foot)
 
-async function newPilot(context, name, tap = false) {
+async function newPilot(context, name) {
   const page = await context.newPage()
   page.on('pageerror', (e) => errors.push(String(e)))
   await page.goto(`${base}?net=off&tutorial=off`)
-  const press = (loc) => (tap ? loc.tap() : loc.click())
-  await press(page.getByRole('button', { name: 'Play' }))
+  await page.getByRole('button', { name: 'Play' }).click()
   await page.keyboard.type(name)
-  await press(page.getByRole('button', { name: 'Next' }))
-  await press(page.getByRole('button', { name: /Fly for The Anarchoi/ }))
+  await page.getByRole('button', { name: 'Next' }).click()
+  await page.getByRole('button', { name: /Fly for The Anarchoi/ }).click()
   await page.waitForTimeout(400)
   return page
 }
@@ -90,29 +88,5 @@ async function newPilot(context, name, tap = false) {
   console.log('walked', JSON.stringify(await foot(page)).slice(0, 160))
 }
 
-// ── a phone held sideways: the creator, Action to climb out, the touch stick
-{
-  const context = await browser.newContext({ viewport: { width: 844, height: 390 }, hasTouch: true, isMobile: true, deviceScaleFactor: 2 })
-  const page = await newPilot(context, 'THUMBS', true)
-  await shot(page, '8-phone-creator')
-  await page.getByRole('button', { name: 'Done' }).tap()
-  await page.waitForFunction(() => window.__xenophon)
-  await page.waitForTimeout(2500)
-  await page.getByRole('button', { name: 'Action: hold' }).tap()
-  await page.waitForTimeout(1000)
-  await shot(page, '9-phone-out')
-  // a finger dragged on the left of the screen: the stick
-  const cdp = await context.newCDPSession(page)
-  const touch = (type, x, y) => cdp.send('Input.dispatchTouchEvent', { type, touchPoints: type === 'touchEnd' ? [] : [{ x, y, id: 1 }] })
-  await touch('touchStart', 200, 250)
-  for (let i = 1; i <= 8; i++) {
-    await touch('touchMove', 200 + i * 5, 250 - i * 3)
-    await page.waitForTimeout(30)
-  }
-  await page.waitForTimeout(1200)
-  await shot(page, '10-phone-stick')
-  await touch('touchEnd', 0, 0)
-  console.log('phone', JSON.stringify(await foot(page)).slice(0, 160))
-}
 await browser.close()
 console.log(errors.length ? `errors:\n${errors.join('\n')}` : 'no errors on the page')

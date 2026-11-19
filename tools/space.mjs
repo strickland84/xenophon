@@ -3,30 +3,18 @@
 // its air); looks at space from behind and from the seat (V); opens the maps (the system, the
 // galaxy, a world's card) and plots a course to a gate; cruises there (C) and jumps. A second
 // pilot, whose save is in Thodes' space (?world=s1), begins docked at its station: its screen and
-// market. Then the same on a phone held sideways, with the touch buttons (Action to climb out,
-// View, Cruise, Map; Dive over the world to go back down to it). To look at after changing space or
-// its screens.
+// market. To look at after changing space or its screens.
 //
 //   npm i --no-save playwright-core     # once (it is not one of the game's dependencies)
 //   npm run dev                         # in another terminal (or use one already running)
 //   node tools/space.mjs out/ [http://localhost:5173/]
 //
 // It steers the ship through window.__xenophon, which only development builds have; the keys
-// and buttons it presses (F, V, M, Tab, the touch buttons) go through the page as a player's would.
+// and buttons it presses (F, V, M, Tab) go through the page as a player's would.
 import fs from 'node:fs'
 import os from 'node:os'
 import path from 'node:path'
 import { chromium } from 'playwright-core'
-
-/** a touch button, opening More first when it is under it (as a player finds it) */
-async function tapButton(page, name) {
-  const b = page.getByRole('button', { name, exact: true })
-  if (!(await b.count())) {
-    await page.getByRole('button', { name: 'More', exact: true }).first().tap()
-    await page.waitForTimeout(250)
-  }
-  await page.getByRole('button', { name, exact: true }).first().tap()
-}
 
 const [out = 'space-shots', base = 'http://localhost:5173/'] = process.argv.slice(2)
 fs.mkdirSync(out, { recursive: true })
@@ -84,8 +72,8 @@ async function fly(page, seconds, want, until) {
   return false
 }
 
-// ── a laptop's screen (PHONE=only skips it)
-if (process.env.PHONE !== 'only') {
+// ── a laptop's screen
+{
   const page = await newPilot(await browser.newContext({ viewport: { width: 1280, height: 720 } }), 'STARMAN')
   await page.waitForTimeout(2000)
   // (the ship waits with its power off: P brings it up, in two seconds)
@@ -176,51 +164,5 @@ if (process.env.PHONE !== 'only') {
   await shot(docked, '11-station-market')
 }
 
-// ── a phone held sideways, with the touch buttons
-{
-  const context = await browser.newContext({ viewport: { width: 844, height: 390 }, hasTouch: true, isMobile: true, deviceScaleFactor: 2 })
-  const page = await newPilot(context, 'THUMBS')
-  await page.waitForTimeout(2000)
-  const action = page.getByRole('button', { name: 'Action: hold' })
-  // (a finger held on Action: the button's own pointer events, as a touch would send them)
-  const hold = async (ms) => {
-    await action.dispatchEvent('pointerdown', { pointerId: 7, pointerType: 'touch', isPrimary: true })
-    await page.waitForTimeout(ms)
-    await action.dispatchEvent('pointerup', { pointerId: 7, pointerType: 'touch', isPrimary: true })
-  }
-  // (the ship waits with its power off: the Power button brings it up, in two seconds)
-  await page.getByRole('button', { name: 'Power' }).tap()
-  await page.waitForTimeout(2300)
-  await hold(700)
-  await fly(page, 12, `return { turn: 0.15, climb: -1 }`, `return me.height > 175`)
-  await hold(1200)
-  await fly(page, 16, `return { turn: 0.1 }`, `return z.kind === 'space' && !z.travel`)
-  await page.waitForTimeout(600)
-  await shot(page, '12-phone-space')
-  // down again to the world below by holding Dive over it (overhead, where Dive is shown), then the view from behind on the way
-  const dive = page.getByRole('button', { name: 'Dive' })
-  await dive.dispatchEvent('pointerdown', { pointerId: 8, pointerType: 'touch', isPrimary: true })
-  await page.waitForTimeout(1000)
-  await dive.dispatchEvent('pointerup', { pointerId: 8, pointerType: 'touch', isPrimary: true })
-  await tapButton(page, 'View')
-  await page.waitForTimeout(3000)
-  await shot(page, '12b-phone-going-down-from-behind')
-  console.log('phone going down', JSON.stringify(await zone(page)).slice(0, 160))
-  await fly(page, 14, `return { turn: 0.1 }`, `return z.kind === 'surface' && !z.travel`)
-  await shot(page, '12c-phone-down-again')
-  // and up out once more from the seat (View again), Action held, for the cruise and the map
-  await tapButton(page, 'View')
-  await hold(1200)
-  await page.waitForTimeout(4000)
-  await shot(page, '12d-phone-going-up-from-the-seat')
-  await fly(page, 16, `return { turn: 0.1 }`, `return z.kind === 'space' && !z.travel`)
-  await tapButton(page, 'View')
-  await page.getByRole('button', { name: 'Cruise' }).tap()
-  await page.waitForTimeout(2500)
-  await shot(page, '13-phone-cruise')
-  await tapButton(page, 'Map')
-  await page.waitForTimeout(500)
-  await shot(page, '14-phone-map')
-}
 await browser.close()
 console.log(errors.length ? `errors:\n${errors.join('\n')}` : 'no errors on the page')

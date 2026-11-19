@@ -80,7 +80,7 @@ for (const [ch, rows] of Object.entries(ROWS)) {
 
 /**
  * The size every scale is multiplied by: 1, or 2 while the HUD is drawn with its text twice the size (the
- * `hudScale` setting: a phone's small art pixels, or the player's larger text). The HUD sets it as it
+ * `hudScale` setting: small art pixels, or the player's larger text). The HUD sets it as it
  * begins and puts it back as it ends; a scale of 1.5 then comes to 3.
  */
 let unit = 1

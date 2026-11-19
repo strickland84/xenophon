@@ -12,9 +12,10 @@ export interface Screen {
   /**
    * The art pixels shown `zoom` times larger (the camera pulled in on foot): the picture gets there about a
    * CSS pixel at a time over a few frames, so the change is seen, and every pixel stays one size. With `fit` (frame px
-   * that must be seen whole: the hangar, the deck), the art pixel is no larger than lets it fit.
+   * that must be seen whole: the hangar, the deck), the art pixel is no larger than lets it fit; with its `tallest`, no smaller
+   * than keeps the frame within that many art px high (the seat).
    */
-  setZoom(zoom: number, fit?: { w: number; h: number; least?: number } | null): void
+  setZoom(zoom: number, fit?: { w: number; h: number; least?: number; tallest?: number } | null): void
   /** shows the frame the scene has just drawn; `now` is the time in milliseconds */
   present(now: number): void
   /** one art pixel in CSS px, as the layout came out (before any zoom; a whole number of device px, so not always of CSS px) */
@@ -52,6 +53,7 @@ export function createScreen({ container, canvas, flames, scene, onFlamesUnavail
   let fitW = 0
   let fitH = 0
   let fitLeast = 0
+  let fitTallest = 0
   let stepAt = 0
   let layer: FlameLayer | null = null
   let flamesDead = false
@@ -69,7 +71,9 @@ export function createScreen({ container, canvas, flames, scene, onFlamesUnavail
 
   /** the art pixel the scene wants now, in device px: the zoom on the size asked for, no larger than lets a room it wants seen whole fit */
   function wanted() {
-    const px = Math.max(base, Math.round(base * zoom))
+    let px = Math.max(base, Math.round(base * zoom))
+    // (no smaller than keeps the frame within `tallest` art px high: the seat, whose cockpit's art is drawn no taller)
+    if (fitTallest) px = Math.max(px, Math.ceil((container.clientHeight * ratio) / fitTallest))
     if (!fitW || !fitH) return px
     // (no larger than lets what is to be seen whole fit; a ship's rooms no smaller than they were before they were fitted)
     const least = fitLeast ? Math.max(base, Math.round(base * fitLeast)) : 1
@@ -137,6 +141,7 @@ export function createScreen({ container, canvas, flames, scene, onFlamesUnavail
       fitW = room?.w ?? 0
       fitH = room?.h ?? 0
       fitLeast = room?.least ?? 0
+      fitTallest = room?.tallest ?? 0
     },
 
     present(now) {

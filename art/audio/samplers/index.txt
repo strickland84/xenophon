@@ -139,81 +139,86 @@ game plays it; the sampler page (/sounds, in the game's site) has every other ta
 127  music map, take 3: the map (the middle 30 s)
 
 6-narrator.mp3: The narrator (tools/gen/narrate.py), every line he reads, in order
-   1  title (2.11 s, seed 7): Xenophon: Twin Stars.
-   2  intro-0 (4.55 s, seed 7): Between a gold sun and a red one lie forty worlds.
-   3  intro-1 (8.24 s, seed 7): The war for the forty worlds has flared again. Nomarchy and Anarchoi squadrons are fighting over Drassel, in the core, for the third time this year.
-   4  intro-2 (11.92 s, seed 7): Both sides pay well for ore, and raiders have learned that a ship shot down over open ground spills its hold for anyone to pick up. Ore is nobody's until it is banked at a friendly base.
-   5  intro-3 (7.92 s, seed 7): A world goes to the side with the most flags on its outpost mast, and both sides are short of pilots.
-   6  intro-4 (5.59 s, seed 7): The Nomarchy has opened its hangars on the Meridian Ring to anyone who will sign its register.
-   7  intro-5 (4.53 s, seed 7): The Anarchoi are handing out ships on the Raft to anyone who turns up.
-   8  intro-6 (4.8 s, seed 7): At the dock, a new pilot sits in a cold ship, waiting for clearance to launch...
-   9  sortie-power-keys (7.36 s, seed 7): Your ship is docked at the station with its power off. Press P to power up. The screens take a couple of seconds to come on.
-  10  sortie-power-ps (8.0 s, seed 7): Your ship is docked at the station with its power off. Press down on the d-pad to power up. The screens take a couple of seconds to come on.
+   1  title (2.16 s, seed 7): Xenophon: Twin Stars.
+   2  intro-0 (3.84 s, seed 7): Between a gold sun and a red one lie forty worlds.
+   3  intro-1 (9.84 s, seed 7): The war for the forty worlds has flared again. Nomarchy and Anarchoi squadrons are fighting over Drassel, in the core, for the third time this year.
+   4  intro-2 (11.68 s, seed 7): Both sides pay well for ore, and raiders have learned that a ship shot down over open ground spills its hold for anyone to pick up. Ore is nobody's until it is banked at a friendly base.
+   5  intro-3 (7.27 s, seed 7): A world goes to the side with the most flags on its outpost mast, and both sides are short of pilots.
+   6  intro-4 (4.72 s, seed 7): The Nomarchy has opened its hangars on the Meridian Ring to anyone who will sign its register.
+   7  intro-5 (3.44 s, seed 7): The Anarchoi are handing out ships on the Raft to anyone who turns up.
+   8  intro-6 (5.47 s, seed 7): At the dock, a new pilot sits in a cold ship, waiting for clearance to launch...
+   9  sortie-power-keys (7.44 s, seed 7): Your ship is docked at the station with its power off. Press P to power up. The screens take a couple of seconds to come on.
+  10  sortie-power-ps (8.24 s, seed 7): Your ship is docked at the station with its power off. Press down on the d-pad to power up. The screens take a couple of seconds to come on.
   11  sortie-power-pad (7.84 s, seed 7): Your ship is docked at the station with its power off. Press down on the d-pad to power up. The screens take a couple of seconds to come on.
-  12  sortie-power-touch (8.08 s, seed 7): Your ship is docked at the station with its power off. Tap the Power button to power up. The screens take a couple of seconds to come on.
-  13  sortie-power-any (9.76 s, seed 7): Your ship is docked at the station with its power off. Press the power key shown in the box at the top. The screens take a couple of seconds to come on.
-  14  sortie-launch-keys (6.72 s, seed 7): Now hold F to launch. F is your action key. It launches, lands, docks, and takes you down to worlds.
-  15  sortie-launch-ps (7.65 s, seed 7): Now hold Circle to launch. Circle is your action button. It launches, lands, docks, and takes you down to worlds.
-  16  sortie-launch-pad (7.07 s, seed 7): Now hold B to launch. B is your action button. It launches, lands, docks, and takes you down to worlds.
-  17  sortie-launch-touch (6.53 s, seed 7): Now hold the Action button to launch. Action launches, lands, docks, and takes you down to worlds.
-  18  sortie-launch-any (5.49 s, seed 7): Now hold your action key to launch. It launches, lands, docks, and takes you down to worlds.
-  19  sortie-look-keys (9.09 s, seed 7): Press V to change your view. Once to see the ship from behind, again for the cockpit, and once more to go back to the view from above.
-  20  sortie-look-ps (8.05 s, seed 7): Press Triangle to change your view. Once to see the ship from behind, again for the cockpit, and once more to go back to the view from above.
-  21  sortie-look-pad (8.89 s, seed 7): Press the Y button to change your view. Once to see the ship from behind, again for the cockpit, and once more to go back to the view from above.
-  22  sortie-look-touch (9.75 s, seed 7): Tap More, then View, to change your view. Once to see the ship from behind, again for the cockpit, and once more to go back to the view from above.
-  23  sortie-look-any (9.49 s, seed 7): Press your view key to change your view. Once to see the ship from behind, again for the cockpit, and once more to go back to the view from above.
-  24  sortie-steer-keys (11.12 s, seed 7): The arrow on screen points at your side's home world. Steer with the mouse, or A and D, and fly until you're over it. E opens the throttle and Q closes it.
-  25  sortie-steer-ps (8.41 s, seed 7): The arrow on screen points at your side's home world. Steer with the left stick, and fly until you're over it. The right stick sets the throttle.
-  26  sortie-steer-pad (8.43 s, seed 7): The arrow on screen points at your side's home world. Steer with the left stick, and fly until you're over it. The right stick sets the throttle.
-  27  sortie-steer-touch (6.56 s, seed 7): The arrow on screen points at your side's home world. Drag a finger to steer, and fly until you're over it.
-  28  sortie-steer-any (5.76 s, seed 7): The arrow on screen points at your side's home world. Steer towards it, and fly until you're over it.
-  29  sortie-descend-keys (6.16 s, seed 7): You're over the world now. Hold F to put the nose down, and keep diving through its air until you're flying over the ground.
-  30  sortie-descend-ps (6.8 s, seed 7): You're over the world now. Hold Circle to put the nose down, and keep diving through its air until you're flying over the ground.
-  31  sortie-descend-pad (6.96 s, seed 7): You're over the world now. Hold B to put the nose down, and keep diving through its air until you're flying over the ground.
-  32  sortie-descend-touch (6.64 s, seed 7): You're over the world now. Hold Action to put the nose down, and keep diving through its air until you're flying over the ground.
-  33  sortie-descend-any (8.08 s, seed 7): You're over the world now. Hold your action key to put the nose down, and keep diving through its air until you're flying over the ground.
-  34  sortie-dive-keys (6.27 s, seed 7): Hold S to dive. You can only mine and land close to the ground, so get your height under ninety.
-  35  sortie-dive-ps (7.09 s, seed 7): Push the left stick up to dive. You can only mine and land close to the ground, so get your height under ninety.
-  36  sortie-dive-pad (7.28 s, seed 7): Push the left stick up to dive. You can only mine and land close to the ground, so get your height under ninety.
-  37  sortie-dive-touch (6.67 s, seed 7): Hold the Dive button. You can only mine and land close to the ground, so get your height under ninety.
-  38  sortie-dive-any (4.91 s, seed 7): Dive. You can only mine and land close to the ground, so get your height under ninety.
-  39  sortie-drones-keys (6.47 s, seed 7): Three training drones are up ahead. They don't shoot back. Click to fire your guns, and shoot all three down.
-  40  sortie-drones-ps (6.21 s, seed 7): Three training drones are up ahead. They don't shoot back. Hold R2 to fire your guns, and shoot all three down.
-  41  sortie-drones-pad (6.87 s, seed 7): Three training drones are up ahead. They don't shoot back. Hold the right trigger to fire your guns, and shoot all three down.
-  42  sortie-drones-touch (6.79 s, seed 7): Three training drones are up ahead. They don't shoot back. Hold Fire to fire your guns, and shoot all three down.
-  43  sortie-drones-any (5.73 s, seed 7): Three training drones are up ahead. They don't shoot back. Fire your guns, and shoot all three down.
-  44  sortie-mine-keys (9.91 s, seed 7): The marked rock is ore. Fly low over it and hold R to cut it with your mining laser. Then fly through the chunks that break off, and they're scooped into your hold.
-  45  sortie-mine-ps (9.92 s, seed 7): The marked rock is ore. Fly low over it and hold L1 to cut it with your mining laser. Then fly through the chunks that break off, and they're scooped into your hold.
-  46  sortie-mine-pad (11.01 s, seed 7): The marked rock is ore. Fly low over it and hold the left bumper to cut it with your mining laser. Then fly through the chunks that break off, and they're scooped into your hold.
-  47  sortie-mine-touch (10.15 s, seed 7): The marked rock is ore. Fly low over it and hold Mine to cut it with your mining laser. Then fly through the chunks that break off, and they're scooped into your hold.
-  48  sortie-mine-any (10.08 s, seed 7): The marked rock is ore. Fly low over it and hold your mining key to cut it with the laser. Then fly through the chunks that break off, and they're scooped into your hold.
-  49  sortie-land-keys (7.44 s, seed 7): Now land. Fly to the pad shown on screen and hold F, low over it. Any flat ground will do as well.
-  50  sortie-land-ps (8.48 s, seed 7): Now land. Fly to the pad shown on screen and hold Circle, low over it. Any flat ground will do as well.
-  51  sortie-land-pad (6.64 s, seed 7): Now land. Fly to the pad shown on screen and hold B, low over it. Any flat ground will do as well.
-  52  sortie-land-touch (7.76 s, seed 7): Now land. Fly to the pad shown on screen and hold Action, low over it. Any flat ground will do as well.
-  53  sortie-land-any (8.32 s, seed 7): Now land. Fly to the pad shown on screen and hold your action key, low over it. Any flat ground will do as well.
-  54  sortie-out-keys (6.16 s, seed 7): Tap F to climb out of your ship. On foot, you walk with W, A, S and D.
-  55  sortie-out-ps (4.56 s, seed 7): Tap Circle to climb out of your ship. On foot, you walk with the left stick.
-  56  sortie-out-pad (4.72 s, seed 7): Tap B to climb out of your ship. On foot, you walk with the left stick.
-  57  sortie-out-touch (4.0 s, seed 7): Tap Action to climb out of your ship. On foot, drag a finger to walk.
-  58  sortie-out-any (2.32 s, seed 7): Tap your action key to climb out of your ship.
-  59  sortie-beacon-keys (5.68 s, seed 7): Press V to plant a beacon, and pick a message for it. Pilots who land here later will read it.
-  60  sortie-beacon-ps (6.16 s, seed 7): Press Triangle to plant a beacon, and pick a message for it. Pilots who land here later will read it.
-  61  sortie-beacon-pad (5.68 s, seed 7): Press Y to plant a beacon, and pick a message for it. Pilots who land here later will read it.
-  62  sortie-beacon-touch (5.84 s, seed 7): Tap Beacon to plant a beacon, and pick a message for it. Pilots who land here later will read it.
-  63  sortie-beacon-any (5.6 s, seed 7): Plant a beacon with your view key, and pick a message for it. Pilots who land here later will read it.
-  64  sortie-board-keys (2.72 s, seed 7): Walk back to your ship and press F to climb in.
-  65  sortie-board-ps (3.2 s, seed 7): Walk back to your ship and press Circle to climb in.
-  66  sortie-board-pad (2.96 s, seed 7): Walk back to your ship and press B to climb in.
-  67  sortie-board-touch (3.53 s, seed 7): Walk back to your ship and tap Action to climb in.
-  68  sortie-board-any (2.96 s, seed 7): Walk back to your ship and press your action key to climb in.
-  69  sortie-bank-keys (15.04 s, seed 7): Ore in your hold isn't yours until it's banked. If you're shot down, it spills on the ground for anyone to take. Hold F to take off, follow the home marker to one of your side's bases, and land on its pad. That banks your ore as credits.
-  70  sortie-bank-ps (14.63 s, seed 7): Ore in your hold isn't yours until it's banked. If you're shot down, it spills on the ground for anyone to take. Hold Circle to take off, follow the home marker to one of your side's bases, and land on its pad. That banks your ore as credits.
-  71  sortie-bank-pad (15.33 s, seed 7): Ore in your hold isn't yours until it's banked. If you're shot down, it spills on the ground for anyone to take. Hold B to take off, follow the home marker to one of your side's bases, and land on its pad. That banks your ore as credits.
-  72  sortie-bank-touch (14.21 s, seed 7): Ore in your hold isn't yours until it's banked. If you're shot down, it spills on the ground for anyone to take. Hold Action to take off, follow the home marker to one of your side's bases, and land on its pad. That banks your ore as credits.
-  73  sortie-bank-any (15.33 s, seed 7): Ore in your hold isn't yours until it's banked. If you're shot down, it spills on the ground for anyone to take. Take off, follow the home marker to one of your side's bases, and land on its pad. That banks your ore as credits.
-  74  sortie-free-keys (10.53 s, seed 7): That's the end of the training flight. Press M for the map. The marked worlds have the richest ore today. Spend your credits at any of your side's bases, on better parts and ships.
-  75  sortie-free-ps (11.01 s, seed 7): That's the end of the training flight. Press the touchpad for the map. The marked worlds have the richest ore today. Spend your credits at any of your side's bases, on better parts and ships.
-  76  sortie-free-pad (9.85 s, seed 7): That's the end of the training flight. Press Back for the map. The marked worlds have the richest ore today. Spend your credits at any of your side's bases, on better parts and ships.
-  77  sortie-free-touch (10.83 s, seed 7): That's the end of the training flight. Tap More, then Map, for the map. The marked worlds have the richest ore today. Spend your credits at any of your side's bases, on better parts and ships.
-  78  sortie-free-any (9.69 s, seed 7): That's the end of the training flight. Open the map: the marked worlds have the richest ore today. Spend your credits at any of your side's bases, on better parts and ships.
+  12  sortie-power-touch (8.32 s, seed 7): Your ship is docked at the station with its power off. Tap the Power button to power up. The screens take a couple of seconds to come on.
+  13  sortie-power-any (8.96 s, seed 7): Your ship is docked at the station with its power off. Press the power key shown in the box at the top. The screens take a couple of seconds to come on.
+  14  sortie-launch-keys (7.52 s, seed 7): Now hold F to launch. F is your action key. It launches, lands, docks, and takes you down to worlds.
+  15  sortie-launch-ps (8.31 s, seed 7): Now hold Circle to launch. Circle is your action button. It launches, lands, docks, and takes you down to worlds.
+  16  sortie-launch-pad (7.68 s, seed 7): Now hold B to launch. B is your action button. It launches, lands, docks, and takes you down to worlds.
+  17  sortie-launch-touch (6.72 s, seed 7): Now hold the Action button to launch. Action launches, lands, docks, and takes you down to worlds.
+  18  sortie-launch-any (6.48 s, seed 7): Now hold your action key to launch. It launches, lands, docks, and takes you down to worlds.
+  19  sortie-look-keys (9.28 s, seed 7): Press V to change your view. Once to see the ship from behind, again for the cockpit, and once more to go back to the view from above.
+  20  sortie-look-ps (8.24 s, seed 7): Press Triangle to change your view. Once to see the ship from behind, again for the cockpit, and once more to go back to the view from above.
+  21  sortie-look-pad (9.89 s, seed 7): Press the Y button to change your view. Once to see the ship from behind, again for the cockpit, and once more to go back to the view from above.
+  22  sortie-look-touch (9.44 s, seed 7): Tap More, then View, to change your view. Once to see the ship from behind, again for the cockpit, and once more to go back to the view from above.
+  23  sortie-look-any (10.07 s, seed 7): Press your view key to change your view. Once to see the ship from behind, again for the cockpit, and once more to go back to the view from above.
+  24  sortie-steer-keys (11.28 s, seed 7): The arrow on screen points at your side's home world. Steer with the mouse, or A and D, and fly until you're over it. E opens the throttle and Q closes it.
+  25  sortie-steer-ps (9.12 s, seed 7): The arrow on screen points at your side's home world. Steer with the left stick, and fly until you're over it. The right stick sets the throttle.
+  26  sortie-steer-pad (8.56 s, seed 7): The arrow on screen points at your side's home world. Steer with the left stick, and fly until you're over it. The right stick sets the throttle.
+  27  sortie-steer-touch (6.8 s, seed 7): The arrow on screen points at your side's home world. Drag a finger to steer, and fly until you're over it.
+  28  sortie-steer-any (6.8 s, seed 7): The arrow on screen points at your side's home world. Steer towards it, and fly until you're over it.
+  29  sortie-descend-keys (7.12 s, seed 7): You're over the world now. Hold F to put the nose down, and keep diving through its air until you're flying over the ground.
+  30  sortie-descend-ps (7.52 s, seed 7): You're over the world now. Hold Circle to put the nose down, and keep diving through its air until you're flying over the ground.
+  31  sortie-descend-pad (7.04 s, seed 7): You're over the world now. Hold B to put the nose down, and keep diving through its air until you're flying over the ground.
+  32  sortie-descend-touch (7.2 s, seed 7): You're over the world now. Hold Action to put the nose down, and keep diving through its air until you're flying over the ground.
+  33  sortie-descend-any (7.12 s, seed 7): You're over the world now. Hold your action key to put the nose down, and keep diving through its air until you're flying over the ground.
+  34  sortie-dive-keys (5.76 s, seed 7): Hold S to dive. You can only mine and land close to the ground, so get your height under ninety.
+  35  sortie-dive-ps (6.83 s, seed 7): Push the left stick up to dive. You can only mine and land close to the ground, so get your height under ninety.
+  36  sortie-dive-pad (6.96 s, seed 7): Push the left stick up to dive. You can only mine and land close to the ground, so get your height under ninety.
+  37  sortie-dive-touch (6.32 s, seed 7): Hold the Dive button. You can only mine and land close to the ground, so get your height under ninety.
+  38  sortie-dive-any (5.76 s, seed 7): Dive. You can only mine and land close to the ground, so get your height under ninety.
+  39  sortie-target-keys (15.36 s, seed 7): Three training drones are up ahead. They don't shoot back. Press T to target the one your nose is on. Press it again for the next, and hold it to let go. Your sights follow the enemy you've targeted, and so do your missiles.
+  40  sortie-target-ps (14.08 s, seed 7): Three training drones are up ahead. They don't shoot back. Press left on the d-pad to target the one your nose is on. Press it again for the next, and hold it to let go. Your sights follow the enemy you've targeted, and so do your missiles.
+  41  sortie-target-pad (16.17 s, seed 7): Three training drones are up ahead. They don't shoot back. Press left on the d-pad to target the one your nose is on. Press it again for the next, and hold it to let go. Your sights follow the enemy you've targeted, and so do your missiles.
+  42  sortie-target-touch (13.17 s, seed 7): Three training drones are up ahead. They don't shoot back. Tap Target to target the one your nose is on. Tap it again for the next, and hold it to let go. Your sights follow the enemy you've targeted, and so do your missiles.
+  43  sortie-target-any (13.92 s, seed 7): Three training drones are up ahead. They don't shoot back. Press your target key to target the one your nose is on. Press it again for the next, and hold it to let go. Your sights follow the enemy you've targeted, and so do your missiles.
+  44  sortie-drones-keys (7.76 s, seed 7): Now click to fire your guns, and shoot all three down. Keep your nose on the one you have targeted, and the guns will help you aim.
+  45  sortie-drones-ps (8.4 s, seed 7): Now hold R2 to fire your guns, and shoot all three down. Keep your nose on the one you have targeted, and the guns will help you aim.
+  46  sortie-drones-pad (8.88 s, seed 7): Now hold the right trigger to fire your guns, and shoot all three down. Keep your nose on the one you have targeted, and the guns will help you aim.
+  47  sortie-drones-touch (8.24 s, seed 7): Now hold Fire to fire your guns, and shoot all three down. Keep your nose on the one you have targeted, and the guns will help you aim.
+  48  sortie-drones-any (7.2 s, seed 7): Now fire your guns, and shoot all three down. Keep your nose on the one you have targeted, and the guns will help you aim.
+  49  sortie-mine-keys (10.8 s, seed 7): The marked rock is ore. Fly low over it and hold R to cut it with your mining laser. Then fly through the chunks that break off, and they're scooped into your hold.
+  50  sortie-mine-ps (10.96 s, seed 7): The marked rock is ore. Fly low over it and hold L1 to cut it with your mining laser. Then fly through the chunks that break off, and they're scooped into your hold.
+  51  sortie-mine-pad (11.12 s, seed 7): The marked rock is ore. Fly low over it and hold the left bumper to cut it with your mining laser. Then fly through the chunks that break off, and they're scooped into your hold.
+  52  sortie-mine-touch (10.24 s, seed 7): The marked rock is ore. Fly low over it and hold Mine to cut it with your mining laser. Then fly through the chunks that break off, and they're scooped into your hold.
+  53  sortie-mine-any (10.8 s, seed 7): The marked rock is ore. Fly low over it and hold your mining key to cut it with the laser. Then fly through the chunks that break off, and they're scooped into your hold.
+  54  sortie-land-keys (7.44 s, seed 7): Now land. Fly to the pad shown on screen and hold F, low over it. Any flat ground will do as well.
+  55  sortie-land-ps (8.03 s, seed 7): Now land. Fly to the pad shown on screen and hold Circle, low over it. Any flat ground will do as well.
+  56  sortie-land-pad (7.36 s, seed 7): Now land. Fly to the pad shown on screen and hold B, low over it. Any flat ground will do as well.
+  57  sortie-land-touch (8.32 s, seed 7): Now land. Fly to the pad shown on screen and hold Action, low over it. Any flat ground will do as well.
+  58  sortie-land-any (7.92 s, seed 7): Now land. Fly to the pad shown on screen and hold your action key, low over it. Any flat ground will do as well.
+  59  sortie-out-keys (5.44 s, seed 7): Tap F to climb out of your ship. On foot, you walk with W, A, S and D.
+  60  sortie-out-ps (4.88 s, seed 7): Tap Circle to climb out of your ship. On foot, you walk with the left stick.
+  61  sortie-out-pad (4.8 s, seed 7): Tap B to climb out of your ship. On foot, you walk with the left stick.
+  62  sortie-out-touch (4.8 s, seed 7): Tap Action to climb out of your ship. On foot, drag a finger to walk.
+  63  sortie-out-any (2.48 s, seed 7): Tap your action key to climb out of your ship.
+  64  sortie-beacon-keys (5.68 s, seed 7): Press V to plant a beacon, and pick a message for it. Pilots who land here later will read it.
+  65  sortie-beacon-ps (6.0 s, seed 7): Press Triangle to plant a beacon, and pick a message for it. Pilots who land here later will read it.
+  66  sortie-beacon-pad (5.76 s, seed 7): Press Y to plant a beacon, and pick a message for it. Pilots who land here later will read it.
+  67  sortie-beacon-touch (6.4 s, seed 7): Tap Beacon to plant a beacon, and pick a message for it. Pilots who land here later will read it.
+  68  sortie-beacon-any (5.84 s, seed 7): Plant a beacon with your view key, and pick a message for it. Pilots who land here later will read it.
+  69  sortie-board-keys (3.52 s, seed 7): Walk back to your ship and press F to climb in.
+  70  sortie-board-ps (3.36 s, seed 7): Walk back to your ship and press Circle to climb in.
+  71  sortie-board-pad (3.04 s, seed 7): Walk back to your ship and press B to climb in.
+  72  sortie-board-touch (3.51 s, seed 7): Walk back to your ship and tap Action to climb in.
+  73  sortie-board-any (3.68 s, seed 7): Walk back to your ship and press your action key to climb in.
+  74  sortie-bank-keys (16.4 s, seed 7): Ore in your hold isn't yours until it's banked. If you're shot down, it spills on the ground for anyone to take. Hold F to take off, follow the home marker to one of your side's bases, and land on its pad. That banks your ore as credits.
+  75  sortie-bank-ps (17.15 s, seed 7): Ore in your hold isn't yours until it's banked. If you're shot down, it spills on the ground for anyone to take. Hold Circle to take off, follow the home marker to one of your side's bases, and land on its pad. That banks your ore as credits.
+  76  sortie-bank-pad (17.19 s, seed 7): Ore in your hold isn't yours until it's banked. If you're shot down, it spills on the ground for anyone to take. Hold B to take off, follow the home marker to one of your side's bases, and land on its pad. That banks your ore as credits.
+  77  sortie-bank-touch (17.11 s, seed 7): Ore in your hold isn't yours until it's banked. If you're shot down, it spills on the ground for anyone to take. Hold Action to take off, follow the home marker to one of your side's bases, and land on its pad. That banks your ore as credits.
+  78  sortie-bank-any (16.88 s, seed 7): Ore in your hold isn't yours until it's banked. If you're shot down, it spills on the ground for anyone to take. Take off, follow the home marker to one of your side's bases, and land on its pad. That banks your ore as credits.
+  79  sortie-free-keys (10.88 s, seed 7): That's the end of the training flight. Press M for the map. The marked worlds have the richest ore today. Spend your credits at any of your side's bases, on better parts and ships.
+  80  sortie-free-ps (11.68 s, seed 7): That's the end of the training flight. Press the touchpad for the map. The marked worlds have the richest ore today. Spend your credits at any of your side's bases, on better parts and ships.
+  81  sortie-free-pad (9.85 s, seed 7): That's the end of the training flight. Press Back for the map. The marked worlds have the richest ore today. Spend your credits at any of your side's bases, on better parts and ships.
+  82  sortie-free-touch (13.41 s, seed 7): That's the end of the training flight. Tap More, then Map, for the map. The marked worlds have the richest ore today. Spend your credits at any of your side's bases, on better parts and ships.
+  83  sortie-free-any (10.16 s, seed 7): That's the end of the training flight. Open the map: the marked worlds have the richest ore today. Spend your credits at any of your side's bases, on better parts and ships.

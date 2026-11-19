@@ -5,7 +5,7 @@
 //
 //   npx jiti tools/hangar-shot.ts out.png [width height] [hull] [place] [x y]
 //
-// e.g. 1366 768 (a laptop), 844 390 (a phone held sideways); x y the room px he walks to (by his ship, if not said).
+// e.g. 1366 768 (a laptop), 1920 1080 (a desktop); x y the room px he walks to (by his ship, if not said).
 
 import { createScene, DEFAULT_PARAMS, STEP } from '../src/lib/engine/index'
 import { upscale, writePNG } from './png.mjs'

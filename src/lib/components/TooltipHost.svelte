@@ -14,7 +14,7 @@
     if (!r || !w) return { x: -9999, y: -9999, below: false }
     const W = innerWidth
     const H = innerHeight
-    // (a finger covers what is under it: then above, or else beside)
+    // (above, or else beside)
     let below = r.top - h - MARGIN < MARGIN
     let y = below ? r.bottom + MARGIN : r.top - h - MARGIN
     if (below && y + h > H - MARGIN) {

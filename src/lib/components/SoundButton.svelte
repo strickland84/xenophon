@@ -1,7 +1,7 @@
 <script lang="ts">
   // The volume: a small button at the top of the scene, a speaker and three bars, that steps it through
-  // off, low, middle and high. (The sound itself only starts once the player has clicked, touched or
-  // pressed a key: browsers ask for that.)
+  // off, low, middle and high. (The sound itself only starts once the player has clicked or pressed
+  // a key: browsers ask for that.)
   import UiIcon from './UiIcon.svelte'
   import { tip } from './tooltip.svelte'
   interface Props {

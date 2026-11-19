@@ -39,8 +39,8 @@
   --text-display--line-height: 1.1;
 }
 
-/* The menus' text, larger (the settings' Text in the menus): a step or two up the same grid. The touch
-   buttons and the HUD have their own sizes. */
+/* The menus' text, larger (the settings' Text in the menus): a step or two up the same grid. The HUD has
+   its own sizes. */
 [data-text='large'] {
   --text-label: 28px;
   --text-body: 28px;
@@ -258,7 +258,7 @@
     background: transparent;
     border-color: transparent;
   }
-  /* a square button with a picture in it (Close, the touch buttons' kind) */
+  /* a square button with a picture in it (Close) */
   .ui-btn-icon {
     width: 44px;
     padding: 0;

@@ -26,7 +26,7 @@ export const SPACE_TOP = SPACE_Z + 900
  * Flying free in space. Nothing moves the ship but its pilot (James, 2026-11-18, of the first free flight: "spinning around
  * getting sucked down … very horrible and disorienting"; "I want no gravity or wonky pulling of my ship").
  *
- * The keys, a stick and the touch buttons pitch it for as long as they are held: `pitch`, radians a second with the stick
+ * The keys and a stick pitch it for as long as they are held: `pitch`, radians a second with the stick
  * hard over (a loop in about five seconds), taken up at `ease` (a share a second). Let go for `idle` seconds, a ship on
  * its back rolls upright, and one within `settle` radians of level comes level, at `level` a second for each radian it is
  * off; pointed further up or down than that it stays as it was pointed, and flies there (so a dive at a world is held).
@@ -35,8 +35,11 @@ export const SPACE_TOP = SPACE_Z + 900
  * it stays (`aim` radians with the pointer `span` of the frame's height from the middle of its steering, `curve` making it
  * gentle near that middle, nothing within `dead` of it), come to at `come` a second for each radian it is off. A pointer
  * resting anywhere is a ship flying steadily; held as a rate, as it was, a mouse left in the middle of the screen looped
- * the ship for ever. Overhead a climb or a dive held is a nose `lean` radians up or down, and level again let go; Use held
- * over a world is a nose `dive` radians down.
+ * the ship for ever. But in a band at the frame's top or bottom (its outer `edge` share of the height) the pointer pitches
+ * the nose on round as the keys do, from `edgeRate` of `pitch` at the band's inner side to all of it at the frame's edge,
+ * so a mouse loops too (James, 2026-11-19: "with the mouse cursor pitching up and down, I cannot do a full 360 spin. I can
+ * do it with W and S though"); a pointer resting off the edges still holds the ship steady. Overhead a climb or a dive
+ * held is a nose `lean` radians up or down, and level again let go; Use held over a world is a nose `dive` radians down.
  */
 export const FLIGHT3D = {
   pitch: 1.3,
@@ -51,6 +54,8 @@ export const FLIGHT3D = {
   come: 2.5,
   lean: 0.9,
   dive: 0.95,
+  edge: 0.1,
+  edgeRate: 0.55,
 }
 
 /**
