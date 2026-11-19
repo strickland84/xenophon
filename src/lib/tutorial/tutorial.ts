@@ -368,7 +368,7 @@ export class Tutorial {
           : say(`Press ${key}: see your ship from behind`, 'Then again, for the cockpit')
       }
       case 'throttle': {
-        const close = pad ? 'pull the right stick back' : `hold ${n('slower')}`
+        const close = pad ? 'pull the right stick back' : `hold ${n('slower')}, or ${n('stop')} for all stop`
         const open = pad ? 'push the right stick up' : `hold ${n('faster')}`
         return this.slowed
           ? say(`Now open it again: ${open}`, 'All the way open for full speed')
@@ -430,7 +430,7 @@ export class Tutorial {
       case 'out':
         return say(
           `Tap ${use} to get out`,
-          pad ? 'On foot, the left stick walks' : `On foot, ${n('up')}${n('left')}${n('down')}${n('right')} walks`,
+          pad ? 'On foot, the left stick walks' : `On foot, ${n('faster')}${n('left')}${n('slower')}${n('right')} walks`,
         )
       case 'beacon':
         return say(`Plant a beacon: ${n('view')}, then pick its words`, 'Pilots landing here will read it')

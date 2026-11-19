@@ -840,7 +840,8 @@ every step, at rest), the faults were five, each of them the game moving his shi
   James: "with the mouse cursor pitching up and down, I cannot do a full 360 spin. I can do it with W and S though":
   pushed into a band at the frame's top or bottom, its outer tenth (`FLIGHT3D edge`), the pointer pitches the nose on
   round as the keys do, from `edgeRate` of their rate to all of it at the edge; resting anywhere else it still aims.
-  `sim/spaceflight.spec.ts`.)
+  `sim/spaceflight.spec.ts`. Later that day both went: the pointer is a stick, its distance from the middle a rate of
+  pitch, with a ring on the HUD for the middle, as Elite's mouse is; section 16, "Controls".)
 - **A ship with a still mouse flew itself.** Five seconds without the pointer moving, or a finger lifted, and the ship
   was taken for one with nobody at it: it weaved about and rolled, as the ship on show does. The `wander` setting says
   where that is wanted (the scripted flights and a ship on show); the page sets it false, and a pilot's ship holds its
@@ -2179,21 +2180,37 @@ the page) but do nothing yet. The touch screen has Fire, Missile, Boost, Roll, A
 Ship and Menu buttons; Map, Bag and Chat buttons come with the features they open. On a
 controller the D-pad does not steer: up and right are taken.
 
-| Action           | Mouse and keys   | Controller  | Touch                 |
-| ---------------- | ---------------- | ----------- | --------------------- |
-| Steer            | Pointer, or WASD | Left stick  | Touch and drag        |
-| Throttle         | E and Q, wheel   | Right stick | Throttle lever        |
-| Fire             | Left button      | R2          | Fire button           |
-| Secondary weapon | Right button     | Square      | Secondary button      |
-| Boost            | Shift            | L2          | Boost button          |
-| Roll             | Space            | Cross       | Swipe, or Roll button |
-| Land, board, use | F                | Circle      | Action button         |
-| Change view      | V                | Triangle    | View button           |
-| Power on and off | P                | D-pad down  | Power button          |
-| Map              | M                | Touchpad    | Map button            |
-| Inventory        | Tab              | D-pad up    | Bag button            |
-| Chat             | Enter            | D-pad right | Chat button           |
-| Menu             | Escape           | Options     | Menu button           |
+Since 2026-11-19 the keys and the mouse are Elite Dangerous's flight layout (James: "build it to mirror elite dangerous
+control scheme"; the review is `docs/controls-review.md`). The touch column is of how it was.
+
+| Action           | Mouse and keys                             | Controller  | Touch                 |
+| ---------------- | ------------------------------------------ | ----------- | --------------------- |
+| Pitch and turn   | The mouse, a stick (a ring for its middle) | Left stick  | Touch and drag        |
+| Pitch            | Up and down arrows                         | Left stick  |                       |
+| Turn             | A and D, left and right arrows             | Left stick  |                       |
+| Throttle         | W and S, wheel                             | Right stick | Throttle lever        |
+| All stop         | X                                          |             |                       |
+| Fire             | Left button                                | R2          | Fire button           |
+| Secondary weapon | Right button                               | Square      | Secondary button      |
+| Boost            | Tab (and Shift, which runs on foot)        | L2          | Boost button          |
+| Cruise drive     | J                                          | R1          |                       |
+| Roll             | Space                                      | Cross       | Swipe, or Roll button |
+| Land, board, use | F                                          | Circle      | Action button         |
+| Change view      | V                                          | Triangle    | View button           |
+| Power on and off | P                                          | D-pad down  | Power button          |
+| Map              | M                                          | Touchpad    | Map button            |
+| Inventory        | I                                          | D-pad up    | Bag button            |
+| Chat             | Enter                                      | D-pad right | Chat button           |
+| Menu             | Escape                                     | Options     | Menu button           |
+| Clip             | F9                                         |             |                       |
+
+From behind and from the seat the mouse is a stick, as Elite's is: how far it is from the middle of its steering is how
+fast the ship turns and, in space, pitches (over a world, how fast it climbs), with a dead zone in the middle
+(`MOUSE_STICK` in `data/hulls.ts`); the HUD draws that dead zone as a ring and a line out to the pointer, as Elite's mouse
+widget does (`render/hud.ts`). Up climbs unless Settings says Up dives; the arrow keys climb and dive as named whatever
+the setting. On foot W and S walk (the throttle keys walk), Shift runs. A save that kept the old keys, as given, takes the
+new ones; a key the player chose keeps its own (`readBindings`, `BEFORE_ELITE`). Overhead the pointer still turns the
+ship towards it (Elite has no such view).
 
 On foot, the same keys move the pilot, Fire uses the tool or sidearm, and F interacts.
 All bindings can be changed in settings.

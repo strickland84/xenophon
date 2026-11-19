@@ -1730,8 +1730,9 @@ export const spaceFlights: Record<string, Script> = {
     const start = f.scene.player.height
     f.fly(600, (n) => {
       const s = f.scene
-      // (as a flight stick: pointing low pulls back, a climb; high pushes, a dive)
-      if (n >= 20 && n < 600) s.pointerMove(120, n < 200 ? 118 : n < 420 ? 12 : 46)
+      // (the mouse a stick, as a flight stick: pointing low pulls back, a climb, as long as it is held; high pushes, a dive;
+      // in the middle (the sight, 46) it holds)
+      if (n >= 20 && n < 600) s.pointerMove(120, n < 200 ? 70 : n < 420 ? 22 : 46)
       if (n === 199) f.marks.push(`pulled back: ${Math.round(s.player.height - start)} over the plane`)
       if (n === 419) f.marks.push(`pushed: ${Math.round(s.player.height - start)} over the plane`)
       if (n === 440) s.setThrottle(0)

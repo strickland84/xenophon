@@ -60,7 +60,7 @@ function stranger(scene: Scene, prompt: Prompt, n: number, said: { beacon: () =>
   }
   // "hold F to …": what F is bound to, held (Action: Land)
   const holdKey = key(/hold (\S+) (?:to|over|low)/i)
-  // "Dive low: hold W"
+  // "Dive low: hold DOWN"
   if (/dive low/i.test(t)) {
     const a = key(/hold (\S+)$/i)
     // (as the keyboard sends them with the scene's up dives, its default: keyboard.ts turns the pitch over, the scene back)
@@ -74,9 +74,9 @@ function stranger(scene: Scene, prompt: Prompt, n: number, said: { beacon: () =>
     if (a && n % 45 === 0) scene.act(a as 'view')
     return held
   }
-  // "Close the throttle: hold Q", "Now open it again: hold E": what that key is bound to, held (the throttle keys)
+  // "Close the throttle: hold S, or X for all stop", "Now open it again: hold W": what that key is bound to, held (the throttle keys)
   if (/close the throttle|open it again/i.test(t)) {
-    const a = key(/hold (\S+)$/i)
+    const a = key(/hold (\w+)/i)
     held.throttle = a === 'slower' ? -1 : a === 'faster' ? 1 : 0
     return held
   }

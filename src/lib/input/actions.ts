@@ -5,7 +5,7 @@
 //
 //   held:    steering, boost, fire, secondary            → Scene.setControls
 //   pressed: roll, use (land / board), view, cruise, power, seat, target → Scene.act
-//            map, inventory, chat, menu, the next ship    → the page
+//            map, inventory, chat, menu, the next ship, all stop → the page
 
 import type { HeldControls, SceneAction } from '../engine'
 
@@ -13,7 +13,7 @@ import type { HeldControls, SceneAction } from '../engine'
 export type Held = HeldControls
 
 /** things pressed once that the page deals with: the screens still to come, and the next ship */
-export type PageAction = 'map' | 'inventory' | 'chat' | 'menu' | 'nextShip' | 'clip'
+export type PageAction = 'map' | 'inventory' | 'chat' | 'menu' | 'nextShip' | 'clip' | 'stop'
 
 /** anything pressed once */
 export type Press = SceneAction | PageAction

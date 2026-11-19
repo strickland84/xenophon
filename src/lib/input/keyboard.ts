@@ -1,9 +1,9 @@
-// The keyboard: by default A and D (or the arrows) turn, W and S (or the arrows) pitch the nose up and down (whatever the
-// setting that turns over the mouse and a stick: bindings.ts) and walk forward and back, E and Q move the throttle, Shift opens the thrusters, Space rolls, F lands,
-// boards or uses, V changes the view, M the map, Tab the inventory, Enter chat, Escape the menu,
-// and H the hangar; the player can bind them otherwise (bindings.ts, the settings). Keys are known
-// by KeyboardEvent.code, so they sit in the same place on any layout. (The mouse's buttons fire:
-// see pointer.ts.)
+// The keyboard, by default Elite Dangerous's flight keys (bindings.ts): W and S move the throttle and walk forward and back,
+// X is all stop, A and D (or the left and right arrows) turn, the up and down arrows pitch the nose up and down (whatever the
+// setting that turns over the mouse and a stick), Tab opens the thrusters (Shift too, which runs on foot), J the cruise
+// drive, Space rolls, F lands, boards or uses, V changes the view, M the map, I the hold, Enter chat, Escape the menu, and H
+// the hangar; the player can bind them otherwise (the settings). Keys are known by KeyboardEvent.code, so they sit in the
+// same place on any layout. (The mouse's buttons fire: see pointer.ts.)
 
 import type { Held, Press } from './actions'
 import { nothingHeld } from './actions'
@@ -17,7 +17,7 @@ export const HOLD_KEYS: Record<string, HoldKey> = DEFAULT_MAPS.hold
 export const PRESS_KEYS: Record<string, Press> = DEFAULT_MAPS.press
 
 /** keys whose own work in the browser (scrolling, moving the focus) would get in the way */
-const KEEP = new Set(['Space', 'Tab', 'ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'])
+const KEEP = new Set(['Space', 'Tab', 'ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', 'F9'])
 
 export interface KeyboardInput {
   /** what the keys are holding down */

@@ -84,7 +84,7 @@
   // ── the actions, in groups, each with its icon and a short name (what it does elsewhere goes in its tooltip)
   const GROUPS: { name: string; actions: Bindable[] }[] = [
     { name: 'Fight', actions: ['fire', 'secondary', 'boost', 'roll'] },
-    { name: 'Fly', actions: ['use', 'mine', 'power', 'view', 'cruise', 'nextShip'] },
+    { name: 'Fly', actions: ['stop', 'use', 'mine', 'power', 'view', 'cruise', 'nextShip'] },
     { name: 'Screens', actions: ['map', 'inventory', 'chat', 'menu', 'clip'] },
   ]
   const ICON: Partial<Record<Bindable, string>> = {
@@ -108,6 +108,7 @@
     secondary: 'Missile',
     boost: 'Thrusters',
     cruise: 'Cruise',
+    stop: 'All stop',
     inventory: 'Hold',
     mine: 'Mining',
     power: 'Power',
@@ -360,25 +361,27 @@
             <div class="top" style="--i: 1">
               <div class="steer">
                 {#if device === 'keys'}
-                  <!-- (laid out as the keys are: Q W E over A S D) -->
-                  <div class="flex flex-col items-center gap-2">
-                    <div class="flex gap-2">
-                      <!-- (the pitch keys climb and dive as named, whatever the setting below) -->
-                      {@render cap('slower', 'Slower')}
-                      {@render cap('up', 'Climb')}
+                  <!-- (laid out as the keys are, Elite's: W over A S D, the throttle and the turns; the arrows' up over down,
+                  the pitch, climbing and diving as named whatever the setting below) -->
+                  <div class="flex items-end gap-6">
+                    <div class="flex flex-col items-center gap-2">
                       {@render cap('faster', 'Faster')}
+                      <div class="flex gap-2">
+                        {@render cap('left', 'Left')}
+                        {@render cap('slower', 'Slower')}
+                        {@render cap('right', 'Right')}
+                      </div>
                     </div>
-                    <div class="flex gap-2">
-                      {@render cap('left', 'Left')}
+                    <div class="flex flex-col items-center gap-2">
+                      {@render cap('up', 'Climb')}
                       {@render cap('down', 'Dive')}
-                      {@render cap('right', 'Right')}
                     </div>
                   </div>
                   <span
                     class="ui-label normal-case"
                     use:tip={{
                       title: 'The mouse',
-                      line: 'It steers, its left button fires, its right a missile, and its wheel moves the throttle',
+                      line: 'A stick: the further from the ring in the middle, the faster it turns. Its left button fires, its right a missile, and its wheel moves the throttle',
                     }}>+ the mouse</span
                   >
                 {:else}

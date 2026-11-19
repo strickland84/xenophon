@@ -13,6 +13,7 @@ import type { Press } from './actions'
 export type Bindable =
   | 'faster'
   | 'slower'
+  | 'stop'
   | 'up'
   | 'down'
   | 'left'
@@ -38,6 +39,7 @@ export type Bindable =
 export const BINDABLE: Bindable[] = [
   'faster',
   'slower',
+  'stop',
   'up',
   'down',
   'left',
@@ -65,11 +67,12 @@ export const BINDABLE: Bindable[] = [
 export const BINDABLE_WORDS: Record<Bindable, string> = {
   faster: 'Throttle up (walk on foot)',
   slower: 'Throttle down (walk back)',
+  stop: 'All stop: the throttle shut',
   up: 'Pitch up: climb (walk on foot)',
   down: 'Pitch down: dive (walk back)',
   left: 'Turn left',
   right: 'Turn right',
-  boost: 'Thrusters (run on foot)',
+  boost: 'Thrusters (run on foot: Shift)',
   fire: 'Guns (sidearm on foot)',
   secondary: 'Missile (flare on foot)',
   roll: 'Roll (jump on foot)',
@@ -114,25 +117,28 @@ export interface Bindings {
   pad: Partial<Record<Bindable, number[]>>
 }
 
-/** the plan's controls table (W and S pitch the nose, W up, and E and Q the throttle, E opening it: James, 2026-11-19; the
- * arrows pitch as W and S do. The pitch keys are named by what they do, as Elite's are: Up climbs and Down dives whatever
- * the setting, which turns over only the mouse and a stick) */
+/** the plan's controls table: Elite Dangerous's flight keys (James, 2026-11-19: "build it to mirror elite dangerous control
+ * scheme"). The mouse pitches and turns as a stick; W and S the throttle, X all stop, the wheel too; A and D turn; Tab the
+ * boost (and Shift, which runs on foot, as Odyssey's does); J the cruise drive, as Elite's frame shift drive; the arrows
+ * pitch and turn from the keys. The pitch keys are named by what they do, as Elite's are: Up climbs and Down dives whatever
+ * the setting, which turns over only the mouse and a stick. (Space stays the roll and V the view: the plan's decision 2) */
 export const DEFAULT_BINDINGS: Bindings = {
   keys: {
-    faster: ['KeyE'],
-    slower: ['KeyQ'],
-    up: ['KeyW', 'ArrowUp'],
-    down: ['KeyS', 'ArrowDown'],
+    faster: ['KeyW'],
+    slower: ['KeyS'],
+    stop: ['KeyX'],
+    up: ['ArrowUp'],
+    down: ['ArrowDown'],
     left: ['KeyA', 'ArrowLeft'],
     right: ['KeyD', 'ArrowRight'],
-    boost: ['ShiftLeft', 'ShiftRight'],
+    boost: ['Tab', 'ShiftLeft'],
     // (the mouse's buttons fire too: these are for playing from the keys alone)
-    fire: ['KeyJ'],
-    secondary: ['KeyK'],
+    fire: ['KeyK'],
+    secondary: ['KeyL'],
     roll: ['Space'],
     use: ['KeyF'],
     view: ['KeyV'],
-    cruise: ['KeyC'],
+    cruise: ['KeyJ'],
     // (the ship's power, since James asked for ships powered off on the ground: 2026-11-18)
     power: ['KeyP'],
     // (mining its own, since James's first flights: on F it took the place of landing wherever ore was in reach)
@@ -142,12 +148,12 @@ export const DEFAULT_BINDINGS: Bindings = {
     // (the target key: the thing in view nearest where the ship aims, then the next; held, let go. James, 2026-11-19)
     target: ['KeyT'],
     map: ['KeyM'],
-    inventory: ['Tab'],
+    inventory: ['KeyI'],
     chat: ['Enter', 'NumpadEnter'],
     menu: ['Escape'],
     nextShip: ['KeyH'],
     // (the last seconds of play kept as a short film to send to a friend, with a link onto his wing: James, 2026-11-19)
-    clip: ['KeyX'],
+    clip: ['F9'],
   },
   // (the standard layout: 0 Cross/A, 1 Circle/B, 2 Square/X, 3 Triangle/Y, 4 L1/LB, 5 R1/RB, 6 L2, 7 R2, 8 Select, 9 Options, 10 L3, 12 up, 13 down, 15 right, 17 touchpad)
   pad: {
@@ -167,6 +173,22 @@ export const DEFAULT_BINDINGS: Bindings = {
     chat: [15],
     menu: [9],
   },
+}
+
+/** the keys as the game gave them before Elite's flight layout (a save that kept them, as given, takes the new ones) */
+const BEFORE_ELITE: Record<Bindable, string[]> = {
+  ...DEFAULT_BINDINGS.keys,
+  faster: ['KeyE'],
+  slower: ['KeyQ'],
+  stop: [],
+  up: ['KeyW', 'ArrowUp'],
+  down: ['KeyS', 'ArrowDown'],
+  boost: ['ShiftLeft', 'ShiftRight'],
+  fire: ['KeyJ'],
+  secondary: ['KeyK'],
+  cruise: ['KeyC'],
+  inventory: ['Tab'],
+  clip: ['KeyX'],
 }
 
 /** the most keys (or buttons) one action keeps */
@@ -216,6 +238,19 @@ export function readBindings(raw: unknown): Bindings {
   // (and before clips)
   if (r.keys && !('clip' in r.keys))
     out.keys.clip = out.keys.clip.filter((c) => !BINDABLE.some((a) => a !== 'clip' && out.keys[a].includes(c)))
+  // (kept with the keys before Elite's flight layout, as given: each action left as the game had it takes the new keys, and
+  // gives up any a key the player chose for another action still holds; James, 2026-11-19, "I dont want legacy controls")
+  if (r.keys) {
+    const moved = BINDABLE.filter(
+      (a) => out.keys[a].join() === BEFORE_ELITE[a].join() && BEFORE_ELITE[a].join() !== DEFAULT_BINDINGS.keys[a].join(),
+    )
+    for (const a of moved) out.keys[a] = [...DEFAULT_BINDINGS.keys[a]]
+    for (const a of moved)
+      out.keys[a] = out.keys[a].filter((c) => !BINDABLE.some((o) => o !== a && !moved.includes(o) && out.keys[o].includes(c)))
+  }
+  // (and before All stop had a key)
+  if (r.keys && !('stop' in r.keys))
+    out.keys.stop = out.keys.stop.filter((c) => !BINDABLE.some((a) => a !== 'stop' && out.keys[a].includes(c)))
   for (const b of PAD_BINDABLE) {
     const p = r.pad?.[b]
     if (Array.isArray(p)) out.pad[b] = p.filter((n): n is number => Number.isInteger(n) && n >= 0 && n < 24).slice(0, BIND_MOST)
@@ -263,6 +298,7 @@ export function keyMaps(b: Bindings): { hold: Record<string, HoldKey>; press: Re
   // (Action is both: pressed once, and held to land or take off; so is the target key, held a moment to let go)
   for (const c of b.keys.use) hold[c] = 'land'
   for (const a of [
+    'stop',
     'roll',
     'use',
     'view',

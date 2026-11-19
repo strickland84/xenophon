@@ -167,27 +167,27 @@ again now and then until he has. **Restore** on the first screen takes the file 
 
 ## Flying and fighting
 
-|                                     | Mouse & keys                    | Touch                     | Game controller         |
-| ----------------------------------- | ------------------------------- | ------------------------- | ----------------------- |
-| Steer                               | move the pointer / A D / arrows | touch and drag            | left stick              |
-| Throttle (down to a stop)           | E and Q, or the wheel           | slide the lever           | right stick             |
-| Climb and dive (W climbs)           | W and S, or the arrows          | hold **Dive** / **Climb** | left stick              |
-| Guns                                | left button, or J               | hold **Fire**             | R2 / RT                 |
-| Missile, if locked                  | right button, or K              | **Missile**               | □ / X                   |
-| Thrusters                           | hold Shift                      | hold **Boost**            | L2 / LT, as far as held |
-| Roll (and dodge)                    | Space                           | swipe, or **Roll**        | ✕ / A                   |
-| Land, take off, mine (hold)         | F                               | hold **Action**           | ○ / B                   |
-| High up: out into space             | hold F                          | hold **Action**           | hold ○ / B              |
-| In space: dock, go down, jump, skim | hold F                          | hold **Action**           | hold ○ / B              |
-| Next view                           | V                               | **View**                  | △ / Y                   |
-| Map                                 | M                               | **Map**                   | touchpad / Select       |
-| Cruise drive (in space)             | C                               | **Cruise**                | R1 / RB                 |
-| Hold and vault                      | Tab                             | **Bag**                   | D-pad up                |
-| Chat and the quick-chat wheel       | Enter                           | **Chat**                  | D-pad right             |
-| Menu                                | Escape                          | **Menu**                  | Options / Start         |
-| Into the hangar (landed at a base)  | H                               | **Ship**                  |                         |
-| Get out (landed, a tap)             | F                               | tap **Action**            | ○ / B                   |
-| The ship's power (landed or docked) | P                               | **Power**                 | D-pad down              |
+|                                     | Mouse & keys                         | Touch                     | Game controller         |
+| ----------------------------------- | ------------------------------------ | ------------------------- | ----------------------- |
+| Steer (the mouse a stick, as Elite) | the mouse / A D / arrows             | touch and drag            | left stick              |
+| Throttle (X: all stop)              | W and S, or the wheel                | slide the lever           | right stick             |
+| Climb and dive (up climbs)          | the mouse, or the up and down arrows | hold **Dive** / **Climb** | left stick              |
+| Guns                                | left button, or K                    | hold **Fire**             | R2 / RT                 |
+| Missile, if locked                  | right button, or L                   | **Missile**               | □ / X                   |
+| Thrusters                           | hold Tab (or Shift)                  | hold **Boost**            | L2 / LT, as far as held |
+| Roll (and dodge)                    | Space                                | swipe, or **Roll**        | ✕ / A                   |
+| Land, take off, mine (hold)         | F                                    | hold **Action**           | ○ / B                   |
+| High up: out into space             | hold F                               | hold **Action**           | hold ○ / B              |
+| In space: dock, go down, jump, skim | hold F                               | hold **Action**           | hold ○ / B              |
+| Next view                           | V                                    | **View**                  | △ / Y                   |
+| Map                                 | M                                    | **Map**                   | touchpad / Select       |
+| Cruise drive (in space)             | J                                    | **Cruise**                | R1 / RB                 |
+| Hold and vault                      | I                                    | **Bag**                   | D-pad up                |
+| Chat and the quick-chat wheel       | Enter                                | **Chat**                  | D-pad right             |
+| Menu                                | Escape                               | **Menu**                  | Options / Start         |
+| Into the hangar (landed at a base)  | H                                    | **Ship**                  |                         |
+| Get out (landed, a tap)             | F                                    | tap **Action**            | ○ / B                   |
+| The ship's power (landed or docked) | P                                    | **Power**                 | D-pad down              |
 
 On a touch screen only what can be used shows (Missile while there are missiles or mines aboard, Cruise in space); View,
 Map, Chat, the Bag and Ship (landed at a friendly base or docked) and Menu are a press away under **More**.
@@ -339,7 +339,7 @@ moons, gas giants, belts, stations and gates on their orbits, moving slowly on t
 player shares. The ship flies as it does over a world, always forward, level, in any of the three
 views (V, the View button). Worlds and moons lie below the plane it flies in.
 
-- **The cruise drive** (C, the Cruise button, R1 / RB): it spools for a second, then pushes the
+- **The cruise drive** (J, the Cruise button, R1 / RB): it spools for a second, then pushes the
   ship on, the faster the further it is from anything (up to 640 times its speed in open space),
   slowing of itself as a body nears. The guns are held while it cruises; being hit, firing, a
   strong pull or arriving at the end of a plotted course drops it out; among a belt's rocks it

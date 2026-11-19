@@ -170,7 +170,7 @@ game.
 Ranked by value for the effort. Each names what it touches. Anything that changes how a ship flies changes the pinned
 frames, which would be re-recorded on purpose.
 
-### 1. One mouse model, and show it (high value, medium effort)
+### 1. One mouse model, and show it (high value, medium effort; built 2026-11-19 but for relative mouse)
 
 Behind and from the seat, in the air and in space, make the mouse a virtual stick everywhere: distance from the middle
 is a rate of turn and a rate of pitch, with the same dead zone. Draw it, as Elite's mouse widget does: a faint ring for
@@ -197,8 +197,11 @@ default layouts move over in `readBindings`, as before.
 mouse does unless inverted; "Up dives" is the setting's other choice. The pitch keys are named by what they do (Up climbs,
 W and the up arrow; Down dives, S and the down arrow) and the setting no longer turns them over (`keyboard.ts invert`).
 
-Touches `input/bindings.ts DEFAULT_BINDINGS`, `SettingsScreen.svelte`, `hints.ts`, the first sortie's lines (and the
-narrator's, read again).
+**Built the same day** (James: "yes build it to mirror elite dangerous control scheme"): W/S throttle and walk, X all
+stop, A/D turn, the arrows pitch and turn, Tab boost (Shift too, to run on foot), J the cruise drive, I the hold, F9 a
+clip; the mouse a stick in every view but overhead (suggestion 1, below, with its ring). The plan's section 16,
+"Controls", has the table. Not done: a true roll axis (Space is still the dodge roll, the plan's decision 2), relative
+mouse, the controller left as it was.
 
 ### 3. Hold means commit, and shows it (high value, small effort)
 

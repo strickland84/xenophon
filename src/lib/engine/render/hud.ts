@@ -54,7 +54,7 @@ import { RESOURCES } from '../data/resources'
 import { CUT, LAND } from '../data/loop'
 import { FLYING, grounded, LANDED } from '../sim/landing'
 import { powered } from '../sim/power'
-import { POWER } from '../data/hulls'
+import { MOUSE_STICK, POWER } from '../data/hulls'
 import { friendly, looping, wrapDelta } from '../sim/loop'
 import { leftIn, nameOf } from '../sim/mining'
 import { ABOARD, DEAD, FALLING, SHIP_PARKED, zoomOf } from '../sim/foot'
@@ -344,6 +344,57 @@ function drawHudAll(scene: SceneState) {
         [-1, -1],
       ])
         put(lx + dx, ly + dy, LEAD)
+    }
+  }
+
+  // ── the mouse as a stick, from behind and from the seat (Elite's mouse widget): a ring where it does nothing, and a line
+  // out to where the pointer is, as far as the stick goes hard over; the further out, the faster the ship turns
+  const ctl = scene.controls
+  if (
+    p.followPointer &&
+    ctl.pointerOn &&
+    !ctl.keyMode &&
+    view.chase + view.cockpit > 0.5 &&
+    own &&
+    scene.foot.stage === ABOARD &&
+    scene.zone.kind !== 'interior' &&
+    !scene.interior.flying &&
+    scene.eject.stage === EJ_FLY &&
+    scene.loop.landing.stage === FLYING
+  ) {
+    const reach = W * MOUSE_STICK.reach
+    const r = Math.max(3, Math.round(reach * MOUSE_STICK.dead))
+    const cx = Math.round(view.cx)
+    const cy = Math.round(view.steerY)
+    const ring = (k * 120) >> 8
+    // (in the seat, over the window only: never across the panel's instruments)
+    const floor = cockpit && scene.cockpitArt ? scene.cockpitArt.panelTop - 1 : H
+    const dot = (x: number, y: number, col: number, kk: number) => {
+      if (y < floor) put(x, y, col, kk)
+    }
+    // (dotted, every other pixel of its round)
+    const steps = Math.max(12, Math.round(r * 6.3))
+    for (let i = 0; i < steps; i += 2) {
+      const a = (i / steps) * Math.PI * 2
+      dot(Math.round(cx + Math.cos(a) * r), Math.round(cy + Math.sin(a) * r), DIM, ring)
+    }
+    const dx = clamp(ctl.pointerX - cx, -reach, reach)
+    const dy = clamp(ctl.pointerY - cy, -reach * 1.4, reach * 1.4)
+    const d = Math.hypot(dx, dy)
+    if (d > r + 1) {
+      // (from the ring's edge to the pointer, brighter towards it)
+      const n = Math.round(d - r)
+      for (let i = 0; i <= n; i++) {
+        const s = (r + i) / d
+        dot(Math.round(cx + dx * s), Math.round(cy + dy * s), INK, Math.round(ring + (((k - ring) * i) / Math.max(1, n)) * 0.6))
+      }
+      for (const [ox, oy] of [
+        [-1, -1],
+        [0, -1],
+        [-1, 0],
+        [0, 0],
+      ])
+        dot(Math.round(cx + dx) + ox, Math.round(cy + dy) + oy, INK, k)
     }
   }
 

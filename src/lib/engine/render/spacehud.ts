@@ -31,7 +31,6 @@ const HEAT = pack(255, 150, 60)
 const EDGE = 4
 
 /** what the cruise drive's button is called on the device the use button is called so on (the HUD's prompts name it) */
-const CRUISE_KEY: Record<string, string> = { F: 'C', O: 'R1', B: 'RB' }
 
 /** the star kinds as a player reads them */
 const STAR_NAMES: Record<string, string> = {
@@ -129,7 +128,7 @@ export function spaceHud(scene: SceneState, h: LoopHud, radar: { x: number; y: n
     const words = sp.cruise === CRUISE_ON ? 'DROP OUT' : sp.cruise === CRUISE_SPOOL ? 'SPOOLING' : 'CRUISE'
     if (sp.cruise === CRUISE_SPOOL) text(midX - textWidth(words) / 2, y0, words, COURSE, 1, k)
     else {
-      const key = CRUISE_KEY[scene.params.useKey] ?? 'C'
+      const key = scene.params.cruiseKey
       if (key) promptLine(scene, { ...h, k: (k * 170) >> 8 }, [{ words, hold: false, col: DIM }], y0, key)
     }
   }

@@ -2,7 +2,7 @@
 // left alone), climbing and diving over the ground, and the full roll.
 
 import { slipOf } from './squad'
-import { CRASH_COMMIT, statsOf, THROTTLE } from '../data/hulls'
+import { CRASH_COMMIT, MOUSE_STICK, statsOf, THROTTLE } from '../data/hulls'
 import { AIR } from '../data/space'
 import { axes, jetSize, makeJet, sliceSpread, TRAIL_N } from '../jet/jet'
 import type { Jet } from '../jet/jet'
@@ -290,8 +290,8 @@ export function flyLeader(scene: SceneState, dt: number, lead: Jet, introDone: b
     if (chase) {
       // from behind: point left or right of the jet to turn, above or below it to climb or dive
       // (as fast as it is pointed: level holds the height, so the whole sky up to the ceiling can be flown)
-      const t = clamp((ctl.pointerX - view.cx) / (W * 0.26), -1, 1)
-      if (Math.abs(t) > 0.06) want = t * maxRate
+      const t = clamp((ctl.pointerX - view.cx) / (W * MOUSE_STICK.reach), -1, 1)
+      if (Math.abs(t) > MOUSE_STICK.dead) want = t * maxRate
       flight.aside = Math.abs(t)
       const raw =
         ctl.pointerY < view.steerY

@@ -123,7 +123,7 @@ async function fly(page, seconds, want, until) {
   await page.getByRole('button', { name: 'Close' }).click()
   await page.waitForTimeout(300)
   // the cruise drive, to the gate
-  await page.keyboard.press('KeyC')
+  await page.keyboard.press('KeyJ')
   await fly(page, 8, `return course ? { turn: toward((z.aim ?? course).x, (z.aim ?? course).y) } : { turn: 0 }`, `return z.pace > 20`)
   await shot(page, '07-cruising')
   const there = await fly(
@@ -131,7 +131,7 @@ async function fly(page, seconds, want, until) {
     120,
     `if (!course) return { turn: 0 }
      const d = Math.hypot(course.x - me.x, course.y - me.y)
-     if (z.cruise === 'off' && d > 1500 && Math.random() < 0.05) window.dispatchEvent(new KeyboardEvent('keydown', { code: 'KeyC' }))
+     if (z.cruise === 'off' && d > 1500 && Math.random() < 0.05) window.dispatchEvent(new KeyboardEvent('keydown', { code: 'KeyJ' }))
      return { turn: toward((z.aim ?? course).x, (z.aim ?? course).y), land: d < 70 }`,
     `return z.prompt === 'jump' || z.travel === 'gate'`,
   )
@@ -157,7 +157,7 @@ async function fly(page, seconds, want, until) {
   await docked.waitForFunction(() => window.__xenophon)
   await docked.waitForTimeout(1500)
   await shot(docked, '10-docked')
-  await docked.keyboard.press('Tab')
+  await docked.keyboard.press('KeyI')
   await docked.waitForTimeout(400)
   await docked.getByRole('tab', { name: 'Market' }).click()
   await docked.waitForTimeout(300)

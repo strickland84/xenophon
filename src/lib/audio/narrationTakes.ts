@@ -82,8 +82,8 @@ export const TAKES: Record<string, { text: string; seconds: number }> = {
     seconds: 10.07,
   },
   'sortie-throttle-keys': {
-    text: 'The throttle sets your speed. Hold Q to close it and slow right down, then hold E to open it up again. The mouse wheel moves it too, and the third bar at the bottom left shows how open it is.',
-    seconds: 13.2,
+    text: 'The throttle sets your speed. Hold S to close it and slow right down, then hold W to open it up again. The mouse wheel moves it too, X shuts it all at once, and the third bar at the bottom left shows how open it is.',
+    seconds: 15.92,
   },
   'sortie-throttle-ps': {
     text: 'The throttle sets your speed. Pull the right stick back to close it and slow right down, then push it up to open it again. The third bar at the bottom left shows how open it is.',
@@ -98,8 +98,8 @@ export const TAKES: Record<string, { text: string; seconds: number }> = {
     seconds: 10.32,
   },
   'sortie-steer-keys': {
-    text: "The arrow on screen points at your side's home world. Steer with the mouse, or A and D, and fly until you're over it. E opens the throttle and Q closes it.",
-    seconds: 11.28,
+    text: "The arrow on screen points at your side's home world. Steer with the mouse, or A and D, and fly until you're over it. W opens the throttle and S closes it.",
+    seconds: 11.44,
   },
   'sortie-steer-ps': {
     text: "The arrow on screen points at your side's home world. Steer with the left stick, and fly until you're over it. The right stick sets the throttle.",
@@ -130,8 +130,8 @@ export const TAKES: Record<string, { text: string; seconds: number }> = {
     seconds: 7.12,
   },
   'sortie-dive-keys': {
-    text: 'Hold S to dive. You can only mine and land close to the ground, so get your height under ninety.',
-    seconds: 5.76,
+    text: 'Hold the down arrow to dive. You can only mine and land close to the ground, so get your height under ninety.',
+    seconds: 6.88,
   },
   'sortie-dive-ps': {
     text: 'Push the left stick up to dive. You can only mine and land close to the ground, so get your height under ninety.',
