@@ -123,6 +123,10 @@ tools/voxel/brand.py`; tries in `art/brand/`); the favicon is `mark-32.png`, the
   tests; templates; Dependabot; CODEOWNERS); Vercel (`vercel.json`, static `build/`) serves `main` at xenophon.me.
   James's private notes moved to `CLAUDE.local.md` (not in git).
 
+- **2026-11-19, the link's picture** (James: "make a nice opengraph image for xenophon.me"). `static/brand/og.png`,
+  1200 × 630: its own sky with the suns at the edges (`uv run tools/gen/brand.py og-sky`, try 5 picked in
+  `tools/voxel/brand.py PICKS`), the shield over the wordmark, and two lines in the game's pixel font (`words`, `og`);
+  `src/app.html` has the Open Graph and card tags.
 - **2026-11-19, a shadow on foot, the base's pages over the sky, repairs told, no roll landed** (James: "on foot can you
   give our player a shadow - its especially apparent we dont have one when jumping"; Market and Supplies "not even usable
   unless at a base. These 'tabs' should move to the Base header next to Hangar"; "need some tooltips or something on how
@@ -170,7 +174,8 @@ and shot`, its checks changed to the new order; `targets picked in turn from the
   read again. The music is sequenced MIDI-style game music of the early 1990s (`sound_recipe.py SCORE`, `NOT_MIDI`,
   patches named in every piece), two takes of each piece and sting. The opening story has its own piece and place,
   `intro` (`moods.ts`, set by `Game.svelte` while `IntroCrawl` is open). Nobody has heard any of it; the plan's section
-  17 has the details. The repo is private and the Vercel project paused "for now" (xenophon.me answers 503).
+  17 has the details. The repo is private "for now" (James, 2026-11-19); the site at xenophon.me was paused, and is live
+  again.
 - **2026-11-19, the wind leaves what stands on the ground, and no sheet of cloud lies across the view as a line** (James:
   "it pushes my ship around when landed"; "a very clear thin line that looks like land"). The wind (`sim/hazards.ts
 standing`) no longer moves turrets, pilots on foot, a parked ship, or his own ship landing, landed, lifting off or left.
