@@ -11,8 +11,8 @@
 //   becomes; the air thickens into a sky of the world's colour, and burns round the ship on the way.
 //
 // It is flown, not watched, and it is a place, not a passage: the ship steers all through it (the
-// place it comes down at is where it flies to), a dive takes it down, a climb up, and held level it
-// stays where it is in it (sim/travel.ts flyAir). Half way the scene changes zone (a system's space,
+// place it comes down at is where it flies to); it goes on the way it is going, and a push the
+// other way turns it back (sim/travel.ts flyAir). Half way the scene changes zone (a system's space,
 // or the world's surface), and the page its room.
 //
 // The air ends at the world's ceiling (`e` = AIR.ground): there the globe has become a flat ground
@@ -146,9 +146,11 @@ export function airShape(b: Body, v: number, a0: number, high: number, rho0: num
   const airy = theGalaxy().worlds[b.world]?.recipe.atmosphere ?? 0
   const air = airy > 0 ? smooth(0.15, 0.9, t) : 0
   const sigma = Math.pow(rho0 / b.size, 1 - t) * Math.pow(liftAt(high), t)
-  // (the camera looks down at the world: more climbing, when the nose is up and the world falls away under the ship; not
-  // at the air's top, where the camera is space's and looks where the nose points: sim/camera.ts)
-  const look = (1.05 + 0.2 * clamp(rate, -1, 1)) * (1 - smooth(0.35, 1, t)) * smooth(AIR.cam[0], AIR.cam[1], e)
+  // (the camera looks down at the world, more climbing, when the world falls away under the ship; as much at the air's
+  // top, where the camera is space's: there the ship comes level, and the look eases away in space, a few seconds out
+  // (sim/flight.ts easeLook). It went to nothing at the top, and with the nose pitched up there the camera swung from
+  // well down at the world to up at the stars and back as the ship came out: James, 2026-11-19, "the view gets all wonky")
+  const look = (0.75 + 0.15 * clamp(rate, -1, 1)) * (1 - smooth(0.35, 1, t))
   return {
     k,
     alt,

@@ -1564,6 +1564,38 @@ export const spaceFlights: Record<string, Script> = {
   'leaving a world for space': upAndOut('top'),
   'up out of a world, from behind': upAndOut('chase'),
   'up out of a world, from the seat': upAndOut('cockpit', true),
+  // the cruise drive asked for in the world's air on the way up, the climb let go: through the rest of it quickly, and out
+  // on the drive (James, 2026-11-19: "I cant cruise until I escape orbit")
+  'up out of a world on the cruise drive': (create, defaults, worlds) => {
+    const f = new Flight(
+      create,
+      defaults,
+      { ...worlds('archipelago'), side: 'nomarchy', intro: false, skirmish: false, view: 'chase' },
+      240,
+      135,
+    )
+    f.scene.setClock(LOOP_CLOCK)
+    f.fly(30, () => f.scene.setControls({ ...held(0, 0), land: true }))
+    let asked = -1
+    let outAt = -1
+    let spooled = -1
+    f.fly(1330, (n) => {
+      const z = f.scene.zone
+      if (z.travel === 'out' && asked < 0) {
+        f.scene.act('cruise')
+        asked = n
+      }
+      if (asked >= 0 && outAt < 0 && z.kind === 'space' && z.travel === '') outAt = n
+      if (spooled < 0 && z.cruise !== 'off') spooled = n
+      // (a climb held to the top of the sky; once the drive is asked for, hands off)
+      f.scene.setControls(asked >= 0 ? held(0, 0) : held(0.05, -1))
+    })
+    f.expect(asked >= 0, 'into the air')
+    f.expect(outAt >= 0 && outAt - asked < 90, `out in space soon after (${outAt - asked} steps)`)
+    f.expect(spooled >= 0 && spooled >= outAt - 1, `the drive spooling as it came out (${spooled}, out at ${outAt})`)
+    f.expect(f.scene.zone.cruise === 'on', `on the cruise drive (${f.scene.zone.cruise})`)
+    return f.marks
+  },
   // down to it from space: overhead and from the seat with Use held, from behind by a dive on the keys
   'down to a world, overhead': downTo('top', 'planet', true),
   'down to a world, from behind': downTo('chase'),

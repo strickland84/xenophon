@@ -4,7 +4,7 @@
 // the stations' and gates' blips on the radar, warnings (HEAT, GRAVITY,
 // CRUSHING), a gate's charge, and the system's name on arriving in it.
 
-import { CRUISE, GATE, HOLE, SYSTEM_NAME_TIME } from '../data/space'
+import { AIR, CRUISE, GATE, HOLE, SYSTEM_NAME_TIME } from '../data/space'
 import { theGalaxy } from '../galaxy/galaxy'
 import type { SceneState } from '../state'
 import { pack } from '../util/color'
@@ -82,19 +82,36 @@ function promptOf(scene: SceneState): PromptPart[] | null {
   return null
 }
 
-/** in a world's air (in either zone): which way the ship is going through it */
+/**
+ * In a world's air (in either zone): where the ship is going, a bar of how far through it is, and on the way up the cruise
+ * drive's key (pressed, it takes the ship through the rest quickly and spools up as it comes out). It said UP TO SPACE and
+ * nothing else, and a pilot could not tell how long he would be there: James, 2026-11-19.
+ */
 export function airHud(scene: SceneState, h: LoopHud) {
   const tr = scene.travel
   if (!h.own || (tr.kind !== 'down' && tr.kind !== 'out')) return
   const { w: W, h: H } = scene.screen
   const { text, k, top } = h
   const w = theGalaxy().bodies[tr.from]
-  const words = tr.kind === 'down' ? `DOWN TO ${w.name.toUpperCase()}` : 'UP TO SPACE'
-  const y0 = top ? lowRow(scene) : H - EDGE - 21 - textHeight()
-  // (broken into lines where the frame is too narrow for it, rising from the row)
+  const up = tr.kind === 'out'
+  const name = w.name.toUpperCase()
+  const words = up ? `LEAVING ${name}` : `DOWN TO ${name}`
+  const th = textHeight()
+  const y0 = top ? lowRow(scene) : H - EDGE - 21 - th
+  // (the words over the bar, and under them, on the way up, the cruise drive)
+  const yw = up ? y0 - th - 9 : y0
   const said = fitLines(words, clearWidth(scene))
-  for (const [i, line] of said.entries())
-    text((W >> 1) - (textWidth(line) >> 1), y0 - (said.length - 1 - i) * (textHeight() + 3), line, INK, 1, k)
+  for (const [i, line] of said.entries()) text((W >> 1) - (textWidth(line) >> 1), yw - (said.length - 1 - i) * (th + 3), line, INK, 1, k)
+  const bw = Math.max(40, textWidth(said[said.length - 1]))
+  const bx = (W >> 1) - (bw >> 1)
+  const by = yw + th + 3
+  const done = clamp(up ? 1 - tr.e / AIR.ground : tr.e / AIR.ground, 0, 1)
+  h.box(bx, by, bx + bw, by + 1, pack(10, 14, 28), k >> 1)
+  h.box(bx, by, bx + Math.round(bw * done), by + 1, up ? COURSE : INK, k)
+  if (!up) return
+  if (tr.cruise) text((W >> 1) - (textWidth('CRUISE ON THE WAY OUT') >> 1), y0, 'CRUISE ON THE WAY OUT', COURSE, 1, k)
+  else if (scene.params.cruiseKey)
+    promptLine(scene, { ...h, k: (k * 200) >> 8 }, [{ words: 'CRUISE', hold: false, col: DIM }], y0, scene.params.cruiseKey)
 }
 
 /** the HUD's part in space; `radar` is where the radar is (its middle and radius) */

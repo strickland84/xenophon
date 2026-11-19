@@ -880,16 +880,29 @@ world's sky it is the flat ground itself. That morph was run by a clock: begun, 
 **What it is now.** The same air, flown: `e` moves only as the pilot climbs or dives (`sim/travel.ts flyAir`).
 
 - **Up.** At the top of a world's sky a climb asked for (`AIR.out`) goes straight on up: the ground curves into a ball
-  under the ship, the sky goes black, and at the air's top the ship is in space, flying. A climb held hard crosses the
-  air in `AIR.cross` seconds; let go, the ship stays where it is in it. Use held high over the ground (HOLD [F] SPACE)
-  only climbs for him, for as long as it is held (`heldUp`).
+  under the ship, the sky goes black, and at the air's top the ship is in space, flying. It crosses the air in
+  `AIR.cross` seconds and goes on the way it is going whatever is held or let go; only a push the other way harder than
+  `AIR.slack` turns it back (2026-11-19: let go, it had stayed where it was in the air, and James was "stuck in the planet
+  orbit for ages"). The cruise drive asked for on the way up (C) takes it through the rest `AIR.rush` times as fast and
+  spools up as it comes out (`Travel.cruise`; it had been refused until he was out: "I cant cruise until I escape
+  orbit"). Use held high over the ground (HOLD [F] SPACE) only climbs for him, for as long as it is held (`heldUp`).
 - **Down.** Over a world (`space.ts worldUnder`), a ship flown `AIR.enter` px down under the plane in a dive that is
   meant (its nose down by `AIR.steep`: steeper than a pointer resting off the middle of its steering gives; or flown all
   the way down to the globe's own air at any slope) is in the world's air (`spacezone.ts`). It goes on sinking as it
-  dived in (`Travel.trim`) until its pilot asks anything else of it, and comes out at the top of the world's sky, flying
-  level, to dive on down or not. Use held over a world (HOLD [F] DESCEND) only puts the nose down (`space.diving`).
+  dived in, and comes out at the top of the world's sky, flying level, to dive on down or not. Use held over a world
+  (HOLD [F] DESCEND) takes the ship straight into its air (2026-11-19: it had put the nose down and left the ship to dive
+  in, fifteen seconds steeply down with the world spinning under it as the mouse turned it: "ship spins around like
+  crazy when I do hold F to descend"). Down from F held to the top of the sky is about four seconds.
 - **Nothing is taken from him.** He steers all through it, the place under the ship moving as he flies at the ship's
-  honest speed; no prompt, no autopilot, no hold. The HUD says which way he is going (DOWN TO …, UP TO SPACE).
+  honest speed; no prompt, no autopilot, no hold. The HUD says where he is going (DOWN TO …, LEAVING …), with a bar of
+  how far through the air he is, and on the way up the cruise drive's key.
+- **The camera looks down at the world all the way through** (`AirShape.look`), as much at the air's top as below it,
+  and the ship comes level there; out in space the look eases away (`flight.ts easeLook`). It had gone to nothing at the
+  top while the nose was pitched up, and the camera swung from well down at the world to up at the stars and back as
+  the ship came out ("the view gets all wonky").
+- **A world's poles** are each one colour past the last row of its map (`render/globe.ts capsOf`): read at each
+  pixel's longitude they had run out in rays, a starburst under a ship over a pole (and climbing out of a place far
+  from the equator turns a pole up towards the pilot).
 - **He comes out over the place he left.** As a world stands for everyone, half its places lie round its edge or on
   its far side, and a ship that climbed out of one of those came out at the world's rim with the ground sliding away
   under it, and was off the world before it could dive back. Now a world climbed out of is turned on, for this pilot

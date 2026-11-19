@@ -180,6 +180,30 @@ for (let i = 0; i <= 256; i++) ROOT[i] = Math.sqrt(i / 256)
  */
 const MUV = new Float64Array(2)
 
+/**
+ * The caps at a world's poles, past the last row of its map (85°): each is read at one place of its map's row next to it,
+ * where that row's commonest colour is, so it is one colour. (Read at the longitude of each pixel, as everywhere else, the
+ * row's colours ran out from the pole in rays: a starburst under a ship over a pole. James, 2026-11-19.)
+ */
+let capMap: SphereMap | null = null
+let capNorth = 0
+let capSouth = 0
+function capsOf(map: SphereMap) {
+  if (capMap === map) return
+  capMap = map
+  const commonest = (row: number) => {
+    const count = new Uint32Array(256)
+    const o = row * map.w
+    for (let i = 0; i < map.w; i++) count[map.idx[o + i]]++
+    let best = 0
+    for (let c = 1; c < 256; c++) if (count[c] > count[best]) best = c
+    for (let i = 0; i < map.w; i++) if (map.idx[o + i] === best) return (i + 0.5) / map.w
+    return 0
+  }
+  capSouth = commonest(0)
+  capNorth = commonest(Math.max(0, map.span - 1))
+}
+
 /** where on the globe's map a point of it is (its unit normal in the body's own frame): into mu, mv */
 function mapUV(g: Globe, bx: number, by: number, bz: number) {
   let mu = MUV[0]
@@ -195,6 +219,12 @@ function mapUV(g: Globe, bx: number, by: number, bz: number) {
       // (a world's map is Mercator's, its rows from 85° south to 85° north: space/maps.ts)
       const sl = by < -MERC_MOST ? -MERC_MOST : by > MERC_MOST ? MERC_MOST : by
       mv = fine ? 0.5 + Math.log((1 + sl) / (1 - sl)) / (4 * Math.PI) : MERC[((sl + 1) * (MERC_N / 2) + 0.5) | 0]
+      if (sl !== by) {
+        // (in a cap: one colour, read inside the row next to it)
+        capsOf(g.map)
+        mu = by > 0 ? capNorth : capSouth
+        mv = by > 0 ? 1 - 0.5 / g.map.span : 0.5 / g.map.span
+      }
     } else mv = (fine ? Math.asin(by < -1 ? -1 : by > 1 ? 1 : by) : asin(by)) / Math.PI + 0.5
     if (fine) {
       // (finer round the place under the ship: the way down)

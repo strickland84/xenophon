@@ -16,8 +16,7 @@
 //
 // Left and right turn it about the plane's own up, as ever. Overhead the nose only leans up or down while a climb or a
 // dive is held. The cruise drive holds the plane. Over a world, flown well down under the plane, it is in the world's
-// air (sim/spacezone.ts, sim/travel.ts flyAir): there is no other way down to one, and Use held over a world only puts
-// the nose down. It flies in a band far wider than a loop (SPACE_DEEP … SPACE_TOP); at
+// air (sim/spacezone.ts, sim/travel.ts flyAir), as it is once Use is held over a world. It flies in a band far wider than a loop (SPACE_DEEP … SPACE_TOP); at
 // the band's edge it goes no further out, and its nose is left alone. The camera from behind and from the seat looks
 // where the ship points (camera.ts, render/view.ts `pitch`).
 //
@@ -135,11 +134,6 @@ export function flySpace(scene: SceneState, dt: number, lead: Jet, introDone: bo
   if (scene.space.pace > 1.2) {
     stick.pitch = 0
     stick.aim = 0
-    stick.aiming = true
-  } else if (scene.space.diving) {
-    // (Use held over a world: nose down at it, into its air)
-    stick.pitch = 0
-    stick.aim = -F.dive
     stick.aiming = true
   }
   lead.pitch = wrapAngle(lead.pitch)

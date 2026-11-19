@@ -40,7 +40,7 @@ import { createParticles } from './particles'
 import { buildPlanet, repaintWorld } from './planet'
 import { createSignals } from './signals'
 import { createSkirmish } from './skirmish'
-import { bodiesOf, createSpace, CRUISE_OFF, gateTo, linkedHole, orbitTime, placeBodies, spaceBody } from './space'
+import { bodiesOf, createSpace, CRUISE_OFF, CRUISE_SPOOL, gateTo, linkedHole, orbitTime, placeBodies, spaceBody } from './space'
 import type { SpaceBody } from './space'
 import { ABOARD, endStolen, SHIP_WITH } from './foot'
 import { squareUp } from './spaceflight'
@@ -81,9 +81,10 @@ export interface Travel {
   dir: number
   /** climbing out of a world: how the world was turned on for this pilot as he began (scene.spun); it is turned on from there as he rises, to bring the place he left up under him. Null going down. */
   turn0: Float64Array | null
-  /** how hard it is climbing (to 1) or sinking (to −1) through the air, eased; and what it goes on doing asked nothing (a ship that dived in from space goes on sinking, until its pilot asks anything else) */
+  /** how hard it is climbing (to 1) or sinking (to −1) through the air, eased (asked nothing, it goes on the way it is going: `dir`) */
   rate: number
-  trim: number
+  /** the cruise drive asked for on the way out: it goes through the rest of the air quickly, and the drive spools up as it comes out */
+  cruise: boolean
   /** the world's ceiling, px over its ground: where the ground itself takes over from the globe the air makes of it */
   high: number
   /** going down from space: how far over the plane (under it, less than 0) the ship was as it began, eased away on the way */
@@ -113,7 +114,7 @@ export function createTravel(): Travel {
     lift: 0,
     turn0: null,
     rate: 0,
-    trim: 0,
+    cruise: false,
     high: DEFAULT_PARAMS.ceiling,
     u: 0,
     v: 0,
@@ -236,8 +237,7 @@ export function startDescent(scene: SceneState, bodyIndex: number) {
     to: b.body.index,
     e: 0,
     dir: 1,
-    rate: 0,
-    trim: -AIR.trim,
+    rate: -0.3,
     high: ceilingOf(withDefaults(worldSettings(w.id))),
     lift: j.z - SPACE_Z,
     u,
@@ -259,9 +259,9 @@ function placeOnMap(scene: SceneState) {
 
 /**
  * Flying in a world's air, in either zone. The ship is the pilot's all through it: it turns as ever, over the place on
- * the world's map under it; a climb takes it up through the air and a dive down, as hard as it is asked (the keys, a
- * stick, the pointer from behind; Use held goes on the way it was going), and asking neither it stays where it is. At
- * the top it is out in space, flying; at the bottom, in the top of the world's sky, flying.
+ * the world's map under it; it goes on through the air the way it is going, and a push the other way (the keys, a stick,
+ * the pointer from behind) turns it back. At the top it is out in space, flying; at the bottom, in the top of the
+ * world's sky, flying.
  *
  * (Twice before it was something that happened to him: a flight that went on by itself once begun and turned back at a
  * push, then one flown for him from end to end. James, 2026-11-18: "why do we NEED a transition?")
@@ -309,22 +309,25 @@ export function flyAir(scene: SceneState, dt: number, lead: Jet, introDone: bool
       lead.vy = (lead.y - y0) / dt
     }
   } else placeOnMap(scene)
-  // up or down, as hard as the pilot asks (what the surface model made of his stick: 1 a full climb, −1 a full dive);
-  // Use held goes on the way it was going; under a little push it stays where it is, or, dived in from space and asked
-  // nothing since, goes on sinking
+  // on through it the way it is going, as hard as it can, whatever is held or let go (Use held, a climb or a dive the
+  // same way, or nothing at all); only a push the other way, past a little, turns it back. Nobody is left hanging in the
+  // air: there is nothing to do there (James, 2026-11-19: "I am stuck in the planet orbit for ages")
   const use = ctl.land || ctl.tap > 0
-  if (!use && Math.abs(scene.flight.want) > AIR.slack) tr.trim = 0
-  const asked = use ? -tr.dir : tr.trim !== 0 ? tr.trim : scene.flight.want
-  const push = (Math.sign(asked) * Math.max(0, Math.abs(asked) - AIR.slack)) / (1 - AIR.slack)
+  const coast = tr.dir < 0 ? 1 : -1
+  const want = scene.flight.want
+  const back = !use && !tr.cruise && Math.abs(want) > AIR.slack && Math.sign(want) !== coast
+  const push = back ? (Math.sign(want) * (Math.abs(want) - AIR.slack)) / (1 - AIR.slack) : coast
   tr.rate += (clamp(push, -1, 1) - tr.rate) * (1 - Math.exp(-dt * 4))
-  if (Math.abs(tr.rate) < 0.002 && push === 0) tr.rate = 0
-  tr.e = clamp(tr.e - (tr.rate * AIR.ground * dt) / AIR.cross, 0, AIR.ground)
+  // (the cruise drive asked for on the way out: the rest of the air goes by at its pace)
+  const pace = tr.cruise ? AIR.rush : 1
+  tr.e = clamp(tr.e - (tr.rate * pace * AIR.ground * dt) / AIR.cross, 0, AIR.ground)
   if (Math.abs(tr.rate) > 0.08) tr.dir = tr.rate > 0 ? -1 : 1
   tr.kind = tr.dir > 0 ? 'down' : 'out'
-  // (nose up climbing, down sinking; and the camera looks down at the world, level again by the top of its sky. Near the
-  // air's top the nose comes to that slowly: it keeps the way it dived in, which the camera there still looks along)
-  scene.flight.climbTilt = TILT * tr.rate
-  lead.pitch += (scene.flight.climbTilt - lead.pitch) * (1 - Math.exp(-dt * (0.5 + 2.5 * smooth(AIR.cam[0], AIR.cam[1], tr.e))))
+  // (nose up climbing, down sinking, but level by the air's top, where the camera is space's and looks along the nose: it
+  // comes out into space level, and going in from space comes level and then tilts as it goes down; the camera looks down
+  // at the world all the way, by `look`)
+  scene.flight.climbTilt = TILT * tr.rate * smooth(0, AIR.cam[1], tr.e)
+  lead.pitch += (scene.flight.climbTilt - lead.pitch) * (1 - Math.exp(-dt * 3))
   scene.flight.look += (shape.look - scene.flight.look) * (1 - Math.exp(-dt * 2.5))
   // (no wingtip trails in the air: the ground under it is not where its trails were)
   lead.trailLen = 0
@@ -364,11 +367,17 @@ function stepAir(scene: SceneState) {
     scene.flight.altGoal = j.z
     scene.flight.climbTilt = 0
     const held = scene.controls.land || scene.controls.tap > 0
-    // (out into space: it comes level by itself, and a climb still held leans its nose, it does not loop it)
+    // (out into space: it comes level by itself, and a climb still held leans its nose, it does not loop it; the cruise
+    // drive asked for on the way spools up now)
     if (above) {
       scene.flight.level = true
       scene.flight.carry = scene.controls.keyClimb !== 0
       scene.flight.pitchRate = 0
+      if (tr.cruise && scene.space.cruise === CRUISE_OFF) {
+        scene.space.cruise = CRUISE_SPOOL
+        scene.space.cruiseAt = scene.time
+        sound(scene, 'spool', 0, 0, 0, 1, true)
+      }
     }
     Object.assign(tr, createTravel())
     // (Use, held through the arrival, does nothing more until it is let go)
