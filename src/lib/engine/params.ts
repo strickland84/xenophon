@@ -47,15 +47,13 @@ export interface SceneParams {
   skirmish: boolean // alone over the island world with no side: waves of enemy ships come to fight, and a score is kept (in the galaxy, enemies belong to places)
   locals: boolean // the galaxy's own ships: raider bands, a derelict's drones, each side's patrols, haulers (sim/bands.ts, traffic.ts)
   hud: boolean // the flight HUD: hull, shield, guns, missiles, target marker, radar, score
-  hudTop: boolean // the HUD keeps to the top of the frame, clear of the touch buttons along the bottom
-  hudSides: number // frame px at each side of the bottom of the frame the page's buttons take (touch): prompts are kept between them, a line a part if need be
   hudScale: number // the HUD's text, 1 or 2 game pixels a font pixel (2 where an art pixel is small on the screen, or the player asks for larger text)
   hudMotion: boolean // the HUD's own motion (bars that drain, words that come in, a shake when hit); false: Reduce motion
   side: '' | 'nomarchy' | 'anarchoi' // the player's side: whose bases are his (he starts landed at one of them, and raiders come for his cargo); '' none
-  useKey: string // what the HUD calls the Land / use button in its prompts ('F', a controller's 'B', 'ACTION' on a touch screen)
-  powerKey: string // what it calls the power switch ('P', a controller's 'D-PAD DOWN', 'POWER' on a touch screen)
-  mineKey: string // what it calls the mining laser's control ('R', a controller's 'L1', 'MINE' on a touch screen)
-  seatKey: string // what it calls the seat key, up out of the seat in flight and back ('G', a controller's 'L3', 'SEAT' on a touch screen)
+  useKey: string // what the HUD calls the Land / use button in its prompts ('F', a controller's 'B')
+  powerKey: string // what it calls the power switch ('P', a controller's 'D-PAD DOWN')
+  mineKey: string // what it calls the mining laser's control ('R', a controller's 'L1')
+  seatKey: string // what it calls the seat key, up out of the seat in flight and back ('G', a controller's 'L3')
   coldStart: boolean // a ship landed or docked sits powered off until its pilot switches it on: where he begins, a new ship, and once he has left it (sim/power.ts); false: always powered, as before
   parts: string // the modules fitted to the player's ship, by id, with commas between (data/loadout.ts)
   weapons: string // the weapon on each of its mounts, by id, with commas between ('' or 'cannon': the hull's own cannon)
@@ -113,8 +111,6 @@ export const DEFAULT_PARAMS: SceneParams = {
   skirmish: true,
   locals: true,
   hud: true,
-  hudTop: false,
-  hudSides: 0,
   hudScale: 1,
   hudMotion: true,
   side: '',

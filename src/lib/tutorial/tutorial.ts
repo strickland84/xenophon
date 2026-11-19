@@ -288,7 +288,6 @@ export class Tutorial {
   private prompt(scene: TutorialScene): Prompt {
     const n = this.o.name
     const input = this.o.input()
-    const touch = input === 'touch'
     const pad = input === 'ps' || input === 'pad'
     const index = STEPS.indexOf(this.step)
     const of = STEPS.length - 1
@@ -299,7 +298,7 @@ export class Tutorial {
     const world = this.world.name
     const use = n('use')
     // (the power switch, as the device in use calls it)
-    const power = touch ? 'POWER' : n('power')
+    const power = n('power')
     const cold = scene.status.power === 'off' || scene.status.power === 'stopping'
     /** taking off, from wherever he is landed: the power first, if it is off */
     const takeOff = cold ? `Press ${power} to power up, then hold ${use} to take off` : `Hold ${use} to take off`
@@ -312,14 +311,13 @@ export class Tutorial {
     if (z.travel) return say(z.travel === 'down' ? `Going down to ${world}` : 'Under way', '', false)
 
     // ── getting back on: shot down, killed, inside
-    if (foot.up)
-      return say(`Back to the seat to carry on: press ${touch ? 'SEAT' : n('seat')}`, 'The ship flies itself while you are up', true)
+    if (foot.up) return say(`Back to the seat to carry on: press ${n('seat')}`, 'The ship flies itself while you are up', true)
     if (z.kind === 'interior') return say('Leave at the top to carry on', '', true)
     // (out of the ship, shot down or flown into the ground: steering for land only where he would come down in the sea)
     if (foot.stage === 'falling')
       return foot.down.safe
         ? say('Ejected: you will come down on land', '', true)
-        : say(pad || touch ? 'Ejected: steer for land as you come down' : 'Ejected: steer for land with the keys', '', true)
+        : say(pad ? 'Ejected: steer for land as you come down' : 'Ejected: steer for land with the keys', '', true)
     if (foot.stage === 'dead') return say('Killed: you will be back at a base in a moment', '', true)
     const wantsFoot = this.step === 'beacon' || (this.step === 'out' && foot.stage === 'walking')
     if (foot.stage === 'walking' && !wantsFoot && this.step !== 'board') {
@@ -342,33 +340,25 @@ export class Tutorial {
         scene.setGuide(null)
         return say(
           cold ? `Press ${power} to power up, then hold ${use} to launch` : `Hold ${use} to launch from ${L.base?.name ?? 'the station'}`,
-          `${touch ? 'ACTION' : use} launches, lands and docks`,
+          `${use} launches, lands and docks`,
         )
       case 'look': {
-        const key = touch ? 'MORE, then VIEW' : n('view')
+        const key = n('view')
         if (this.looked.has('cockpit'))
-          return say(`${touch ? 'VIEW' : key} again: back above your ship`, 'The easiest view to learn in. Change it whenever you like')
+          return say(`${key} again: back above your ship`, 'The easiest view to learn in. Change it whenever you like')
         return this.looked.has('chase')
-          ? say(`${touch ? 'VIEW' : key} again: the cockpit`)
+          ? say(`${key} again: the cockpit`)
           : say(`Press ${key}: see your ship from behind`, 'Then again, for the cockpit')
       }
       case 'steer': {
         this.setCourse(scene)
-        const steer = touch
-          ? 'Touch and drag to steer'
-          : pad
-            ? 'Left stick to steer'
-            : `Steer with the mouse (or ${n('left')} ${n('right')})`
+        const steer = pad ? 'Left stick to steer' : `Steer with the mouse (or ${n('left')} ${n('right')})`
         return say(`${steer} for ${world}: follow the arrow`, sub || 'Fly on until you are over it')
       }
       case 'descend':
         return say(`Hold ${use} over ${world} to go down to it`, sub || 'Dive on down to its ground')
       case 'dive': {
-        const dive = touch
-          ? 'hold DIVE'
-          : pad
-            ? `push the left stick ${this.o.stick() ? 'up' : 'down'}`
-            : `hold ${this.o.stick() ? n('up') : n('down')}`
+        const dive = pad ? `push the left stick ${this.o.stick() ? 'up' : 'down'}` : `hold ${this.o.stick() ? n('up') : n('down')}`
         return say(
           `Dive low: ${dive}`,
           Math.round(scene.player.above) > DIVE_TO ? `${Math.round(scene.player.above)} up. Mine and land under ${DIVE_TO}` : sub,
@@ -376,19 +366,13 @@ export class Tutorial {
       }
       case 'target': {
         this.putUpDrones(scene)
-        const press = touch ? 'tap TARGET' : `press ${n('target')}`
+        const press = `press ${n('target')}`
         return say(`Target a training drone: ${press}`, sub || `Again for the next. Held, it lets go`)
       }
       case 'drones': {
         this.putUpDrones(scene)
         const left = DRONES.length - this.downed
-        const fire = touch
-          ? 'hold FIRE'
-          : pad
-            ? `${n('fire')} fires`
-            : n('fire') !== '?'
-              ? `click (or ${n('fire')}) to fire`
-              : 'click to fire'
+        const fire = pad ? `${n('fire')} fires` : n('fire') !== '?' ? `click (or ${n('fire')}) to fire` : 'click to fire'
         return say(`Shoot the training drones: ${fire}`, sub || `${left} left`)
       }
       case 'mine': {
@@ -418,20 +402,13 @@ export class Tutorial {
       }
       case 'out':
         return say(
-          touch ? 'Tap ACTION to get out' : `Tap ${use} to get out`,
-          touch
-            ? 'On foot, drag a finger to walk'
-            : pad
-              ? 'On foot, the left stick walks'
-              : `On foot, ${n('down')}${n('left')}${n('up')}${n('right')} walks`,
+          `Tap ${use} to get out`,
+          pad ? 'On foot, the left stick walks' : `On foot, ${n('down')}${n('left')}${n('up')}${n('right')} walks`,
         )
       case 'beacon':
-        return say(
-          touch ? 'Plant a beacon: BEACON, then pick its words' : `Plant a beacon: ${n('view')}, then pick its words`,
-          'Pilots landing here will read it',
-        )
+        return say(`Plant a beacon: ${n('view')}, then pick its words`, 'Pilots landing here will read it')
       case 'board':
-        return say(touch ? 'Back in: walk to your ship and tap ACTION' : `Back in: walk to your ship and press ${use}`)
+        return say(`Back in: walk to your ship and press ${use}`)
       case 'bank': {
         const carrying = L.hold.some((s) => !!s)
         scene.setGuide(!carrying && L.home ? { x: L.home.x, y: L.home.y, label: 'home' } : null)

@@ -4,8 +4,7 @@
 // signed with throwaway keys in the development namespace; then a few pilots' presence is fed to it.
 // A new Nomarchy pilot comes in (the sides' cards), flies, and the tool opens the galaxy map and a
 // world's card, the faction board, chat with the quick-chat wheel, the beacon's wheel on foot, the
-// pilots nearby, and the menu's relays. Then the same on a phone held sideways. To look at after
-// changing the persistent world's screens.
+// pilots nearby, and the menu's relays. To look at after changing the persistent world's screens.
 //
 //   npm i --no-save playwright-core     # once (it is not one of the game's dependencies)
 //   npm run dev                         # in another terminal (or use one already running)
@@ -103,8 +102,8 @@ async function step(label: string, what: string, run: () => Promise<unknown>) {
   }
 }
 
-async function play(label: string, viewport: { width: number; height: number }, touch: boolean) {
-  const context = await browser.newContext({ viewport, hasTouch: touch, isMobile: touch, deviceScaleFactor: touch ? 2 : 1 })
+async function play(label: string, viewport: { width: number; height: number }) {
+  const context = await browser.newContext({ viewport, deviceScaleFactor: 1 })
   await context.addInitScript(
     ([key, list]) => {
       if (!localStorage.getItem(key as string)) localStorage.setItem(key as string, list as string)
@@ -129,17 +128,14 @@ async function play(label: string, viewport: { width: number; height: number }, 
   }, presence)
   await wait(2500)
   await shot(page, `${label}-sky`)
-  const open = async (key: string, button: string) => {
-    if (touch) await page.getByRole('button', { name: button, exact: true }).click()
-    else {
-      // (a key pressed on a button is the button's: back to the game first, as a player would)
-      await page.evaluate(() => (document.activeElement as HTMLElement | null)?.blur())
-      await page.keyboard.press(key)
-    }
+  const open = async (key: string) => {
+    // (a key pressed on a button is the button's: back to the game first, as a player would)
+    await page.evaluate(() => (document.activeElement as HTMLElement | null)?.blur())
+    await page.keyboard.press(key)
     await wait(600)
   }
   // the maps: the galaxy, and a world's card
-  await open('m', 'Map')
+  await open('m')
   await page.getByRole('tab', { name: 'Galaxy' }).click()
   await wait(500)
   await shot(page, `${label}-galaxy`)
@@ -157,32 +153,31 @@ async function play(label: string, viewport: { width: number; height: number }, 
   })
   await page.getByRole('button', { name: 'Close' }).first().click()
   // the faction board, from the menu
-  await open('Escape', 'Menu')
+  await open('Escape')
   await page.getByRole('button', { name: 'Faction board' }).click()
   await wait(500)
   await shot(page, `${label}-board`)
   await page.getByRole('button', { name: 'Close' }).first().click()
   // chat, and the quick-chat wheel (a phrase picked by its number)
   await step(label, 'chat', async () => {
-    await open('Enter', 'Chat')
+    await open('Enter')
     await page.getByRole('button', { name: 'Quick' }).click({ timeout: 4000 })
     await wait(400)
     await shot(page, `${label}-quick`)
-    if (touch) await page.getByRole('button', { name: /hello/i }).click({ timeout: 4000 })
-    else await page.keyboard.press('1')
+    await page.keyboard.press('1')
     await wait(600)
     await shot(page, `${label}-said`)
   })
   // pilots nearby, and the relays, from the menu
   await step(label, 'pilots nearby', async () => {
-    await open('Escape', 'Menu')
+    await open('Escape')
     await page.getByRole('button', { name: 'Pilots nearby' }).click({ timeout: 4000 })
     await wait(400)
     await shot(page, `${label}-nearby`)
     await page.getByRole('button', { name: 'Close' }).first().click({ timeout: 4000 })
   })
   await step(label, 'the menu', async () => {
-    await open('Escape', 'Menu')
+    await open('Escape')
     await page.getByRole('heading', { name: /memory/i }).scrollIntoViewIfNeeded({ timeout: 4000 })
     await shot(page, `${label}-menu`)
   })
@@ -190,8 +185,7 @@ async function play(label: string, viewport: { width: number; height: number }, 
   await context.close()
 }
 
-await play('laptop', { width: 1280, height: 720 }, false)
-await play('phone', { width: 844, height: 390 }, true)
+await play('laptop', { width: 1280, height: 720 })
 await browser.close()
 console.log(errors.length ? `errors:\n${errors.join('\n')}` : 'no errors on the page')
 console.log(`screenshots in ${out}`)

@@ -231,10 +231,9 @@
   let clipShown = $state<{ clip: Clip; url: string } | null>(null)
   let clipBusy = false
   let clipTold = false
-  /** this browser can film its own picture; and this is a touch screen (where clips are off unless asked for: the filming is work a phone feels) */
+  /** this browser can film its own picture */
   const clipsCan = typeof window !== 'undefined' && !!clipKind()
-  const touchOnly = typeof window !== 'undefined' && window.matchMedia?.('(pointer: coarse)').matches === true
-  const clipsOn = $derived(clipsCan && stage === 'flying' && (save?.settings.clips ?? !touchOnly))
+  const clipsOn = $derived(clipsCan && stage === 'flying' && (save?.settings.clips ?? true))
   /** a newer build is about (the site's, or pilots flying one), unless put off for now */
   let newerWire = $state(0)
   let updateLater = $state(false)
@@ -277,7 +276,7 @@
   let chatLines = $state<ChatLine[]>([])
   let chatNow = $state(0)
   /** where the HUD is (FighterJetScene's onHud), and the view's height: the chat keeps clear of the HUD's corners */
-  let hudNow = $state({ pixel: 0, top: false, touch: false, cockpit: false, overhead: true })
+  let hudNow = $state({ pixel: 0, top: false, cockpit: false, overhead: true })
   let viewHigh = $state(768)
   /** the history kept, at most */
   const CHAT_KEPT = 120
@@ -400,7 +399,7 @@
     setEffectsVolume(save.settings.volume ?? 0.7)
     const stopListening = listenForUnlock()
     const tune = (music = createMusic())
-    // (a button pressed anywhere on the page's screens clicks; the touch controls over the sky do not)
+    // (a button pressed anywhere on the page's screens clicks)
     const clicked = (e: MouseEvent) => {
       const b = (e.target as HTMLElement | null)?.closest?.('button')
       if (b && !b.closest('[data-quiet]')) uiSound('select')
@@ -1412,18 +1411,16 @@
   }
 
   /** where the chat may be, in CSS px: under the HUD's top-left corner (the portrait; and the bars, the hold and the
-   * cruise drive where the HUD keeps to the top), above its bottom-left (the bars and the hold) or the touch buttons'
-   * columns, or the cockpit's panel; opened on a touch screen it goes down to the bottom (over the left thumb's
-   * buttons: the pilot is typing) */
+   * cruise drive where the HUD keeps to the top), above its bottom-left (the bars and the hold), or the cockpit's panel */
   const chatPlace = $derived.by(() => {
-    const { pixel, top, touch, cockpit, overhead } = hudNow
+    const { pixel, top, cockpit } = hudNow
     const px = pixel || 3
     // (the HUD's top-left: the portrait 20 art px from the edge; kept to the top, the bars, the hold and the drive under it)
     const above = Math.round(px * (top && !cockpit ? 50 : 24)) + 8
-    // (the HUD's bottom-left: the bars and the hold over them, 40 art px; the touch buttons' left column, two rows or three)
-    const below = touch ? (overhead ? 196 : 140) : cockpit ? Math.round(viewHigh * 0.36) : Math.round(px * 42) + 8
+    // (the HUD's bottom-left: the bars and the hold over them, 40 art px)
+    const below = cockpit ? Math.round(viewHigh * 0.36) : Math.round(px * 42) + 8
     const room = viewHigh - above - below
-    return { top: above, bottom: room < 70 ? Math.max(8, viewHigh - above - 70) : below, openBottom: touch ? 8 : below }
+    return { top: above, bottom: room < 70 ? Math.max(8, viewHigh - above - 70) : below, openBottom: below }
   })
 
   /** mute or block a pilot (or let him be heard again) */
@@ -1507,7 +1504,6 @@
       onChat={() => (chatOpen = !chatOpen)}
       onClip={clipThat}
       onPicture={filmed}
-      clips={clipsOn}
       onBeacon={() => {
         beaconWheel = true
         return true
@@ -1591,19 +1587,12 @@
       </ul>
     {/if}
     {#if prompt && !arrived && !chatOpen}
-      <TutorialPrompt
-        {prompt}
-        colour={FACTIONS[save.pilot.faction].colour}
-        onskip={skipStep}
-        onend={endTutorial}
-        narrow={inputKind === 'touch'}
-      />
+      <TutorialPrompt {prompt} colour={FACTIONS[save.pilot.faction].colour} onskip={skipStep} onend={endTutorial} />
     {:else if tip && !arrived && !chatOpen}
       <TutorialPrompt
         tip={tip.text}
         colour={FACTIONS[save.pilot.faction].colour}
         onclose={() => (tip = null)}
-        narrow={inputKind === 'touch'}
         bottom={insideNow?.place === 'hangar' || insideNow?.place === 'deck'}
       />
     {/if}

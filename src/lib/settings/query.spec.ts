@@ -22,7 +22,7 @@ describe('settings from the address', () => {
   })
 
   it('ignores what it does not know and what it cannot read', () => {
-    expect(from('wingmen=lots&trails=maybe&view=sideways&speed=&nonsense=1&touchControls=sometimes')).toEqual({})
+    expect(from('wingmen=lots&trails=maybe&view=sideways&speed=&nonsense=1')).toEqual({})
   })
 
   it('reads a world of the galaxy, and only one that is', () => {

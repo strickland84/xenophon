@@ -1,7 +1,7 @@
 // Close-ups of mining as the game draws it, to judge the beam, the brackets, the bar and the pops: the ship's laser
 // on an outcrop overhead, from behind and from the seat, the hand cutter on a vein, and a rock in a belt.
 //
-//   npx jiti tools/mining-shots.ts out.png [w h] [scale] [params as JSON, e.g. '{"hudScale":2,"hudTop":true}' for a phone]
+//   npx jiti tools/mining-shots.ts out.png [w h] [scale] [params as JSON, e.g. '{"hudScale":2}']
 //
 // Each row is one place, at moments through a cut; the whole frame at the page's size, each pixel drawn `scale` times.
 import { createScene, DEFAULT_PARAMS, STEP, theGalaxy, worldSettings } from '../src/lib/engine/index'

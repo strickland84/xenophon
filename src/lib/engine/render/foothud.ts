@@ -142,7 +142,7 @@ export function footHud(scene: SceneState, h: LoopHud) {
   } else if (foot.stage === WALKING && foot.prompt === 'front') {
     // (at the capture site of a world his side cannot reach yet)
     const y0 = top ? Math.round(H * 0.78) : H - EDGE - 24
-    // (broken into lines where the page's buttons leave less room)
+    // (broken into lines where the frame is too narrow for it)
     const lines = fitLines('OFF YOUR FRONT: A FLAG HERE WOULD NOT COUNT', clearWidth(scene))
     for (const [i, line] of lines.entries())
       text(midX - (textWidth(line) >> 1), y0 - (lines.length - 1 - i) * (textHeight() + 3), line, DIM, 1, k)

@@ -4,7 +4,7 @@
 //
 // Two ways of flying it, by what is in the pilot's hand (data/space.ts FLIGHT3D):
 //
-//   the keys, a stick, the touch buttons   a climb or a dive held pitches the nose for as long as it is held: on over the
+//   the keys, a stick                      a climb or a dive held pitches the nose for as long as it is held: on over the
 //                                          top and round, a whole loop. Let go near level, it comes level; on its back, it
 //                                          rolls upright, heading the way it was going; pointed well up or down, it stays
 //                                          so and flies there.
@@ -67,7 +67,7 @@ function readStick(scene: SceneState, dt: number, lead: Jet, limits: FlightLimit
     const t = clamp((ctl.pointerX - view.cx) / (W * 0.26), -1, 1)
     if (Math.abs(t) > 0.06) stick.turn = t
     flight.aside = Math.abs(t)
-    // (a climb or a dive held on the keys, a stick or the touch buttons wins over where the pointer is)
+    // (a climb or a dive held on the keys or a stick wins over where the pointer is)
     if (ctl.keyClimb !== 0 && !flight.carry) stick.pitch = ctl.keyClimb * sense
     else if (ctl.keyClimb !== 0) {
       stick.aiming = true

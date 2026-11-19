@@ -2,8 +2,8 @@
   // Preset phrases to pick from: the quick-chat phrases (eight) and the words a beacon can say (twelve). Never free text,
   // so neither can be used for abuse. A panel of the interface's own pieces (the fresh review: the old wheel was twelve
   // boxes of three sizes over one another, three of them without a key, its title written across Close): a grid of
-  // phrase buttons, each the same size with its key cap, three across on a laptop and four on a phone held sideways (two
-  // rows less, so all twelve fit its height). A tap, a click, the keys along the top row (1 to 9, then 0, - and =) or a
+  // phrase buttons, each the same size with its key cap, three across, and four on a short window (two rows less, so all
+  // twelve fit its height). A click, the keys along the top row (1 to 9, then 0, - and =) or a
   // controller (padnav.ts, through the panel) pick one.
   import Panel from './Panel.svelte'
   import UiIcon from './UiIcon.svelte'
@@ -55,7 +55,7 @@
 </Panel>
 
 <style>
-  /* three across on a laptop; on a short screen (a phone held sideways) four across, so twelve take three rows */
+  /* three across; on a short window four across, so twelve take three rows */
   .phrases {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }

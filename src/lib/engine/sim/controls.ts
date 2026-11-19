@@ -48,7 +48,7 @@ export interface Controls {
   /** the throttle keys held, −1 … +1; and how far the throttle is to move at the next step besides (the mouse's wheel) */
   keyThrottle: number
   throttleBy: number
-  /** the throttle set outright since the last step (a touch screen's lever), or −1 */
+  /** the throttle set outright since the last step, or −1 */
   throttleTo: number
   /** 0..1: how far the thrusters are opened */
   boost: number

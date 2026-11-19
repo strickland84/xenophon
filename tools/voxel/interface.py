@@ -186,8 +186,25 @@ def console_art():
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--console", action="store_true", help="only rebuild the interface, inventory and rank icons and pointers")
+parser.add_argument("--desktop", action="store_true", help="only the desktop computer's icon (the page a phone is shown)")
 args = parser.parse_args()
-made = console_art() + save_ui_icons() + save_inventory_and_ranks()
+
+
+def desktop_icon():
+    """The page a phone or a tablet is shown instead of the game (James, 2026-11-19: the game is for a desktop): the
+    model's desktop computer, a true shrink at 16 and 24 pixels (its own pixel-art pixels are about 32 of the picture's,
+    so no larger)."""
+    src = os.path.join(SRC, "icon-desktop-1.png")
+    return [
+        save(sprite(src, 14, 6, 16), os.path.join(UI, "desktop.png")),
+        save(sprite(src, 22, 8, 24), os.path.join(UI, "desktop-24.png")),
+    ]
+
+
+if args.desktop:
+    print("\n".join(desktop_icon()))
+    raise SystemExit(0)
+made = console_art() + save_ui_icons() + save_inventory_and_ranks() + desktop_icon()
 if args.console:
     raise SystemExit(0)
 

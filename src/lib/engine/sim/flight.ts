@@ -152,7 +152,7 @@ export function startRoll(scene: SceneState) {
   })
 }
 
-/** the throttle, moved by its keys held, a mouse's wheel, or set outright by a touch screen's lever: only while he is
+/** the throttle, moved by its keys held, a mouse's wheel, or set outright: only while he is
  * aboard his ship (on foot and inside, the same keys walk), and it has its power (sim/power.ts) */
 function stepThrottle(scene: SceneState, dt: number) {
   const ctl = scene.controls
@@ -294,7 +294,7 @@ export function flyLeader(scene: SceneState, dt: number, lead: Jet, introDone: b
         ctl.pointerY < view.steerY
           ? (view.steerY - ctl.pointerY) / Math.max(1, view.steerY)
           : -(ctl.pointerY - view.steerY) / Math.max(1, H - view.steerY)
-      // (a climb or a dive held on the keys, a stick or the touch buttons wins over where the pointer is: the first sortie's
+      // (a climb or a dive held on the keys or a stick wins over where the pointer is: the first sortie's
       // "Dive low: hold Q" did nothing from the seat while the mouse steered)
       const up =
         ctl.keyClimb !== 0 ? ctl.keyClimb * stick : clamp((stick * Math.sign(raw) * Math.max(0, Math.abs(raw) - 0.08)) / 0.92, -1, 1)
@@ -307,7 +307,7 @@ export function flyLeader(scene: SceneState, dt: number, lead: Jet, introDone: b
       flown = true
     } else {
       flown = true // overhead: keep the height it was flown to …
-      // (… climbing or diving as held meanwhile: a finger steers while the touch screen's Climb or Dive is held)
+      // (… climbing or diving as held meanwhile: the mouse steers while a climb or a dive is held on the keys)
       if (ctl.keyClimb !== 0) {
         flight.want = ctl.keyClimb * stick
         flight.altGoal += ctl.keyClimb * stick * climbMax * dt
@@ -327,7 +327,7 @@ export function flyLeader(scene: SceneState, dt: number, lead: Jet, introDone: b
     flown = true
   } else if (!p.wander) {
     // nobody flying, a pilot's ship (the page's): it holds its course and its height. (It wandered, and rolled now and
-    // then, as a ship on show does: a mouse left still five seconds, or a finger lifted, and the ship flew itself about)
+    // then, as a ship on show does: a mouse left still five seconds, and the ship flew itself about)
     flown = true
   } else {
     want =

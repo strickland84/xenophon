@@ -683,7 +683,7 @@ export const scenarios: Record<string, Script> = {
     return f.marks
   },
 
-  // the HUD with its text twice the size (a phone's small art pixels, or larger text asked for), in a fight:
+  // the HUD with its text twice the size (small art pixels, or larger text asked for), in a fight:
   // a raider on his tail hits him, the part of the bar just lost shows pale and drains away, the bars jolt,
   // and the warnings and the kill feed's spacing follow the text's height
   'the HUD at twice the size, hit and draining': (create, defaults) => {
@@ -2422,8 +2422,8 @@ export const firstFlights: Record<string, Script> = {
     return f.marks
   },
 
-  // overhead, a finger steering: the touch screen's Dive held takes the ship down, Climb takes it up, and it still turns
-  'overhead, a finger steering while diving and climbing': (create, defaults) => {
+  // overhead, the mouse steering: a dive held on the keys takes the ship down, a climb takes it up, and it still turns
+  'overhead, the mouse steering while diving and climbing': (create, defaults) => {
     const f = new Flight(create, defaults, { intro: false, skirmish: false, crash: false }, 200, 120)
     let high = 0
     let low = 9999
@@ -2432,7 +2432,7 @@ export const firstFlights: Record<string, Script> = {
       const s = f.scene
       const a = n * 0.02
       s.pointerMove(100 + Math.cos(a) * 60, 60 + Math.sin(a) * 30)
-      // (as the touch buttons send it: climb, with the stick's sense (invertY): −1 climbs, +1 dives)
+      // (as the keys send it: climb, with the stick's sense (invertY): −1 climbs, +1 dives)
       if (n === 10) s.setControls(held(0, -1))
       if (n === 250) s.setControls(held(0, 1))
       if (n === 480) s.setControls(held(0, 0))

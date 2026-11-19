@@ -198,7 +198,7 @@
       } else if (canSkip) finish()
     }
   }
-  /** a tap or click anywhere but a button skips (not on the still page, which is scrolled by a finger) */
+  /** a tap or click anywhere but a button skips (not on the still page, which is scrolled) */
   function onTap(e: PointerEvent) {
     if (still || !begun || !canSkip || (e.target as HTMLElement | null)?.closest('button')) return
     finish()

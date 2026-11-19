@@ -129,7 +129,7 @@ export interface Scene {
   setControls(held: HeldControls): void
   /** something the player pressed once: a full roll, land / board / use, or on to the next view (overhead → behind the jet → cockpit → overhead) */
   act(action: SceneAction): void
-  /** the throttle moved by so much (−1 … +1: a mouse's wheel, a notch at a time), or set outright (0..1: a touch screen's lever) */
+  /** the throttle moved by so much (−1 … +1: a mouse's wheel, a notch at a time), or set outright (0..1) */
   throttleBy(amount: number): void
   setThrottle(level: number): void
   replayIntro(): void

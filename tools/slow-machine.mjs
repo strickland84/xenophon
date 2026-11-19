@@ -1,12 +1,12 @@
 // How the game runs on a slow machine: the real page in Chromium with its processor slowed several times over (as a
-// mid-range phone's is beside this desktop), in every view and every kind of place: flying over a world, a fight, on
+// cheap laptop's is beside this desktop), in every view and every kind of place: flying over a world, a fight, on
 // foot, inside, space open and by a world, a gas giant and a black hole, and the way down. It counts the frames the
 // page actually shows (requestAnimationFrame, as the game draws) for a few seconds in each, and writes the frame rate
 // and the slowest frames. Run it against the built site (npm run build, then a build with VITE_PLAYTEST=1 served by
 // `npx vite preview`), as dev builds are slower:
 //
 //   npm i --no-save playwright-core     # once (it is not one of the game's dependencies)
-//   node tools/slow-machine.mjs [http://localhost:4173/] [throttle=4,6] [laptop|phone] [places, e.g. "down,fight"]
+//   node tools/slow-machine.mjs [http://localhost:4173/] [throttle=4,6] [places, e.g. "down,fight"]
 //
 // It puts the pilot in each place through window.__xenophon (development and playtest builds only).
 import fs from 'node:fs'
@@ -16,10 +16,11 @@ import { chromium } from 'playwright-core'
 
 const base = process.argv[2] ?? 'http://localhost:4173/'
 const rates = (process.argv[3] ?? '4,6').split(',').map(Number)
-const device = process.argv[4] ?? 'laptop'
+// (a device named where the places go, as older commands did, is passed over: it is a laptop's screen)
+const rest = process.argv.slice(4).filter((a) => a !== 'laptop' && a !== 'phone')
 // (only the places whose way there is named, if any are: fly, fight, foot, hangar, open, planet, giant, black hole, down;
 // whole: the whole way down in each view)
-const only = process.argv[5] ? process.argv[5].split(',') : null
+const only = rest[0] ? rest[0].split(',') : null
 const cache = path.join(os.homedir(), '.cache/ms-playwright')
 const chrome =
   process.env.CHROME ??
@@ -30,8 +31,7 @@ const chrome =
     .map((d) => path.join(cache, d, 'chrome-linux64/chrome'))
     .find((f) => fs.existsSync(f))
 const browser = await chromium.launch({ executablePath: chrome, args: ['--use-gl=swiftshader', '--enable-unsafe-swiftshader'] })
-const phone = device === 'phone'
-const size = phone ? { width: 844, height: 390 } : { width: 1366, height: 768 }
+const size = { width: 1366, height: 768 }
 
 /** the places: how to get there (a page address, then what to do in it), and the views to measure in each */
 const PLACES = [
@@ -52,7 +52,7 @@ const PLACES = [
 
 const rows = []
 for (const rate of rates) {
-  const context = await browser.newContext(phone ? { viewport: size, isMobile: true, hasTouch: true } : { viewport: size })
+  const context = await browser.newContext({ viewport: size })
   // (every repaint the page asks for, timed)
   await context.addInitScript(() => {
     const raf = window.requestAnimationFrame.bind(window)

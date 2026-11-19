@@ -245,19 +245,19 @@ describe('the guided first sortie', () => {
 
   it('every step can be skipped, and the whole of it ended at once', () => {
     const scene = newPilot('nomarchy')
-    const tut = new Tutorial({ side: 'nomarchy', input: () => 'touch', name: namer('touch'), stick: () => true })
+    const tut = new Tutorial({ side: 'nomarchy', input: () => 'ps', name: namer('ps'), stick: () => true })
     const seen: StepId[] = []
     while (!tut.done) {
       seen.push(tut.step)
       tut.skip(scene)
     }
     expect(seen).toEqual(STEPS.slice(0, -1))
-    const again = new Tutorial({ side: 'nomarchy', step: 'mine', input: () => 'touch', name: namer('touch'), stick: () => true })
+    const again = new Tutorial({ side: 'nomarchy', step: 'mine', input: () => 'ps', name: namer('ps'), stick: () => true })
     again.end(scene)
     expect(again.done).toBe(true)
-    // (touch words: the buttons' names)
-    expect(new Tutorial({ side: 'nomarchy', input: () => 'touch', name: namer('touch'), stick: () => true }).frame(scene).text).toMatch(
-      /press POWER to power up/i,
+    // (a controller's words: its buttons' names)
+    expect(new Tutorial({ side: 'nomarchy', input: () => 'ps', name: namer('ps'), stick: () => true }).frame(scene).text).toMatch(
+      /press D-PAD DOWN to power up/i,
     )
   })
 })

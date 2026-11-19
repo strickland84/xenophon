@@ -6,7 +6,7 @@
   // on the relays), and the smaller side's joining bonus; the rest is a tooltip away. A pilot who has
   // flown before is restored instead, from his pilot file or his key phrase (save/backup.ts); the title
   // opens the settings too, and the opening story again (IntroCrawl, shown once before it to a new pilot).
-  // Laid out for a phone held sideways first; the game flies itself behind. Each step slides in from the
+  // The game flies itself behind. Each step slides in from the
   // way it came (reduced motion: a fade).
   import { asset } from '$app/paths'
   import { onMount, tick } from 'svelte'

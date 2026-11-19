@@ -45,10 +45,6 @@ export const TAKES: Record<string, { text: string; seconds: number }> = {
     text: 'Your ship is docked at the station with its power off. Press down on the d-pad to power up. The screens take a couple of seconds to come on.',
     seconds: 7.84,
   },
-  'sortie-power-touch': {
-    text: 'Your ship is docked at the station with its power off. Tap the Power button to power up. The screens take a couple of seconds to come on.',
-    seconds: 8.32,
-  },
   'sortie-power-any': {
     text: 'Your ship is docked at the station with its power off. Press the power key shown in the box at the top. The screens take a couple of seconds to come on.',
     seconds: 8.96,
@@ -64,10 +60,6 @@ export const TAKES: Record<string, { text: string; seconds: number }> = {
   'sortie-launch-pad': {
     text: 'Now hold B to launch. B is your action button. It launches, lands, docks, and takes you down to worlds.',
     seconds: 7.68,
-  },
-  'sortie-launch-touch': {
-    text: 'Now hold the Action button to launch. Action launches, lands, docks, and takes you down to worlds.',
-    seconds: 6.72,
   },
   'sortie-launch-any': {
     text: 'Now hold your action key to launch. It launches, lands, docks, and takes you down to worlds.',
@@ -85,10 +77,6 @@ export const TAKES: Record<string, { text: string; seconds: number }> = {
     text: 'Press the Y button to change your view. Once to see the ship from behind, again for the cockpit, and once more to go back to the view from above.',
     seconds: 9.89,
   },
-  'sortie-look-touch': {
-    text: 'Tap More, then View, to change your view. Once to see the ship from behind, again for the cockpit, and once more to go back to the view from above.',
-    seconds: 9.44,
-  },
   'sortie-look-any': {
     text: 'Press your view key to change your view. Once to see the ship from behind, again for the cockpit, and once more to go back to the view from above.',
     seconds: 10.07,
@@ -104,10 +92,6 @@ export const TAKES: Record<string, { text: string; seconds: number }> = {
   'sortie-steer-pad': {
     text: "The arrow on screen points at your side's home world. Steer with the left stick, and fly until you're over it. The right stick sets the throttle.",
     seconds: 8.56,
-  },
-  'sortie-steer-touch': {
-    text: "The arrow on screen points at your side's home world. Drag a finger to steer, and fly until you're over it.",
-    seconds: 6.8,
   },
   'sortie-steer-any': {
     text: "The arrow on screen points at your side's home world. Steer towards it, and fly until you're over it.",
@@ -125,10 +109,6 @@ export const TAKES: Record<string, { text: string; seconds: number }> = {
     text: "You're over the world now. Hold B to put the nose down, and keep diving through its air until you're flying over the ground.",
     seconds: 7.04,
   },
-  'sortie-descend-touch': {
-    text: "You're over the world now. Hold Action to put the nose down, and keep diving through its air until you're flying over the ground.",
-    seconds: 7.2,
-  },
   'sortie-descend-any': {
     text: "You're over the world now. Hold your action key to put the nose down, and keep diving through its air until you're flying over the ground.",
     seconds: 7.12,
@@ -144,10 +124,6 @@ export const TAKES: Record<string, { text: string; seconds: number }> = {
   'sortie-dive-pad': {
     text: 'Push the left stick up to dive. You can only mine and land close to the ground, so get your height under ninety.',
     seconds: 6.96,
-  },
-  'sortie-dive-touch': {
-    text: 'Hold the Dive button. You can only mine and land close to the ground, so get your height under ninety.',
-    seconds: 6.32,
   },
   'sortie-dive-any': {
     text: 'Dive. You can only mine and land close to the ground, so get your height under ninety.',
@@ -165,10 +141,6 @@ export const TAKES: Record<string, { text: string; seconds: number }> = {
     text: "Three training drones are up ahead. They don't shoot back. Press left on the d-pad to target the one your nose is on. Press it again for the next, and hold it to let go. Your sights follow the enemy you've targeted, and so do your missiles.",
     seconds: 16.17,
   },
-  'sortie-target-touch': {
-    text: "Three training drones are up ahead. They don't shoot back. Tap Target to target the one your nose is on. Tap it again for the next, and hold it to let go. Your sights follow the enemy you've targeted, and so do your missiles.",
-    seconds: 13.17,
-  },
   'sortie-target-any': {
     text: "Three training drones are up ahead. They don't shoot back. Press your target key to target the one your nose is on. Press it again for the next, and hold it to let go. Your sights follow the enemy you've targeted, and so do your missiles.",
     seconds: 13.92,
@@ -184,10 +156,6 @@ export const TAKES: Record<string, { text: string; seconds: number }> = {
   'sortie-drones-pad': {
     text: 'Now hold the right trigger to fire your guns, and shoot all three down. Keep your nose on the one you have targeted, and the guns will help you aim.',
     seconds: 8.88,
-  },
-  'sortie-drones-touch': {
-    text: 'Now hold Fire to fire your guns, and shoot all three down. Keep your nose on the one you have targeted, and the guns will help you aim.',
-    seconds: 8.24,
   },
   'sortie-drones-any': {
     text: 'Now fire your guns, and shoot all three down. Keep your nose on the one you have targeted, and the guns will help you aim.',
@@ -205,10 +173,6 @@ export const TAKES: Record<string, { text: string; seconds: number }> = {
     text: "The marked rock is ore. Fly low over it and hold the left bumper to cut it with your mining laser. Then fly through the chunks that break off, and they're scooped into your hold.",
     seconds: 11.12,
   },
-  'sortie-mine-touch': {
-    text: "The marked rock is ore. Fly low over it and hold Mine to cut it with your mining laser. Then fly through the chunks that break off, and they're scooped into your hold.",
-    seconds: 10.24,
-  },
   'sortie-mine-any': {
     text: "The marked rock is ore. Fly low over it and hold your mining key to cut it with the laser. Then fly through the chunks that break off, and they're scooped into your hold.",
     seconds: 10.8,
@@ -225,10 +189,6 @@ export const TAKES: Record<string, { text: string; seconds: number }> = {
     text: 'Now land. Fly to the pad shown on screen and hold B, low over it. Any flat ground will do as well.',
     seconds: 7.36,
   },
-  'sortie-land-touch': {
-    text: 'Now land. Fly to the pad shown on screen and hold Action, low over it. Any flat ground will do as well.',
-    seconds: 8.32,
-  },
   'sortie-land-any': {
     text: 'Now land. Fly to the pad shown on screen and hold your action key, low over it. Any flat ground will do as well.',
     seconds: 7.92,
@@ -243,10 +203,6 @@ export const TAKES: Record<string, { text: string; seconds: number }> = {
   },
   'sortie-out-pad': {
     text: 'Tap B to climb out of your ship. On foot, you walk with the left stick.',
-    seconds: 4.8,
-  },
-  'sortie-out-touch': {
-    text: 'Tap Action to climb out of your ship. On foot, drag a finger to walk.',
     seconds: 4.8,
   },
   'sortie-out-any': {
@@ -265,10 +221,6 @@ export const TAKES: Record<string, { text: string; seconds: number }> = {
     text: 'Press Y to plant a beacon, and pick a message for it. Pilots who land here later will read it.',
     seconds: 5.76,
   },
-  'sortie-beacon-touch': {
-    text: 'Tap Beacon to plant a beacon, and pick a message for it. Pilots who land here later will read it.',
-    seconds: 6.4,
-  },
   'sortie-beacon-any': {
     text: 'Plant a beacon with your view key, and pick a message for it. Pilots who land here later will read it.',
     seconds: 5.84,
@@ -284,10 +236,6 @@ export const TAKES: Record<string, { text: string; seconds: number }> = {
   'sortie-board-pad': {
     text: 'Walk back to your ship and press B to climb in.',
     seconds: 3.04,
-  },
-  'sortie-board-touch': {
-    text: 'Walk back to your ship and tap Action to climb in.',
-    seconds: 3.51,
   },
   'sortie-board-any': {
     text: 'Walk back to your ship and press your action key to climb in.',
@@ -305,10 +253,6 @@ export const TAKES: Record<string, { text: string; seconds: number }> = {
     text: "Ore in your hold isn't yours until it's banked. If you're shot down, it spills on the ground for anyone to take. Hold B to take off, follow the home marker to one of your side's bases, and land on its pad. That banks your ore as credits.",
     seconds: 17.19,
   },
-  'sortie-bank-touch': {
-    text: "Ore in your hold isn't yours until it's banked. If you're shot down, it spills on the ground for anyone to take. Hold Action to take off, follow the home marker to one of your side's bases, and land on its pad. That banks your ore as credits.",
-    seconds: 17.11,
-  },
   'sortie-bank-any': {
     text: "Ore in your hold isn't yours until it's banked. If you're shot down, it spills on the ground for anyone to take. Take off, follow the home marker to one of your side's bases, and land on its pad. That banks your ore as credits.",
     seconds: 16.88,
@@ -324,10 +268,6 @@ export const TAKES: Record<string, { text: string; seconds: number }> = {
   'sortie-free-pad': {
     text: "That's the end of the training flight. Press Back for the map. The marked worlds have the richest ore today. Spend your credits at any of your side's bases, on better parts and ships.",
     seconds: 9.85,
-  },
-  'sortie-free-touch': {
-    text: "That's the end of the training flight. Tap More, then Map, for the map. The marked worlds have the richest ore today. Spend your credits at any of your side's bases, on better parts and ships.",
-    seconds: 13.41,
   },
   'sortie-free-any': {
     text: "That's the end of the training flight. Open the map: the marked worlds have the richest ore today. Spend your credits at any of your side's bases, on better parts and ships.",

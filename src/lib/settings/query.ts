@@ -2,7 +2,7 @@
 // touching the code: /?view=cockpit&timeOfDay=night&wingmen=2&flameStyle=realistic
 //
 // Every setting of the scene (see engine/params.ts) can be given by name, as can the
-// component's own: pixelSize, showHint, touchControls and volume. Anything unknown or malformed is
+// component's own: pixelSize, showHint and volume. Anything unknown or malformed is
 // ignored, and its default stands.
 
 import { DEFAULT_PARAMS, HULL_NAMES, theGalaxy } from '../engine'
@@ -13,7 +13,6 @@ import type { Wing } from '../net/wing'
 export type SceneSettings = Partial<SceneParams> & {
   pixelSize?: number
   showHint?: boolean
-  touchControls?: 'auto' | 'on' | 'off'
   volume?: number
 }
 
@@ -23,7 +22,6 @@ const CHOICES: Record<string, readonly string[]> = {
   hull: HULL_NAMES,
   timeOfDay: ['day', 'sunset', 'night'],
   flameStyle: ['pixel', 'realistic'],
-  touchControls: ['auto', 'on', 'off'],
   // (the worlds of the galaxy, ?world=w12, and the systems' space, ?world=s3)
   world: [...theGalaxy().worlds.map((w) => w.id), ...theGalaxy().systems.map((s) => `s${s.index}`)],
 }
@@ -33,7 +31,6 @@ const SHAPE: Record<string, number | boolean | string> = {
   ...DEFAULT_PARAMS,
   pixelSize: 0,
   showHint: true,
-  touchControls: 'auto',
   volume: 0.7,
 }
 

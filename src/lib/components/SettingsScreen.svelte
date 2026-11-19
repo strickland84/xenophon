@@ -566,14 +566,13 @@
               )}
               {@render choices(
                 'Clips',
-                settings.clips,
+                settings.clips ?? true,
                 [
-                  [null, 'As suits'],
                   [true, 'On'],
                   [false, 'Off'],
                 ] as [Settings['clips'], string][],
                 (v) => set({ clips: v }),
-                'The last seconds of play kept all the while, so Clip can hand you a short film of what just happened. On unless this is a touch screen',
+                'The last seconds of play kept all the while, so Clip can hand you a short film of what just happened',
               )}
             </div>
           </div>
@@ -660,7 +659,7 @@
 </Panel>
 
 <style>
-  /* the rail and the section beside it; on a short screen (a phone held sideways) the rail keeps only its icons */
+  /* the rail and the section beside it; on a short window the rail keeps only its icons */
   .settings {
     --item: 64px;
     --gap: 4px;
@@ -850,7 +849,7 @@
     }
   }
 
-  /* a volume: rising blocks over a range control the keys, a finger and the mouse all move */
+  /* a volume: rising blocks over a range control the keys and the mouse both move */
   .volume {
     display: flex;
     flex-wrap: wrap;

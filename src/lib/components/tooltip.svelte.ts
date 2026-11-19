@@ -1,11 +1,9 @@
-// The tooltips: one for the whole page, shown by whatever the player points at, moves the focus to or
-// holds a finger on, so a screen can show the picture, the bar and the figure and keep the words a
+// The tooltips: one for the whole page, shown by whatever the player points at or moves the focus to, so a screen can show the picture, the bar and the figure and keep the words a
 // moment away. `use:tip={...}` on anything gives it one; TooltipHost.svelte (once, in Game.svelte) draws
 // it, anchored to the thing and kept on the screen.
 //
 //   a mouse      on hover, after a short wait, gone when it leaves
 //   keys, a pad  on focus (the arrow keys and a controller move the focus), gone when it moves on
-//   a finger     a long press (the tap still does what it does; a long press does not also press it)
 
 import { untrack } from 'svelte'
 
@@ -36,7 +34,7 @@ export interface TipContent {
 }
 
 /** what is shown now, and where (the thing's place on the screen) */
-export const tipNow = $state<{ content: TipContent | null; rect: DOMRect | null; by: 'pointer' | 'focus' | 'touch'; n: number }>({
+export const tipNow = $state<{ content: TipContent | null; rect: DOMRect | null; by: 'pointer' | 'focus'; n: number }>({
   content: null,
   rect: null,
   by: 'pointer',
@@ -50,11 +48,11 @@ let timer = 0
 let pointerX = 0
 let pointerY = 0
 
-function show(node: HTMLElement | SVGElement, content: TipContent, by: 'pointer' | 'focus' | 'touch') {
+function show(node: HTMLElement | SVGElement, content: TipContent, by: 'pointer' | 'focus') {
   owner = node
   tipNow.content = content
   const r = node.getBoundingClientRect()
-  // (a large thing, a side's card, a map: by the pointer, or by its top for the keys and a finger)
+  // (a large thing, a side's card, a map: by the pointer, or by its top for the keys)
   const large = r.height > 140 || r.width > 420
   tipNow.rect = !large
     ? r
@@ -87,14 +85,12 @@ if (typeof window !== 'undefined')
   )
 if (typeof window !== 'undefined') window.addEventListener('steered', (e) => (steeredAt = e.timeStamp))
 
-/** the hover's wait before a tooltip shows, and a long press's */
+/** the hover's wait before a tooltip shows */
 const HOVER_WAIT = 320
-const PRESS_WAIT = 450
 
 /** gives an element a tooltip (null: none, for now) */
 export function tip(node: HTMLElement | SVGElement, content: TipContent | null) {
   let now = content
-  let longPressed = false
   const move = (e: Event) => {
     if (!(e instanceof PointerEvent)) return
     pointerX = e.clientX
@@ -103,58 +99,25 @@ export function tip(node: HTMLElement | SVGElement, content: TipContent | null) 
   const enter = (e: Event) => {
     if (!(e instanceof PointerEvent)) return
     move(e)
-    if (e.pointerType === 'touch' || !now) return
+    if (!now) return
     window.clearTimeout(timer)
     // (one tooltip already up: the next comes at once, as the pointer runs along a row)
     const wait = tipNow.content ? 40 : HOVER_WAIT
     timer = window.setTimeout(() => now && show(node, now, 'pointer'), wait)
   }
-  const leave = (e: Event) => {
-    if ((e as PointerEvent).pointerType !== 'touch') hide(node)
-  }
-  const down = (e: Event) => {
-    if ((e as PointerEvent).pointerType !== 'touch' || !now) return
-    longPressed = false
-    window.clearTimeout(timer)
-    timer = window.setTimeout(() => {
-      if (!now) return
-      longPressed = true
-      show(node, now, 'touch')
-    }, PRESS_WAIT)
-  }
-  const up = (e: Event) => {
-    if ((e as PointerEvent).pointerType !== 'touch') {
-      // (a click hides a hover's tooltip: the thing has been chosen)
-      hide(node)
-      return
-    }
-    window.clearTimeout(timer)
-    if (longPressed) window.setTimeout(() => hide(node), 1600)
-  }
-  const click = (e: Event) => {
-    // (a long press shows the tooltip and does not also press the button)
-    if (longPressed) {
-      e.preventDefault()
-      e.stopImmediatePropagation()
-      longPressed = false
-    }
-  }
+  // (a click hides a hover's tooltip: the thing has been chosen)
+  const leave = () => hide(node)
   const focus = (e: Event) => {
     // (only a focus the player moved with the keys or a controller: a click focuses too, and has its hover)
     if (now && node.matches(':focus-visible') && e.timeStamp - steeredAt < 800) show(node, now, 'focus')
   }
   const blur = () => hide(node)
-  const menu = (e: Event) => longPressed && e.preventDefault()
   node.addEventListener('pointerenter', enter)
   node.addEventListener('pointermove', move)
   node.addEventListener('pointerleave', leave)
-  node.addEventListener('pointerdown', down)
-  node.addEventListener('pointerup', up)
-  node.addEventListener('pointercancel', up)
-  node.addEventListener('click', click, true)
+  node.addEventListener('pointerup', leave)
   node.addEventListener('focus', focus)
   node.addEventListener('blur', blur)
-  node.addEventListener('contextmenu', menu)
   return {
     update(next: TipContent | null) {
       now = next
@@ -170,20 +133,9 @@ export function tip(node: HTMLElement | SVGElement, content: TipContent | null) 
       node.removeEventListener('pointerenter', enter)
       node.removeEventListener('pointermove', move)
       node.removeEventListener('pointerleave', leave)
-      node.removeEventListener('pointerdown', down)
-      node.removeEventListener('pointerup', up)
-      node.removeEventListener('pointercancel', up)
-      node.removeEventListener('click', click, true)
+      node.removeEventListener('pointerup', leave)
       node.removeEventListener('focus', focus)
       node.removeEventListener('blur', blur)
-      node.removeEventListener('contextmenu', menu)
     },
   }
-}
-
-/** shows a thing's tooltip for a moment, unasked (a touch button's name, the first time it is pressed) */
-export function flash(node: HTMLElement, content: TipContent, ms = 1600) {
-  show(node, content, 'touch')
-  window.clearTimeout(timer)
-  timer = window.setTimeout(() => hide(node), ms)
 }

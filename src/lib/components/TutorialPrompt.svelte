@@ -17,12 +17,10 @@
     onskip?: () => void
     onend?: () => void
     onclose?: () => void
-    /** the touch buttons are up the sides: keep between them */
-    narrow?: boolean
     /** sit at the bottom, over the help: inside the hangar and the deck, which are seen whole, the top is their stations */
     bottom?: boolean
   }
-  let { prompt = null, tip = '', colour, onskip, onend, onclose, narrow = false, bottom = false }: Props = $props()
+  let { prompt = null, tip = '', colour, onskip, onend, onclose, bottom = false }: Props = $props()
 
   const small = 'ui-btn ui-btn-small pointer-events-auto text-ink-dim'
   // (the buttons keep their touches from the scene under them)
@@ -38,9 +36,7 @@
   data-prompt={prompt?.step ?? 'tip'}
 >
   <div
-    class="box menu flex min-w-0 flex-col gap-2 border-2 bg-[#0b1023]/92 px-3 py-2.5 {narrow
-      ? 'max-w-[calc(100%-21rem)]'
-      : 'max-w-[44rem]'}"
+    class="box menu flex max-w-[44rem] min-w-0 flex-col gap-2 border-2 bg-[#0b1023]/92 px-3 py-2.5"
     style="border-color: {colour}; border-style: {prompt?.detour ? 'dashed' : 'solid'}; box-shadow: 0 6px 18px rgb(0 0 0 / 0.4)"
   >
     <div class="flex items-start gap-2">

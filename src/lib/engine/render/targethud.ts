@@ -247,7 +247,7 @@ interface CardBox {
   lines: { words: string; col: number }[]
 }
 
-/** where the card goes, and its lines: in the lower left over the bars (on a touch screen, the HUD kept to the top, under the radar on the right); null where there is no room */
+/** where the card goes, and its lines: in the lower left over the bars (in the cockpit, the HUD kept to the top, under the radar on the right); null where there is no room */
 function cardBox(scene: SceneState, h: LoopHud, info: TargetInfo): CardBox | null {
   const { top } = h
   const { w: W, h: H } = scene.screen

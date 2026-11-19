@@ -107,7 +107,7 @@
     {#if tab === 'hold'}
       {#if picture}
         <div class="ui-settle relative -mt-1 mb-4 h-36 overflow-hidden border-2 border-ink/15 max-sm:h-16" style="--i: 0">
-          <!-- (each of its pixels a whole number of CSS pixels, three across a laptop's panel and two on a phone: a strip of it
+          <!-- (each of its pixels a whole number of CSS pixels, three across a laptop's panel and two on a small window: a strip of it
           across the middle) -->
           <img
             src={asset(picture as Parameters<typeof asset>[0])}

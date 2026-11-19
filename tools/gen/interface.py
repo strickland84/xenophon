@@ -180,6 +180,8 @@ ICONS = {
     "sound": "a loudspeaker with sound waves",
     "picture": "a small framed landscape picture",
     "music": "two musical eighth notes joined by a thick beam",
+    # the page shown to a phone or a tablet instead of the game (it is for a desktop: James, 2026-11-19)
+    "desktop": "a desktop computer: a square monitor on a short stand, a flat keyboard in front of it and a mouse beside it",
     # the touch buttons
     "fire": "a gun crosshair reticle",
     "missile": "a missile pointing up with a small flame",

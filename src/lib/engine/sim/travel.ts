@@ -137,8 +137,8 @@ export function heldUp(scene: SceneState) {
 /**
  * Over a world of the galaxy, a pilot of a side climbs out towards space: at the top of its sky, a climb asked for
  * (the keys, a stick, the pointer from behind, or Use held, which climbs) takes the ship on up into the world's air
- * (flyAir), at once. From anywhere well clear of the ground the HUD offers Use for it (HOLD [F] SPACE: the way on a
- * touch screen, and for a pilot who would rather hold one button).
+ * (flyAir), at once. From anywhere well clear of the ground the HUD offers Use for it (HOLD [F] SPACE: for a pilot who
+ * would rather hold one button).
  */
 export function stepClimbOut(scene: SceneState) {
   const tr = scene.travel

@@ -198,6 +198,12 @@ MOCKUPS.update({
     "intro-begin": "the first screen of a pixel art space game on a wide laptop screen: a deep dark violet and navy night sky full of tiny stars and a faint nebula, a small gold sun glowing far off at the left edge and a small dim red sun at the right edge, and in the exact middle one single large wide rectangular button with hard square corners, a thick bright gold double border and a dark night-blue fill, a small gold loudspeaker icon at its left end, a soft gold glow around it, a thin short line of small dim cream blocky lettering under the button, nothing else, lots of empty dark space, minimal and clean",
 })
 
+# What a phone or a tablet is shown instead of the game (James, 2026-11-19: "this game is now purely intended for desktop
+# mouse and keyboard. If someone is on a narrow device like that just point them to the github and tell them to get a PC").
+MOCKUPS.update({
+    "desktop-only": "a pixel art space game's message screen on a tall narrow phone screen held upright: a deep dark violet and navy night sky full of tiny stars, a small gold sun glowing near the top left and a small dim red sun lower right, in the middle a chunky blocky pixel logo plate, under it a small pixel icon of a desktop computer monitor with a keyboard and a mouse in cream and gold, two short lines of small cream blocky lettering under that, and one wide rectangular button with hard square corners and a thin gold border near the bottom, lots of empty dark space, minimal and clean",
+})
+
 ap = argparse.ArgumentParser()
 ap.add_argument("names", nargs="*")
 ap.add_argument("--seed", type=int, default=1)

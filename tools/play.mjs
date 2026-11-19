@@ -1,7 +1,7 @@
 // Plays one sortie of the loop in a real browser, alone (?net=off), and writes screenshots:
 // a new pilot, landed at his side's base; lifts off; flies to the nearest ore and mines it;
-// flies home, lands and banks; opens the base's screen and sells. Then the same screens on a
-// phone held sideways, with the touch buttons. To look at after changing the loop or its screens.
+// flies home, lands and banks; opens the base's screen and sells. To look at after changing the
+// loop or its screens.
 //
 //   npm i --no-save playwright-core     # once (it is not one of the game's dependencies)
 //   npm run dev                         # in another terminal (or use one already running)
@@ -13,16 +13,6 @@ import fs from 'node:fs'
 import os from 'node:os'
 import path from 'node:path'
 import { chromium } from 'playwright-core'
-
-/** a touch button, opening More first when it is under it (as a player finds it) */
-async function tapButton(page, name) {
-  const b = page.getByRole('button', { name, exact: true })
-  if (!(await b.count())) {
-    await page.getByRole('button', { name: 'More', exact: true }).first().tap()
-    await page.waitForTimeout(250)
-  }
-  await page.getByRole('button', { name, exact: true }).first().tap()
-}
 
 const [out = 'play', base = 'http://localhost:5173/'] = process.argv.slice(2)
 fs.mkdirSync(out, { recursive: true })
@@ -129,17 +119,6 @@ async function fly(page, seconds, want, until) {
   await page.waitForTimeout(300)
   await shot(page, '8-base-supplies')
   await page.getByRole('button', { name: 'Close' }).click()
-}
-
-// ── a phone held sideways, with the touch buttons
-{
-  const context = await browser.newContext({ viewport: { width: 844, height: 390 }, hasTouch: true, isMobile: true, deviceScaleFactor: 2 })
-  const page = await newPilot(context, 'THUMBS')
-  await page.waitForTimeout(2500)
-  await shot(page, '9-phone-landed')
-  await tapButton(page, 'Bag')
-  await page.waitForTimeout(400)
-  await shot(page, '10-phone-base')
 }
 await browser.close()
 console.log(errors.length ? `errors:\n${errors.join('\n')}` : 'no errors on the page')

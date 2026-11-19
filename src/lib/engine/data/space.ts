@@ -26,7 +26,7 @@ export const SPACE_TOP = SPACE_Z + 900
  * Flying free in space. Nothing moves the ship but its pilot (James, 2026-11-18, of the first free flight: "spinning around
  * getting sucked down … very horrible and disorienting"; "I want no gravity or wonky pulling of my ship").
  *
- * The keys, a stick and the touch buttons pitch it for as long as they are held: `pitch`, radians a second with the stick
+ * The keys and a stick pitch it for as long as they are held: `pitch`, radians a second with the stick
  * hard over (a loop in about five seconds), taken up at `ease` (a share a second). Let go for `idle` seconds, a ship on
  * its back rolls upright, and one within `settle` radians of level comes level, at `level` a second for each radian it is
  * off; pointed further up or down than that it stays as it was pointed, and flies there (so a dive at a world is held).

@@ -2,14 +2,13 @@
 // a new pilot landed at his side's base goes into the hangar, walks to the loadout bench and opens it
 // (buys and fits flak, after being given credits by a bounty in his log), to the paint booth (a
 // pattern and an emblem), up to the deck and its shop, and aboard his ship to furnish it; then the
-// same hangar on a phone held sideways, walked with the touch stick. To look at after changing the
-// places inside or their screens.
+// whole hangar at 1366 by 768. To look at after changing the places inside or their screens.
 //
 //   npm i --no-save playwright-core     # once (it is not one of the game's dependencies)
 //   npm run dev                         # in another terminal (or use one already running)
 //   node tools/hangar.mjs out/ [http://localhost:5173/]
 //
-// It goes through the page as a player's keys and fingers would; it reads where the pilot stands
+// It goes through the page as a player's keys and mouse would; it reads where the pilot stands
 // from window.__xenophon, which only development builds have.
 import fs from 'node:fs'
 import os from 'node:os'
@@ -34,17 +33,16 @@ const shot = (page, name) => page.screenshot({ path: path.join(out, `${name}.png
 const inside = (page) => page.evaluate(() => window.__xenophon.scene.interior)
 
 /** a new pilot of the Nomarchy, with credits to spend (a save made before the page loads) */
-async function newPilot(context, tap = false) {
+async function newPilot(context) {
   const page = await context.newPage()
   page.on('pageerror', (e) => errors.push(String(e)))
   await page.goto(`${base}?net=off&tutorial=off`)
-  const press = (loc) => (tap ? loc.tap() : loc.click())
-  await press(page.getByRole('button', { name: 'Play' }))
+  await page.getByRole('button', { name: 'Play' }).click()
   await page.keyboard.type('HANGAR')
-  await press(page.getByRole('button', { name: 'Next' }))
-  await press(page.getByRole('button', { name: /Fly for The Nomarchy/ }))
+  await page.getByRole('button', { name: 'Next' }).click()
+  await page.getByRole('button', { name: /Fly for The Nomarchy/ }).click()
   await page.waitForTimeout(300)
-  await press(page.getByRole('button', { name: 'Done' }))
+  await page.getByRole('button', { name: 'Done' }).click()
   await page.waitForFunction(() => window.__xenophon)
   // (credits to spend: a bounty written into his log, and the page loaded again)
   await page.evaluate(() => {
@@ -66,7 +64,6 @@ async function hold(page, keys, ms) {
   await page.waitForTimeout(ms)
   for (const k of keys) await page.keyboard.up(k)
 }
-
 
 // ── a laptop's screen
 {
@@ -137,25 +134,6 @@ async function hold(page, keys, ms) {
     .catch(() => {})
   await page.waitForTimeout(1500)
   await shot(page, 'hangar-final')
-}
-
-// ── a phone held sideways: into the hangar with a tap, a walk with the stick
-{
-  const context = await browser.newContext({ viewport: { width: 844, height: 390 }, isMobile: true, hasTouch: true, deviceScaleFactor: 2 })
-  const page = await newPilot(context, true)
-  await page.getByRole('button', { name: 'Hangar', exact: true }).tap()
-  await page.waitForTimeout(600)
-  await shot(page, '11-phone-hangar')
-  // the stick: a finger down on the left and pushed up and left
-  const cdp = await context.newCDPSession(page)
-  const touch = (type, x, y) => cdp.send('Input.dispatchTouchEvent', { type, touchPoints: type === 'touchEnd' ? [] : [{ x, y }] })
-  await touch('touchStart', 200, 250)
-  for (let i = 1; i <= 8; i++) await touch('touchMove', 200 - i * 4, 250 - i * 4)
-  await page.waitForTimeout(1800)
-  await touch('touchEnd', 0, 0)
-  await page.waitForTimeout(300)
-  await shot(page, '12-phone-walked')
-  console.log('phone:', await inside(page))
 }
 
 await browser.close()

@@ -56,8 +56,8 @@ At a dock on the edge of the war, a new pilot sits in a cold ship, waiting for c
    never ships.
 4. **Fair.** Nothing is sold. Ranks, paint and furniture never add power, and no hull or fit is more than a little
    better than another.
-5. **For everyone.** It runs alone and offline, on a phone held sideways, with a keyboard, a controller or a touch
-   screen.
+5. **For a desktop.** It runs alone and offline, in a browser on a computer, with a mouse and a keyboard (or a
+   controller). A phone or a tablet is pointed here instead.
 6. **Open.** The code is GPL-3.0, and anyone can read it, change it and help make the game.
 
 ## Help wanted
@@ -127,8 +127,8 @@ Everything runs in the browser. The site is plain static files; there is no serv
 - **The tests** fly scripted flights and pin every frame's pixels, so a change that alters the picture by accident is
   caught.
 
-Built with SvelteKit (Svelte 5) and TypeScript. Phones held sideways are first class: every control has a touch
-version.
+Built with SvelteKit (Svelte 5) and TypeScript. It is made for a desktop with a mouse and a keyboard; a phone or a
+tablet is shown a page that says so (`src/lib/display/desktop.ts`).
 
 ## Running it
 

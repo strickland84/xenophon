@@ -31,7 +31,7 @@ const HEAT = pack(255, 150, 60)
 const EDGE = 4
 
 /** what the cruise drive's button is called on the device the use button is called so on (the HUD's prompts name it) */
-const CRUISE_KEY: Record<string, string> = { F: 'C', ACTION: '', O: 'R1', B: 'RB' }
+const CRUISE_KEY: Record<string, string> = { F: 'C', O: 'R1', B: 'RB' }
 
 /** the star kinds as a player reads them */
 const STAR_NAMES: Record<string, string> = {
@@ -92,7 +92,7 @@ export function airHud(scene: SceneState, h: LoopHud) {
   const w = theGalaxy().bodies[tr.from]
   const words = tr.kind === 'down' ? `DOWN TO ${w.name.toUpperCase()}` : 'UP TO SPACE'
   const y0 = top ? lowRow(scene) : H - EDGE - 21 - textHeight()
-  // (broken into lines where the page's buttons leave less room, rising from the row)
+  // (broken into lines where the frame is too narrow for it, rising from the row)
   const said = fitLines(words, clearWidth(scene))
   for (const [i, line] of said.entries())
     text((W >> 1) - (textWidth(line) >> 1), y0 - (said.length - 1 - i) * (textHeight() + 3), line, INK, 1, k)
@@ -129,7 +129,6 @@ export function spaceHud(scene: SceneState, h: LoopHud, radar: { x: number; y: n
     const words = sp.cruise === CRUISE_ON ? 'DROP OUT' : sp.cruise === CRUISE_SPOOL ? 'SPOOLING' : 'CRUISE'
     if (sp.cruise === CRUISE_SPOOL) text(midX - textWidth(words) / 2, y0, words, COURSE, 1, k)
     else {
-      // (on a touch screen the button says so itself)
       const key = CRUISE_KEY[scene.params.useKey] ?? 'C'
       if (key) promptLine(scene, { ...h, k: (k * 170) >> 8 }, [{ words, hold: false, col: DIM }], y0, key)
     }

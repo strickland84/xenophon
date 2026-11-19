@@ -418,7 +418,7 @@ function drawWords(scene: SceneState, f: Frame) {
   else if (still) line = still
   else if (it.spot) line = `[${key}] ${SPOT_WORDS[it.spot]}`
   if (!line) return
-  // (above the line of help along the page's bottom edge; broken into lines where the page's buttons leave less room)
+  // (above the line of help along the page's bottom edge; broken into lines where the frame is too narrow for it)
   const lines = fitLines(line, clearWidth(scene))
   // (where he stands on the screen: by the hangar's way out, at the bottom, the line was written over him; then it goes
   // over his head instead)

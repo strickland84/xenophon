@@ -24,7 +24,7 @@ describe('the tips after the first sortie', () => {
     // (no names float in space: the target key says what a thing is)
     expect(nextTip({ ...calm, zone: { kind: 'space', prompt: 'jump' } }, ['gate', 'cruise'], keys, 'pointer')?.id).toBe('target')
     expect(nextTip({ ...calm, zone: { kind: 'space', prompt: 'jump' } }, ['gate', 'cruise', 'target'], keys, 'pointer')).toBeNull()
-    expect(nextTip({ ...calm, zone: { kind: 'space', prompt: '' } }, [], namer('touch'), 'touch')?.text).toContain('CRUISE')
+    expect(nextTip({ ...calm, zone: { kind: 'space', prompt: '' } }, [], namer('ps'), 'ps')?.text).toContain('R1')
     expect(nextTip({ ...calm, loop: { stage: 'landed', base: { friendly: true } } }, [], keys, 'pointer')?.id).toBe('hangar')
     expect(nextTip({ ...calm, affordable: true }, [], keys, 'pointer')?.id).toBe('part')
     expect(nextTip({ ...calm, mates: 1 }, [], keys, 'pointer')?.id).toBe('squad')

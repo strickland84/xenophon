@@ -1,7 +1,7 @@
 <script lang="ts">
   // The maps (the map action: M, the touchpad or Select, or the Map button), in three dimensions and the game's own pixels
   // (StarMap.svelte, maps/starmap.ts; after art/mockups/map3d-galaxy-11.png and map3d-system-3.png): flown about with the
-  // mouse, a finger, the keys or a controller, turned, tilted and zoomed from the whole galaxy to one world's turning globe.
+  // mouse, the keys or a controller, turned, tilted and zoomed from the whole galaxy to one world's turning globe.
   //
   //   the system   the system the pilot is in, from above: its sun (or black hole) in the middle,
   //                the orbits, every body where it is now (they move on the shared clock), the
@@ -482,7 +482,7 @@
       </p>
     </div>
 
-    <!-- the card: a column beside the map; on a phone, over the map's right side when something is picked -->
+    <!-- the card: a column beside the map; on a narrow window, over the map's right side when something is picked -->
     {#if card}
       {#key card.title}
         <aside

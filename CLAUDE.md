@@ -41,8 +41,9 @@ Twin Stars on 2026-11-19 (it was Borrowed Stars). Built with SvelteKit (Svelte 5
 - **Code style:** Prettier and ESLint as configured (no semicolons, single quotes, 140
   columns). Comments say what a thing is for, in plain words, as the existing ones do.
 - **Plain words in names and comments.** Match the surrounding code's voice.
-- **Phones are first-class.** Every feature ships with touch controls and a layout that
-  works on a phone held sideways.
+- **Desktop only.** The game is for a desktop with a mouse and a keyboard (a game controller works too). A phone or a
+  tablet is shown a page that says so and links to the repo (`display/desktop.ts`, `DesktopOnly.svelte`). Add no touch
+  controls or phone layouts (James, 2026-11-19; it was "phones are first-class").
 - **Works alone.** With no other players and no network, everything still runs.
 
 ## Before saying work is done
@@ -122,6 +123,16 @@ tools/voxel/brand.py`; tries in `art/brand/`); the favicon is `mark-32.png`, the
   tests; templates; Dependabot; CODEOWNERS); Vercel (`vercel.json`, static `build/`) serves `main` at xenophon.me.
   James's private notes moved to `CLAUDE.local.md` (not in git).
 
+- **2026-11-19, desktop only** (James: "remove all MOBILE views and adjustments - this game is now purely intended for
+  desktop mouse and keyboard. If someone is on a narrow device like that just point them to the github and tell them to
+  get a PC"). `display/desktop.ts isDesktop` (a fine pointer and a screen 1,024 px on its long side; `?desktop=yes` gets
+  past) decides in `routes/+page.svelte`; anything else gets `DesktopOnly.svelte` (after `art/mockups/desktop-only.png`;
+  the icon `static/ui/desktop-24.png` by `uv run tools/voxel/interface.py --desktop`). Gone: `TouchButtons.svelte`, finger
+  steering (`input/pointer.ts` is the mouse's), the `touch` InputKind and every touch wording in the help, prompts, tips
+  and the narrator's lines (the sortie's `touch` voice and its fifteen recordings), the scene's `hudTop` and `hudSides`
+  (`clearWidth` is the frame less 16 px), clips off on touch, the tooltips' long press, the maps' pinch,
+  `?touchControls`, `tools/phone-check.mjs` and the tools' phone runs. Controllers stay. Every entry below that names
+  the touch screen's buttons is of how it was. The plan's sections 16 ("Desktop only") and 25 (decision 11) have it.
 - **2026-11-19, T targets what the ship aims at, and far ships** (James: "I want T to target the nearest thing to your
   crosshair or essentially where the ship is aiming"; two ships in the distance could not be picked). `sim/target.ts
 candidates` orders by how far a thing's middle lies off the guns' line on the frame (`aimOnFrame`, `offAim`; `TARGET`
@@ -962,7 +973,7 @@ tools/space.mjs out/ <url>` plays space in a browser (laptop, phone).
   quiet flight through a home system, an ambush at a gate, a derelict cleared and staying clear, a patrol
   defending its world, a loaded ship chased and escaping; the flights before them are flown with
   `locals: false`, the scripted flights' default, and keep their pictures; two of Phase 9, `tutorial/flights.spec.ts`:
-  training drones with the guide, a finger steering while diving and climbing; twelve of Phase 8, `ships/flights.spec.ts`: flak
+  training drones with the guide, the mouse steering while diving and climbing; twelve of Phase 8, `ships/flights.spec.ts`: flak
   fitted and fired, a laser and a cannon, missile racks, mines on a chaser, a ship repainted, every
   hull fitted, the hangar and deck walked, a fighter's and a hauler's rooms, furniture placed, a
   squad's slipstream, gear on an ice world); `data/loadout.spec.ts` tries every fit of every hull; earlier: (five of the persistent world,

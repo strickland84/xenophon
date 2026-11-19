@@ -153,7 +153,7 @@ export function drawUpHud(scene: SceneState, f: Frame) {
   // ── the warning: over the middle of the frame, red and blinking, on a dark band, broken into lines where it must be
   const warn = warningOf(scene)
   if (!warn) return
-  const lines = fitLines(warn, Math.min(W - 16, clearWidth(scene)))
+  const lines = fitLines(warn, clearWidth(scene))
   // (a fifth of the way down; in a small frame, under the lines top left where it would cross them)
   const wide = lines.reduce((w, l) => Math.max(w, textWidth(l)), 0)
   const hudW = Math.max(bw, textWidth(`AUTOPILOT ${speed}${cruise}`), textWidth(`[${key}] TO THE SEAT`))

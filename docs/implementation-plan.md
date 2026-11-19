@@ -2283,15 +2283,31 @@ link. Clips are on where there is a mouse and off on a touch screen unless turne
 work a phone feels); the key is said once a session, after the first bounty. `node tools/clip.mjs out/ <url>` takes
 one in a browser it starts itself and checks it; pictures `docs/art/gen/clip-panel.png`, `clip-frame.png`.
 
-### Touch
+### Desktop only (2026-11-19)
 
-Phones and tablets are first-class, alongside mouse and keys and controllers.
+The game is for a desktop with a mouse and a keyboard (a game controller works too). James: "this game is now purely
+intended for desktop mouse and keyboard. If someone is on a narrow device like that just point them to the github and
+tell them to get a PC". Anything else (`display/desktop.ts isDesktop`: no mouse or other fine pointer, or a screen under
+1,024 px on its long side; `?desktop=yes` lets a tool past) is shown `DesktopOnly.svelte` instead of the game, after
+`art/mockups/desktop-only.png`: the opening story's sky, the wordmark, the model's desktop computer
+(`static/ui/desktop-24.png`), two lines, and a button to the code on GitHub. Nothing of the game starts behind it.
 
-- Every feature ships with touch controls: flying, fighting, walking, mining, menus,
+Taken out: the touch screen's buttons (`TouchButtons.svelte`), steering and walking with a finger (`input/pointer.ts` is
+the mouse's alone), the help, prompts, tips and the narrator's lines worded for touch (the `touch` voice of the first
+sortie, fifteen lines, and its recordings), the HUD keeping to the top and its prompts between the buttons (the scene's
+`hudTop` and `hudSides`; a line too wide for the frame itself is still broken), the clips being off on a touch screen,
+the tooltips' long press, the maps' pinch, `?touchControls`, and `tools/phone-check.mjs` and the browser tools' phone
+runs. Screens still fit a short or narrow window. The section below is of how it was.
+
+### Touch (as it was, before 2026-11-19)
+
+Phones and tablets were first-class, alongside mouse and keys and controllers.
+
+- Every feature shipped with touch controls: flying, fighting, walking, mining, menus,
   inventory, the maps and the character creator.
-- Every screen is laid out for a phone held sideways first, then scaled up.
-- On foot, a virtual stick moves the pilot and buttons appear for what is in reach.
-- Menus use large targets and tap-to-move in the inventory, never drag only.
+- Every screen was laid out for a phone held sideways first, then scaled up.
+- On foot, a virtual stick moved the pilot and buttons appeared for what was in reach.
+- Menus used large targets and tap-to-move in the inventory, never drag only.
 
 ### Accessibility
 
@@ -3058,7 +3074,7 @@ the way down; both are the globe and the world drawn in perspective.
 
 - Built in Phase 9: the first sortie flown by a scripted stranger who only does what the prompts say,
   both sides, and shot down half way (`tutorial/tutorial.spec.ts`); two scripted flights
-  (`tutorial/flights.spec.ts`: training drones with the guide on each, a finger steering while diving
+  (`tutorial/flights.spec.ts`: training drones with the guide on each, the mouse steering while diving
   and climbing); a save kept and brought back by file, by phrase, and from a sealed copy on relays in
   memory with only the phrase (`save/backup.spec.ts`); keys and controller buttons remapped
   (`input/input.spec.ts`); an old build hearing a newer one's presence (`net/chronicle.spec.ts`); the
@@ -3302,8 +3318,11 @@ These are the choices I most need from you. My proposal is given for each.
 9. **Friendly fire.** Decided: off.
 10. **Changing faction.** Decided: permanent for a pilot. A new pilot can choose again.
     Factions get strong identities and their own races.
-11. **Touch support.** Decided: phones and tablets are first-class. Every feature ships
-    with touch controls.
+11. **Touch support.** Decided again, 2026-11-19 (James: "this game is now purely intended for desktop mouse and
+    keyboard. If someone is on a narrow device like that just point them to the github and tell them to get a PC"):
+    a desktop with a mouse and a keyboard only (a game controller still works). A phone or a tablet is shown a page
+    that says so and links to the code (section 16, "Desktop only"). It was: phones and tablets first-class, every
+    feature with touch controls.
 12. **Order.** Decided: loop before galaxy, as in the roadmap.
 13. **Number of factions.** Decided: two.
 14. **Ships.** Decided: spaceships, not jets, and the demo's jet is scrapped. 8 to 10 base

@@ -1,15 +1,14 @@
 // The stranger test, as far as it goes without a stranger: a fresh pilot's whole first session in a
 // real browser, from the title to the galaxy map, played by a scripted player who does only what the
 // prompt on the screen says, through the page as a player would: on a laptop with the keys and the
-// mouse (the mouse pointed where he wants to go, its button for the guns), and on a phone held
-// sideways with the touch buttons and a finger. He reads the prompt's words, finds the key or
-// button they name, and does that; where to steer he takes from what the HUD shows (the arrow, the
+// mouse (the mouse pointed where he wants to go, its button for the guns). He reads the prompt's
+// words, finds the key or button they name, and does that; where to steer he takes from what the HUD shows (the arrow, the
 // guide's mark, HOME). It writes how long each step took, where he was slow, and a screenshot of
 // each step.
 //
 //   npm i --no-save playwright-core     # once (it is not one of the game's dependencies)
 //   npm run dev                         # in another terminal (or use one already running)
-//   node tools/first-session.mjs out/ [laptop|phone|both] [http://localhost:5173/]
+//   node tools/first-session.mjs out/ [http://localhost:5173/]
 //
 // What the HUD shows is read through window.__xenophon (development builds only): where the
 // ship, the course's body, the drones and the ore are, and which way the screen is turned.
@@ -18,7 +17,10 @@ import os from 'node:os'
 import path from 'node:path'
 import { chromium } from 'playwright-core'
 
-const [out = 'first-session', which = 'both', base = 'http://localhost:5173/'] = process.argv.slice(2)
+// (a device named before the address, as older commands did, is passed over: it is a laptop)
+const [out = 'first-session', base = 'http://localhost:5173/'] = process.argv
+  .slice(2)
+  .filter((a) => !['laptop', 'phone', 'both'].includes(a))
 fs.mkdirSync(out, { recursive: true })
 const cache = path.join(os.homedir(), '.cache/ms-playwright')
 const chrome =
@@ -84,31 +86,27 @@ const offNose = (v, x, y) => {
 }
 
 async function play(device) {
-  const phone = device === 'phone'
-  const context = await browser.newContext(
-    phone ? { viewport: { width: 844, height: 390 }, isMobile: true, hasTouch: true, deviceScaleFactor: 1 } : { viewport: { width: 1280, height: 720 } },
-  )
+  const W = 1280
+  const H = 720
+  const context = await browser.newContext({ viewport: { width: W, height: H } })
   const page = await context.newPage()
   const errors = []
   page.on('pageerror', (e) => errors.push(String(e)))
   const shot = (name) => page.screenshot({ path: path.join(out, `${device}-${name}.png`) })
-  const press = (loc) => (phone ? loc.tap() : loc.click())
 
   // ── the first screens: Play, a callsign, a side, a pilot
   const started = Date.now()
   await page.goto(`${base}?net=off&intro=off`)
-  await press(page.getByRole('button', { name: 'Play' }))
-  await page.keyboard.type(phone ? 'THUMBS' : 'STRANGER')
-  await press(page.getByRole('button', { name: 'Next' }))
-  await press(page.getByRole('button', { name: /Fly for The Nomarchy/ }))
-  await press(page.getByRole('button', { name: 'Done' }))
+  await page.getByRole('button', { name: 'Play' }).click()
+  await page.keyboard.type('STRANGER')
+  await page.getByRole('button', { name: 'Next' }).click()
+  await page.getByRole('button', { name: /Fly for The Nomarchy/ }).click()
+  await page.getByRole('button', { name: 'Done' }).click()
   await page.waitForFunction(() => window.__xenophon, null, { timeout: 30000 })
-  const W = phone ? 844 : 1280
-  const H = phone ? 390 : 720
   const cx = W / 2
   const cy = H / 2
 
-  // ── his hands: keys held, the mouse, and on a phone fingers on the buttons and the screen
+  // ── his hands: keys held, and the mouse
   const keysDown = new Set()
   const hold = async (code, on) => {
     if (on && !keysDown.has(code)) {
@@ -132,64 +130,16 @@ async function play(device) {
       await (down ? page.mouse.down() : page.mouse.up())
     }
   }
-  const cdp = phone ? await context.newCDPSession(page) : null
-  let finger = null
-  const steerFinger = async (x, y) => {
-    // (whole pixels: a touch at a fraction of one comes to the page at 0, 0)
-    x = Math.round(x)
-    y = Math.round(y)
-    const type = finger ? 'touchMove' : 'touchStart'
-    finger = { x, y }
-    await cdp.send('Input.dispatchTouchEvent', { type, touchPoints: [{ x, y, id: 1 }] })
-  }
-  const liftFinger = async () => {
-    if (!finger) return
-    finger = null
-    await cdp.send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] })
-  }
-  const buttonsHeld = new Set()
-  const touchButton = async (label, on) => {
-    let b = page.getByRole('button', { name: new RegExp(`^${label}(: hold)?$`, 'i') }).first()
-    // (what is not always on the screen is under More, as a player finds it)
-    if (!(await b.count())) {
-      await page.getByRole('button', { name: 'More', exact: true }).first().dispatchEvent('click')
-      await page.waitForTimeout(250)
-      b = page.getByRole('button', { name: new RegExp(`^${label}(: hold)?$`, 'i') }).first()
-    }
-    if (on === undefined) {
-      await b.dispatchEvent('pointerdown', { pointerId: 9, pointerType: 'touch', isPrimary: false })
-      await b.dispatchEvent('pointerup', { pointerId: 9, pointerType: 'touch', isPrimary: false })
-      await b.dispatchEvent('click')
-      return
-    }
-    if (on && !buttonsHeld.has(label)) {
-      buttonsHeld.add(label)
-      await b.dispatchEvent('pointerdown', { pointerId: 9, pointerType: 'touch', isPrimary: false })
-    } else if (!on && buttonsHeld.has(label)) {
-      buttonsHeld.delete(label)
-      await b.dispatchEvent('pointerup', { pointerId: 9, pointerType: 'touch', isPrimary: false })
-    }
-  }
-  /** points (the mouse, or a finger) the way to steer, at a screen bearing; `fire` with the mouse's button */
+  /** points the mouse the way to steer, at a screen bearing; `fire` with its button */
   const pointAt = async (screenBearing, fire = false) => {
-    // (well out from the ship, which the camera trails a little: a finger keeps clear of the buttons in the corners and down the sides)
-    const r = phone ? 300 : Math.min(W, H) * 0.3
-    let x = cx + Math.sin(screenBearing) * r
-    let y = cy - Math.cos(screenBearing) * r
-    if (phone) {
-      // (clear of the buttons: the row at the top, the columns down each side)
-      const k = Math.min(1, 240 / Math.max(1, Math.abs(x - cx)), (y < cy ? 130 : 170) / Math.max(1, Math.abs(y - cy)))
-      x = cx + (x - cx) * k
-      y = cy + (y - cy) * k
-    }
-    if (phone) await steerFinger(x, y)
-    else await mouse(x, y, fire)
+    // (well out from the ship, which the camera trails a little)
+    const r = Math.min(W, H) * 0.3
+    await mouse(cx + Math.sin(screenBearing) * r, cy - Math.cos(screenBearing) * r, fire)
   }
-  /** Action held (F, or the Action button), or let go */
-  const action = async (on) => (phone ? touchButton('Action', on) : hold('KeyF', on))
-  // (the mining laser: its own key, R, or the touch screen's Mine, shown while ore is in reach)
-  const mineHold = async (on) =>
-    phone ? (on || buttonsHeld.has('Mine') ? touchButton('Mine', on && (await page.getByRole('button', { name: 'Mine: hold' }).count()) > 0) : null) : hold('KeyR', on)
+  /** Action held (F), or let go */
+  const action = async (on) => hold('KeyF', on)
+  // (the mining laser: its own key, R)
+  const mineHold = async (on) => hold('KeyR', on)
 
   // ── the stranger reads and does
   const steps = []
@@ -234,7 +184,7 @@ async function play(device) {
       let sh = v.me.heading + v.yaw
       sh -= Math.PI * 2 * Math.round(sh / (Math.PI * 2))
       let w = want - Math.PI * 2 * Math.round(want / (Math.PI * 2))
-      console.log(device, v.step, (Date.now() - started) / 1000, 'screen heading', sh.toFixed(2), 'want', w.toFixed(2), 'finger', JSON.stringify(finger))
+      console.log(device, v.step, (Date.now() - started) / 1000, 'screen heading', sh.toFixed(2), 'want', w.toFixed(2))
     }
     // let go of everything not wanted this moment (each branch takes what it needs again)
     let wantAction = false
@@ -247,12 +197,12 @@ async function play(device) {
     } else if (/call another/.test(t)) wantAction = true
     else if (/press (p|power) to power up/.test(t)) {
       // (once: a second press switches it off again)
-      if (n % 20 === 0 && v.power === 'off') phone ? await touchButton('Power') : await tap('KeyP')
+      if (n % 20 === 0 && v.power === 'off') await tap('KeyP')
     }
     // (held until the ship goes: let go too soon, landed, a hand climbs out)
     else if (/hold (f|action) to (launch|take off)/.test(t)) wantAction = true
     else if (/see your ship from behind|again: the cockpit|again: back above/.test(t)) {
-      if (n % 20 === 0) phone ? (await touchButton('More'), await touchButton('View')) : await tap('KeyV')
+      if (n % 20 === 0) await tap('KeyV')
     } else if (/follow the arrow/.test(t) && v.course) steer = bearing(v, v.course.x, v.course.y)
     else if (/to go down to it/.test(t)) wantAction = n % 30 < 24
     else if (/dive low/.test(t)) {
@@ -279,26 +229,20 @@ async function play(device) {
       if (pad && v.stage === 'flying') steer = bearing(v, pad.x, pad.y)
       wantAction = v.lprompt === 'land' || v.lprompt === 'pad' || v.stage === 'landing'
     } else if (/to get out/.test(t)) {
-      if (n % 25 === 0) phone ? await touchButton('Action') : await tap('KeyF')
+      if (n % 25 === 0) await tap('KeyF')
     } else if (/plant a beacon/.test(t)) {
       if (v.wheel) {
-        if (wheelPicked++ % 10 === 0)
-          phone ? await press(page.locator('section[aria-label="Your beacon says"] button').nth(1)) : await tap('Digit1')
-      } else if (n % 25 === 0) phone ? (await touchButton('More'), await touchButton('Beacon')) : await tap('KeyV')
+        if (wheelPicked++ % 10 === 0) await tap('Digit1')
+      } else if (n % 25 === 0) await tap('KeyV')
     } else if (/back in: walk to your ship|back to your ship/.test(t) && v.parked) {
-      // walk: the keys (or the stick, a finger held from the middle) towards the ship as the screen shows it
+      // walk: the keys towards the ship as the screen shows it
       const b = bearing(v, v.parked.x, v.parked.y)
       const d = Math.hypot(v.parked.x - v.me.x, v.parked.y - v.me.y)
-      if (phone) {
-        if (d > 5) await steerFinger(cx + Math.sin(b) * 30, cy - Math.cos(b) * 30)
-        else await liftFinger()
-      } else {
-        await hold('KeyW', d > 5 && Math.cos(b) > 0.38)
-        await hold('KeyS', d > 5 && Math.cos(b) < -0.38)
-        await hold('KeyD', d > 5 && Math.sin(b) > 0.38)
-        await hold('KeyA', d > 5 && Math.sin(b) < -0.38)
-      }
-      if (v.footPrompt === 'board' && n % 15 === 0) phone ? await touchButton('Action') : await tap('KeyF')
+      await hold('KeyW', d > 5 && Math.cos(b) > 0.38)
+      await hold('KeyS', d > 5 && Math.cos(b) < -0.38)
+      await hold('KeyD', d > 5 && Math.sin(b) > 0.38)
+      await hold('KeyA', d > 5 && Math.sin(b) < -0.38)
+      if (v.footPrompt === 'board' && n % 15 === 0) await tap('KeyF')
     } else if (/fly home/.test(t) && v.home) {
       steer = bearing(v, v.home.x, v.home.y)
       wantAction = v.lprompt === 'pad' || v.stage === 'landing'
@@ -314,21 +258,12 @@ async function play(device) {
       turning = Math.abs(off) > 0.3 ? Math.sign(off) : 0
       steer = nose + Math.max(-1.1, Math.min(1.1, off * 1.5))
     }
-    // (a finger that began walking lifts when walking is over: a phone's stick and steering are one finger)
-    if (phone && !/walk to your ship|back to your ship/.test(t)) {
-      if (steer !== null) await pointAt(steer)
-      else await liftFinger()
-    } else if (!phone && steer !== null) await pointAt(steer, wantFire)
-    else if (!phone && mouseDown) await mouse(cx, cy, false)
-    if (!/walk to your ship|back to your ship/.test(t) && !phone) for (const k of ['KeyA', 'KeyD']) await hold(k, false)
-    if (phone) {
-      await touchButton('Fire', wantFire)
-      await touchButton('Dive', wantDive && (await page.getByRole('button', { name: 'Dive: hold' }).count()) > 0)
-    } else {
-      // (S dives, as a stick pushed, and walks back on foot; W climbs and walks forward)
-      await hold('KeyS', wantDive || (/walk to your ship|back to your ship/.test(t) && keysDown.has('KeyS')))
-      await hold('KeyW', /walk to your ship|back to your ship/.test(t) && keysDown.has('KeyW'))
-    }
+    if (steer !== null) await pointAt(steer, wantFire)
+    else if (mouseDown) await mouse(cx, cy, false)
+    if (!/walk to your ship|back to your ship/.test(t)) for (const k of ['KeyA', 'KeyD']) await hold(k, false)
+    // (S dives, as a stick pushed, and walks back on foot; W climbs and walks forward)
+    await hold('KeyS', wantDive || (/walk to your ship|back to your ship/.test(t) && keysDown.has('KeyS')))
+    await hold('KeyW', /walk to your ship|back to your ship/.test(t) && keysDown.has('KeyW'))
     await action(wantAction)
     await mineHold(wantMine)
     await page.waitForTimeout(50)
@@ -339,16 +274,13 @@ async function play(device) {
   return { device, total, steps, slow, errors }
 }
 
-const runs = which === 'both' ? ['laptop', 'phone'] : [which]
-for (const d of runs) {
-  const r = await play(d)
-  console.log(`\n${d}: ${r.total.toFixed(0)} s from Play to the galaxy map`)
-  let prev = 0
-  for (const s of r.steps) {
-    console.log(`  ${s.at.toFixed(0).padStart(4)} s  ${s.step.padEnd(8)} (+${(s.at - prev).toFixed(0)} s)  ${s.text ?? ''}`)
-    prev = s.at
-  }
-  if (r.slow.length) console.log(`  slow: ${r.slow.join(', ')}`)
-  if (r.errors.length) console.log(`  errors: ${r.errors.join(' | ')}`)
+const r = await play('laptop')
+console.log(`\nlaptop: ${r.total.toFixed(0)} s from Play to the galaxy map`)
+let prev = 0
+for (const s of r.steps) {
+  console.log(`  ${s.at.toFixed(0).padStart(4)} s  ${s.step.padEnd(8)} (+${(s.at - prev).toFixed(0)} s)  ${s.text ?? ''}`)
+  prev = s.at
 }
+if (r.slow.length) console.log(`  slow: ${r.slow.join(', ')}`)
+if (r.errors.length) console.log(`  errors: ${r.errors.join(' | ')}`)
 await browser.close()
