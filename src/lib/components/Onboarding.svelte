@@ -42,8 +42,21 @@
     note?: string
     /** he came by another pilot's link, to fly on his wing (net/wing.ts): his side is that pilot's, and he is asked for a callsign and no more (a look is made for him; the menu's Your pilot changes it) */
     invite?: { side: FactionId } | null
+    /** the opening story is being told over the title page: the page says nothing until it is gone */
+    hushed?: boolean
   }
-  let { ondone, onrestore, onphrase, onsettings, onstory, counts = null, start = 'title', note = '', invite = null }: Props = $props()
+  let {
+    ondone,
+    onrestore,
+    onphrase,
+    onsettings,
+    onstory,
+    counts = null,
+    start = 'title',
+    note = '',
+    invite = null,
+    hushed = false,
+  }: Props = $props()
   /** the side with fewer pilots now, which pays a joining bonus (none while they are level, or not known) */
   const smaller = $derived(
     counts && counts.nomarchy !== counts.anarchoi ? (counts.nomarchy < counts.anarchoi ? 'nomarchy' : 'anarchoi') : null,
@@ -74,12 +87,14 @@
   onMount(() => {
     void go(step)
     // (the title page's first words: the narrator says the name and its line, once the sound is on, unless the opening
-    // story has just said them)
+    // story has just said them; it lies under the story while that is told, and the first press during it lets the sound
+    // on, so it waits for the story to be gone, or he heard the name twice; and the story, said in full, is longer than a
+    // minute and a half, so its saying of the name counts for ten minutes)
     const listen = window.setInterval(() => {
       if (step !== 'title') return window.clearInterval(listen)
-      if (!audio()) return
+      if (!audio() || hushed) return
       window.clearInterval(listen)
-      if (!saidWithin('title', 60)) speak('title')
+      if (!saidWithin('title', 600)) speak('title')
     }, 250)
     return () => window.clearInterval(listen)
   })

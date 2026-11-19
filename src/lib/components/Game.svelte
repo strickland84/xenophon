@@ -1479,6 +1479,7 @@
         onphrase={restorePhrase}
         onsettings={() => (settingsOpen = true)}
         onstory={() => (introOpen = true)}
+        hushed={introOpen}
         counts={flying}
         start={onboardStart}
         note={onboardNote}
