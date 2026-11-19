@@ -8,10 +8,9 @@ Every change is judged against these (they are in the README too):
 
 1. **No server, ever.** Static files, peer to peer, the shared galaxy on public Nostr relays. A change that needs a
    server of ours will not be merged.
-2. **Fun first.** A feature is done when it is fun to play, not when it works.
-3. **Beautiful pixel art.** One pixel size on screen, no scaled sprites, no programmer art.
-4. **Fair.** Nothing is sold; nothing cosmetic adds power.
-5. **For a desktop.** Alone and offline, with a mouse and a keyboard, or a controller. No touch controls, no phone layouts.
+2. **Beautiful pixel art.** One pixel size on screen, no scaled sprites, no programmer art.
+3. **Fair.** Nothing is sold; nothing cosmetic adds power.
+4. **For a desktop.** Alone and offline, with a mouse and a keyboard, or a controller. No touch controls, no phone layouts.
 
 ## Where help is most wanted
 
