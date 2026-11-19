@@ -660,9 +660,10 @@
   // the settings' Reduce motion, for what the page moves (motion.ts) and the HUD
   $effect(() => setReducedMotion(save?.settings.motion === 'less'))
 
-  // the first screens have the title's music
+  // the first screens have the title's music, the opening story its own
   $effect(() => {
-    if (stage !== 'flying' || introOpen) music?.setPlace('title')
+    if (introOpen) music?.setPlace('intro')
+    else if (stage !== 'flying') music?.setPlace('title')
   })
 
   // a screen opening over the sky, or closing, is heard
@@ -968,7 +969,7 @@
       }
       maybeAskBackup()
       void publishSealed()
-      music?.setPlace(introOpen ? 'title' : placeOf(scene))
+      music?.setPlace(introOpen ? 'intro' : placeOf(scene))
       newerWire = chronicle?.newerProtocol() ?? 0
       if (dirty && Date.now() - keptAt > 2000) keep()
     }, 400)

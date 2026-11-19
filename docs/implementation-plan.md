@@ -2461,6 +2461,27 @@ project.
   piece be brighter (`bright`: its share over 4 kHz before it is flagged). James chooses by ear on `/sounds`
   (each piece marked New) and the recipe's `use`.
 
+### The music, made a third time: MIDI (2026-11-19)
+
+James, of the set above: "it needs to be more in keeping with the game, more midi. The intro needs music too". The game
+is pixel art, so its music is now sequenced as a game of the early 1990s would have had it, on a MIDI sound module's
+patches. The same model and plan; `SCORE` is now "1990s sequenced MIDI game music", "General MIDI sound module
+instruments", "quantized MIDI sequencing, every note on the grid", retro science fiction, a catchy melody, a dry, clear
+mix. Every section carries `NOT_MIDI` as negative styles (a live orchestra, a film score, realistic acoustic instruments,
+modern pop production, heavy reverb), and each piece names its patches (a square-wave lead, an FM bass, a synth strings
+patch, a brass section patch, orchestra hits, a MIDI drum kit, an FM electric piano, a marimba patch). Each place keeps
+its key, tempo and character, and the fight still shares 140 BPM in E minor.
+
+- **The opening story has its own piece**, `intro` (place `intro` in `audio/moods.ts`, set by `Game.svelte` while
+  `IntroCrawl` is open; it shared the title's before, and that piece's first 25 s were a near-silent drone, pushed down
+  under the voice, so the story seemed to have no music). It runs for about two minutes in five sections laid to the
+  story (dark, the war, the worlds, the dock, a coda), in D minor at 76 BPM: low bass, high bells and soft pads, so the
+  narrator's range stays clear. It is evened 1 dB louder than the other pieces, since it is held down under him nearly
+  all the time.
+- Two takes of every piece and sting (36 in all, about 60 minutes), made in about three minutes. The music did not
+  draw on the plan's character credits. The cinematic set is kept in `art/audio/takes/music-cinematic/` (not in git).
+  Nobody has heard it; `/sounds` marks it New.
+
 ### The narrator
 
 The opening story is to be read aloud, the voice made on this PC and shipped as a file (a model in the
@@ -2490,6 +2511,18 @@ when a line's words change and it has not been read again. Played on the effects
 him (`speak`, `hush`): the opening story times itself by his lines (each paragraph comes up to be read as he begins it;
 a reader's pace where a line is not voiced), `Game.svelte` says a step's line as the step begins (not on a detour).
 Takes are in `art/audio/voice/`, not kept in git.
+
+**Read by ElevenLabs since 2026-11-19** (James's plan): `narrate.py` sends each line to its text to speech (`eleven_v3`,
+seed 7) in `NARRATOR`'s voice. The first was Miltiadis (`YjbHBTWH8WkGAhNrkp0i`), a Greek speaker told to put on a
+Greek accent. James asked for "a better elevenlabs voice", so ten from the voice library were tried over the test
+passage (`tools/gen/voice_eleven.py`: voices that speak English with a Greek accent of their own, Greek narrators told
+to keep one, and old, deep English storytellers) and measured by `voice_check.py` and by Whisper's guess at the
+language (a strong accent is heard as part Greek). Miltiadis read the fastest (159 words a minute), and Whisper heard
+him as more Greek (0.54) than English (0.28). **Theos** (`n0vzWypeCK1NlWPVwhOc`, a Greek narrator for documentaries and
+trailers, with "[Greek accent]") was the deepest (77 Hz) and among the slowest (118 words a minute), with every word
+heard and the accent plain (English 0.38, Greek 0.26). All 78 lines were read again in his voice (about 5,000 credits)
+and packed with `narration.py --keep`. Miltiadis's takes are in `art/audio/voice/lines-miltiadis/`, and each voice's
+test take is in `art/audio/voice/eleven/` (not in git).
 
 ### Before
 

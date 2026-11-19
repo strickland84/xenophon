@@ -109,7 +109,7 @@ Update this section when your work changes it. Keep each entry to what is true n
   rooms `xenophon/...`, the namespace `xenophon-dev-g1`, `window.__xenophon`, the font `xenophon-pixel.ttf`; old saves
   and events are not read. The lore is the lot and the urn, Gant is gone (`docs/factions-and-races.md`, the
   story-voice skill); the title has no line under it (James: "horrible slop"); the Nomarchy's ranks are Greek (`daily.ts RANK_TITLES`).
-  **The narrator is Xenophon**, ElevenLabs voice `YjbHBTWH8WkGAhNrkp0i` on `eleven_v3` with "[Greek accent]"
+  **The narrator is Xenophon**, ElevenLabs on `eleven_v3` with "[Greek accent]" (voice: the entry above)
   (`tools/gen/voice_recipe.py NARRATOR`, `tools/gen/narrate.py` reads the key from `.env`); all 78 lines read, packed
   with `tools/audio/narration.py --keep` (Whisper mishears the accent; James: "ignore the whisper thing"). He says the
   title (`title`, `TITLE_LINE`) as the name is lit and on the title page once the sound is on (`saidWithin`), and the
@@ -122,6 +122,14 @@ tools/voxel/brand.py`; tries in `art/brand/`); the favicon is `mark-32.png`, the
   tests; templates; Dependabot; CODEOWNERS); Vercel (`vercel.json`, static `build/`) serves `main` at xenophon.me.
   James's private notes moved to `CLAUDE.local.md` (not in git).
 
+- **2026-11-19, the narrator's voice and the music made again, and the intro's own music** (James: "find a better
+  elevenlabs voice"; the music "more in keeping with the game, more midi"; "The intro needs music too"). The narrator is
+  **Theos** (`n0vzWypeCK1NlWPVwhOc`, `eleven_v3`, "[Greek accent]"; `voice_recipe.py NARRATOR`), chosen from ten voices
+  by measurement (`tools/gen/voice_eleven.py`, `voice_check.py`): the deepest and slowest of them. All 78 lines were
+  read again. The music is sequenced MIDI-style game music of the early 1990s (`sound_recipe.py SCORE`, `NOT_MIDI`,
+  patches named in every piece), two takes of each piece and sting. The opening story has its own piece and place,
+  `intro` (`moods.ts`, set by `Game.svelte` while `IntroCrawl` is open). Nobody has heard any of it; the plan's section
+  17 has the details. The repo is private and the Vercel project paused "for now" (xenophon.me answers 503).
 - **2026-11-19, the wind leaves what stands on the ground, and no sheet of cloud lies across the view as a line** (James:
   "it pushes my ship around when landed"; "a very clear thin line that looks like land"). The wind (`sim/hazards.ts
 standing`) no longer moves turrets, pilots on foot, a parked ship, or his own ship landing, landed, lifting off or left.

@@ -410,51 +410,43 @@ noise band by band (0 tones ... 0.6+ a rumble or wind); whine: a narrow peak abo
 * sfx/ui_error_2     0.17s  loud  -16.4  peak  -1.0  clip  0.00%  lead     1ms  tail    31ms  flat 0.00  centre   121Hz bangs 1  
   sfx/ui_error_3     0.15s  loud  -17.5  peak  -1.0  clip  0.00%  lead     1ms  tail    27ms  flat 0.00  centre   101Hz bangs 1  
   sfx/ui_error_4     0.40s  loud  -18.5  peak  -1.0  clip  0.00%  lead     0ms  tail   261ms  flat 0.00  centre    87Hz bangs 1  
-  music/title_1   134.98s  loud  -22.3  peak -12.0  clip  0.00%  lead  1189ms  tail  1909ms  flat 0.00  centre   341Hz swing 7dB gaps 0s high 0.5%  
-* music/title_2   136.22s  loud  -22.9  peak -10.9  clip  0.00%  lead   464ms  tail  1543ms  flat 0.00  centre   248Hz swing 5dB gaps 0s high 0.4%  
-* music/title_3   138.32s  loud  -23.3  peak -12.2  clip  0.00%  lead   362ms  tail  1478ms  flat 0.00  centre   174Hz swing 3dB gaps 0s high 0.2%  
-* music/calm_1   178.56s  loud  -22.4  peak  -8.7  clip  0.00%  lead   287ms  tail  1227ms  flat 0.00  centre   303Hz swing 2dB gaps 0s high 0.0%  
-* music/calm_2   178.38s  loud  -22.7  peak -10.0  clip  0.00%  lead   456ms  tail  1449ms  flat 0.00  centre   234Hz swing 1dB gaps 0s high 0.3%  
-* music/calm_3   178.34s  loud  -22.9  peak  -9.0  clip  0.00%  lead   246ms  tail  1303ms  flat 0.00  centre   204Hz swing 1dB gaps 0s high 0.0%  
-* music/night_1   143.58s  loud  -23.5  peak  -9.0  clip  0.00%  lead  1126ms  tail  1417ms  flat 0.00  centre   164Hz swing 2dB gaps 0s high 0.0%  
-* music/night_2   146.32s  loud  -22.6  peak -10.2  clip  0.00%  lead   394ms  tail  1350ms  flat 0.00  centre   241Hz swing 1dB gaps 0s high 0.0%  
-* music/harsh_1   168.04s  loud  -21.3  peak -11.1  clip  0.00%  lead   342ms  tail  1878ms  flat 0.00  centre   630Hz swing 1dB gaps 0s high 2.3%  
-* music/harsh_2   165.48s  loud  -23.3  peak -12.7  clip  0.00%  lead   227ms  tail   830ms  flat 0.00  centre   198Hz swing 1dB gaps 0s high 0.2%  
-* music/foot_1   154.04s  loud  -23.1  peak -11.2  clip  0.00%  lead   813ms  tail  1348ms  flat 0.00  centre   231Hz swing 1dB gaps 0s high 0.3%  
-* music/foot_2   154.28s  loud  -22.3  peak -10.5  clip  0.00%  lead   284ms  tail  1280ms  flat 0.00  centre   309Hz swing 2dB gaps 0s high 0.1%  
-* music/space_1   177.24s  loud  -23.1  peak -11.2  clip  0.00%  lead  1464ms  tail  1522ms  flat 0.00  centre   181Hz swing 1dB gaps 0s high 0.0%  
-* music/space_2   174.04s  loud  -22.9  peak -12.3  clip  0.00%  lead  1440ms  tail  1976ms  flat 0.00  centre   193Hz swing 5dB gaps 0s high 0.0%  
-* music/space_3   176.00s  loud  -22.4  peak -12.0  clip  0.00%  lead   855ms  tail  1908ms  flat 0.00  centre   287Hz swing 1dB gaps 0s high 0.0%  
-* music/cruise_1   152.22s  loud  -21.5  peak -11.4  clip  0.00%  lead   374ms  tail  1596ms  flat 0.00  centre   550Hz swing 1dB gaps 0s high 4.1%  
-* music/cruise_2   154.82s  loud  -21.4  peak -11.7  clip  0.00%  lead   495ms  tail   457ms  flat 0.00  centre   721Hz swing 1dB gaps 0s high 4.8%  
-* music/hole_1   115.60s  loud  -23.9  peak -11.6  clip  0.00%  lead   435ms  tail  1262ms  flat 0.00  centre   138Hz swing 4dB gaps 0s high 0.2%  
-  music/hole_2   110.30s  loud  -23.1  peak -12.2  clip  0.00%  lead   412ms  tail  2592ms  flat 0.00  centre   193Hz swing 2dB gaps 2s high 0.1%  silent gaps
-* music/hangar_1   153.68s  loud  -22.3  peak -11.5  clip  0.00%  lead   428ms  tail  1036ms  flat 0.00  centre   244Hz swing 1dB gaps 0s high 0.9%  
-* music/hangar_2   153.58s  loud  -22.1  peak -10.7  clip  0.00%  lead   258ms  tail   893ms  flat 0.00  centre   304Hz swing 2dB gaps 0s high 1.5%  
-* music/map_1   114.60s  loud  -22.5  peak  -8.1  clip  0.00%  lead   344ms  tail  1674ms  flat 0.00  centre   209Hz swing 2dB gaps 0s high 0.0%  
-  music/map_2   111.37s  loud  -23.1  peak  -8.8  clip  0.00%  lead   987ms  tail  1481ms  flat 0.00  centre   174Hz swing 2dB gaps 0s high 0.1%  
-* music/alert_1   114.88s  loud  -21.4  peak  -9.0  clip  0.00%  lead   433ms  tail  1360ms  flat 0.00  centre   267Hz swing 2dB gaps 0s high 0.6%  
-* music/alert_2   117.42s  loud  -20.4  peak  -9.8  clip  0.00%  lead   335ms  tail  1830ms  flat 0.00  centre   502Hz swing 1dB gaps 0s high 2.2%  
-* music/combat_1   148.85s  loud  -19.1  peak  -9.5  clip  0.00%  lead   290ms  tail   980ms  flat 0.00  centre   850Hz swing 1dB gaps 0s high 5.9%  
-* music/combat_2   153.82s  loud  -18.5  peak  -8.6  clip  0.00%  lead   302ms  tail  1140ms  flat 0.00  centre  1227Hz swing 1dB gaps 0s high 7.5%  
-* music/combat_3   147.96s  loud  -19.0  peak  -9.0  clip  0.00%  lead   436ms  tail  1314ms  flat 0.00  centre   714Hz swing 2dB gaps 0s high 2.9%  
-* music/peril_1   113.58s  loud  -19.2  peak  -9.0  clip  0.00%  lead   255ms  tail  1463ms  flat 0.00  centre   729Hz swing 1dB gaps 0s high 4.3%  
-* music/peril_2   116.46s  loud  -18.2  peak  -7.7  clip  0.00%  lead   345ms  tail  1382ms  flat 0.00  centre  1472Hz swing 1dB gaps 0s high 13.7%  bright
-* music/win_1     5.86s  loud  -17.2  peak  -6.9  clip  0.00%  lead     3ms  tail   366ms  flat 0.00  centre   718Hz swing 1dB gaps 0s high 3.8%  
-* music/win_2     5.10s  loud  -18.0  peak  -8.3  clip  0.00%  lead     7ms  tail   352ms  flat 0.00  centre   608Hz swing 1dB gaps 0s high 1.8%  
-  music/win_3     5.62s  loud  -17.0  peak  -6.1  clip  0.00%  lead    14ms  tail   311ms  flat 0.00  centre   644Hz swing 1dB gaps 0s high 6.3%  
-  music/lost_1     4.86s  loud  -21.8  peak  -8.8  clip  0.00%  lead    15ms  tail   280ms  flat 0.00  centre    73Hz swing 9dB gaps 0s high 0.0%  
-  music/lost_2     4.60s  loud  -20.2  peak  -7.6  clip  0.00%  lead     4ms  tail   293ms  flat 0.00  centre   151Hz swing 4dB gaps 0s high 0.7%  
-* music/lost_3     5.06s  loud  -21.4  peak -12.5  clip  0.00%  lead    11ms  tail   249ms  flat 0.00  centre    78Hz swing 3dB gaps 0s high 0.0%  
-  music/arrive_1     6.22s  loud  -16.2  peak  -3.3  clip  0.00%  lead     6ms  tail   396ms  flat 0.00  centre  2606Hz swing 8dB gaps 0s high 18.6%  bright
-* music/arrive_2     6.24s  loud  -16.7  peak  -5.6  clip  0.00%  lead     5ms  tail   347ms  flat 0.00  centre  2302Hz swing 8dB gaps 0s high 13.5%  bright
-* music/arrive_3     7.00s  loud  -17.5  peak  -6.0  clip  0.00%  lead     3ms  tail   352ms  flat 0.00  centre  1522Hz swing 3dB gaps 0s high 4.8%  
-  music/taken_1     6.36s  loud  -17.5  peak  -5.9  clip  0.00%  lead    12ms  tail   406ms  flat 0.00  centre   602Hz swing 5dB gaps 0s high 2.9%  
-  music/taken_2     7.20s  loud  -16.8  peak  -6.8  clip  0.00%  lead     4ms  tail   316ms  flat 0.00  centre  1154Hz swing 3dB gaps 0s high 9.3%  
-* music/taken_3     6.82s  loud  -17.5  peak  -5.8  clip  0.00%  lead     3ms  tail   336ms  flat 0.00  centre   519Hz swing 3dB gaps 0s high 2.4%  
+* music/intro_1   108.20s  loud  -21.0  peak -11.2  clip  0.00%  lead   347ms  tail   958ms  flat 0.00  centre   370Hz swing 2dB gaps 0s high 0.0%  
+* music/intro_2   123.79s  loud  -22.5  peak -12.3  clip  0.00%  lead   256ms  tail  1157ms  flat 0.00  centre   203Hz swing 2dB gaps 0s high 0.0%  
+* music/title_1   134.26s  loud  -20.8  peak -10.2  clip  0.00%  lead   321ms  tail  1109ms  flat 0.00  centre   997Hz swing 1dB gaps 0s high 5.2%  
+* music/title_2   133.32s  loud  -21.8  peak -11.9  clip  0.00%  lead   326ms  tail   673ms  flat 0.00  centre   531Hz swing 1dB gaps 0s high 2.7%  
+* music/calm_1   134.02s  loud  -22.7  peak  -9.1  clip  0.00%  lead   438ms  tail  1868ms  flat 0.00  centre   290Hz swing 6dB gaps 0s high 0.6%  
+* music/calm_2   138.54s  loud  -21.8  peak  -6.6  clip  0.00%  lead   437ms  tail  1479ms  flat 0.00  centre   390Hz swing 1dB gaps 0s high 0.4%  
+* music/night_1   119.28s  loud  -21.7  peak  -9.4  clip  0.00%  lead   359ms  tail  1943ms  flat 0.00  centre   369Hz swing 3dB gaps 0s high 0.0%  
+* music/night_2   119.32s  loud  -22.4  peak -11.3  clip  0.00%  lead   391ms  tail  1448ms  flat 0.00  centre   224Hz swing 2dB gaps 0s high 0.0%  
+* music/harsh_1   136.30s  loud  -22.3  peak -10.7  clip  0.00%  lead   264ms  tail   412ms  flat 0.00  centre   397Hz swing 1dB gaps 0s high 0.6%  
+* music/harsh_2   137.26s  loud  -22.3  peak -11.0  clip  0.00%  lead   349ms  tail   834ms  flat 0.00  centre   372Hz swing 2dB gaps 0s high 2.4%  
+* music/foot_1   133.56s  loud  -21.6  peak  -7.3  clip  0.00%  lead   545ms  tail   537ms  flat 0.00  centre   289Hz swing 2dB gaps 0s high 0.1%  
+* music/foot_2   135.00s  loud  -22.7  peak  -9.1  clip  0.00%  lead   278ms  tail   533ms  flat 0.00  centre   277Hz swing 2dB gaps 0s high 0.3%  
+* music/space_1   146.10s  loud  -22.0  peak -11.4  clip  0.00%  lead   718ms  tail  1645ms  flat 0.00  centre   360Hz swing 1dB gaps 0s high 0.0%  
+* music/space_2   147.42s  loud  -23.8  peak -12.0  clip  0.00%  lead   749ms  tail  1608ms  flat 0.00  centre   158Hz swing 5dB gaps 0s high 0.1%  
+* music/cruise_1   131.19s  loud  -21.8  peak -10.1  clip  0.00%  lead   242ms  tail  1185ms  flat 0.00  centre   552Hz swing 0dB gaps 0s high 3.4%  
+* music/cruise_2   132.37s  loud  -22.2  peak -10.9  clip  0.00%  lead   820ms  tail   404ms  flat 0.00  centre   503Hz swing 1dB gaps 0s high 3.1%  
+  music/hole_1   104.16s  loud  -24.6  peak -11.1  clip  0.00%  lead   467ms  tail   823ms  flat 0.00  centre    87Hz swing 11dB gaps 0s high 0.0%  
+* music/hole_2   104.28s  loud  -22.9  peak -13.0  clip  0.00%  lead   730ms  tail   405ms  flat 0.00  centre   142Hz swing 2dB gaps 0s high 0.0%  
+* music/hangar_1   132.68s  loud  -22.3  peak -11.4  clip  0.00%  lead   300ms  tail   713ms  flat 0.00  centre   261Hz swing 2dB gaps 0s high 0.4%  
+* music/hangar_2   134.64s  loud  -22.3  peak  -9.0  clip  0.00%  lead   316ms  tail   937ms  flat 0.00  centre   383Hz swing 2dB gaps 0s high 1.9%  
+* music/map_1    91.00s  loud  -22.9  peak -11.2  clip  0.00%  lead   490ms  tail  1396ms  flat 0.00  centre   304Hz swing 5dB gaps 0s high 1.2%  
+  music/map_2    91.40s  loud  -23.0  peak  -9.2  clip  0.00%  lead   501ms  tail  1958ms  flat 0.00  centre   262Hz swing 6dB gaps 0s high 1.2%  
+* music/alert_1    96.94s  loud  -21.2  peak  -6.9  clip  0.00%  lead   348ms  tail   870ms  flat 0.00  centre   439Hz swing 1dB gaps 0s high 2.7%  
+* music/alert_2   103.74s  loud  -22.0  peak  -9.5  clip  0.00%  lead   439ms  tail   876ms  flat 0.00  centre   179Hz swing 1dB gaps 0s high 0.6%  
+* music/combat_1   135.00s  loud  -19.1  peak  -9.3  clip  0.00%  lead   266ms  tail   367ms  flat 0.00  centre   959Hz swing 1dB gaps 0s high 6.8%  
+* music/combat_2   133.64s  loud  -19.5  peak -10.3  clip  0.00%  lead   245ms  tail   330ms  flat 0.00  centre   674Hz swing 1dB gaps 0s high 4.0%  
+* music/peril_1   104.76s  loud  -19.7  peak  -8.7  clip  0.00%  lead   251ms  tail   683ms  flat 0.00  centre   657Hz swing 1dB gaps 0s high 3.0%  
+* music/peril_2   103.04s  loud  -19.7  peak  -9.8  clip  0.00%  lead   233ms  tail   338ms  flat 0.00  centre   765Hz swing 0dB gaps 0s high 5.3%  
+* music/win_1     4.96s  loud  -16.2  peak  -6.8  clip  0.00%  lead     3ms  tail   304ms  flat 0.00  centre  1817Hz swing 1dB gaps 0s high 5.9%  
+* music/win_2     4.26s  loud  -17.1  peak  -5.7  clip  0.00%  lead     3ms  tail   314ms  flat 0.00  centre   934Hz swing 2dB gaps 0s high 2.7%  
+* music/lost_1     5.20s  loud  -19.6  peak  -7.0  clip  0.00%  lead     3ms  tail   265ms  flat 0.00  centre   338Hz swing 6dB gaps 0s high 0.2%  
+  music/lost_2     4.78s  loud  -20.1  peak  -5.2  clip  0.00%  lead     4ms  tail   248ms  flat 0.00  centre   210Hz swing 7dB gaps 0s high 0.1%  
+* music/arrive_1     4.76s  loud  -18.3  peak  -7.5  clip  0.00%  lead     3ms  tail   318ms  flat 0.00  centre   762Hz swing 7dB gaps 0s high 0.1%  
+* music/arrive_2     5.12s  loud  -17.9  peak  -7.1  clip  0.00%  lead     5ms  tail   307ms  flat 0.00  centre  1110Hz swing 9dB gaps 0s high 0.4%  
+  music/taken_1     4.78s  loud  -17.2  peak  -6.9  clip  0.00%  lead     5ms  tail   320ms  flat 0.00  centre   855Hz swing 2dB gaps 0s high 3.9%  
+* music/taken_2     5.18s  loud  -16.5  peak  -6.7  clip  0.00%  lead     4ms  tail   318ms  flat 0.00  centre  1019Hz swing 2dB gaps 0s high 2.7%  
 
-Chosen takes with something flagged: 4
+Chosen takes with something flagged: 2
 * sfx/chunk_7     0.25s  loud  -20.4  peak  -1.0  clip  0.00%  lead     1ms  tail    20ms  flat 0.15  centre  4553Hz bangs 2  2 bangs
 * sfx/kill_1     0.60s  loud  -12.1  peak  -1.0  clip  0.00%  lead     1ms  tail    73ms  flat 0.08  centre 12672Hz bangs 2  2 bangs
-* music/peril_2   116.46s  loud  -18.2  peak  -7.7  clip  0.00%  lead   345ms  tail  1382ms  flat 0.00  centre  1472Hz swing 1dB gaps 0s high 13.7%  bright
-* music/arrive_2     6.24s  loud  -16.7  peak  -5.6  clip  0.00%  lead     5ms  tail   347ms  flat 0.00  centre  2302Hz swing 8dB gaps 0s high 13.5%  bright

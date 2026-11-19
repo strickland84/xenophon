@@ -258,12 +258,19 @@ SOUNDS = {
 SCORE = [
     "instrumental",
     "original video game soundtrack",
-    "hard science fiction",
-    "analog synthesizers blended with a cinematic orchestra",
-    "retro-futuristic",
-    "wide stereo, polished modern production",
+    "1990s sequenced MIDI game music",
+    "General MIDI sound module instruments",
+    "quantized MIDI sequencing, every note on the grid",
+    "retro science fiction",
+    "a catchy, memorable melody",
+    "dry, clear mix",
 ]
 NO_VOICES = ["vocals", "singing", "choir voices", "spoken word", "rap"]
+# (James, 2026-11-19, of the first ElevenLabs set: "it needs to be more in keeping with the game, more midi". The game
+# is pixel art; its music is now sequenced as a game of the early 1990s would have it, on the patches of a MIDI sound
+# module, never a live orchestra, a film score or a modern production.)
+NOT_MIDI = ["live orchestra recording", "cinematic trailer music", "epic film score", "realistic acoustic instruments",
+            "modern pop production", "heavy reverb", "dubstep", "lo-fi"]
 
 # what the fight shares, so that its three levels cross into each other
 FIGHT = ["140 BPM", "E minor"]
@@ -278,7 +285,7 @@ class Part:
 
 
 class Piece:
-    def __init__(self, label, styles, parts, takes=2, variants=None, use=None, sting=False, loud=-24.0, bright=0.05, negative=None, new=True, steady=False):
+    def __init__(self, label, styles, parts, takes=2, variants=None, use=None, sting=False, loud=-24.0, bright=0.12, negative=None, new=True, steady=False):
         self.label = label
         self.styles = styles  # the piece's own, after SCORE
         self.parts = parts
@@ -287,7 +294,7 @@ class Piece:
         self.use = use  # the takes chosen by ear (None: by measurement)
         self.sting = sting  # a few seconds, played once over the music
         self.loud = loud  # dBFS over its louder half: the fight and the stings sit higher
-        self.bright = bright  # the share of it above 4 kHz allowed before it is flagged bright
+        self.bright = bright  # the share of it above 4 kHz allowed before it is flagged bright (a MIDI square lead is bright)
         self.negative = negative or []
         self.new = new
         self.steady = steady  # it must not stop: breaks the service leaves between sections are cut out (music.py close_gaps)
@@ -300,102 +307,113 @@ class Piece:
         """The composition plan for music_v2_5."""
         chunks = []
         for i, p in enumerate(self.parts):
-            styles = (SCORE + self.styles + p.styles) if i == 0 else p.styles + self.styles[:2]
+            styles = (SCORE + self.styles + p.styles) if i == 0 else p.styles + self.styles[:2] + ["sequenced MIDI"]
             chunks.append({
                 "text": p.name,
                 "duration_ms": int(p.seconds * 1000),
                 "positive_styles": styles,
-                "negative_styles": NO_VOICES + self.negative + p.negative,
+                "negative_styles": NO_VOICES + NOT_MIDI + self.negative + p.negative,
                 "context_adherence": "high",
             })
         return {"chunks": chunks}
 
 
 MUSIC = {
-    "title": Piece("the title", ["epic and lonely", "a slow majestic theme on a soaring analog synth lead", "D minor", "72 BPM"], [
-        Part("[Opening] {a single low synth drone, distant metallic shimmer, the dark between two suns}", 25, ["sparse", "mysterious", "slow swelling pads"]),
-        Part("[Theme] {a slow, noble five-note melody on a warm synth lead, low strings under it}", 45, ["melodic", "hopeful and sad at once", "deep timpani rolls"]),
-        Part("[Rise] {the full orchestra and the synths swell together, big drums enter, the theme returns larger}", 45, ["epic", "powerful", "cinematic build", "heroic"]),
-        Part("[Coda] {it falls away to the lone synth lead and a held pad}", 25, ["quiet", "reflective", "fading"]),
-    ], takes=3, variants=2),
-    "calm": Piece("a calm world", ["warm adventurous exploration music", "bright plucked synth arpeggios", "G major", "100 BPM", "open sky, the joy of flying"], [
-        Part("[Morning] {plucked synth arpeggio, soft pads, light shaker}", 30, ["gentle", "airy", "curious"]),
-        Part("[Flight] {a light groove of soft electronic drums and a round bass, a singing synth melody}", 60, ["uplifting", "melodic", "warm", "steady groove"]),
-        Part("[High] {strings join the melody, the arpeggios climb}", 50, ["soaring", "wide", "optimistic"]),
-        Part("[Anarchoi] {the drums drop out, arpeggios and pads}", 40, ["calm", "glowing", "resolving"]),
-    ], takes=3),
-    "night": Piece("a world at night", ["nocturnal ambient electronica", "slow pulsing synth bass", "glassy bell tones", "A minor", "80 BPM"], [
-        Part("[Dusk] {a slow pulse, warm pads, distant glassy bells}", 40, ["quiet", "starlit", "spacious"]),
-        Part("[Moonlight] {a soft brushed beat, a lonely synth melody, deep bass}", 60, ["melancholy", "beautiful", "hypnotic"]),
-        Part("[Small hours] {the beat thins away, only the pulse and the bells}", 50, ["still", "tender", "sleepy"]),
-    ]),
-    "harsh": Piece("a harsh world", ["dark industrial sci-fi score", "heavy distorted low synth drones", "metallic percussion like struck machinery", "C minor", "90 BPM"], [
-        Part("[Wasteland] {grinding low drone, metallic hits far off, hot wind of noise}", 35, ["ominous", "desolate", "menacing"]),
-        Part("[March] {a heavy slow industrial beat, a distorted bass riff, low brass}", 60, ["relentless", "brutal", "threatening", "driving"]),
-        Part("[Storm] {the percussion gets denser, dissonant string clusters}", 45, ["tense", "hostile", "powerful"]),
-        Part("[Ashes] {the beat stops, the drone and a few struck metal hits remain}", 30, ["bleak", "dark"]),
-    ]),
-    "foot": Piece("on foot", ["playful alien exploration music", "marimba and kalimba-like synth plucks", "hand percussion and a bouncy bass", "F major", "112 BPM"], [
-        Part("[Landing] {curious kalimba plucks, soft pads, small bird-like synth chirps}", 30, ["curious", "light", "wonder"]),
-        Part("[Trek] {a bouncy groove of hand drums and plucked bass, a cheerful marimba melody}", 60, ["fun", "adventurous", "rhythmic", "upbeat"]),
-        Part("[Discovery] {a warm synth horn takes the melody, the groove opens up}", 40, ["bright", "wondrous", "exciting"]),
-        Part("[Rest] {back to the plucks and the soft pads}", 25, ["gentle", "content"]),
-    ]),
-    "space": Piece("space", ["vast deep-space synth score", "slow evolving arpeggiated sequences", "a deep heartbeat bass pulse", "B minor", "84 BPM"], [
-        Part("[Void] {a cold shimmering pad, a slow sequence in the distance}", 35, ["vast", "weightless", "awe"]),
-        Part("[Orbit] {the arpeggiated sequence grows, a soft pulsing beat, a long synth melody}", 65, ["hypnotic", "wonder", "steady motion"]),
-        Part("[Horizon] {the strings swell under the sequence, the melody rises}", 45, ["majestic", "emotional", "expansive"]),
-        Part("[Anarchoi] {the sequence fades into the pad}", 35, ["calm", "infinite"]),
-    ], takes=3),
-    "cruise": Piece("the cruise drive", ["euphoric driving synthwave", "motorik beat and pumping sidechained bass", "racing arpeggios", "A minor", "124 BPM", "speed and freedom"], [
-        Part("[Spool] {the arpeggio speeds up, a riser, the kick enters}", 20, ["building", "anticipation"]),
-        Part("[Burn] {full driving beat, pumping bass, a bright soaring synth lead}", 60, ["fast", "energetic", "euphoric", "propulsive"]),
-        Part("[Overdrive] {a key change up, gated drums, the lead doubled by strings}", 45, ["exhilarating", "triumphant", "intense"]),
-        Part("[Coast] {the beat keeps on, the lead drops out, the arpeggios carry it}", 30, ["driving", "smooth"]),
-    ], steady=True),
-    "hole": Piece("near a black hole", ["dark cosmic horror ambience", "enormous sub bass swells", "slowed and stretched orchestral tones bending in pitch", "D minor", "60 BPM"], [
-        Part("[Pull] {a sub bass swelling like gravity, a low clock-like tick}", 40, ["dread", "immense", "eerie"]),
-        Part("[Event horizon] {strings bending downward in pitch, a deep pounding heartbeat}", 50, ["terrifying", "overwhelming", "intense"]),
-        Part("[Beyond] {everything slows and stretches, a single high held tone}", 30, ["alien", "awe", "still"]),
+    # the opening story (IntroCrawl.svelte, about a minute and a half, read over): a slow tale told, the narrator's voice
+    # kept clear (nothing in the middle of the range while he speaks: low bass, high bells, soft pads); a little louder
+    # than the others, as it is held down under him nearly all the while (narration.ts UNDER)
+    "intro": Piece("the opening story", ["a slow storytelling theme for the opening of a space war game", "warm synth pad patch and a soft square-wave lead", "D minor", "76 BPM", "a tale of war and exile told by an old soldier"], [
+        Part("[Dark] {a low held synth bass note and a glassy bell patch, stars between two suns}", 15, ["sparse", "mysterious", "patient"]),
+        Part("[The war] {a slow marching pulse on a low tom patch, a lonely square lead plays the theme softly}", 35, ["solemn", "melodic", "steady", "understated"]),
+        Part("[The worlds] {a slow arpeggio on an FM electric piano patch, the synth strings patch holds chords under it}", 35, ["hopeful and sad", "flowing", "gentle"]),
+        Part("[The dock] {the theme again on a brass section patch, the pulse and the arpeggio together, quietly building}", 30, ["resolute", "rising", "noble"]),
+        Part("[Coda] {the pad and the bell patch alone, one last note of the theme}", 15, ["quiet", "open ending"]),
+    ], takes=2, variants=2, loud=-23.0, steady=True),
+    "title": Piece("the title", ["a heroic main menu theme for a space war game", "a soaring square-wave lead over a synth brass patch", "D minor", "96 BPM"], [
+        Part("[Intro] {a synth strings patch swells, an orchestra hit, a drum machine fill}", 12, ["anticipation", "bold"]),
+        Part("[Theme] {a bold, catchy lead melody on a square-wave patch, a pumping FM bass, a crisp MIDI drum kit}", 45, ["heroic", "memorable", "driving"]),
+        Part("[Bridge] {the lead hands over to a synth brass patch, the strings patch climbs}", 30, ["epic", "rising", "noble"]),
+        Part("[Theme again] {the theme returns doubled in octaves, timpani patch rolls, orchestra hits}", 35, ["triumphant", "powerful"]),
+        Part("[Outro] {the theme slows on the strings patch, a held chord}", 13, ["resolved", "fading"]),
+    ], takes=2, variants=2),
+    "calm": Piece("a calm world", ["cheerful exploration music for flying over a planet", "a bright square-wave lead and a plucked synth arpeggio", "G major", "104 BPM", "the joy of flying"], [
+        Part("[Morning] {a plucked synth arpeggio, a soft pad patch, a light MIDI hi-hat}", 25, ["gentle", "airy", "curious"]),
+        Part("[Flight] {a bouncy MIDI drum kit and a round synth bass, a singing lead melody}", 50, ["uplifting", "melodic", "catchy", "steady groove"]),
+        Part("[High] {the synth strings patch doubles the melody, the arpeggio climbs, a bell patch sparkles}", 40, ["soaring", "optimistic"]),
+        Part("[Glide] {the drums drop out, arpeggio and pad}", 25, ["calm", "resolving"]),
+    ], takes=2),
+    "night": Piece("a world at night", ["slow nocturnal game music", "a vibraphone patch and a warm pad patch", "a soft MIDI drum kit with brushes", "A minor", "80 BPM"], [
+        Part("[Dusk] {a slow synth bass pulse, a warm pad, a distant bell patch}", 30, ["quiet", "starlit", "spacious"]),
+        Part("[Moonlight] {a soft brushed beat, a lonely melody on the vibraphone patch, a fretless bass patch}", 55, ["melancholy", "beautiful", "hypnotic"]),
+        Part("[Small hours] {the beat thins away, only the pulse and the bells}", 35, ["still", "tender"]),
+    ], takes=2),
+    "harsh": Piece("a harsh world", ["dark menacing game music for a hostile planet", "a distorted FM bass riff and metallic MIDI percussion", "a low synth brass patch", "C minor", "92 BPM"], [
+        Part("[Wasteland] {a low droning synth patch, metallic percussion patches far off}", 25, ["ominous", "desolate"]),
+        Part("[March] {a heavy MIDI drum kit beat, a grinding FM bass riff, low synth brass stabs}", 55, ["relentless", "threatening", "driving"]),
+        Part("[Storm] {faster percussion, dissonant synth strings patch, a sawtooth lead wails}", 40, ["tense", "hostile", "powerful"]),
+        Part("[Ashes] {the beat stops, the drone and a few metallic hits remain}", 20, ["bleak", "dark"]),
+    ], takes=2),
+    "foot": Piece("on foot", ["playful alien exploration music", "a marimba patch and a kalimba patch", "MIDI hand percussion and a bouncy slap bass patch", "F major", "112 BPM"], [
+        Part("[Landing] {curious marimba patch notes, a soft pad, little bird-like synth chirps}", 25, ["curious", "light", "wonder"]),
+        Part("[Trek] {a bouncy groove of conga and bongo patches and slap bass, a cheerful marimba melody}", 55, ["fun", "adventurous", "rhythmic", "upbeat"]),
+        Part("[Discovery] {a synth horn patch takes the melody, the groove opens up}", 35, ["bright", "wondrous"]),
+        Part("[Rest] {back to the plucks and the soft pad}", 20, ["gentle", "content"]),
+    ], takes=2),
+    "space": Piece("space", ["vast deep-space game music", "a slow arpeggiated synth sequence", "a warm pad patch and a deep pulsing synth bass", "B minor", "84 BPM"], [
+        Part("[Void] {a cold shimmering pad patch, a slow sequence in the distance}", 30, ["vast", "weightless", "awe"]),
+        Part("[Orbit] {the sequence grows, a soft MIDI drum pulse, a long melody on a square-wave lead}", 55, ["hypnotic", "wonder", "steady motion"]),
+        Part("[Horizon] {the synth strings patch swells under the sequence, the melody rises}", 40, ["majestic", "expansive"]),
+        Part("[Drift] {the sequence fades into the pad}", 25, ["calm", "infinite"]),
+    ], takes=2),
+    "cruise": Piece("the cruise drive", ["fast driving game music for racing between planets", "a pumping octave synth bass and racing arpeggios", "a four-on-the-floor MIDI drum kit", "A minor", "128 BPM", "speed and freedom"], [
+        Part("[Spool] {the arpeggio speeds up, a snare roll, the kick enters}", 15, ["building", "anticipation"]),
+        Part("[Burn] {the full driving beat, octave bass, a bright sawtooth lead melody}", 55, ["fast", "energetic", "euphoric"]),
+        Part("[Overdrive] {a key change up, the lead doubled by a synth brass patch, orchestra hits}", 40, ["exhilarating", "triumphant"]),
+        Part("[Coast] {the beat keeps on, the lead drops out, the arpeggios carry it}", 25, ["driving", "smooth"]),
+    ], takes=2, steady=True),
+    "hole": Piece("near a black hole", ["eerie unsettling game music", "low synth drones bending in pitch", "a slow ticking clock-like percussion patch", "D minor", "60 BPM"], [
+        Part("[Pull] {a low synth bass swelling, a ticking woodblock patch}", 35, ["dread", "immense", "eerie"]),
+        Part("[Event horizon] {the synth strings patch bends downward in pitch, a deep pounding timpani heartbeat}", 45, ["terrifying", "intense"]),
+        Part("[Beyond] {everything slows, a single high held tone on a glass patch}", 25, ["alien", "still"]),
     ], takes=2, variants=1),
-    "hangar": Piece("the hangar and the station", ["laid-back retro synth funk", "warm electric piano and a groovy bass guitar", "a relaxed drum machine beat", "F major", "96 BPM", "a busy friendly workshop"], [
-        Part("[Shift start] {electric piano chords, a drum machine, a light synth hum}", 30, ["relaxed", "warm", "groovy"]),
-        Part("[Workshop] {a funky bass line, clavinet stabs, a smooth synth lead}", 60, ["cool", "playful", "head-nodding"]),
-        Part("[Tune-up] {a short synth solo over the groove}", 40, ["fun", "smooth", "confident"]),
-        Part("[Wind down] {the bass and keys settle}", 25, ["chill", "easy"]),
-    ]),
-    "map": Piece("the map", ["tactical strategy music", "a ticking sequencer pulse", "low strings and soft synth brass", "G minor", "92 BPM", "planning a war across the stars"], [
-        Part("[Briefing] {a ticking pulse, a low string ostinato, soft synth pads}", 40, ["focused", "thoughtful", "tense"]),
-        Part("[Strategy] {a muted drum pattern, a synth brass theme, the ostinato grows}", 50, ["determined", "strategic", "building"]),
-        Part("[Resolve] {the pulse and the strings alone}", 30, ["calm", "ready"]),
+    "hangar": Piece("the hangar and the station", ["laid-back funky game music for a space station shop", "an FM electric piano patch and a slap bass patch", "a relaxed MIDI drum kit beat", "F major", "96 BPM", "a busy friendly workshop"], [
+        Part("[Shift start] {electric piano chords, a drum machine, a light synth hum}", 25, ["relaxed", "warm", "groovy"]),
+        Part("[Workshop] {a funky slap bass line, clavinet patch stabs, a smooth synth lead}", 55, ["cool", "playful", "head-nodding"]),
+        Part("[Tune-up] {a short square-wave lead solo over the groove}", 35, ["fun", "confident"]),
+        Part("[Wind down] {the bass and keys settle}", 20, ["chill", "easy"]),
+    ], takes=2),
+    "map": Piece("the map", ["tactical strategy game music", "a ticking sequencer pulse", "a synth strings patch ostinato and a soft synth brass patch", "G minor", "92 BPM", "planning a war across the stars"], [
+        Part("[Briefing] {a ticking pulse, a low strings patch ostinato, soft pads}", 35, ["focused", "thoughtful", "tense"]),
+        Part("[Strategy] {a muted MIDI snare pattern, a synth brass theme, the ostinato grows}", 45, ["determined", "strategic", "building"]),
+        Part("[Resolve] {the pulse and the strings alone}", 25, ["calm", "ready"]),
     ], takes=2, variants=1, steady=True),
-    "alert": Piece("a fight coming (enemies near)", FIGHT + ["tense sci-fi action underscore", "a pulsing synth bass ostinato", "ticking hi-hats and a heartbeat kick"], [
-        Part("[Contact] {a pulsing bass ostinato, ticking percussion, a low warning synth}", 40, ["suspense", "danger approaching", "restrained"]),
-        Part("[Closing in] {staccato strings join, toms build, risers}", 45, ["tension rising", "urgent", "ominous"]),
-        Part("[Hold] {the pulse and the strings, brass swells}", 35, ["anxious", "steady", "dark"]),
-    ], bright=0.08, loud=-23.0, steady=True),
-    "combat": Piece("a fight", FIGHT + ["intense space dogfight battle music", "pounding hybrid drums and taiko", "aggressive distorted synth bass", "orchestral brass stabs and fast staccato strings"], [
-        Part("[Engage] {the full beat hits at once, distorted bass, brass stabs}", 40, ["aggressive", "powerful", "energetic", "heroic"]),
-        Part("[Dogfight] {fast staccato strings, a screaming synth lead, relentless drums}", 50, ["intense", "relentless", "adrenaline", "epic"]),
-        Part("[Breakdown] {half time, a huge low brass theme over the drums}", 25, ["massive", "dramatic"]),
-        Part("[Strike] {everything back at full speed, the lead and the brass together}", 40, ["intense", "triumphant", "driving"]),
-    ], takes=3, bright=0.12, loud=-22.0, steady=True),
-    "peril": Piece("a fight going badly", FIGHT + ["desperate frantic battle music", "double-time drums and breakbeats", "alarm-like synth stabs", "dissonant racing strings"], [
-        Part("[Mayday] {an alarm-like synth stab, double-time drums crash in}", 35, ["frantic", "desperate", "chaotic", "overwhelming"]),
-        Part("[Evade] {racing dissonant strings, pounding taiko, distorted bass}", 50, ["maximum intensity", "panic", "relentless"]),
-        Part("[Last stand] {a defiant brass theme over it all}", 35, ["heroic", "desperate", "huge"]),
-    ], bright=0.12, loud=-22.0, steady=True),
+    "alert": Piece("a fight coming (enemies near)", FIGHT + ["tense action game music", "a pulsing octave synth bass ostinato", "ticking MIDI hi-hats and a heartbeat kick"], [
+        Part("[Contact] {a pulsing bass ostinato, ticking percussion, a low warning synth}", 35, ["suspense", "danger approaching", "restrained"]),
+        Part("[Closing in] {staccato synth strings patch joins, tom patches build}", 40, ["tension rising", "urgent", "ominous"]),
+        Part("[Hold] {the pulse and the strings, synth brass swells}", 30, ["anxious", "steady", "dark"]),
+    ], loud=-23.0, steady=True),
+    "combat": Piece("a fight", FIGHT + ["intense space dogfight game music", "a fast MIDI drum kit with double kicks", "an aggressive distorted FM bass", "synth brass stabs and orchestra hits", "a screaming sawtooth lead"], [
+        Part("[Engage] {the full beat hits at once, distorted bass, orchestra hits}", 35, ["aggressive", "powerful", "energetic", "heroic"]),
+        Part("[Dogfight] {fast staccato strings patch, a screaming sawtooth lead melody, relentless drums}", 45, ["intense", "relentless", "adrenaline"]),
+        Part("[Breakdown] {half time, a huge low synth brass theme over the drums}", 20, ["massive", "dramatic"]),
+        Part("[Strike] {everything back at full speed, the lead and the brass together}", 35, ["intense", "triumphant", "driving"]),
+    ], takes=2, loud=-22.0, steady=True),
+    "peril": Piece("a fight going badly", FIGHT + ["desperate frantic action game music", "double-time MIDI drums", "alarm-like square-wave stabs", "dissonant racing synth strings"], [
+        Part("[Mayday] {an alarm-like square-wave stab, double-time drums crash in}", 30, ["frantic", "desperate", "chaotic"]),
+        Part("[Evade] {racing dissonant strings patch, pounding toms, distorted bass}", 45, ["maximum intensity", "panic", "relentless"]),
+        Part("[Last stand] {a defiant synth brass theme over it all}", 30, ["heroic", "desperate"]),
+    ], loud=-22.0, steady=True),
     # stings: played once over the music
-    "win": Piece("a fight won", ["a short triumphant victory fanfare", "brass and a bright synth lead", "timpani", "E major"], [
-        Part("[Fanfare] {a rising brass and synth fanfare ending on a big held major chord}", 7, ["triumphant", "heroic", "short", "resolved ending"]),
-    ], takes=3, variants=2, sting=True, loud=-20.0, bright=0.12),
-    "lost": Piece("shot down", ["a short dark falling sting", "low strings and a descending synth", "a deep boom"], [
-        Part("[Fall] {a deep impact, then a slow descending low synth and strings, dying away}", 7, ["tragic", "dark", "short", "fading ending"]),
-    ], takes=3, variants=1, sting=True, loud=-21.0),
-    "arrive": Piece("a new system reached", ["a short shimmering reveal sting", "rising synth arpeggio", "a wide warm chord"], [
-        Part("[Arrival] {a fast rising shimmer of arpeggios opening into a wide glowing chord}", 8, ["wonder", "awe", "short", "open ending"]),
-    ], takes=3, variants=2, sting=True, loud=-21.0, bright=0.12),
-    "taken": Piece("a world taken", ["a short proud martial sting", "snare drums and brass", "a big orchestral finish"], [
-        Part("[Victory] {a snare roll and a proud brass theme ending on a huge chord with timpani}", 9, ["triumphant", "proud", "powerful", "short", "resolved ending"]),
-    ], takes=3, variants=1, sting=True, loud=-20.0, bright=0.12),
+    "win": Piece("a fight won", ["a short triumphant victory jingle", "synth brass patch and a bright square-wave lead", "a timpani patch", "E major"], [
+        Part("[Fanfare] {a rising brass and lead fanfare ending on a big held major chord}", 6, ["triumphant", "short", "resolved ending"]),
+    ], takes=2, variants=2, sting=True, loud=-20.0, bright=0.15),
+    "lost": Piece("shot down", ["a short dark falling jingle", "a synth strings patch and a descending square-wave lead", "a low orchestra hit"], [
+        Part("[Fall] {a low orchestra hit, then a slow descending lead and strings, dying away}", 6, ["tragic", "dark", "short", "fading ending"]),
+    ], takes=2, variants=1, sting=True, loud=-21.0),
+    "arrive": Piece("a new system reached", ["a short shimmering arrival jingle", "a rising synth arpeggio", "a wide warm pad chord"], [
+        Part("[Arrival] {a fast rising arpeggio on a bell patch opening into a wide glowing chord}", 7, ["wonder", "short", "open ending"]),
+    ], takes=2, variants=2, sting=True, loud=-21.0, bright=0.15),
+    "taken": Piece("a world taken", ["a short proud martial jingle", "a MIDI snare roll and synth brass", "a timpani patch and an orchestra hit"], [
+        Part("[Victory] {a snare roll and a proud brass theme ending on a huge chord}", 8, ["triumphant", "proud", "short", "resolved ending"]),
+    ], takes=2, variants=1, sting=True, loud=-20.0, bright=0.15),
 }
