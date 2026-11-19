@@ -104,7 +104,7 @@ async function toAWorld(n) {
     return b ?? null
   }, n)
   if (!w) return
-  await key('KeyC', 80)
+  await key('KeyJ', 80)
   // (the cruise for a while, steered at the world: then put over it, for the time's sake)
   for (let i = 0; i < 40; i++) {
     const off = await S(([x, y]) => {

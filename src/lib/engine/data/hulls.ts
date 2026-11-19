@@ -92,6 +92,23 @@ export const CRASH_COMMIT = 1
 export const THROTTLE = { rate: 0.7, notch: 0.1, climb: 0.5 }
 
 /**
+ * The mouse as a stick, from behind and from the seat (Elite Dangerous's mouse: James, 2026-11-19, "mirror elite
+ * dangerous"): how far the pointer is from the middle of its steering is how fast the ship turns, and in space how fast it
+ * pitches. `reach`: the share of the frame's width from the middle that is the stick hard over; `dead`: the share of that
+ * in the middle that does nothing. The HUD draws the dead zone as a ring and a line out to the pointer (`render/hud.ts`),
+ * as Elite's mouse widget does, so a pilot sees why his ship turns.
+ */
+export const MOUSE_STICK = { reach: 0.26, dead: 0.06 }
+
+/**
+ * The vertical thrusters, as Elite's (James, 2026-11-19: "Ctrl to thrust down and alt to thrust up like vertically up and
+ * down for the ship"): the ship moves square to its nose, which does not pitch. Over a world at `share` of the rate it
+ * climbs; in space `space` px a second; taken up at `ease` a second. The lateral thrusters (Q and E: "thrust left and
+ * right - sort of the inverse of ctrl and alt") slide it sideways as fast, its nose not turning.
+ */
+export const LIFT = { share: 0.6, space: 70, ease: 4 }
+
+/**
  * The ship's power (James, 2026-11-18: "defaulted to powered off, and then when we switch power on they power up"). `up`:
  * seconds from the switch to everything alive (the screens one after another, the radar, the attitude ball, the bars, the
  * engines last); `down`: seconds for it all to go dark; `glow`: the share of the way up the engines light at (and on the

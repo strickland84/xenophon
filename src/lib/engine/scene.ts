@@ -832,6 +832,8 @@ export function createScene(initial: SceneParams): Scene {
       ctl.keyClimb = clamp(held.climb, -1, 1)
       ctl.keyWalk = clamp(held.walk ?? held.climb, -1, 1)
       ctl.keyThrottle = clamp(held.throttle ?? 0, -1, 1)
+      ctl.keyLift = clamp(held.lift ?? 0, -1, 1)
+      ctl.keyStrafe = clamp(held.strafe ?? 0, -1, 1)
       ctl.boost = clamp(held.boost, 0, 1)
       ctl.fire = held.fire
       ctl.secondary = held.secondary

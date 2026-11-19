@@ -31,15 +31,13 @@ export const SPACE_TOP = SPACE_Z + 900
  * its back rolls upright, and one within `settle` radians of level comes level, at `level` a second for each radian it is
  * off; pointed further up or down than that it stays as it was pointed, and flies there (so a dive at a world is held).
  *
- * The pointer does not pitch it round and round: where the pointer is says how far up or down the nose points, and there
- * it stays (`aim` radians with the pointer `span` of the frame's height from the middle of its steering, `curve` making it
- * gentle near that middle, nothing within `dead` of it), come to at `come` a second for each radian it is off. A pointer
- * resting anywhere is a ship flying steadily; held as a rate, as it was, a mouse left in the middle of the screen looped
- * the ship for ever. But in a band at the frame's top or bottom (its outer `edge` share of the height) the pointer pitches
- * the nose on round as the keys do, from `edgeRate` of `pitch` at the band's inner side to all of it at the frame's edge,
- * so a mouse loops too (James, 2026-11-19: "with the mouse cursor pitching up and down, I cannot do a full 360 spin. I can
- * do it with W and S though"); a pointer resting off the edges still holds the ship steady. Overhead a climb or a dive
- * held is a nose `lean` radians up or down, and level again let go; Use held over a world is a nose `dive` radians down.
+ * The pointer from behind and from the seat is a stick, as Elite Dangerous's mouse is (James, 2026-11-19, "mirror elite
+ * dangerous"): how far above or below the middle of its steering it is, past the dead zone (`MOUSE_STICK` in
+ * data/hulls.ts, drawn on the HUD as a ring), is how fast the nose pitches, all of `pitch` at `span` of the frame's
+ * height, `curve` making it gentle near the middle. (It was an aimed nose, to 80°, with a band at the frame's edges that
+ * pitched on round: a pilot could not see where its middle was. The ring shows it.) Overhead a climb or a dive held is a
+ * nose `lean` radians up or down, and level again let go, come to at `come` a second for each radian it is off (`aim`
+ * the most it is asked); Use held over a world is a nose `dive` radians down.
  */
 export const FLIGHT3D = {
   pitch: 1.3,
@@ -50,12 +48,9 @@ export const FLIGHT3D = {
   aim: 1.4,
   span: 0.36,
   curve: 1.4,
-  dead: 0.1,
   come: 2.5,
   lean: 0.9,
   dive: 0.95,
-  edge: 0.1,
-  edgeRate: 0.55,
 }
 
 /**

@@ -104,7 +104,7 @@ async function fly(page, seconds, want, until) {
   await page.waitForTimeout(600)
   await shot(page, '4-banked')
   console.log('home', home, JSON.stringify(await loop(page)).slice(0, 160))
-  await page.keyboard.press('Tab')
+  await page.keyboard.press('KeyI')
   await page.waitForTimeout(400)
   await shot(page, '5-base-hold')
   await page.getByRole('tab', { name: 'Market' }).click()

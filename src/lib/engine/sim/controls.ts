@@ -14,8 +14,13 @@ export interface HeldControls {
   walk?: number
   /** 0..1: the thrusters (a key or a button opens them all the way, a trigger part of the way) */
   boost: number
-  /** the throttle keys: −1 (Q, the stick pulled back) … +1 (E, pushed): held, they move the throttle (optional: left out, nothing) */
+  /** the throttle keys: −1 (S, the stick pulled back) … +1 (W, pushed): held, they move the throttle (optional: left out, nothing) */
   throttle?: number
+  /** the vertical thrusters, as Elite's: −1 (Ctrl) thrusting the ship down … +1 (Alt) up, square to its nose, which does not
+   * pitch (optional: left out, nothing) */
+  lift?: number
+  /** the lateral thrusters, as Elite's: −1 (Q) the ship slides left … +1 (E) right, its nose not turning (optional: left out, nothing) */
+  strafe?: number
   /** the guns, and the secondary weapon */
   fire: boolean
   secondary: boolean
@@ -47,6 +52,9 @@ export interface Controls {
   keyMode: boolean
   /** the throttle keys held, −1 … +1; and how far the throttle is to move at the next step besides (the mouse's wheel) */
   keyThrottle: number
+  /** the vertical thrusters held, −1 down … +1 up; the lateral, −1 left … +1 right */
+  keyLift: number
+  keyStrafe: number
   throttleBy: number
   /** the throttle set outright since the last step, or −1 */
   throttleTo: number
@@ -75,6 +83,8 @@ export function createControls(): Controls {
     keyWalk: 0,
     keyMode: false,
     keyThrottle: 0,
+    keyLift: 0,
+    keyStrafe: 0,
     throttleBy: 0,
     throttleTo: -1,
     boost: 0,

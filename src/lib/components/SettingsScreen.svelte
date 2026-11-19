@@ -84,7 +84,10 @@
   // ── the actions, in groups, each with its icon and a short name (what it does elsewhere goes in its tooltip)
   const GROUPS: { name: string; actions: Bindable[] }[] = [
     { name: 'Fight', actions: ['fire', 'secondary', 'boost', 'roll'] },
-    { name: 'Fly', actions: ['use', 'mine', 'power', 'view', 'cruise', 'nextShip'] },
+    {
+      name: 'Fly',
+      actions: ['stop', 'thrustUp', 'thrustDown', 'strafeLeft', 'strafeRight', 'use', 'mine', 'power', 'view', 'cruise', 'nextShip'],
+    },
     { name: 'Screens', actions: ['map', 'inventory', 'chat', 'menu', 'clip'] },
   ]
   const ICON: Partial<Record<Bindable, string>> = {
@@ -97,6 +100,10 @@
     power: 'power',
     view: 'view',
     cruise: 'cruise',
+    thrustUp: 'climb',
+    thrustDown: 'dive',
+    strafeLeft: 'boost',
+    strafeRight: 'boost',
     nextShip: 'ships',
     clip: 'picture',
     map: 'map',
@@ -108,6 +115,11 @@
     secondary: 'Missile',
     boost: 'Thrusters',
     cruise: 'Cruise',
+    stop: 'All stop',
+    thrustUp: 'Thrust up',
+    thrustDown: 'Thrust down',
+    strafeLeft: 'Thrust left',
+    strafeRight: 'Thrust right',
     inventory: 'Hold',
     mine: 'Mining',
     power: 'Power',
@@ -360,25 +372,27 @@
             <div class="top" style="--i: 1">
               <div class="steer">
                 {#if device === 'keys'}
-                  <!-- (laid out as the keys are: Q W E over A S D) -->
-                  <div class="flex flex-col items-center gap-2">
-                    <div class="flex gap-2">
-                      <!-- (Down is a stick's pull: as a flight stick, the default, it climbs) -->
-                      {@render cap('slower', 'Slower')}
-                      {@render cap('down', (settings.invertY ?? true) ? 'Climb' : 'Dive')}
+                  <!-- (laid out as the keys are, Elite's: W over A S D, the throttle and the turns; the arrows' up over down,
+                  the pitch, climbing and diving as named whatever the setting below) -->
+                  <div class="flex items-end gap-6">
+                    <div class="flex flex-col items-center gap-2">
                       {@render cap('faster', 'Faster')}
+                      <div class="flex gap-2">
+                        {@render cap('left', 'Left')}
+                        {@render cap('slower', 'Slower')}
+                        {@render cap('right', 'Right')}
+                      </div>
                     </div>
-                    <div class="flex gap-2">
-                      {@render cap('left', 'Left')}
-                      {@render cap('up', (settings.invertY ?? true) ? 'Dive' : 'Climb')}
-                      {@render cap('right', 'Right')}
+                    <div class="flex flex-col items-center gap-2">
+                      {@render cap('up', 'Climb')}
+                      {@render cap('down', 'Dive')}
                     </div>
                   </div>
                   <span
                     class="ui-label normal-case"
                     use:tip={{
                       title: 'The mouse',
-                      line: 'It steers, its left button fires, its right a missile, and its wheel moves the throttle',
+                      line: 'A stick: the further from the ring in the middle, the faster it turns. Its left button fires, its right a missile, and its wheel moves the throttle',
                     }}>+ the mouse</span
                   >
                 {:else}
@@ -412,13 +426,23 @@
                 )}
                 {@render choices(
                   'Up and down',
-                  settings.invertY ?? true,
+                  settings.invertY ?? false,
                   [
-                    [true, 'Up dives'],
                     [false, 'Up climbs'],
+                    [true, 'Up dives'],
                   ],
                   (v) => set({ invertY: v }),
-                  'Up dives, as a flight stick does; or up climbs',
+                  'The mouse and the stick: up climbs, or up dives as a flight stick does. The keys climb and dive as named',
+                )}
+                {@render choices(
+                  'Mouse ring',
+                  settings.mouseRing ?? true,
+                  [
+                    [true, 'Show'],
+                    [false, 'Hide'],
+                  ],
+                  (v) => set({ mouseRing: v }),
+                  'From behind and in the cockpit, a ring for the middle of the mouse’s steering and a line out to the pointer',
                 )}
                 <p class="ui-body w-full text-accent" role="status">
                   {#if waiting}{waiting.pad ? 'Press a button' : 'Press a key'}

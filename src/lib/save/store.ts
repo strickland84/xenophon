@@ -91,6 +91,8 @@ export interface Settings {
   /** the art pixel's size on screen, CSS px (0: whatever suits the screen), and the flames drawn in pixels or smooth (null: smooth where the graphics card can) */
   pixel: number
   flames: 'pixel' | 'realistic' | null
+  /** the mouse's stick drawn on the HUD from behind and the seat (a ring for its middle, a line to the pointer); null: shown */
+  mouseRing: boolean | null
   /** the last seconds of play kept all the while, to be had as a short film (display/clips.ts); null: on (it was off on a touch screen, before the game was for a desktop only) */
   clips: boolean | null
 }
@@ -110,6 +112,7 @@ export const newSettings = (): Settings => ({
   motion: 'full',
   pixel: 0,
   flames: null,
+  mouseRing: null,
   clips: null,
 })
 
@@ -308,6 +311,7 @@ function validate(d: Raw): Save | null {
     motion: st.motion === 'less' ? 'less' : 'full',
     pixel: typeof st.pixel === 'number' && Number.isInteger(st.pixel) && st.pixel >= 0 && st.pixel <= 6 ? st.pixel : 0,
     flames: st.flames === 'pixel' || st.flames === 'realistic' ? st.flames : null,
+    mouseRing: typeof st.mouseRing === 'boolean' ? st.mouseRing : null,
     // (a setting added within version 9: missing from older saves)
     clips: typeof st.clips === 'boolean' ? st.clips : null,
   }

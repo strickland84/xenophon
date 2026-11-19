@@ -368,7 +368,7 @@ export class Tutorial {
           : say(`Press ${key}: see your ship from behind`, 'Then again, for the cockpit')
       }
       case 'throttle': {
-        const close = pad ? 'pull the right stick back' : `hold ${n('slower')}`
+        const close = pad ? 'pull the right stick back' : `hold ${n('slower')}, or ${n('stop')} for all stop`
         const open = pad ? 'push the right stick up' : `hold ${n('faster')}`
         return this.slowed
           ? say(`Now open it again: ${open}`, 'All the way open for full speed')
@@ -380,12 +380,18 @@ export class Tutorial {
       case 'steer': {
         this.setCourse(scene)
         const steer = pad ? 'Left stick to steer' : `Steer with the mouse (or ${n('left')} ${n('right')})`
-        return say(`${steer} for ${world}: follow the arrow`, sub || 'Fly on until you are over it')
+        // (the mouse a stick, as Elite's: the ring on the HUD is its middle, from behind and in the cockpit)
+        const how = pad
+          ? 'Fly on until you are over it'
+          : `The mouse is a stick: the further from the ring, the harder you turn. ${n('cruise')} for the cruise drive, ${n('boost')} to boost`
+        return say(`${steer} for ${world}: follow the arrow`, sub || how)
       }
       case 'descend':
         return say(`Hold ${use} over ${world} to go down to it`, sub || 'Dive on down to its ground')
       case 'dive': {
-        const dive = pad ? `push the left stick ${this.o.stick() ? 'up' : 'down'}` : `hold ${this.o.stick() ? n('up') : n('down')}`
+        const dive = pad
+          ? `push the left stick ${this.o.stick() ? 'up' : 'down'}`
+          : `hold ${n('down')}, or ${n('thrustDown')} to drop straight down`
         return say(
           `Dive low: ${dive}`,
           Math.round(scene.player.above) > DIVE_TO ? `${Math.round(scene.player.above)} up. Mine and land under ${DIVE_TO}` : sub,
@@ -424,13 +430,13 @@ export class Tutorial {
         scene.setGuide(pad ? { x: pad.x, y: pad.y, z: pad.z, label: 'pad' } : null)
         return say(
           pad ? `Land on the pad at ${pad.name}: hold ${use} low over it` : `Land: hold ${use} low over flat ground`,
-          sub || 'Or wherever the HUD says LAND',
+          sub || (input === 'pointer' ? `Or hold ${n('thrustDown')} to sink all the way down onto it` : 'Or wherever the HUD says LAND'),
         )
       }
       case 'out':
         return say(
           `Tap ${use} to get out`,
-          pad ? 'On foot, the left stick walks' : `On foot, ${n('down')}${n('left')}${n('up')}${n('right')} walks`,
+          pad ? 'On foot, the left stick walks' : `On foot, ${n('faster')}${n('left')}${n('slower')}${n('right')} walks`,
         )
       case 'beacon':
         return say(`Plant a beacon: ${n('view')}, then pick its words`, 'Pilots landing here will read it')

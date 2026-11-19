@@ -35,13 +35,13 @@ const LINES: Record<StepId, Record<Voice, string>> = {
     any: 'Press your view key to change your view. Once to see the ship from behind, again for the cockpit, and once more to go back to the view from above.',
   },
   throttle: {
-    keys: 'The throttle sets your speed. Hold Q to close it and slow right down, then hold E to open it up again. The mouse wheel moves it too, and the third bar at the bottom left shows how open it is.',
+    keys: 'The throttle sets your speed. Hold S to close it and slow right down, then hold W to open it up again. The mouse wheel moves it too, X shuts it all at once, and the third bar at the bottom left shows how open it is.',
     ps: 'The throttle sets your speed. Pull the right stick back to close it and slow right down, then push it up to open it again. The third bar at the bottom left shows how open it is.',
     pad: 'The throttle sets your speed. Pull the right stick back to close it and slow right down, then push it up to open it again. The third bar at the bottom left shows how open it is.',
     any: 'The throttle sets your speed. Close it with your throttle keys to slow right down, then open it up again. The third bar at the bottom left shows how open it is.',
   },
   steer: {
-    keys: "The arrow on screen points at your side's home world. Steer with the mouse, or A and D, and fly until you're over it. E opens the throttle and Q closes it.",
+    keys: "The arrow on screen points at your side's home world. Fly until you're over it. From behind or in the cockpit, the mouse works like a stick: the further you push it from the ring in the middle, the harder you turn. Press J for the cruise drive, and Tab to boost.",
     ps: "The arrow on screen points at your side's home world. Steer with the left stick, and fly until you're over it. The right stick sets the throttle.",
     pad: "The arrow on screen points at your side's home world. Steer with the left stick, and fly until you're over it. The right stick sets the throttle.",
     any: "The arrow on screen points at your side's home world. Steer towards it, and fly until you're over it.",
@@ -53,7 +53,7 @@ const LINES: Record<StepId, Record<Voice, string>> = {
     any: "You're over the world now. Hold your action key to put the nose down, and keep diving through its air until you're flying over the ground.",
   },
   dive: {
-    keys: 'Hold S to dive. You can only mine and land close to the ground, so get your height under ninety.',
+    keys: 'Hold the down arrow to dive, or hold Ctrl to drop straight down with the nose level. You can only mine and land close to the ground, so get your height under ninety.',
     ps: 'Push the left stick up to dive. You can only mine and land close to the ground, so get your height under ninety.',
     pad: 'Push the left stick up to dive. You can only mine and land close to the ground, so get your height under ninety.',
     any: 'Dive. You can only mine and land close to the ground, so get your height under ninety.',
@@ -77,7 +77,7 @@ const LINES: Record<StepId, Record<Voice, string>> = {
     any: "The marked rock is ore. Fly low over it and hold your mining key to cut it with the laser. Then fly through the chunks that break off, and they're scooped into your hold.",
   },
   land: {
-    keys: 'Now land. Fly to the pad shown on screen and hold F, low over it. Any flat ground will do as well.',
+    keys: 'Now land. Fly to the pad shown on screen and hold F low over it, or hold Ctrl to sink all the way down onto it. Any flat ground will do as well.',
     ps: 'Now land. Fly to the pad shown on screen and hold Circle, low over it. Any flat ground will do as well.',
     pad: 'Now land. Fly to the pad shown on screen and hold B, low over it. Any flat ground will do as well.',
     any: 'Now land. Fly to the pad shown on screen and hold your action key, low over it. Any flat ground will do as well.',
@@ -126,15 +126,15 @@ const NAMED: Record<StepId, Bindable[]> = {
   power: ['power'],
   launch: ['use'],
   look: ['view'],
-  throttle: ['faster', 'slower'],
-  steer: ['left', 'right', 'faster', 'slower'],
+  throttle: ['faster', 'slower', 'stop'],
+  steer: ['cruise', 'boost'],
   descend: ['use'],
-  dive: ['up'],
+  dive: ['down', 'thrustDown'],
   target: ['target'],
   drones: ['fire'],
   mine: ['mine'],
-  land: ['use'],
-  out: ['use', 'down', 'left', 'up', 'right'],
+  land: ['use', 'thrustDown'],
+  out: ['use', 'faster', 'left', 'slower', 'right'],
   beacon: ['view'],
   board: ['use'],
   bank: ['use'],
@@ -143,9 +143,9 @@ const NAMED: Record<StepId, Bindable[]> = {
 
 /** which version of a step's line to read, for the device in use, the pilot's bindings and his pitch (`stick`: up dives) */
 export function sortieVoice(step: StepId, input: InputKind, b: Bindings = DEFAULT_BINDINGS, stick = true): Voice {
-  // (the lines say the stick's up dives)
-  if (step === 'dive' && !stick) return 'any'
   const pad = input === 'ps' || input === 'pad'
+  // (the controller's lines say the stick's up dives; the keys' name the key that dives, whatever the setting)
+  if (step === 'dive' && !stick && pad) return 'any'
   const ps = input === 'ps'
   const same = (a: Bindable) =>
     pad ? firstButton(b, a, ps) === firstButton(DEFAULT_BINDINGS, a, ps) : firstKey(b, a) === firstKey(DEFAULT_BINDINGS, a)

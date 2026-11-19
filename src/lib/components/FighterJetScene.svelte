@@ -148,6 +148,7 @@
     merged.useKey = padInput ? hudButton(bindings.pad.use?.[0] ?? 1, padInput === 'ps') : firstKey(bindings, 'use') || 'F'
     merged.mineKey = padInput ? hudButton(bindings.pad.mine?.[0] ?? 4, padInput === 'ps') : firstKey(bindings, 'mine') || 'R'
     merged.powerKey = padInput ? hudButton(bindings.pad.power?.[0] ?? 13, padInput === 'ps') : firstKey(bindings, 'power') || 'P'
+    merged.cruiseKey = padInput ? hudButton(bindings.pad.cruise?.[0] ?? 5, padInput === 'ps') : firstKey(bindings, 'cruise') || 'J'
     merged.seatKey = padInput ? hudButton(bindings.pad.seat?.[0] ?? 10, padInput === 'ps') : firstKey(bindings, 'seat') || 'G'
     // (on the page a ship landed or docked waits with its power off until its pilot brings it up: sim/power.ts)
     merged.coldStart = settings.coldStart ?? true
@@ -289,6 +290,10 @@
       case 'clip':
         onClip?.()
         break
+      case 'stop':
+        // (all stop: the throttle shut, as Elite's X)
+        scene?.setThrottle(0)
+        break
     }
   }
 
@@ -325,6 +330,8 @@
 
     const keys = (keyboard = createKeyboardInput({
       bindings: untrack(() => bindings),
+      // (the pitch keys climb and dive as named: the scene's turning over is for the mouse and a stick)
+      invert: () => params.invertY,
       ignore: typingElsewhere,
       onActivity: padLetGo,
       onChange: sendControls,
@@ -462,7 +469,7 @@
 <div
   bind:this={container}
   role="application"
-  aria-label="A pixel-art spaceship dogfight over islands. The pointer, arrow keys or WASD steer, the left mouse button fires the guns and the right one a missile once it has locked on, Shift opens the thrusters, Space rolls (a roll at the right moment shakes off a missile) and V moves between the overhead view, the view from behind the ship and the cockpit. A game controller works too."
+  aria-label="A pixel-art spaceship dogfight over islands. The mouse steers like a stick, the arrow keys and A and D steer, W and S set the throttle, the left mouse button fires the guns and the right one a missile once it has locked on, Tab opens the thrusters, Space rolls (a roll at the right moment shakes off a missile) and V moves between the overhead view, the view from behind the ship and the cockpit. A game controller works too."
   tabindex="0"
   class="relative h-full min-h-[320px] w-full overflow-hidden bg-[#2468b4] outline-none select-none"
   style="cursor: url('/ui/reticle-32.png') 16 16, crosshair"

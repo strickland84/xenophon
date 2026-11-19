@@ -123,6 +123,31 @@ tools/voxel/brand.py`; tries in `art/brand/`); the favicon is `mark-32.png`, the
   tests; templates; Dependabot; CODEOWNERS); Vercel (`vercel.json`, static `build/`) serves `main` at xenophon.me.
   James's private notes moved to `CLAUDE.local.md` (not in git).
 
+- **2026-11-19, the controls reviewed against Elite Dangerous and Star Citizen** (players: "the control scheme is very
+  hard to follow"). `docs/controls-review.md`: what confuses (the mouse steers four ways by view and zone, F's tap and
+  hold, W/S pitch against the genre, no full controls card, silent changes of context) and nine ranked suggestions.
+  Nothing built yet but the first piece: **up climbs** (James: "make UP CLIMBS the default"): the mouse and a stick climb
+  moved up unless Settings says Up dives (`invertY` false on the page, `Game.svelte`; the engine's default, which the
+  scripted flights fly with, is still true, so no frame changed); the pitch keys named by what they do (`up` W and the up
+  arrow, `down` S and the down arrow) and never turned over by the setting (`keyboard.ts invert`); old default layouts
+  renamed by `readBindings`. **Then Elite Dangerous's flight layout** (James: "build it to mirror elite dangerous control
+  scheme"): W/S the throttle (and walking), X all stop (`stop`, a page action: `setThrottle(0)`), A/D turn, the arrows
+  pitch and turn, Tab the boost and Shift too (it runs on foot: `hints.ts runKey`), J the cruise drive (`params.cruiseKey`
+  names it on the HUD), I the hold, F9 a clip, K and L guns and missile from the keys. The mouse from behind and the seat
+  is a stick everywhere (in space its height was an aimed nose with an edge band: now a rate, `FLIGHT3D span`, `curve`),
+  its middle drawn as a dotted ring with a line out to the pointer (`MOUSE_STICK` in `data/hulls.ts`, `render/hud.ts`;
+  `npx jiti tools/mouse-stick.ts out.png`). Old saves' untouched keys move over (`bindings.ts BEFORE_ELITE`). The
+  narrator read the throttle, steer and dive lines again. Fourteen flights re-recorded on purpose ([J] CRUISE, the ring).
+  The controller is as it was. **Alt and Ctrl thrust straight up and down** (`thrustUp`, `thrustDown`; `HeldControls.lift`,
+  `ctl.keyLift`, `LIFT`, `flight.liftV`: the nose does not pitch for them), the keys under a bound Ctrl or Alt are the
+  game's, and Ctrl+W asks before closing the tab (`keyboard.ts guard`); `sim/lift.spec.ts`, flight `the thrusters:
+up, down, left and right, from behind`. They move the ship and the height it holds together (they had moved the height
+  alone, and the nose wobbled chasing it: James, "a bit wobbly"); held down all the way to the ground Ctrl lands, as F
+  does (`landing.ts sinking`, `LAND.sunk`). **Q and E thrust sideways** (`strafeLeft`, `strafeRight`;
+  `HeldControls.strafe`, `ctl.keyStrafe`, `flight.sideV`), the nose not turning. **The mouse ring can be hidden**
+  (Settings, Mouse ring: `settings.mouseRing`, `params.mouseRing`). The first sortie's steer step teaches the mouse as a
+  stick, J and Tab; its dive step the down arrow or Ctrl; its land step Ctrl all the way down (the box and the narrator,
+  all read again).
 - **2026-11-19, the link's picture** (James: "make a nice opengraph image for xenophon.me"). `static/brand/og.png`,
   1200 × 630: its own sky with the suns at the edges (`uv run tools/gen/brand.py og-sky`, try 5 picked in
   `tools/voxel/brand.py PICKS`), the shield over the wordmark, and two lines in the game's pixel font (`words`, `og`);

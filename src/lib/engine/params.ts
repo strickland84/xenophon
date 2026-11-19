@@ -54,6 +54,8 @@ export interface SceneParams {
   powerKey: string // what it calls the power switch ('P', a controller's 'D-PAD DOWN')
   mineKey: string // what it calls the mining laser's control ('R', a controller's 'L1')
   seatKey: string // what it calls the seat key, up out of the seat in flight and back ('G', a controller's 'L3')
+  cruiseKey: string // what it calls the cruise drive's key ('J', as Elite's frame shift drive; a controller's 'R1')
+  mouseRing: boolean // from behind and the seat, the mouse's stick drawn on the HUD: a ring for its middle, a line to the pointer
   coldStart: boolean // a ship landed or docked sits powered off until its pilot switches it on: where he begins, a new ship, and once he has left it (sim/power.ts); false: always powered, as before
   parts: string // the modules fitted to the player's ship, by id, with commas between (data/loadout.ts)
   weapons: string // the weapon on each of its mounts, by id, with commas between ('' or 'cannon': the hull's own cannon)
@@ -118,6 +120,8 @@ export const DEFAULT_PARAMS: SceneParams = {
   powerKey: 'P',
   mineKey: 'R',
   seatKey: 'G',
+  cruiseKey: 'J',
+  mouseRing: true,
   coldStart: false,
   parts: '',
   weapons: '',

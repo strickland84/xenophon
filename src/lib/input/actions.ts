@@ -5,7 +5,7 @@
 //
 //   held:    steering, boost, fire, secondary            → Scene.setControls
 //   pressed: roll, use (land / board), view, cruise, power, seat, target → Scene.act
-//            map, inventory, chat, menu, the next ship    → the page
+//            map, inventory, chat, menu, the next ship, all stop → the page
 
 import type { HeldControls, SceneAction } from '../engine'
 
@@ -13,7 +13,7 @@ import type { HeldControls, SceneAction } from '../engine'
 export type Held = HeldControls
 
 /** things pressed once that the page deals with: the screens still to come, and the next ship */
-export type PageAction = 'map' | 'inventory' | 'chat' | 'menu' | 'nextShip' | 'clip'
+export type PageAction = 'map' | 'inventory' | 'chat' | 'menu' | 'nextShip' | 'clip' | 'stop'
 
 /** anything pressed once */
 export type Press = SceneAction | PageAction
@@ -48,6 +48,8 @@ export function combine(all: Held[]): Held {
     // (a device that does not say how it walks walks as it climbs: a stick pushed forward)
     sum.walk = (sum.walk ?? 0) + (h.walk ?? h.climb)
     sum.throttle = (sum.throttle ?? 0) + (h.throttle ?? 0)
+    sum.lift = (sum.lift ?? 0) + (h.lift ?? 0)
+    sum.strafe = (sum.strafe ?? 0) + (h.strafe ?? 0)
     sum.boost = Math.max(sum.boost, h.boost)
     sum.fire ||= h.fire
     sum.secondary ||= h.secondary
@@ -59,5 +61,7 @@ export function combine(all: Held[]): Held {
   sum.climb = Math.max(-1, Math.min(1, sum.climb))
   sum.walk = Math.max(-1, Math.min(1, sum.walk ?? 0))
   sum.throttle = Math.max(-1, Math.min(1, sum.throttle ?? 0))
+  sum.lift = Math.max(-1, Math.min(1, sum.lift ?? 0))
+  sum.strafe = Math.max(-1, Math.min(1, sum.strafe ?? 0))
   return sum
 }

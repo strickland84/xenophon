@@ -36,7 +36,7 @@ describe('the tips after the first sortie', () => {
     // (banked ore unsold, and few credits: where it is sold; with credits to spare at home: the frontier)
     const landed = { ...calm, loop: { stage: 'landed', base: { friendly: true } } }
     expect(nextTip({ ...landed, vault: 20, credits: 250 }, [], keys, 'pointer')?.id).toBe('sell')
-    expect(nextTip({ ...landed, vault: 20, credits: 250 }, [], keys, 'pointer')?.text).toContain('(TAB)')
+    expect(nextTip({ ...landed, vault: 20, credits: 250 }, [], keys, 'pointer')?.text).toContain('(I)')
     expect(nextTip({ ...landed, vault: 0, credits: 900, home: true }, ['sell'], keys, 'pointer')?.id).toBe('frontier')
     expect(nextTip({ ...landed, vault: 0, credits: 900, home: false }, ['sell'], keys, 'pointer')?.id).toBe('hangar')
   })

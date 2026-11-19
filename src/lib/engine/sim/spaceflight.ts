@@ -25,6 +25,7 @@
 // only tilts with it. That was space's too once, in a band of 268 px, where no ship could pitch past a lean.
 
 import { FLIGHT3D, SPACE_DEEP, SPACE_TOP } from '../data/space'
+import { LIFT, MOUSE_STICK } from '../data/hulls'
 import type { Jet } from '../jet/jet'
 import type { SceneState } from '../state'
 import { clamp, hash8, wrapAngle } from '../util/math'
@@ -63,25 +64,23 @@ function readStick(scene: SceneState, dt: number, lead: Jet, limits: FlightLimit
       stick.aim = ctl.keyClimb * sense * F.lean
     }
   } else if (steering && limits.chase) {
-    // from behind and from the seat: point left or right of the middle to turn, above or below it for the nose
-    const t = clamp((ctl.pointerX - view.cx) / (W * 0.26), -1, 1)
-    if (Math.abs(t) > 0.06) stick.turn = t
+    // from behind and from the seat: the mouse is a stick (Elite's): left or right of the middle turns, above or below it
+    // pitches, as fast as it is pushed
+    const reach = W * MOUSE_STICK.reach
+    const t = clamp((ctl.pointerX - view.cx) / reach, -1, 1)
+    if (Math.abs(t) > MOUSE_STICK.dead) stick.turn = t
     flight.aside = Math.abs(t)
     // (a climb or a dive held on the keys or a stick wins over where the pointer is)
     if (ctl.keyClimb !== 0 && !flight.carry) stick.pitch = ctl.keyClimb * sense
     else if (ctl.keyClimb !== 0) {
       stick.aiming = true
       stick.aim = ctl.keyClimb * sense * F.lean
-    } else if (ctl.pointerY < H * F.edge || ctl.pointerY > H * (1 - F.edge)) {
-      // (at the frame's top or bottom: on round, as the keys pitch it, harder the nearer the edge)
-      const into = ctl.pointerY < H * F.edge ? 1 - ctl.pointerY / (H * F.edge) : (ctl.pointerY - H * (1 - F.edge)) / (H * F.edge)
-      const up = ctl.pointerY < H * F.edge ? 1 : -1
-      stick.pitch = sense * up * (F.edgeRate + (1 - F.edgeRate) * clamp(into, 0, 1))
     } else {
-      const off = clamp((view.steerY - ctl.pointerY) / (H * F.span), -1, 1)
-      const far = Math.max(0, Math.abs(off) - F.dead) / (1 - F.dead)
-      stick.aiming = true
-      stick.aim = sense * Math.sign(off) * Math.pow(far, F.curve) * F.aim
+      // (the dead zone the same ring as across; hard over `span` of the frame's height from the middle)
+      const dead = reach * MOUSE_STICK.dead
+      const off = view.steerY - ctl.pointerY
+      const far = clamp((Math.abs(off) - dead) / Math.max(1, H * F.span - dead), 0, 1)
+      stick.pitch = sense * Math.sign(off) * Math.pow(far, F.curve)
     }
   } else if (steering && project(view, lead.x, lead.y, lead.z)) {
     // overhead: the nose turns to where the pointer is; it leans up or down only as held
@@ -181,6 +180,17 @@ export function flySpace(scene: SceneState, dt: number, lead: Jet, introDone: bo
   lead.x += lead.vx * dt
   lead.y += lead.vy * dt
   lead.z += sp * speed * dt
+  // the vertical thrusters: square to the nose, along the ship's own up (not with the cruise drive pushing)
+  const liftWant = introDone && scene.space.pace <= 1.2 ? scene.controls.keyLift * LIFT.space : 0
+  flight.liftV += (liftWant - flight.liftV) * (1 - Math.exp(-dt * LIFT.ease))
+  lead.x += -Math.sin(lead.yaw) * sp * flight.liftV * dt
+  lead.y += Math.cos(lead.yaw) * sp * flight.liftV * dt
+  lead.z += cp * flight.liftV * dt
+  // the lateral thrusters: along the ship's own right, level in the plane
+  const sideWant = introDone && scene.space.pace <= 1.2 ? scene.controls.keyStrafe * LIFT.space : 0
+  flight.sideV += (sideWant - flight.sideV) * (1 - Math.exp(-dt * LIFT.ease))
+  lead.x += Math.cos(lead.yaw) * flight.sideV * dt
+  lead.y += Math.sin(lead.yaw) * flight.sideV * dt
   // the band it flies in: at its edge the ship goes no further out (its nose is its pilot's)
   const walled = lead.z > SPACE_TOP || lead.z < SPACE_DEEP
   lead.z = clamp(lead.z, SPACE_DEEP, SPACE_TOP)

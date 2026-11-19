@@ -389,7 +389,7 @@ await real.waitForTimeout(1500)
 const before = fetched.length
 await real.mouse.click(10, 10)
 await real.waitForTimeout(4000)
-await real.keyboard.press('Tab')
+await real.keyboard.press('KeyI')
 await real.waitForTimeout(500)
 const button = await real.$('button')
 await button?.click()

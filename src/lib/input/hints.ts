@@ -17,26 +17,29 @@ export function namer(input: InputKind, b: Bindings = DEFAULT_BINDINGS): (a: Bin
   return (a) => firstKey(b, a) || '?'
 }
 
-/** the four walking keys (the pitch's, the pull walking forward, and the turns') as one word when they are the usual WASD, or each named */
+/** the four walking keys (the throttle's, throttle up walking forward, and the turns') as one word when they are the usual WASD, or each named */
 function steerKeys(b: Bindings) {
   const k = (a: Bindable) => firstKey(b, a)
-  const four = [k('down'), k('left'), k('up'), k('right')]
+  const four = [k('faster'), k('left'), k('slower'), k('right')]
   return four.join('') === 'WASD' ? 'WASD' : four.join(' ')
 }
+
+/** the key that runs on foot: Shift where the thrusters have it (Tab is theirs in flight, as Elite's boost), or their first */
+const runKey = (b: Bindings) => (b.keys.boost.includes('ShiftLeft') ? 'SHIFT' : firstKey(b, 'boost') || '?')
 
 /** the help on foot: walking, the sidearm, a jump (and climbing a cliff pushed against), Use, a flare and a beacon */
 export function footHint(input: InputKind, b: Bindings = DEFAULT_BINDINGS) {
   const n = namer(input, b)
   if (input === 'ps' || input === 'pad')
     return `Left stick to walk · Hold ${n('boost')} to run · ${n('fire')} fires · ${n('roll')} to jump (push into a cliff to climb it) · ${n('use')} to climb in, cut a vein or call a ship · ${n('secondary')} for a flare · ${n('view')} for a beacon`
-  return `${steerKeys(b)} to walk · ${n('boost')} to run · Click to fire where you point · ${n('roll')} to jump (push into a cliff to climb it) · ${n('use')} to climb in, cut a vein or call a ship · Right-click for a flare · ${n('view')} for a beacon`
+  return `${steerKeys(b)} to walk · ${runKey(b)} to run · Click to fire where you point · ${n('roll')} to jump (push into a cliff to climb it) · ${n('use')} to climb in, cut a vein or call a ship · Right-click for a flare · ${n('view')} for a beacon`
 }
 
 /** the help inside (the hangar, the deck, a ship's rooms): walking, and Use by what he stands at */
 export function insideHint(input: InputKind, b: Bindings = DEFAULT_BINDINGS) {
   const n = namer(input, b)
   if (input === 'ps' || input === 'pad') return `Left stick to walk · ${n('use')} to use what you stand by · Leave at the top`
-  return `${steerKeys(b)} to walk · ${n('boost')} to run · ${n('use')} to use what you stand by · Leave at the top`
+  return `${steerKeys(b)} to walk · ${runKey(b)} to run · ${n('use')} to use what you stand by · Leave at the top`
 }
 
 /** the help up out of the seat in flight: walking his ship's rooms while it flies itself, and back to the seat */
@@ -44,10 +47,10 @@ export function upHint(input: InputKind, b: Bindings = DEFAULT_BINDINGS) {
   const n = namer(input, b)
   if (input === 'ps' || input === 'pad')
     return `Left stick to walk the ship (it flies itself) · ${n('use')} to use what you stand by · ${n('seat')} back to the seat`
-  return `${steerKeys(b)} to walk the ship (it flies itself) · ${n('boost')} to run · ${n('use')} to use what you stand by · ${n('seat')} back to the seat`
+  return `${steerKeys(b)} to walk the ship (it flies itself) · ${runKey(b)} to run · ${n('use')} to use what you stand by · ${n('seat')} back to the seat`
 }
 
-/** the help for a view; `stick` says up and down work like a flight stick (down climbs) */
+/** the help for a view; `stick` says the mouse and a stick work like a flight stick (down climbs); the keys are as named */
 export function hintFor(view: ViewMode, input: InputKind, stick: boolean, loop = false, b: Bindings = DEFAULT_BINDINGS) {
   const n = namer(input, b)
   const next = view === 'top' ? 'chase view' : view === 'chase' ? 'the cockpit' : 'overhead'
@@ -59,10 +62,10 @@ export function hintFor(view: ViewMode, input: InputKind, stick: boolean, loop =
       : ''
     return `${fly} · ${n('fire')} fires · ${n('secondary')} for a missile once locked · ${n('roll')} to roll · Hold ${n('boost')} for the thrusters${land} · ${n('view')} for ${next} · ${n('seat')} to get up and walk the ship`
   }
-  const steer = view === 'top' ? 'Move to steer' : `Point to turn · ${upDown}`
-  // (overhead, the keys climb and dive: up dives as a stick, unless the setting says otherwise)
-  const keysUpDown = view === 'top' ? ` · ${stick ? n('up') : n('down')} dives, ${stick ? n('down') : n('up')} climbs` : ''
-  const throttle = ` · ${n('faster')}/${n('slower')} or the wheel for the throttle (down to a stop)`
+  const steer = view === 'top' ? 'Move to steer' : `The mouse is a stick, its middle the ring · ${upDown}`
+  // (overhead, the keys climb and dive, as named whatever the setting)
+  const keysUpDown = view === 'top' ? ` · ${n('down')} dives, ${n('up')} climbs` : ''
+  const throttle = ` · ${n('faster')}/${n('slower')} or the wheel for the throttle · ${n('stop')} all stop · ${n('thrustUp')}/${n('thrustDown')} thrust up and down · ${n('strafeLeft')}/${n('strafeRight')} thrust left and right`
   return `${steer}${keysUpDown}${throttle} · Click (or ${n('fire')}) to fire · Right-click (or ${n('secondary')}) for a missile once locked · ${n('roll')} to roll · ${n('boost')} for the thrusters${loop ? ` · ${n('power')} powers the ship up, landed · Hold ${n('use')} to land, take off, or high up for space (tap it landed to get out) · Hold ${n('mine')} to mine · ${n('inventory')} for the hold · ${n('map')} for the maps` : ''} · ${n('view')} for ${next} · ${n('seat')} to get up and walk the ship`
 }
 
@@ -71,7 +74,7 @@ export function spaceHint(input: InputKind, b: Bindings = DEFAULT_BINDINGS) {
   const n = namer(input, b)
   if (input === 'ps' || input === 'pad')
     return `Left stick to fly (down over a world goes down to it) · Right stick for the throttle · ${n('power')} powers the ship up, docked · ${n('fire')} fires · ${n('cruise')} for the cruise drive · ${n('target')} to target what you aim at, again for the next · Hold ${n('use')} to dock, go down to a world, jump a gate or skim · ${n('view')} for the next view · ${n('map')} for the maps · ${n('seat')} to get up and walk the ship`
-  return `Move to steer · ${n('power')} powers the ship up, docked · ${n('faster')}/${n('slower')} or the wheel for the throttle · Click to fire · ${n('cruise')} for the cruise drive · ${n('target')} to target what you aim at, again for the next, held to let go · Hold ${n('use')} to dock, go down to a world, jump a gate or skim · ${n('view')} for the next view · ${n('map')} for the maps · ${n('inventory')} for the hold · ${n('seat')} to get up and walk the ship`
+  return `The mouse is a stick, its middle the ring · ${n('power')} powers the ship up, docked · ${n('faster')}/${n('slower')} or the wheel for the throttle · ${n('stop')} all stop · ${n('thrustUp')}/${n('thrustDown')} thrust up and down · ${n('strafeLeft')}/${n('strafeRight')} thrust left and right · Click to fire · ${n('cruise')} for the cruise drive · ${n('target')} to target what you aim at, again for the next, held to let go · Hold ${n('use')} to dock, go down to a world, jump a gate or skim · ${n('view')} for the next view · ${n('map')} for the maps · ${n('inventory')} for the hold · ${n('seat')} to get up and walk the ship`
 }
 
 /** a key (or button) and the one word for what it does: the help line as the page shows it */

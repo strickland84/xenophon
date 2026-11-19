@@ -753,9 +753,10 @@
       if (devHull) Object.assign(own, { hull: devHull, weapons: '', parts: '' })
       if (save.settings.view) own.view = save.settings.view
       if (save.settings.volume !== null) own.volume = save.settings.volume
-      // (the settings screen's: up and down as a stick, the shake, the flames)
-      if (save.settings.invertY !== null) own.invertY = save.settings.invertY
+      // (the settings screen's: up and down (up climbs unless he says otherwise: James, 2026-11-19), the shake, the flames)
+      own.invertY = save.settings.invertY ?? false
       own.shake = save.settings.shake
+      own.mouseRing = save.settings.mouseRing ?? true
       if (save.settings.flames) own.flameStyle = save.settings.flames
     }
     return { ...own, ...settings, world }
@@ -878,7 +879,7 @@
         step: (save.tutorial.step || undefined) as StepId | undefined,
         input: () => inputKind,
         name: (a) => namer(inputKind, save?.settings.bindings)(a),
-        stick: () => sceneSettings.invertY ?? true,
+        stick: () => sceneSettings.invertY ?? false,
       })
     }
     // (the clock the outcrops and prices run on; set again now and then, as a tab can sleep)
@@ -1084,7 +1085,7 @@
   // ── the first sortie and the tips
   /** the narrator's line for a step of the first sortie, in the words for the device in use and the keys as bound */
   function sayStep(step: StepId) {
-    speak(sortieLine(step, sortieVoice(step, inputKind, save?.settings.bindings, sceneSettings.invertY ?? true)))
+    speak(sortieLine(step, sortieVoice(step, inputKind, save?.settings.bindings, sceneSettings.invertY ?? false)))
   }
 
   /** the first sortie is over: kept so, the last line shown a moment, and the galaxy map opened on today's hotspots */

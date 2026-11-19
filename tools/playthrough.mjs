@@ -230,7 +230,7 @@ async function play(device) {
       if (L.home && L.home.d > 900) await place(L.home.x + 400, L.home.y + 300, -2.2)
       if (L.home) await steerTo(L.home.x, L.home.y)
       await action(L.prompt === 'pad' || L.stage === 'landing')
-      await key('KeyS', L.prompt !== 'pad' && L.home && L.home.d < 260)
+      await key('ArrowDown', L.prompt !== 'pad' && L.home && L.home.d < 260)
       await wait(120)
     }
     await lift()
@@ -303,10 +303,10 @@ async function play(device) {
     await action(true)
     await until('flying', () => window.__xenophon.scene.loop.stage === 'flying', 15000)
     await action(false)
-    // climb (W) to 160 px and over, then Action held
-    await key('KeyW', true)
+    // climb (the up arrow) to 160 px and over, then Action held
+    await key('ArrowUp', true)
     await until('high up', () => window.__xenophon.scene.player.height > 200, 30000)
-    await key('KeyW', false)
+    await key('ArrowUp', false)
     await action(true)
     await until('in space', () => window.__xenophon.scene.zone.kind === 'space' && !window.__xenophon.scene.zone.travel, 40000)
     await action(false)
@@ -332,7 +332,7 @@ async function play(device) {
     })
     if (!st) throw new Error('no station in this system')
     await S((i) => window.__xenophon.scene.setCourse(i), st.index)
-    await tap('KeyC')
+    await tap('KeyJ')
     const end = Date.now() + 90_000
     while (Date.now() < end) {
       const z = await zone()
@@ -340,7 +340,7 @@ async function play(device) {
       const me = await S(() => window.__xenophon.scene.player)
       const s = await S((i) => window.__xenophon.scene.bodies().find((b) => b.index === i), st.index)
       await steerTo(z.aim?.x ?? s.x, z.aim?.y ?? s.y)
-      if (Math.hypot(s.x - me.x, s.y - me.y) > 6000 && z.cruise === 'off') await tap('KeyC')
+      if (Math.hypot(s.x - me.x, s.y - me.y) > 6000 && z.cruise === 'off') await tap('KeyJ')
       await wait(200)
     }
     await lift()
@@ -443,7 +443,7 @@ async function play(device) {
       await shot(`arrived-${view}`)
       // and back up for the next view
       if (view !== 'cockpit') {
-        await key('KeyW', true)
+        await key('ArrowUp', true)
         await until('high up', () => window.__xenophon.scene.player.height > 200, 30000)
         await release()
         await action(true)

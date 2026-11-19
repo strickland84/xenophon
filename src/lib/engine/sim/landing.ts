@@ -323,13 +323,16 @@ export function stepLanding(scene: SceneState, dt: number, j: Jet, held: boolean
   // itself must be let go, so that a press to climb out right after touching down is not taken for a hold)
   if (!(looping(scene) ? scene.controls.land : held)) L.release = false
   if (L.release) return
+  // (the vertical thrusters held down all the way to the floor land it, as Land does: James, 2026-11-19, "if I ctrl down
+  // all the way to planet, it should land (I shouldnt have to hit F)"; held down while it comes down, they keep it coming)
+  const sinking = scene.controls.keyLift < -0.5 && (L.stage !== FLYING || j.z - scene.flight.floor < LAND.sunk)
   if (L.stage === FLYING) {
-    if (!held || !canLand) return
+    if (!(held || sinking) || !canLand) return
     const spot = landingSpot(scene, j, scene.speed)
     if (spot) startLanding(scene, j, spot)
   } else if (L.stage === LANDING) {
     // (a brief press is not a change of mind)
-    if (!held && L.t > 0.2) abort(scene, j)
+    if (!held && !sinking && L.t > 0.2) abort(scene, j)
   } else if (L.stage === LANDED) {
     // (in the loop: a tap climbs out, and only a hold lifts off; elsewhere a press counts as a hold)
     const out = looping(scene) && scene.introT > 2

@@ -840,7 +840,8 @@ every step, at rest), the faults were five, each of them the game moving his shi
   James: "with the mouse cursor pitching up and down, I cannot do a full 360 spin. I can do it with W and S though":
   pushed into a band at the frame's top or bottom, its outer tenth (`FLIGHT3D edge`), the pointer pitches the nose on
   round as the keys do, from `edgeRate` of their rate to all of it at the edge; resting anywhere else it still aims.
-  `sim/spaceflight.spec.ts`.)
+  `sim/spaceflight.spec.ts`. Later that day both went: the pointer is a stick, its distance from the middle a rate of
+  pitch, with a ring on the HUD for the middle, as Elite's mouse is; section 16, "Controls".)
 - **A ship with a still mouse flew itself.** Five seconds without the pointer moving, or a finger lifted, and the ship
   was taken for one with nobody at it: it weaved about and rolled, as the ship on show does. The `wander` setting says
   where that is wanted (the scripted flights and a ship on show); the page sets it false, and a pilot's ship holds its
@@ -2179,21 +2180,46 @@ the page) but do nothing yet. The touch screen has Fire, Missile, Boost, Roll, A
 Ship and Menu buttons; Map, Bag and Chat buttons come with the features they open. On a
 controller the D-pad does not steer: up and right are taken.
 
-| Action           | Mouse and keys   | Controller  | Touch                 |
-| ---------------- | ---------------- | ----------- | --------------------- |
-| Steer            | Pointer, or WASD | Left stick  | Touch and drag        |
-| Throttle         | E and Q, wheel   | Right stick | Throttle lever        |
-| Fire             | Left button      | R2          | Fire button           |
-| Secondary weapon | Right button     | Square      | Secondary button      |
-| Boost            | Shift            | L2          | Boost button          |
-| Roll             | Space            | Cross       | Swipe, or Roll button |
-| Land, board, use | F                | Circle      | Action button         |
-| Change view      | V                | Triangle    | View button           |
-| Power on and off | P                | D-pad down  | Power button          |
-| Map              | M                | Touchpad    | Map button            |
-| Inventory        | Tab              | D-pad up    | Bag button            |
-| Chat             | Enter            | D-pad right | Chat button           |
-| Menu             | Escape           | Options     | Menu button           |
+Since 2026-11-19 the keys and the mouse are Elite Dangerous's flight layout (James: "build it to mirror elite dangerous
+control scheme"; the review is `docs/controls-review.md`). The touch column is of how it was.
+
+| Action           | Mouse and keys                              | Controller  | Touch                 |
+| ---------------- | ------------------------------------------- | ----------- | --------------------- |
+| Pitch and turn   | The mouse, a stick (a ring for its middle)  | Left stick  | Touch and drag        |
+| Pitch            | Up and down arrows                          | Left stick  |                       |
+| Thrust up, down  | Alt, Ctrl (straight up and down)            |             |                       |
+| Thrust sideways  | Q, E (left and right, the nose not turning) |             |                       |
+| Turn             | A and D, left and right arrows              | Left stick  |                       |
+| Throttle         | W and S, wheel                              | Right stick | Throttle lever        |
+| All stop         | X                                           |             |                       |
+| Fire             | Left button                                 | R2          | Fire button           |
+| Secondary weapon | Right button                                | Square      | Secondary button      |
+| Boost            | Tab (and Shift, which runs on foot)         | L2          | Boost button          |
+| Cruise drive     | J                                           | R1          |                       |
+| Roll             | Space                                       | Cross       | Swipe, or Roll button |
+| Land, board, use | F                                           | Circle      | Action button         |
+| Change view      | V                                           | Triangle    | View button           |
+| Power on and off | P                                           | D-pad down  | Power button          |
+| Map              | M                                           | Touchpad    | Map button            |
+| Inventory        | I                                           | D-pad up    | Bag button            |
+| Chat             | Enter                                       | D-pad right | Chat button           |
+| Menu             | Escape                                      | Options     | Menu button           |
+| Clip             | F9                                          |             |                       |
+
+From behind and from the seat the mouse is a stick, as Elite's is: how far it is from the middle of its steering is how
+fast the ship turns and, in space, pitches (over a world, how fast it climbs), with a dead zone in the middle
+(`MOUSE_STICK` in `data/hulls.ts`); the HUD draws that dead zone as a ring and a line out to the pointer, as Elite's mouse
+widget does (`render/hud.ts`). Up climbs unless Settings says Up dives; the arrow keys climb and dive as named whatever
+the setting. Alt and Ctrl are the vertical thrusters, as Elite's (James: "Ctrl to thrust down and alt to thrust up"): the
+ship goes straight up or down, square to its nose, which does not pitch (`LIFT` in `data/hulls.ts`, `flight.liftV`; over a
+world its height moves, with the ship, so its nose does not tip; in space it moves along its own up). Held down all the
+way to the floor it lands the ship, as Land does (`landing.ts sinking`, `LAND.sunk`). Q and E are the lateral thrusters
+("q and e like thrust left and right"): the ship slides along its own right, its nose not turning (`flight.sideV`). While a bound Ctrl or Alt is held the keys under it are the
+game's and the browser's shortcuts are kept from them (`keyboard.ts`); Ctrl+W, which a page cannot stop, asks before the
+tab closes (a `beforeunload` while either is held). The ring can be hidden (Settings, Controls: Mouse ring;
+`settings.mouseRing`, the scene's `mouseRing`). On foot W and S walk (the throttle keys walk), Shift runs. A save that kept the old keys, as given, takes the
+new ones; a key the player chose keeps its own (`readBindings`, `BEFORE_ELITE`). Overhead the pointer still turns the
+ship towards it (Elite has no such view).
 
 On foot, the same keys move the pilot, Fire uses the tool or sidearm, and F interacts.
 All bindings can be changed in settings.
@@ -2213,7 +2239,11 @@ Climbing and diving moved from W and S to E and Q (a stick's pull and push: as a
 a save with the old keys gets the new ones (`readBindings`). On foot and inside W and S still walk. (Since 2026-11-19, James:
 W and S pitch the nose, W up, as the arrows do, and E and Q are the throttle, E opening it; a save with the layout above,
 unchanged, gets the new one. On foot W still walks forward: the keys say how they walk apart from how they pitch,
-`HeldControls.walk`, the scene's `keyWalk`.) The scene keeps it
+`HeldControls.walk`, the scene's `keyWalk`.) (Later that day, James: "make UP CLIMBS the default": the mouse and a stick
+climb when moved up unless the setting says Up dives (`invertY` false on the page; the engine's own default, for the
+scripted flights, is still true). The pitch keys are named by what they do, Up (W, the up arrow) climbing and Down (S, the
+down arrow) diving, and the setting does not turn them over: `keyboard.ts` sends their pitch turned over while the scene
+turns it back. A save with the old keys as given gets the new names, `readBindings`.) The scene keeps it
 (`scene.throttle`, `Scene.throttleBy`, `setThrottle`, `status.throttle`); `sim/flight.ts stepThrust` flies at it (the
 thrusters open it all the way and beyond, from a standstill too; the way down and up, a gate and the cruise drive open it
 full); stopped, a ship still turns and climbs (`THROTTLE.climb`). The flames burn as hard as it is open. The HUD has a

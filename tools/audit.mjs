@@ -259,7 +259,7 @@ if (groups.includes('base')) {
   await tryShot('base', 'screen', async () => {
     await goTo('w0')
     await shot('base', 'landed', 1500)
-    await page.keyboard.press('Tab')
+    await page.keyboard.press('KeyI')
     await wait(700)
     const tabs = await page.locator('section [role="tab"]').all()
     for (let i = 0; i < tabs.length; i++) {

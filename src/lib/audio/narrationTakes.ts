@@ -82,8 +82,8 @@ export const TAKES: Record<string, { text: string; seconds: number }> = {
     seconds: 10.07,
   },
   'sortie-throttle-keys': {
-    text: 'The throttle sets your speed. Hold Q to close it and slow right down, then hold E to open it up again. The mouse wheel moves it too, and the third bar at the bottom left shows how open it is.',
-    seconds: 13.2,
+    text: 'The throttle sets your speed. Hold S to close it and slow right down, then hold W to open it up again. The mouse wheel moves it too, X shuts it all at once, and the third bar at the bottom left shows how open it is.',
+    seconds: 15.92,
   },
   'sortie-throttle-ps': {
     text: 'The throttle sets your speed. Pull the right stick back to close it and slow right down, then push it up to open it again. The third bar at the bottom left shows how open it is.',
@@ -98,8 +98,8 @@ export const TAKES: Record<string, { text: string; seconds: number }> = {
     seconds: 10.32,
   },
   'sortie-steer-keys': {
-    text: "The arrow on screen points at your side's home world. Steer with the mouse, or A and D, and fly until you're over it. E opens the throttle and Q closes it.",
-    seconds: 11.28,
+    text: "The arrow on screen points at your side's home world. Fly until you're over it. From behind or in the cockpit, the mouse works like a stick: the further you push it from the ring in the middle, the harder you turn. Press J for the cruise drive, and Tab to boost.",
+    seconds: 16.72,
   },
   'sortie-steer-ps': {
     text: "The arrow on screen points at your side's home world. Steer with the left stick, and fly until you're over it. The right stick sets the throttle.",
@@ -130,8 +130,8 @@ export const TAKES: Record<string, { text: string; seconds: number }> = {
     seconds: 7.12,
   },
   'sortie-dive-keys': {
-    text: 'Hold S to dive. You can only mine and land close to the ground, so get your height under ninety.',
-    seconds: 5.76,
+    text: 'Hold the down arrow to dive, or hold Ctrl to drop straight down with the nose level. You can only mine and land close to the ground, so get your height under ninety.',
+    seconds: 10.8,
   },
   'sortie-dive-ps': {
     text: 'Push the left stick up to dive. You can only mine and land close to the ground, so get your height under ninety.',
@@ -194,8 +194,8 @@ export const TAKES: Record<string, { text: string; seconds: number }> = {
     seconds: 10.8,
   },
   'sortie-land-keys': {
-    text: 'Now land. Fly to the pad shown on screen and hold F, low over it. Any flat ground will do as well.',
-    seconds: 7.44,
+    text: 'Now land. Fly to the pad shown on screen and hold F low over it, or hold Ctrl to sink all the way down onto it. Any flat ground will do as well.',
+    seconds: 10.64,
   },
   'sortie-land-ps': {
     text: 'Now land. Fly to the pad shown on screen and hold Circle, low over it. Any flat ground will do as well.',
