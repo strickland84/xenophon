@@ -185,7 +185,8 @@ export function drawSun(
         else fb[o] = add(fb[o], flare, 120)
         continue
       }
-      const k = glowAt(out - edge) * (0.55 + ray * 0.9) + BAYER[bi] - 8
+      // (and to nothing by where it ends, not to a faint line)
+      const k = glowAt(out - edge) * (0.55 + ray * 0.9) * Math.min(1, (1.6 - out) * 4) + BAYER[bi] - 8
       if (k > 0) fb[o] = add(fb[o], glow, k)
     }
   }
@@ -271,13 +272,15 @@ export function castSun(
     let b = lx * dx + ly * dy + lz * dz
     let o = y * W + x0
     for (let x = x0; x <= x1; x++, o++, dx += c.rx, dy += c.ry, b += rLr) {
-      if (b <= 0 || zbuf[o] < 1e9) continue
+      if (zbuf[o] < 1e9) continue
       const a = dx * dx + dy * dy + dz * dz
-      // how close the ray comes to the middle, as a share of its radius
-      const perp2 = ll - (b * b) / a
+      // how close the ray comes to the middle, as a share of its radius: looking away from the sun, as close as the camera
+      // itself is. (Those rays were left out, and in the glow, near a sun, it ended at a straight line square to the way
+      // to the sun, bright on one side and black on the other: James, 2026-11-19.)
+      const perp2 = b > 0 ? ll - (b * b) / a : ll
       const r = Math.sqrt(Math.max(0, perp2)) * invR
       const bi = ((y & 3) << 2) | (x & 3)
-      if (perp2 < R2) {
+      if (perp2 < R2 && b > 0) {
         const tt = (b - Math.sqrt(R2 - perp2) * Math.sqrt(a)) / a
         const nx = (c.ox + dx * tt - sx) * invR
         const ny = (c.oy + dy * tt - sy) * invR

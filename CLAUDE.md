@@ -162,7 +162,10 @@ stepSpaceUse`; `space.diving` and `FLIGHT3D.dive` are gone): down to the top of 
   THE WAY OUT once asked). **Poles** are one colour past the map's last row (`render/globe.ts capsOf`): they were a
   starburst. Flight `up out of a world on the cruise drive`; twelve flights re-recorded on purpose (the air, and the
   caps where a pole is in view); `session.spec.ts`'s pilot going down holds F 1.5 s. Left: a mouse off the middle with
-  the nose steeply down still turns about space's up, and the world wheels round under the ship.
+  the nose steeply down still turns about space's up, and the world wheels round under the ship. **A sun's glow** no
+  longer ends at a straight line square to the way to the sun (`render/bodies.ts castSun`: rays looking away from the
+  sun were left out; they take the camera's own distance from it now) and fades to nothing where it ends; five flights
+  re-recorded for that.
 - **2026-11-19, the base's row is its only menu** (James: "these menus are so confused … I click Cairn Point and I see
   menu for market and supplies, but in the main screen I also have menu for market and supplies"). At a friendly base the
   row at the top is Hold, Market, Supplies (the base screen's pages: `components/basePages.ts BASE_PAGES`), then Hangar,
