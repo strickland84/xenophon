@@ -236,8 +236,7 @@ and shot`, its checks changed to the new order; `targets picked in turn from the
   read again. The music is sequenced MIDI-style game music of the early 1990s (`sound_recipe.py SCORE`, `NOT_MIDI`,
   patches named in every piece), two takes of each piece and sting. The opening story has its own piece and place,
   `intro` (`moods.ts`, set by `Game.svelte` while `IntroCrawl` is open). Nobody has heard any of it; the plan's section
-  17 has the details. The repo is private "for now" (James, 2026-11-19); the site at xenophon.me was paused, and is live
-  again.
+  17 has the details. The repo was private for a while that day and is public again.
 - **2026-11-19, the wind leaves what stands on the ground, and no sheet of cloud lies across the view as a line** (James:
   "it pushes my ship around when landed"; "a very clear thin line that looks like land"). The wind (`sim/hazards.ts
 standing`) no longer moves turrets, pilots on foot, a parked ship, or his own ship landing, landed, lifting off or left.

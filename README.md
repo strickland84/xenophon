@@ -51,14 +51,13 @@ At a dock on the edge of the war, a new pilot sits in a cold ship, waiting for c
 1. **No server, ever.** The game is a folder of static files. Players meet peer to peer, and the shared galaxy lives
    on public Nostr relays. There are no accounts, no backend and nothing for anyone to switch off. A change that
    needs a server of ours will not be merged.
-2. **Fun first.** A feature is done when it is fun to play, not when it works.
-3. **Beautiful pixel art.** Every pixel on screen is the same size, sprites are never scaled, and programmer art
+2. **Beautiful pixel art.** Every pixel on screen is the same size, sprites are never scaled, and programmer art
    never ships.
-4. **Fair.** Nothing is sold. Ranks, paint and furniture never add power, and no hull or fit is more than a little
+3. **Fair.** Nothing is sold. Ranks, paint and furniture never add power, and no hull or fit is more than a little
    better than another.
-5. **For a desktop.** It runs alone and offline, in a browser on a computer, with a mouse and a keyboard (or a
+4. **For a desktop.** It runs alone and offline, in a browser on a computer, with a mouse and a keyboard (or a
    controller). A phone or a tablet is pointed here instead.
-6. **Open.** The code is GPL-3.0, and anyone can read it, change it and help make the game.
+5. **Open.** The code is GPL-3.0, and anyone can read it, change it and help make the game.
 
 ## Help wanted
 
