@@ -11,7 +11,7 @@ import type { EffectName } from './catalogue'
 import { BEEPS, beeps, BIG_BANG, CUES, cueSound, effectsInUse, ENGINE_SIZE, powerCue, powerOf, steady, UI } from './cues'
 import type { Listening } from './cues'
 import { effectPath, piecePath } from './library'
-import { createFightWatch, fightLevel, isHarsh, MOODS, placeFor, PLACES, SETTLE, SETTLE_PERIL, STINGS } from './moods'
+import { changeOf, createFightWatch, fightLevel, isHarsh, MOODS, placeFor, PLACES, SETTLE, SETTLE_PERIL, STINGS } from './moods'
 import type { Where } from './moods'
 
 // The game's sound, without ears: every thing the engine says was heard has a sound, every sound a
@@ -277,6 +277,28 @@ describe('the music', () => {
     expect(watch.look(1, 10 + SETTLE - 1)).toBe(2)
     expect(watch.look(0, 10 + SETTLE + 0.1)).toBe(1)
     expect(watch.look(0, 9 + 2 * SETTLE)).toBe(0)
+  })
+
+  it('lets a take run to its end between quiet places, keeps a cooling fight’s song, and switches for a fight or a hole', () => {
+    // (the cruise drive, night, out of the ship, inside, the maps: the take playing runs on, and a rest too)
+    expect(changeOf('space', 'cruise')).toBe('stay')
+    expect(changeOf('calm', 'night')).toBe('stay')
+    expect(changeOf('calm', 'foot')).toBe('stay')
+    expect(changeOf('harsh', 'hangar')).toBe('stay')
+    expect(changeOf('space', 'map')).toBe('stay')
+    expect(changeOf(null, 'calm')).toBe('stay')
+    // (a fight heating up switches; cooling, its song plays on; over, the quiet music comes back)
+    expect(changeOf('calm', 'alert')).toBe('switch')
+    expect(changeOf(null, 'combat')).toBe('switch')
+    expect(changeOf('alert', 'combat')).toBe('switch')
+    expect(changeOf('peril', 'combat')).toBe('stay')
+    expect(changeOf('combat', 'alert')).toBe('stay')
+    expect(changeOf('combat', 'calm')).toBe('switch')
+    // (a black hole, the title and the story are their own)
+    expect(changeOf('space', 'hole')).toBe('switch')
+    expect(changeOf('hole', 'space')).toBe('switch')
+    expect(changeOf('title', 'calm')).toBe('switch')
+    expect(changeOf('calm', 'title')).toBe('switch')
   })
 
   it('a fight comes in quickly, holds the music under the guns, and has no rest in it', () => {

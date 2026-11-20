@@ -48,6 +48,22 @@ export const PLACES = Object.keys(MOODS) as Place[]
 /** the fight's three levels, quietest first: the page goes from one to another as a fight heats up or cools, quickly */
 export const FIGHT_PLACES: Place[] = ['alert', 'combat', 'peril']
 
+/** a fight's level by its place, 1 to 3 (0: not a fight) */
+export const fightOf = (p: Place | null | undefined): number => (p ? FIGHT_PLACES.indexOf(p) + 1 : 0)
+
+/** the places whose music is the quiet kind: going from one to another (the cruise drive on, night falling, out of the
+ * ship, the maps opened) never cuts a take short (James, 2026-11-20: "the music is transitioning I think too often") */
+export const QUIET: Place[] = ['calm', 'night', 'harsh', 'foot', 'space', 'cruise', 'hangar', 'map']
+
+/** what a new place does to the take playing (of `playing`, or null in a rest): 'stay' lets it run to its end and the next
+ * take is the new place's; 'switch' brings the new place's music in now. A fight coming, a black hole, the title and the
+ * story switch; between quiet places it stays; a fight that eases keeps its take, and one that heats up switches */
+export function changeOf(playing: Place | null, to: Place): 'stay' | 'switch' {
+  if (fightOf(to) && fightOf(playing)) return fightOf(to) > fightOf(playing) ? 'switch' : 'stay'
+  if ((playing === null || QUIET.includes(playing)) && QUIET.includes(to)) return 'stay'
+  return 'switch'
+}
+
 /** stings: a few seconds played once over whatever is playing, which is held down under them */
 export type Sting = 'win' | 'lost' | 'arrive' | 'taken'
 export const STINGS: Record<Sting, PieceName> = { win: 'win', lost: 'lost', arrive: 'arrive', taken: 'taken' }
@@ -109,7 +125,7 @@ export function fightLevel(s: FightSigns): number {
 }
 
 /** seconds a level of a fight lasts after its last sign (a fight going badly settles soonest) */
-export const SETTLE = 8
+export const SETTLE = 12
 export const SETTLE_PERIL = 5
 
 /** keeps each level of a fight going a while after its last sign */

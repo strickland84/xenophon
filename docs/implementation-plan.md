@@ -2564,8 +2564,12 @@ night; strange for a black hole; fast and minor for the fights; short phrases fo
   and `static/licences/freedoom.txt`; `pack.py` packs the effects only.
 - **Credits:** the licences ask for their makers to be named. Settings, Sound lists each source, its licence, its
   composers and its copyright line, with Freedoom's licence in full.
-- **A fight's levels are separate songs**, so a new level comes in quickly from its start (it came in at the point the
-  last had reached, when all three shared a tempo and key).
+- **A fight's levels are separate songs**, so a fight heating up brings its level's song in quickly from its start (it
+  came in at the point the last had reached, when all three shared a tempo and key); one cooling keeps its song, and one
+  that flares up again within a minute comes back to the song it had.
+- **Fewer changes** (James: "the music is transitioning I think too often"): going from one quiet place to another (calm,
+  night, harsh, on foot, space, cruise, the hangar, the maps: `moods.ts QUIET`, `changeOf`) lets the take playing run to
+  its end, and the next take is the new place's. A fight's lowest level lasts 12 s after its last sign.
 - **The sampler page `/sounds` is gone**: James chooses from what he hears in the game.
 - Later, perhaps: playing the MIDI in the page with SpessaSynth instead of files (a smaller download, and a fight's
   three levels could be one piece with parts muted).
