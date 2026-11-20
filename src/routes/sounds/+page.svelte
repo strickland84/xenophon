@@ -9,6 +9,7 @@
   import { AUDIO_BYTES, EFFECTS, PIECES } from '#lib/audio/catalogue.ts'
   import type { Clip, EffectName, PieceName } from '#lib/audio/catalogue.ts'
   import { effectPath, piecePath } from '#lib/audio/library.ts'
+  import MusicCandidates from '#lib/components/MusicCandidates.svelte'
 
   type Entry = { name: string; clip: Clip }
   const effects: Entry[] = Object.entries(EFFECTS).map(([name, clip]) => ({ name, clip }))
@@ -123,6 +124,8 @@
       New since you last listened: {fresh.length} ({[...new Set(fresh.map((e) => e.clip.group))].join(', ')}), marked new.
     </p>
   {/if}
+
+  <MusicCandidates onplay={onlyOne} />
 
   <nav class="mb-4 flex flex-wrap gap-1.5" aria-label="Show">
     <button type="button" class={pick(only === '')} aria-pressed={only === ''} onclick={() => (only = '')}>All</button>

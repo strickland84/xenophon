@@ -1,0 +1,368 @@
+{
+  "about": "MIDI files and tracker modules by other people under open licences, rendered by tools/audio/candidates.mjs. Nothing here is played by the game.",
+  "sources": {
+    "freedoom": {
+      "name": "Freedoom",
+      "licence": "BSD-3-Clause",
+      "url": "https://github.com/freedoom/freedoom/tree/master/musics",
+      "credit": "Copyright © 2001-2024 Contributors to the Freedoom project (COPYING.adoc)"
+    },
+    "game-game": {
+      "name": "Game-Game, by Metaruka",
+      "licence": "CC-BY-SA 3.0",
+      "url": "https://opengameart.org/content/game-game",
+      "credit": "Metaruka (submitted by maxstack)"
+    },
+    "jan125": {
+      "name": "Stereotypical 90's space shooter music, by Jan125",
+      "licence": "OGA-BY 3.0",
+      "url": "https://opengameart.org/content/stereotypical-90s-space-shooter-music",
+      "credit": "Jan125"
+    },
+    "modarchive": {
+      "name": "The Mod Archive",
+      "licence": "",
+      "url": "https://modarchive.org/",
+      "credit": "each module's own artist"
+    }
+  },
+  "pieces": [
+    {
+      "mood": "intro",
+      "file": "game-game/the-end.mid",
+      "title": "The End",
+      "by": "Metaruka"
+    },
+    {
+      "mood": "intro",
+      "file": "freedoom/e3m8.mid",
+      "title": "The Zenith",
+      "by": "Lola \"BlueWorrior\" Harvey"
+    },
+    {
+      "mood": "intro",
+      "file": "freedoom/map29.mid",
+      "title": "Mists Over the Mire",
+      "by": "Tyler \"Picklehammer\" P."
+    },
+    {
+      "mood": "title",
+      "file": "game-game/game-game.mid",
+      "title": "Game-Game",
+      "by": "Metaruka"
+    },
+    {
+      "mood": "title",
+      "file": "freedoom/e4m1.mid",
+      "title": "Liberate the Stars",
+      "by": "continuum.mid",
+      "compare": true
+    },
+    {
+      "mood": "title",
+      "file": "freedoom/e4m6.mid",
+      "title": "Andromeda",
+      "by": "ZeMystic"
+    },
+    {
+      "mood": "calm",
+      "file": "game-game/high-in-the-mountains.mid",
+      "title": "High in the Mountains",
+      "by": "Metaruka"
+    },
+    {
+      "mood": "calm",
+      "file": "game-game/green-forest.mid",
+      "title": "Green Forest",
+      "by": "Metaruka"
+    },
+    {
+      "mood": "calm",
+      "file": "freedoom/e2m7.mid",
+      "title": "Ribcage",
+      "by": "Korp"
+    },
+    {
+      "mood": "night",
+      "file": "game-game/underground-cavern.mid",
+      "title": "Underground Cavern",
+      "by": "Metaruka"
+    },
+    {
+      "mood": "night",
+      "file": "freedoom/e1m8.mid",
+      "title": "On the Next Day",
+      "by": "Kevin \"Velvetic\" Martins"
+    },
+    {
+      "mood": "night",
+      "file": "freedoom/e4m7.mid",
+      "title": "Ambiguity",
+      "by": "Korp"
+    },
+    {
+      "mood": "night",
+      "file": "modarchive/ekorren_-_stars.it",
+      "title": "Stars",
+      "by": "ekorren",
+      "licence": "Public domain",
+      "url": "https://modarchive.org/index.php?request=view_by_moduleid&query=176801"
+    },
+    {
+      "mood": "harsh",
+      "file": "game-game/lava-city.mid",
+      "title": "Lava City",
+      "by": "Metaruka"
+    },
+    {
+      "mood": "harsh",
+      "file": "game-game/endless-sands.mid",
+      "title": "Endless Sands",
+      "by": "Metaruka"
+    },
+    {
+      "mood": "harsh",
+      "file": "freedoom/e2m4.mid",
+      "title": "Diodine",
+      "by": "Korp"
+    },
+    {
+      "mood": "foot",
+      "file": "freedoom/map23.mid",
+      "title": "Within the Trilo's Den",
+      "by": "MoonDeLaAxel and Korp"
+    },
+    {
+      "mood": "foot",
+      "file": "jan125/level3.mid",
+      "title": "Level 3",
+      "by": "Jan125"
+    },
+    {
+      "mood": "foot",
+      "file": "freedoom/e2m6.mid",
+      "title": "Concept of Technology",
+      "by": "Korp"
+    },
+    {
+      "mood": "space",
+      "file": "game-game/gaseous-tethanus.mid",
+      "title": "Gaseous Tethanus",
+      "by": "Metaruka",
+      "compare": true
+    },
+    {
+      "mood": "space",
+      "file": "freedoom/map32.mid",
+      "title": "Black Mountain",
+      "by": "Kevin \"Velvetic\" Martins and Jonathan \"julnen\" Martins"
+    },
+    {
+      "mood": "space",
+      "file": "freedoom/e4m9.mid",
+      "title": "The Deepest Secrets",
+      "by": "continuum.mid"
+    },
+    {
+      "mood": "space",
+      "file": "modarchive/cs127_-_stars_4ch.mod",
+      "title": "Stars (4 channels)",
+      "by": "cs127",
+      "licence": "CC-BY",
+      "url": "https://modarchive.org/index.php?request=view_by_moduleid&query=201917"
+    },
+    {
+      "mood": "space",
+      "file": "modarchive/bnd-spaceexploration.it",
+      "title": "Space Exploration",
+      "by": "Beyond",
+      "licence": "Public domain",
+      "url": "https://modarchive.org/index.php?request=view_by_moduleid&query=183323"
+    },
+    {
+      "mood": "cruise",
+      "file": "freedoom/e2m5.mid",
+      "title": "Reminiscence",
+      "by": "Korp"
+    },
+    {
+      "mood": "cruise",
+      "file": "game-game/running-wild.mid",
+      "title": "Running Wild",
+      "by": "Metaruka"
+    },
+    {
+      "mood": "cruise",
+      "file": "freedoom/e2m1.mid",
+      "title": "Moonstone",
+      "by": "Korp"
+    },
+    {
+      "mood": "cruise",
+      "file": "modarchive/beyond_-_spacerace.it",
+      "title": "Space Race",
+      "by": "Beyond",
+      "licence": "Public domain",
+      "url": "https://modarchive.org/index.php?request=view_by_moduleid&query=177403"
+    },
+    {
+      "mood": "hole",
+      "file": "freedoom/victor.mid",
+      "title": "Distance",
+      "by": "Korp"
+    },
+    {
+      "mood": "hole",
+      "file": "freedoom/e2m9.mid",
+      "title": "Nightstorm",
+      "by": "Korp"
+    },
+    {
+      "mood": "alert",
+      "file": "freedoom/map26.mid",
+      "title": "Stormer",
+      "by": "Korp, after Samuel \"Blastfrog\" Oliver"
+    },
+    {
+      "mood": "alert",
+      "file": "freedoom/e1m4.mid",
+      "title": "Flood the City",
+      "by": "Kevin \"Velvetic\" Martins and Jonathan \"julnen\" Martins"
+    },
+    {
+      "mood": "alert",
+      "file": "game-game/pirates-attack.mid",
+      "title": "Pirates Attack",
+      "by": "Metaruka"
+    },
+    {
+      "mood": "combat",
+      "file": "freedoom/e4m2.mid",
+      "title": "Fight Harder... To Obtain a Better Victory!",
+      "by": "Proxy-MIDI",
+      "compare": true
+    },
+    {
+      "mood": "combat",
+      "file": "game-game/final-battle.mid",
+      "title": "Final Battle",
+      "by": "Metaruka"
+    },
+    {
+      "mood": "combat",
+      "file": "jan125/boss.mid",
+      "title": "Boss",
+      "by": "Jan125"
+    },
+    {
+      "mood": "combat",
+      "file": "freedoom/e3m7.mid",
+      "title": "Ultamatum Infurnus",
+      "by": "Lola \"BlueWorrior\" Harvey"
+    },
+    {
+      "mood": "peril",
+      "file": "freedoom/e4m8.mid",
+      "title": "Vs. The Assault Quindecapod",
+      "by": "continuum.mid"
+    },
+    {
+      "mood": "peril",
+      "file": "freedoom/map30.mid",
+      "title": "Devoured by the Jaws of Defeat",
+      "by": "Korp, after Tyler \"Picklehammer\" P."
+    },
+    {
+      "mood": "peril",
+      "file": "freedoom/e3m9.mid",
+      "title": "No-Clip to the End",
+      "by": "Lola \"BlueWorrior\" Harvey"
+    },
+    {
+      "mood": "hangar",
+      "file": "freedoom/map18.mid",
+      "title": "Realistic Approach",
+      "by": "Kevin \"Velvetic\" Martins"
+    },
+    {
+      "mood": "hangar",
+      "file": "freedoom/read_m.mid",
+      "title": "dave3d07",
+      "by": "jute"
+    },
+    {
+      "mood": "hangar",
+      "file": "jan125/finished_long.mid",
+      "title": "Finished (long)",
+      "by": "Jan125"
+    },
+    {
+      "mood": "map",
+      "file": "freedoom/map19.mid",
+      "title": "Deceit",
+      "by": "Julian \"Julian Hope\" Aubourg, modified by m"
+    },
+    {
+      "mood": "map",
+      "file": "freedoom/map22.mid",
+      "title": "Alien Waltz",
+      "by": "Korp"
+    },
+    {
+      "mood": "map",
+      "file": "game-game/ship-interior.mid",
+      "title": "Ship Interior",
+      "by": "Metaruka"
+    },
+    {
+      "mood": "win",
+      "file": "game-game/level-win.mid",
+      "title": "Level Win",
+      "by": "Metaruka"
+    },
+    {
+      "mood": "win",
+      "file": "jan125/finished.mid",
+      "title": "Finished",
+      "by": "Jan125",
+      "most": 12
+    },
+    {
+      "mood": "lost",
+      "file": "game-game/game-over.mid",
+      "title": "Game Over",
+      "by": "Metaruka"
+    },
+    {
+      "mood": "lost",
+      "file": "jan125/death.mid",
+      "title": "Death",
+      "by": "Jan125",
+      "most": 14
+    },
+    {
+      "mood": "arrive",
+      "file": "game-game/short-interlude.mid",
+      "title": "Short Interlude",
+      "by": "Metaruka"
+    },
+    {
+      "mood": "arrive",
+      "file": "jan125/start.mid",
+      "title": "Start",
+      "by": "Jan125"
+    },
+    {
+      "mood": "taken",
+      "file": "freedoom/intro.mid",
+      "title": "Fight for Freedom",
+      "by": "Korp, after Tyler \"Picklehammer\" P."
+    },
+    {
+      "mood": "taken",
+      "file": "freedoom/dm2ttl.mid",
+      "title": "Horizon's Call",
+      "by": "Korp"
+    }
+  ]
+}

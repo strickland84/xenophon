@@ -104,6 +104,16 @@ plan's section 7 ("Art pipeline") and [docs/pixel-art-techniques.md](docs/pixel-
 
 Update this section when your work changes it. Keep each entry to what is true now.
 
+- **2026-11-20, open music to try** (James: "I hate the music we have"; "research some open source midi music"). 57
+  candidates by other people under open licences, two to four for every place and sting, in `art/audio/candidates/`
+  (`list.json`; `README.md` has each licence and credit; `ASSETS.md` excludes them): Freedoom's MIDI files (BSD),
+  Metaruka's Game-Game (CC-BY-SA 3.0), Jan125's 1990s space shooter music (OGA-BY 3.0), four Mod Archive modules.
+  `node tools/audio/candidates.mjs <soundfont.sf2> [<second.sf2>]` renders them (SpessaSynth, a dev dependency, for MIDI;
+  ffmpeg's libopenmpt for modules) into `static/candidates/` (not in git), and `/sounds` plays them first, under "Open
+  music to try", beside the game's own take (`components/MusicCandidates.svelte`; nothing shows where they are not made).
+  The soundfont is FluidR3_GM (MIT, Debian's `fluid-soundfont-gm`). The game's music is unchanged until James chooses by
+  ear; the plan's section 17 says what then.
+
 - **2026-11-19, Xenophon: Twin Stars, and public** (James: "borrowed stars is lame"; "Rename everything properly";
   "The game will be completely open on a public repo"). The game, its sides and every id were renamed: the Charter is
   **the Nomarchy** (`nomarchy`), the Drift **the Anarchoi** (`anarchoi`, plural: "the Anarchoi are"), save keys and

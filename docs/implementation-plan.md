@@ -2546,6 +2546,21 @@ its key, tempo and character, and the fight still shares 140 BPM in E minor.
   draw on the plan's character credits. The cinematic set is kept in `art/audio/takes/music-cinematic/` (not in git).
   Nobody has heard it; `/sounds` marks it New.
 
+### Open music to try instead (2026-11-20)
+
+James, of the music above: "I hate the music we have". Rather than a fourth set from a model, other people's music under
+open licences is tried: MIDI files rendered through a General MIDI soundfont, and a few tracker modules, the way games
+of the early 1990s sounded. 57 candidates, two to four for every place and sting, are in `art/audio/candidates/`
+(`list.json`, and `README.md` with each source's licence and credit): Freedoom's MIDI files (BSD 3-clause), Metaruka's
+Game-Game, a soundtrack written for an unmade space game (CC-BY-SA 3.0), Jan125's 1990s space shooter music (OGA-BY 3.0),
+and four modules from The Mod Archive (public domain and CC-BY). `node tools/audio/candidates.mjs <soundfont.sf2>
+[<second.sf2>]` renders them (SpessaSynth for MIDI, ffmpeg's libopenmpt for modules; evened to -16 LUFS, cut at 3:30)
+into `static/candidates/` (not in git), and `/sounds` plays them under "Open music to try", the game's own take first in
+each place. FluidR3_GM (MIT) is the soundfont; three are also through GeneralUser GS to compare. Nothing is played by the
+game until James has chosen; then the chosen pieces go into `static/audio/music/` as takes, with their credits in the
+game and `ASSETS.md`, or are played live from MIDI (SpessaSynth in the page, a smaller download, and a fight's levels
+could be one piece with parts muted).
+
 ### The narrator
 
 The opening story is to be read aloud, the voice made on this PC and shipped as a file (a model in the

@@ -18,3 +18,7 @@ Contributions to the assets are welcome, and are accepted on these same terms.
 Some assets were made with third-party models and services, each under its own licence (the implementation plan's
 section 7 lists them): images and sound effects by local open models through ComfyUI; the music and the narrator's
 voice by ElevenLabs on the maintainer's paid plan.
+
+Not covered: the open music candidates in `art/audio/candidates/` (and their renders in `static/candidates/`) are other
+people's work, each under its own licence (Freedoom's BSD licence, CC-BY-SA, OGA-BY, CC-BY, public domain); that
+folder's `README.md` lists them.
