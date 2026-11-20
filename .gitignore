@@ -38,6 +38,3 @@ CLAUDE.local.md
 
 # Scratch
 .tailnet-preview.config.mjs
-
-# The open music candidates rendered for /sounds (tools/audio/candidates.mjs makes them again)
-/static/candidates/

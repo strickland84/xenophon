@@ -3,7 +3,8 @@
 // for plays them (James, 2026-11-19: "assume modern browsers"), so there is no MP3 beside them.
 
 import { EFFECTS } from './catalogue'
-import type { EffectName, PieceName } from './catalogue'
+import type { EffectName } from './catalogue'
+import type { PieceName } from './pieces'
 import { audioUrl } from './mixer'
 
 /** where a take of an effect, or of a piece of music, is under the site's static files */

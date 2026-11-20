@@ -31,6 +31,7 @@
   import type { Save, Settings } from '../save/store'
   import { phraseOf } from '../save/backup'
   import { buildLine, SOURCE } from '../version'
+  import { CREDITS, SOURCES } from '../audio/pieces'
   import Panel from './Panel.svelte'
   import UiIcon from './UiIcon.svelte'
   import { tip } from './tooltip.svelte'
@@ -68,6 +69,16 @@
     open = 'controls',
     onclose,
   }: Props = $props()
+
+  /** the music's makers, by where it came from (its licences ask for them to be named) */
+  const musicBy = Object.entries(SOURCES).map(([key, s]) => {
+    const all = Object.values(CREDITS)
+      .flat()
+      .filter((c) => c.source === key)
+    // (each composer once: "Korp, after Tyler P." and "MoonDeLaAxel and Korp" name two each)
+    const names = all.flatMap((c) => c.by.split(/, | and /).map((n) => n.replace(/^(after|modified by) /, '')))
+    return { key, ...s, by: [...new Set(names)] }
+  })
 
   const SECTIONS: { id: Tab; label: string; icon: string }[] = [
     { id: 'controls', label: 'Controls', icon: 'controls' },
@@ -504,6 +515,21 @@
                 (v) => set({ music: v }),
                 'It follows where you are, and a fight brings its own',
               )}
+            </div>
+            <div class="flex flex-col gap-2" style="--i: 2">
+              <span class="ui-label">Music by</span>
+              {#each musicBy as s (s.key)}
+                <p class="ui-body normal-case">
+                  <!-- eslint-disable-next-line svelte/no-navigation-without-resolve (a page off the site) -->
+                  <a class="underline" href={s.url} target="_blank" rel="noopener">{s.name}</a>
+                  ({s.licence}): music by {s.by.join(', ')}.{s.credit ? ` ${s.credit}` : ''}{#if s.text}{' '}<a
+                      class="underline"
+                      href={asset(s.text as Parameters<typeof asset>[0])}
+                      target="_blank"
+                      rel="noopener">The licence</a
+                    >.{/if}
+                </p>
+              {/each}
             </div>
           </div>
         {:else if tab === 'picture'}

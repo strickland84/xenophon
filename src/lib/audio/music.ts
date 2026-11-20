@@ -1,19 +1,20 @@
-// The music (the plan's section 17): pieces written by ElevenLabs Music (tools/gen/music.py), one for each
-// kind of place, played from files through the mixer's music bus. moods.ts chooses the place (the title, a
+// The music (the plan's section 17): other people's MIDI files and tracker modules under open licences
+// (art/audio/music/, made by tools/audio/music.mjs), several for each kind of place, played from files through the
+// mixer's music bus. moods.ts chooses the place (the title, a
 // calm world, night, a harsh one, on foot, space, the cruise drive, a black hole, a fight at three levels, the
 // hangar, the maps) and says how each comes in and goes. A new place's music fades in as the old one's fades out;
-// a take that ends is followed by the next take of its piece (they take turns, where there are two),
+// a take that ends is followed by the next take of its piece (they take turns),
 // after a rest of silence out in the world, so it never runs on for an hour. A fight comes in quickly
 // and, once it is over, the music it broke into comes back where it left off; going from one level of a fight to
-// another, the new one comes in at the point the old one had reached. A sting (a fight won, shot down, a new
+// another, the new one comes in quickly from its start (each level's pieces are their own songs). A sting (a fight won, shot down, a new
 // system, a world taken) plays once over everything, the music held down under it.
 //
 // On the page each piece streams from an <audio> element (a whole piece decoded would be some 55 MB:
 // too much for a phone); for the tools, which render a mix faster than time in an OfflineAudioContext,
 // pieces are decoded whole instead (`buffers`). Nothing plays before the first click or key.
 
-import { PIECES } from './catalogue'
-import type { PieceName } from './catalogue'
+import { PIECES } from './pieces'
+import type { PieceName } from './pieces'
 import { piecePath } from './library'
 import { audioUrl, withAudio } from './mixer'
 import type { Mixer } from './mixer'
@@ -298,11 +299,10 @@ export function createMusic(o: MusicOptions = {}): Music {
       if (!mixer) return
       mixer.hold(MOODS[p].hold)
       const fightNow = FIGHT_PLACES.includes(p)
-      // (from one level of a fight to another: quickly, the new one at the point the old one had reached)
+      // (from one level of a fight to another: quickly, the new one from its start)
       if (fightNow && FIGHT_PLACES.includes(was) && current) {
-        const at = current.at()
         leave(1, false)
-        begin(p, at)
+        begin(p)
         return
       }
       // (into a fight it goes quickly; anything a fight breaks into is kept, to come back to)

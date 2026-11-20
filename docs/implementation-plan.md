@@ -2546,20 +2546,29 @@ its key, tempo and character, and the fight still shares 140 BPM in E minor.
   draw on the plan's character credits. The cinematic set is kept in `art/audio/takes/music-cinematic/` (not in git).
   Nobody has heard it; `/sounds` marks it New.
 
-### Open music to try instead (2026-11-20)
+### The music, made by others: open MIDI and tracker music (2026-11-20)
 
-James, of the music above: "I hate the music we have". Rather than a fourth set from a model, other people's music under
-open licences is tried: MIDI files rendered through a General MIDI soundfont, and a few tracker modules, the way games
-of the early 1990s sounded. 57 candidates, two to four for every place and sting, are in `art/audio/candidates/`
-(`list.json`, and `README.md` with each source's licence and credit): Freedoom's MIDI files (BSD 3-clause), Metaruka's
-Game-Game, a soundtrack written for an unmade space game (CC-BY-SA 3.0), Jan125's 1990s space shooter music (OGA-BY 3.0),
-and four modules from The Mod Archive (public domain and CC-BY). `node tools/audio/candidates.mjs <soundfont.sf2>
-[<second.sf2>]` renders them (SpessaSynth for MIDI, ffmpeg's libopenmpt for modules; evened to -16 LUFS, cut at 3:30)
-into `static/candidates/` (not in git), and `/sounds` plays them under "Open music to try", the game's own take first in
-each place. FluidR3_GM (MIT) is the soundfont; three are also through GeneralUser GS to compare. Nothing is played by the
-game until James has chosen; then the chosen pieces go into `static/audio/music/` as takes, with their credits in the
-game and `ASSETS.md`, or are played live from MIDI (SpessaSynth in the page, a smaller download, and a fight's levels
-could be one piece with parts muted).
+James, of the set above: "I hate the music we have". Rather than a fourth set from a model, other people's music under
+open licences was tried, the way games of the early 1990s sounded: MIDI files rendered through a General MIDI
+soundfont, and a few tracker modules. Of 57 tried side by side on the sampler page, James: "these are all better. Get rid
+of /sound and merge into main game". So the game's music is now 54 pieces, two to four for every place and sting, all
+played in turn (`art/audio/music/list.json`; its `README.md` has every licence and credit): Freedoom's MIDI files (BSD
+3-clause), Metaruka's Game-Game, written for an unmade space game (CC-BY-SA 3.0), Jan125's 1990s space shooter music
+(OGA-BY 3.0), and four modules from The Mod Archive (public domain and CC-BY). They were chosen for each place by
+measuring (tempo, key, instruments, how busy) and by their titles: slow, sparse and drumless for the opening story and
+night; strange for a black hole; fast and minor for the fights; short phrases for the stings.
+
+- `node tools/audio/music.mjs <FluidR3_GM.sf2>` renders them: MIDI through SpessaSynth (Apache-2.0) and FluidR3_GM (MIT),
+  modules through ffmpeg's libopenmpt; each evened to −16 LUFS, cut at 3:30 with a fade, Opus at 64 kbps, into
+  `static/audio/music/<place>_<n>.ogg`. It writes `src/lib/audio/pieces.ts` (`PIECES`, and `SOURCES` and `CREDITS`)
+  and `static/licences/freedoom.txt`; `pack.py` packs the effects only.
+- **Credits:** the licences ask for their makers to be named. Settings, Sound lists each source, its licence, its
+  composers and its copyright line, with Freedoom's licence in full.
+- **A fight's levels are separate songs**, so a new level comes in quickly from its start (it came in at the point the
+  last had reached, when all three shared a tempo and key).
+- **The sampler page `/sounds` is gone**: James chooses from what he hears in the game.
+- Later, perhaps: playing the MIDI in the page with SpessaSynth instead of files (a smaller download, and a fight's
+  three levels could be one piece with parts muted).
 
 ### The narrator
 

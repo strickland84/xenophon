@@ -1,29 +1,30 @@
 {
-  "about": "MIDI files and tracker modules by other people under open licences, rendered by tools/audio/candidates.mjs. Nothing here is played by the game.",
+  "about": "The game's music: MIDI files and tracker modules by other people under open licences, by the place each plays in. tools/audio/music.mjs renders them into static/audio/music/.",
   "sources": {
     "freedoom": {
       "name": "Freedoom",
       "licence": "BSD-3-Clause",
       "url": "https://github.com/freedoom/freedoom/tree/master/musics",
-      "credit": "Copyright © 2001-2024 Contributors to the Freedoom project (COPYING.adoc)"
+      "credit": "Copyright © 2001-2024 Contributors to the Freedoom project.",
+      "text": "freedoom/COPYING.adoc"
     },
     "game-game": {
-      "name": "Game-Game, by Metaruka",
+      "name": "Game-Game",
       "licence": "CC-BY-SA 3.0",
       "url": "https://opengameart.org/content/game-game",
-      "credit": "Metaruka (submitted by maxstack)"
+      "credit": "Submitted to OpenGameArt by maxstack."
     },
     "jan125": {
-      "name": "Stereotypical 90's space shooter music, by Jan125",
+      "name": "Stereotypical 90's space shooter music",
       "licence": "OGA-BY 3.0",
       "url": "https://opengameart.org/content/stereotypical-90s-space-shooter-music",
-      "credit": "Jan125"
+      "credit": ""
     },
     "modarchive": {
       "name": "The Mod Archive",
-      "licence": "",
+      "licence": "public domain, CC-BY",
       "url": "https://modarchive.org/",
-      "credit": "each module's own artist"
+      "credit": ""
     }
   },
   "pieces": [
@@ -55,8 +56,7 @@
       "mood": "title",
       "file": "freedoom/e4m1.mid",
       "title": "Liberate the Stars",
-      "by": "continuum.mid",
-      "compare": true
+      "by": "continuum.mid"
     },
     {
       "mood": "title",
@@ -136,7 +136,8 @@
       "mood": "foot",
       "file": "jan125/level3.mid",
       "title": "Level 3",
-      "by": "Jan125"
+      "by": "Jan125",
+      "times": 2
     },
     {
       "mood": "foot",
@@ -148,8 +149,7 @@
       "mood": "space",
       "file": "game-game/gaseous-tethanus.mid",
       "title": "Gaseous Tethanus",
-      "by": "Metaruka",
-      "compare": true
+      "by": "Metaruka"
     },
     {
       "mood": "space",
@@ -233,14 +233,14 @@
       "mood": "alert",
       "file": "game-game/pirates-attack.mid",
       "title": "Pirates Attack",
-      "by": "Metaruka"
+      "by": "Metaruka",
+      "times": 2
     },
     {
       "mood": "combat",
       "file": "freedoom/e4m2.mid",
       "title": "Fight Harder... To Obtain a Better Victory!",
-      "by": "Proxy-MIDI",
-      "compare": true
+      "by": "Proxy-MIDI"
     },
     {
       "mood": "combat",
@@ -324,8 +324,7 @@
       "mood": "win",
       "file": "jan125/finished.mid",
       "title": "Finished",
-      "by": "Jan125",
-      "most": 12
+      "by": "Jan125"
     },
     {
       "mood": "lost",
@@ -337,8 +336,7 @@
       "mood": "lost",
       "file": "jan125/death.mid",
       "title": "Death",
-      "by": "Jan125",
-      "most": 14
+      "by": "Jan125"
     },
     {
       "mood": "arrive",
