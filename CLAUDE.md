@@ -103,6 +103,14 @@ plan's section 7 ("Art pipeline") and [docs/pixel-art-techniques.md](docs/pixel-
 
 Update this section when your work changes it. Keep each entry to what is true now.
 
+- **2026-11-20, no strut down the middle of the view** (James, of the lance's cockpit: "this bar line right in the center
+  view. Stupid and not nice"). The lance's spine strut (and its trim), the mule's middle upright and the bastion's slit
+  divider are out of their plans (`tools/gen/cockpits.py`); the model's pictures still have them, so each plan's
+  `painted` lists them and `tools/voxel/cockpits.py` cuts them away as window while sampling the shared palette with
+  them, so no other cockpit changed a pixel. No cockpit has a bar across the middle of its view now (the wraith's two
+  struts meet above it, the nomad's stub is in its roof). Two flights re-recorded on purpose (the cockpits of four hulls,
+  over a world and in space).
+
 - **2026-11-20, the music is open MIDI and tracker music** (James: "I hate the music we have"; of the open music found,
   "these are all better. Get rid of /sound and merge into main game"). 54 pieces by other people under open licences,
   two to four for every place and sting, all played in turn (`art/audio/music/list.json`; its `README.md` has every

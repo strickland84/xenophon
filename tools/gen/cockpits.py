@@ -66,6 +66,8 @@ STYLE = (
 #   sides: side consoles at the bottom corners (polygons)
 #   screens: (kind, x, y, w, h)
 #   stretch: the row the art is stretched at, when the frame is taller than it (a row through the windows where the struts are near upright)
+#   painted: struts and trim the model's picture has but the game leaves out, cut away as window (James, 2026-11-20, of a
+#     bar down the middle of the view: "Stupid and not nice"); kept only so the shared palette is sampled as it was
 COCKPITS = {
     "dart": {
         "subject": "a light fighter's tight cockpit under a single clear bubble canopy, only a thin canopy rail round its edge and one slim bow arching overhead, a small low panel",
@@ -90,12 +92,13 @@ COCKPITS = {
         "stretch": 260,
     },
     "lance": {
-        "subject": "an interceptor's narrow cockpit, a long thin pointed canopy with a strong central spine strut running forward from overhead down to the nose, thick side frames, a narrow panel with a tall speed tape",
+        "subject": "an interceptor's narrow cockpit, a long thin pointed canopy with a clear view straight ahead between two slanted side struts, thick side frames, a narrow panel with a tall speed tape",
         "window": [("poly", [(330, 40), (1206, 40), (1356, 440), (180, 440)])],
-        "struts": [(CX, -20, CX, 420, 30, True), (430, 40, 250, 440, 26), (1106, 40, 1286, 440, 26)],
+        "struts": [(430, 40, 250, 440, 26), (1106, 40, 1286, 440, 26)],
         "bars": [],
         "panel": ([(0, 470), (360, 430), (520, 412), (1016, 412), (1176, 430), (1536, 470)], 24),
-        "trim": [([(CX - 15, 0), (CX - 15, 400)], 6), ([(0, 470), (360, 430), (520, 412)], 9), ([(1016, 412), (1176, 430), (1536, 470)], 9)],
+        "trim": [([(0, 470), (360, 430), (520, 412)], 9), ([(1016, 412), (1176, 430), (1536, 470)], 9)],
+        "painted": {"struts": [(CX, -20, CX, 420, 30, True)], "trim": [([(CX - 15, 0), (CX - 15, 400)], 6)]},
         "sides": [[(0, 520), (300, 500), (380, 640), (0, 640)], [(1536, 520), (1236, 500), (1156, 640), (1536, 640)]],
         "screens": [("nav", 560, 452, 110, 170), ("radar", 684, 452, 168, 150), ("status", 866, 452, 110, 170)],
         "stretch": 230,
@@ -136,7 +139,8 @@ COCKPITS = {
     "mule": {
         "subject": "a cargo hauler's wide boxy cockpit, a broad flat windscreen of square panes between thick upright struts and a heavy top beam, a wide flat panel with cargo hold screens showing stacked boxes, worn grey metal",
         "window": [("poly", [(110, 70), (1426, 70), (1426, 440), (110, 440)])],
-        "struts": [(440, 60, 440, 440, 46, True), (CX, 60, CX, 440, 30), (1096, 60, 1096, 440, 46, True), (110, 60, 110, 440, 40), (1426, 60, 1426, 440, 40)],
+        "struts": [(440, 60, 440, 440, 46, True), (1096, 60, 1096, 440, 46, True), (110, 60, 110, 440, 40), (1426, 60, 1426, 440, 40)],
+        "painted": {"struts": [(CX, 60, CX, 440, 30)], "trim": []},
         "bars": [(110, 1426, 70, 26)],
         "panel": ([(0, 440), (160, 410), (1376, 410), (1536, 440)], 28),
         "trim": [([(160, 410), (1376, 410)], 10)],
@@ -147,7 +151,8 @@ COCKPITS = {
     "bastion": {
         "subject": "a heavily armoured gunship's cockpit, thick riveted armour plates over the canopy leaving only narrow slit windows, a heavy panel with a big targeting screen and ammunition counters, dark olive steel",
         "window": [("poly", [(330, 150), (1206, 150), (1236, 300), (300, 300)]), ("poly", [(90, 170), (290, 162), (270, 290), (60, 300)]), ("poly", [(1446, 170), (1246, 162), (1266, 290), (1476, 300)])],
-        "struts": [(CX, 140, CX, 300, 26, True)],
+        "struts": [],
+        "painted": {"struts": [(CX, 140, CX, 300, 26, True)], "trim": []},
         "bars": [(300, 1236, 300, 16), (330, 1206, 136, 16)],
         "panel": ([(0, 400), (300, 370), (1236, 370), (1536, 400)], 30),
         "trim": [([(300, 370), (1236, 370)], 10), ([(330, 150), (1206, 150)], 8)],
@@ -195,9 +200,13 @@ def panel_y(edge, x):
     return edge[-1][1]
 
 
-def labels(name):
-    """the cockpit's layout as a picture of labels (one value a part)"""
-    c = COCKPITS[name]
+def labels(name, painted=False):
+    """the cockpit's layout as a picture of labels (one value a part); painted: as the model's picture has it, with the
+    struts and trim the game cuts away"""
+    c = dict(COCKPITS[name])
+    if painted and "painted" in c:
+        c["struts"] = c["struts"] + c["painted"]["struts"]
+        c["trim"] = c["trim"] + c["painted"]["trim"]
     im = Image.new("L", (W, H), FRAME)
     d = ImageDraw.Draw(im)
     for shape in c["window"]:

@@ -8,7 +8,7 @@
 
 Each cockpit was drawn over a plan whose parts are known exactly (the labels the plan was made
 from): so the windows are cut out where the plan has them, not where the model happened to paint
-dark, and each game pixel takes the part most of its patch is. The picture is shrunk to two heights
+dark (and a strut the picture has but the plan no longer does, its `painted`, is cut away as window), and each game pixel takes the part most of its patch is. The picture is shrunk to two heights
 (the frame is about 200 px tall on a phone held sideways and 256 on a laptop; the engine takes the
 nearer and fits it to the frame, never scaling it): each game pixel the commonest colour of its patch
 among that part's pixels, the colours of all ten cockpits held to one palette of 64 so they share a
@@ -133,11 +133,15 @@ def main():
     for name in COCKPITS:
         rgb = load(name)
         lab = np.asarray(labels(name)).astype(np.int32)
+        # (the palette is sampled from the picture as painted, struts the game cuts away and all, so cutting one away
+        # changes no other cockpit's colours)
+        painted = np.asarray(labels(name, painted=True)).astype(np.int32)
         for hb in BUILDS:
             part, col = shrink(rgb, lab, hb)
             col = tidy(part, col)
             made[(name, hb)] = (part, col)
-            every.append(col[part != WINDOW])
+            pp, pc = (part, col) if (painted == lab).all() else shrink(rgb, painted, hb)
+            every.append(tidy(pp, pc)[pp != WINDOW] if pp is not part else col[part != WINDOW])
     # one palette for all ten: the model's colours, held to 64 (trim, glows and metal each keep some)
     allpix = np.concatenate(every).astype(np.uint8)
     fam = np.array([family(c) for c in allpix[:: max(1, len(allpix) // 60000)]])
