@@ -522,11 +522,9 @@
                 <p class="ui-body normal-case">
                   <!-- eslint-disable-next-line svelte/no-navigation-without-resolve (a page off the site) -->
                   <a class="underline" href={s.url} target="_blank" rel="noopener">{s.name}</a>
-                  ({s.licence}): music by {s.by.join(', ')}.{s.credit ? ` ${s.credit}` : ''}{#if s.text}{' '}<a
-                      class="underline"
-                      href={asset(s.text as Parameters<typeof asset>[0])}
-                      target="_blank"
-                      rel="noopener">The licence</a
+                  ({s.licence}): music by {s.by.join(', ')}.{s.credit ? ` ${s.credit}` : ''}
+                  {#if s.text}<a class="underline" href={asset(s.text as Parameters<typeof asset>[0])} target="_blank" rel="noopener"
+                      >The licence</a
                     >.{/if}
                 </p>
               {/each}
