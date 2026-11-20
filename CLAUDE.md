@@ -103,6 +103,13 @@ plan's section 7 ("Art pipeline") and [docs/pixel-art-techniques.md](docs/pixel-
 
 Update this section when your work changes it. Keep each entry to what is true now.
 
+- **2026-11-20, the music changes less** (James: "the music is transitioning I think too often - are the tracks playing
+  out fully?"). Takes always played to their end; what cut them was every change of place. Now going from one quiet place
+  to another (calm, night, harsh, foot, space, cruise, hangar, map: `moods.ts QUIET`, `changeOf`) lets the take run to
+  its end, and the next is the new place's; a fight heating up switches to its level's song, one cooling keeps its song,
+  and one that flares up again within a minute comes back to the song it had (`music.ts` keeps a quiet take and a fight's,
+  `FIGHT_KEEP`); a fight's lowest level lasts 12 s after its last sign (`SETTLE`, was 8). A black hole, the title and the
+  story still switch at once.
 - **2026-11-20, no strut down the middle of the view** (James, of the lance's cockpit: "this bar line right in the center
   view. Stupid and not nice"). The lance's spine strut (and its trim), the mule's middle upright and the bastion's slit
   divider are out of their plans (`tools/gen/cockpits.py`); the model's pictures still have them, so each plan's

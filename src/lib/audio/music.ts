@@ -3,10 +3,12 @@
 // mixer's music bus. moods.ts chooses the place (the title, a
 // calm world, night, a harsh one, on foot, space, the cruise drive, a black hole, a fight at three levels, the
 // hangar, the maps) and says how each comes in and goes. A new place's music fades in as the old one's fades out;
-// a take that ends is followed by the next take of its piece (they take turns),
+// a take that ends is followed by the next take of its piece (they take turns), or of the place he is in by then: going
+// from one quiet place to another (moods.ts changeOf) lets the take playing run to its end,
 // after a rest of silence out in the world, so it never runs on for an hour. A fight comes in quickly
-// and, once it is over, the music it broke into comes back where it left off; going from one level of a fight to
-// another, the new one comes in quickly from its start (each level's pieces are their own songs). A sting (a fight won, shot down, a new
+// and, once it is over, the music it broke into comes back where it left off; a fight heating up brings its next
+// level's song in quickly from its start (each level's pieces are their own songs), one cooling keeps its song, and one
+// that flares up again soon after comes back to the song it had. A sting (a fight won, shot down, a new
 // system, a world taken) plays once over everything, the music held down under it.
 //
 // On the page each piece streams from an <audio> element (a whole piece decoded would be some 55 MB:
@@ -18,7 +20,7 @@ import type { PieceName } from './pieces'
 import { piecePath } from './library'
 import { audioUrl, withAudio } from './mixer'
 import type { Mixer } from './mixer'
-import { FIGHT_PLACES, MOODS, STING_AGAIN, STING_DUCK, STINGS } from './moods'
+import { changeOf, fightOf, MOODS, QUIET, STING_AGAIN, STING_DUCK, STINGS } from './moods'
 import type { Place, Sting } from './moods'
 
 export interface Music {
@@ -60,8 +62,17 @@ interface Deck {
   dispose(): void
 }
 
-/** seconds a paused take is kept to come back to (after that it starts afresh) */
+/** seconds a paused take is kept to come back to (after that it starts afresh): a quiet place's, and a fight's */
 const KEEP = 150
+const FIGHT_KEEP = 60
+
+/** a take paused to come back to, and when */
+interface Kept {
+  deck: Deck
+  at: number
+}
+/** which kept take a place's music is: a quiet place's or a fight's (the title, the story and a black hole keep none) */
+const slotOf = (p: Place | null): 'quiet' | 'fight' | null => (p && QUIET.includes(p) ? 'quiet' : fightOf(p) ? 'fight' : null)
 
 /** a few samples of silence, as a WAV: played by each <audio> element on the first click, so phones let them play later */
 const SILENCE = 'data:audio/wav;base64,UklGRiwAAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQgAAACAgICAgICAgA=='
@@ -75,7 +86,7 @@ export function createMusic(o: MusicOptions = {}): Music {
   const stungAt = new Map<Sting, number>()
   let place: Place = 'title'
   let current: Deck | null = null
-  let kept: { deck: Deck; at: number } | null = null
+  const kept: { quiet: Kept | null; fight: Kept | null } = { quiet: null, fight: null }
   let restUntil = -1
   let gone = false
   let timer = 0
@@ -217,15 +228,24 @@ export function createMusic(o: MusicOptions = {}): Music {
     }
   }
 
-  /** the music of `p` comes in (the paused take of it, if it was left lately; if not, its next take) */
+  /** the music of `p` comes in (the take of its kind paused lately, if any: a quiet place's, or a fight's at this level or
+   * hotter; if not, its next take) */
   function begin(p: Place, from = 0) {
     if (!mixer) return
     const mood = MOODS[p]
     restUntil = -1
     let d: Deck
-    if (kept && kept.deck.place === p && now() - kept.at < KEEP && !kept.deck.ended()) {
-      d = kept.deck
-      kept = null
+    const slot = slotOf(p)
+    const k = slot ? kept[slot] : null
+    if (
+      slot &&
+      k &&
+      now() - k.at < (slot === 'fight' ? FIGHT_KEEP : KEEP) &&
+      !k.deck.ended() &&
+      (slot === 'quiet' || fightOf(k.deck.place) >= fightOf(p))
+    ) {
+      d = k.deck
+      kept[slot] = null
     } else {
       const piece = mood.piece
       const take = nextTake(piece)
@@ -236,16 +256,17 @@ export function createMusic(o: MusicOptions = {}): Music {
     current = d
   }
 
-  /** the music playing goes, over `seconds`: kept to come back to, or let go */
+  /** the music playing goes, over `seconds`: kept to come back to (a quiet place's or a fight's), or let go */
   function leave(seconds: number, keepIt: boolean) {
     if (!current) return
     const d = current
     current = null
     fade(d, 0, seconds)
-    if (keepIt) {
-      kept?.deck.dispose()
+    const slot = slotOf(d.place)
+    if (keepIt && slot) {
+      kept[slot]?.deck.dispose()
       d.pause()
-      kept = { deck: d, at: now() }
+      kept[slot] = { deck: d, at: now() }
     } else d.release(seconds)
   }
 
@@ -262,9 +283,12 @@ export function createMusic(o: MusicOptions = {}): Music {
         else begin(place)
       }
     } else if (restUntil < 0 || t >= restUntil) begin(place)
-    if (kept && t - kept.at > KEEP) {
-      kept.deck.dispose()
-      kept = null
+    for (const slot of ['quiet', 'fight'] as const) {
+      const k = kept[slot]
+      if (k && t - k.at > (slot === 'fight' ? FIGHT_KEEP : KEEP)) {
+        k.deck.dispose()
+        kept[slot] = null
+      }
     }
   }
 
@@ -275,8 +299,8 @@ export function createMusic(o: MusicOptions = {}): Music {
     bus.connect(m.music)
     if (!o.buffers && typeof Audio !== 'undefined') {
       // (in the click or key that made the mixer: each element plays a moment of silence, so a phone lets it play later;
-      // as many as can play at once: a take kept, one fading out, one coming in, a sting)
-      for (let i = 0; i < 5; i++) {
+      // as many as can play at once: a quiet take kept, a fight's kept, one fading out, one coming in, a sting)
+      for (let i = 0; i < 6; i++) {
         const el = new Audio()
         el.preload = 'auto'
         el.src = SILENCE
@@ -298,16 +322,11 @@ export function createMusic(o: MusicOptions = {}): Music {
       place = p
       if (!mixer) return
       mixer.hold(MOODS[p].hold)
-      const fightNow = FIGHT_PLACES.includes(p)
-      // (from one level of a fight to another: quickly, the new one from its start)
-      if (fightNow && FIGHT_PLACES.includes(was) && current) {
-        leave(1, false)
-        begin(p)
-        return
-      }
-      // (into a fight it goes quickly; anything a fight breaks into is kept, to come back to)
-      const out = fightNow ? 1.2 : MOODS[was].fadeOut
-      leave(out, fightNow || p === 'map')
+      // (between quiet places, or a fight easing, the take playing runs on; a rest goes on too)
+      if (changeOf(current?.place ?? null, p) === 'stay') return
+      // (into a fight, or up a level of one, it goes quickly; what is left is kept to come back to)
+      const out = fightOf(p) ? (fightOf(current?.place) ? 1 : 1.2) : MOODS[current?.place ?? was].fadeOut
+      leave(out, true)
       begin(p)
     },
     sting(which) {
@@ -338,9 +357,10 @@ export function createMusic(o: MusicOptions = {}): Music {
       gone = true
       window.clearInterval(timer)
       current?.dispose()
-      kept?.deck.dispose()
+      kept.quiet?.deck.dispose()
+      kept.fight?.deck.dispose()
       current = null
-      kept = null
+      kept.quiet = kept.fight = null
       for (const p of pool) {
         p.el.pause()
         p.node.disconnect()
