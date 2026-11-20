@@ -11,7 +11,7 @@ is laid out section by section, led by one shared style of its own (SCORE).
 Choosing: unless a sound says `use`, tools/audio/pack.py picks the best-measured takes (one, or
 `variants` of them for a sound heard over and over, which the game takes turns with). Nobody can
 hear on the machine that made these, so `use` is how James's ears overrule it: "the cannon is weak,
-use take 3" is `use=[3]` on the cannon. Takes are numbered from 1, as on the sampler page (/sounds).
+use take 3" is `use=[3]` on the cannon. Takes are numbered from 1.
 """
 
 # how a sound is cut from what the model gives (tools/gen/sounds.py shape):

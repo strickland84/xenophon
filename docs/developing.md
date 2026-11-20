@@ -72,7 +72,6 @@ npm run dev        # http://localhost:5173
 | `node tools/phone-check.mjs`         | every screen at phone (or `--laptop`) size, checked and counted    |
 | `node tools/interface-sheet.mjs`     | the interface's sheets: the screens seen most, the HUD by place    |
 | `node tools/sound-check.mjs`         | play every sound in a browser, mix scenes, measure them            |
-| `/sounds` (in `npm run dev`)         | the sampler: every sound and piece of music, every take            |
 | `npx jiti tools/first-hour.ts`       | a new pilot's first hour of earning, to tune the numbers by        |
 | `npx jiti tools/locals.ts`           | a quiet and a dangerous ten minutes, flown by scripted pilots      |
 | `node tools/playthrough.mjs`         | the rest of the game played through in a browser, step by step     |
@@ -128,7 +127,6 @@ npm run dev        # http://localhost:5173
 | `node tools/interface-sheet.mjs`     | the interface's sheets: the screens seen most, the HUD by place    |
 | `node tools/sound-check.mjs`         | play every sound in a browser, mix scenes, measure them            |
 | `uv run tools/audio/engine_sheet.py` | the engines' spectrograms, old against new (`engine-sounds.png`)   |
-| `/sounds` (in `npm run dev`)         | the sampler: every sound and piece of music, every take            |
 | `npx jiti tools/first-hour.ts`       | a new pilot's first hour of earning, to tune the numbers by        |
 | `npx jiti tools/locals.ts`           | a quiet and a dangerous ten minutes, flown by scripted pilots      |
 | `node tools/playthrough.mjs`         | the rest of the game played through in a browser, step by step     |
@@ -483,12 +481,12 @@ The sky goes up to 1500 px (`ceiling` setting): climb with the keys or a stick, 
 the ship and in the cockpit, by pointing above it. Overhead, the islands shrink and haze over
 beneath you as you climb.
 
-The sound effects and the music were made by audio models on James's PC (Stable Audio 3 and ACE-Step
-1.5; below) and are played from files: positioned on the screen, varied a little each time, the engine by
+The sound effects were made by an audio model on James's PC (Stable Audio 3; below), and the music is other
+people's MIDI files and tracker modules under open licences (`art/audio/music/README.md`); both are played from files: positioned on the screen, varied a little each time, the engine by
 the size of the ship. They start with the first click or key; the button at the top steps the effects'
 volume. The music follows where he is (the title, a calm world or a harsh one, space, the hangar, the
-maps), and a fight brings its own in and lets it go. Settings has both volumes. **Nobody has heard any of
-it yet**: `/sounds` plays every sound and every take, and `art/audio/samplers/` has mixes to listen to.
+maps), and a fight brings its own in and lets it go. Settings has both volumes, and names who made the music.
+`art/audio/samplers/` has mixes of the effects to listen to.
 
 A build that is out of date says so (the site has a newer one, or pilots are flying one it cannot meet)
 and offers to reload; the menu shows the version.
@@ -529,8 +527,7 @@ fighting runs on (hulls, weapons, waves) are data, in `src/lib/engine/data/`.
 
 ```
 src/
-  routes/                 the pages: the game, settings read from the address; the gallery; the sampler
-                          (/sounds: every sound and take)
+  routes/                 the pages: the game, settings read from the address; the gallery
   lib/
     components/           Svelte: Game (save, one tab per pilot, first screen or the sky, online,
                           the property log), Onboarding (title, callsign, side, pilot),
@@ -714,10 +711,10 @@ are drawn from space from their own built surfaces, not from pictures, so each l
 
 The sound too: `uv run tools/gen/sounds.py` has Stable Audio 3 make four takes of every effect in the
 recipe (`tools/gen/sound_recipe.py`: a subject before one shared style) and cuts each to shape (one shot,
-a tail, a swell, a seamless loop); `uv run tools/gen/music.py` has ACE-Step 1.5 write four takes of each
-piece of music; `uv run tools/audio/pack.py` measures every take, chooses (or takes the recipe's `use`, a
-choice by ear), encodes Opus and MP3 into `static/audio/` and writes `src/lib/audio/catalogue.ts` and the
-checks in `art/audio/checks/`. Then `node tools/sound-check.mjs` (with `npm run dev`) plays it all in a
+a tail, a swell, a seamless loop); `uv run tools/audio/pack.py` measures every take, chooses (or takes the
+recipe's `use`, a choice by ear), encodes Opus into `static/audio/sfx/` and writes `src/lib/audio/catalogue.ts` and
+the checks in `art/audio/checks/`. The music: `node tools/audio/music.mjs <FluidR3_GM.sf2>` renders
+`art/audio/music/list.json` into `static/audio/music/` and writes `src/lib/audio/pieces.ts`. Then `node tools/sound-check.mjs` (with `npm run dev`) plays it all in a
 browser and renders scenes, and `uv run tools/audio/samplers.py` makes the sampler files from them.
 
 The first step needs ComfyUI running; the rest do not. [docs/implementation-plan.md](implementation-plan.md)

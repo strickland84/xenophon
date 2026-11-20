@@ -93,16 +93,29 @@ plan's section 7 ("Art pipeline") and [docs/pixel-art-techniques.md](docs/pixel-
 - Generated source pictures live in `art/`. Generated code (ship models) is written into
   `src/` by a tool and is never edited by hand.
 - **Sound comes the same way** (the plan's section 17): Stable Audio 3 (small, sound effects) in the same
-  ComfyUI, and the music from ElevenLabs Music (`music_v2_5`, James's key, given to `tools/gen/music.py` by
-  `--key-file` or `ELEVENLABS_API_KEY`), one recipe
-  (`tools/gen/sound_recipe.py`), takes cut and measured by code (`tools/gen/sounds.py`, `music.py`,
-  `tools/audio/pack.py`). Nobody here can hear: choose by measuring and looking at plots, then James
-  chooses by ear on `/sounds`. Every model's licence and source is in the plan's section 7.
+  ComfyUI, one recipe (`tools/gen/sound_recipe.py`), takes cut and measured by code (`tools/gen/sounds.py`,
+  `tools/audio/pack.py`). Nobody here can hear: choose by measuring and looking at plots, then ask James. Every model's
+  licence and source is in the plan's section 7. **The music is not made here**: it is other people's MIDI files and
+  tracker modules under open licences (`art/audio/music/`, `tools/audio/music.mjs`; the entry below).
 - TRELLIS.2 (picture to 3D) is also installed there.
 
 ## State of things
 
 Update this section when your work changes it. Keep each entry to what is true now.
+
+- **2026-11-20, the music is open MIDI and tracker music** (James: "I hate the music we have"; of the open music found,
+  "these are all better. Get rid of /sound and merge into main game"). 54 pieces by other people under open licences,
+  two to four for every place and sting, all played in turn (`art/audio/music/list.json`; its `README.md` has every
+  licence and credit; `ASSETS.md` excludes them): Freedoom's MIDI files (BSD 3-clause), Metaruka's Game-Game
+  (CC-BY-SA 3.0), Jan125's 1990s space shooter music (OGA-BY 3.0), four Mod Archive modules. `node tools/audio/music.mjs
+<FluidR3_GM.sf2>` renders them (SpessaSynth, a dev dependency, for MIDI; ffmpeg's libopenmpt for modules; −16 LUFS,
+  at most 3:30, Opus 64 kbps) into `static/audio/music/<place>_<n>.ogg` and writes `src/lib/audio/pieces.ts` (generated:
+  `PieceName`, `PIECES`, `SOURCES`, `CREDITS`; the effects' `catalogue.ts` no longer has the music, and `pack.py` packs
+  effects only) and `static/licences/freedoom.txt`. Settings, Sound names every source, its licence and its composers
+  (the licences ask for it). A fight's levels are separate songs now, so a new level starts from its beginning
+  (`music.ts setPlace`). **`/sounds` is gone** (the sampler page), and with it `AUDIO_BYTES`. The ElevenLabs music and
+  its tools (`tools/gen/music.py`, the recipe's `MUSIC`, `SCORE`) are no longer used; entries below that describe the
+  music made there, or `/sounds`, are of how it was.
 
 - **2026-11-19, Xenophon: Twin Stars, and public** (James: "borrowed stars is lame"; "Rename everything properly";
   "The game will be completely open on a public repo"). The game, its sides and every id were renamed: the Charter is

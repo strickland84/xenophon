@@ -10,7 +10,7 @@ and it is clear which take he means. After Eminent Domain's tools/audio/numbered
   uv run tools/audio/samplers.py          # then: art/audio/samplers/1-combat.mp3 … 5-music.mp3
 
 The numbers run on from file to file; art/audio/samplers/index.txt says which is which (the sound,
-its take, and its name on the sampler page /sounds). The voice is Kokoro (Apache 2.0), run on the CPU,
+its take, and its name). The voice is Kokoro (Apache 2.0), run on the CPU,
 from the files Eminent Domain fetched into ~/.cache/eminent/kokoro (nothing is downloaded here).
 """
 
@@ -121,7 +121,7 @@ def main():
         print(f"{stem}.mp3  {len(whole) / RATE / 60:.1f} min", flush=True)
     with open(os.path.join(OUT, "index.txt"), "w") as f:
         f.write("The sampler files (tools/audio/samplers.py). Nobody has heard them. Each number is the sound's take as the\n")
-        f.write("game plays it; the sampler page (/sounds, in the game's site) has every other take of each beside it.\n")
+        f.write("game plays it.\n")
         f.write("\n".join(listing) + "\n")
 
 

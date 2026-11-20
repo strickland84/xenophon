@@ -65,7 +65,8 @@ const report = { errors }
 
 // ── 1. every file decodes, and is as long as the catalogue says
 report.files = await page.evaluate(async () => {
-  const { EFFECTS, PIECES } = await import('/src/lib/audio/catalogue.ts')
+  const { EFFECTS } = await import('/src/lib/audio/catalogue.ts')
+  const { PIECES } = await import('/src/lib/audio/pieces.ts')
   const { effectPath, piecePath } = await import('/src/lib/audio/library.ts')
   const ctx = new OfflineAudioContext(1, 44100, 44100)
   const failed = []
@@ -144,7 +145,7 @@ for (const name of SCENES) {
     const { libraryFor, piecePath } = await import('/src/lib/audio/library.ts')
     const { loadingOrder } = await import('/src/lib/audio/cues.ts')
     const { createMusic } = await import('/src/lib/audio/music.ts')
-    const { PIECES } = await import('/src/lib/audio/catalogue.ts')
+    const { PIECES } = await import('/src/lib/audio/pieces.ts')
     const { MOODS } = await import('/src/lib/audio/moods.ts')
 
     // a scene: its length, the player as he stands at the start, and what happens when

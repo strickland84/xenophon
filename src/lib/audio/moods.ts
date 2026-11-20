@@ -9,7 +9,7 @@
 // Nothing here touches the page: the tests run it in Node.
 
 import type { WorldRecipe } from '../engine/galaxy/recipe'
-import type { PieceName } from './catalogue'
+import type { PieceName } from './pieces'
 
 export type Place =
   'intro' | 'title' | 'calm' | 'night' | 'harsh' | 'foot' | 'space' | 'cruise' | 'hole' | 'alert' | 'combat' | 'peril' | 'hangar' | 'map'
@@ -45,7 +45,7 @@ export const MOODS: Record<Place, Mood> = {
 
 export const PLACES = Object.keys(MOODS) as Place[]
 
-/** the fight's three levels, quietest first: the page goes from one to another as a fight heats up or cools, at the same point in the music */
+/** the fight's three levels, quietest first: the page goes from one to another as a fight heats up or cools, quickly */
 export const FIGHT_PLACES: Place[] = ['alert', 'combat', 'peril']
 
 /** stings: a few seconds played once over whatever is playing, which is held down under them */
